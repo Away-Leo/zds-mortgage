@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zdsoft.finance</groupId>
+        <artifactId>zds-core</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>zds-repertory</artifactId>
+    <packaging>pom</packaging>
+    <name>ZDS Finance Repertory</name>
+    <description>ZDS Finance Repertory Project</description>
+
+    <modules>
+    	<module>zds-mortgage</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zdsoft.finance</groupId>
+            <artifactId>business</artifactId>
+        </dependency>
+         <dependency>
+            <groupId>com.zdsoft.finance</groupId>
+            <artifactId>zds-spi</artifactId>
+        </dependency>
+         <dependency>
+               <groupId>com.zdsoft</groupId>
+    		   <artifactId>nbfscDroolsContract</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

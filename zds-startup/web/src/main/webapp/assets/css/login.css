@@ -1,0 +1,105 @@
+body{
+    background: #1c97e5 url(../images/login/login_bg.png) no-repeat;
+	background-size: cover;
+}
+.relative{
+	position: relative;
+}
+.mt25{
+	margin-top: 25px;
+}
+.login-box{
+	width:0;
+	height:0;
+	position: fixed;
+	left:50%;
+	right:50%;
+	top:50%;
+	bottom:50%;
+}
+.login-con{
+	width:368px;
+	height:600px;
+	margin-left:-184px;
+	margin-top: -300px;
+}
+.login-center{
+	margin-left: auto;
+	margin-right: auto;
+}
+.login-logo{
+	width: 270px;
+	height: 96px;
+	background: url(../images/login/login-title.png) no-repeat center;
+}
+.form-box{
+	width: 370px;
+	margin-top: 80px;
+}
+.input-bg-name{
+	border: none;
+	width: 300px;
+	height: 50px;
+	border-radius: 12px;
+	padding-left: 68px;
+	overflow: hidden;
+	font-size: 16px;
+}
+.input-username{
+	font-size: 36px;
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	color: #ccc;
+}
+.input-pwd{
+	font-size: 36px;
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	color: #ccc;
+}
+.input-bg-pass{
+	border: none;
+	width: 300px;
+	height: 50px;
+	border-radius: 12px;
+	padding-left: 68px;
+	overflow: hidden;
+	font-size: 16px;
+}
+.remember-pass{
+	margin-top: 20px;
+}
+.remember-pass input{
+	
+}
+.remember-pass span{
+	font-size: 14px;
+	color: #ffffff;
+	margin-left: 10px;
+}
+.login-button{
+	margin-top: 24px;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 14px;
+}
+.login-button a{
+	margin-top: 10px;
+	width: 366px;
+	height: 50px;
+	line-height: 50px;
+	border-radius: 12px;
+	display: block;
+	background-color: #60e54a;
+	font-size: 20px;
+	color: #FFFFFF;
+	letter-spacing: 20px;
+}
+.login-copyright{
+	text-align: center;
+	color: #dcdcdc;
+	font-size: 12px;
+	margin-top: 100px;
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>control</module>
+        <module>web</module>
+    </modules>
+    <parent>
+        <groupId>com.zdsoft.finance</groupId>
+        <artifactId>zds-core</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>zds-startup</artifactId>
+    <packaging>pom</packaging>
+    <name>ZDS Finance Startup</name>
+    <description>ZDS Finance Startup Project</description>
+    <dependencyManagement>
+       <dependencies>
+           <!-- 业务控制层 -->
+           <dependency>
+               <groupId>${project.groupId}</groupId>
+               <artifactId>control</artifactId>
+               <version>${project.version}</version>
+           </dependency>
+			<dependency>
+               <groupId>${project.groupId}</groupId>
+               <artifactId>zds-spi</artifactId>
+               <version>${project.version}</version>
+           </dependency>
+       </dependencies>
+    </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>internal repository</id>
+            <name>Local repository</name>
+            <url>http://222.177.14.56:81/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:30</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

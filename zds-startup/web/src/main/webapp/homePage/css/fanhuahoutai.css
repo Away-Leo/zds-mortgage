@@ -1,0 +1,230 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "微软雅黑";
+    font-size: 14px;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+table{
+    border-collapse: collapse;
+}
+body{
+    background: #e8e9ed;
+}
+/*ll-part1样式*/
+.ll-part1,.ll-part2{
+    width: 100%;
+    margin: 8px auto 0;
+}
+.ll-part1{
+    height: 350px;
+    zoom: 1;
+}
+.ll-part1:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.ll-part1 .myTask,.ll-part1 .caseReminder{
+    height: 350px;
+    float: left;
+    background: #fff;
+    border:1px solid #dedede;
+    box-sizing: border-box;
+}
+/*myTask样式*/
+.ll-part1 .myTask,.ll-part1 .caseReminder,.ll-part2{
+    border:1px solid #dedede;
+}
+.ll-part1 .myTask{
+    width: 49.71%;
+    margin-right:8px;
+}
+.ll-part1 .myTask dt,.caseReminder>p{
+    height: 60px;
+    line-height: 60px;
+    padding-left: 2.12%;
+}
+.ll-part1 .myTask i,.caseReminder dd p i{
+    position: relative;
+    font-style: normal;
+    font-size: 14px;
+    color: #333;
+}
+.ll-part1 .myTask dt span,.caseReminder dd p span,.ll-part2 .topNav ul li em{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    position: absolute;
+    color: #fff;
+    background: #ff6501;
+}
+.ll-part1 .myTask dt span{
+    top:10px;
+    left: 66px;
+}
+/*.ll-part1 .myTask dd:hover{*/
+    /*background: #f5f5f5;*/
+/*}*/
+.ll-part1 .myTask dd span,.ll-part1 .myTask dt a,.ll-part1 .caseReminder>p a{
+    margin-right: 3.42%;
+    float: right;
+}
+.ll-part1 .myTask dt a,.ll-part1 .caseReminder>p a{
+    /*display: block;*/
+    width: 90px;
+    height: 28px;
+    line-height:28px;
+    text-align: center;
+    margin-top: 14px;
+    color: #fff;
+    background: #10a4ea;
+}
+.ll-part1 .myTask dt a:hover,.ll-part1 .caseReminder>p a:hover{
+    background: #1094d6;
+}
+.ll-part1 .myTask dd,.caseReminder dd p,.caseReminder dd li{
+    height: 47px;
+    line-height: 47px;
+    border-top: 1px solid #dedede;
+}
+.ll-part1 .myTask dd a,.caseReminder dd li a{
+    color: #333;
+    font-size: 14px;
+}
+.ll-part1 .myTask dd a{
+    padding-left: 2.12%;
+}
+.ll-part1 .myTask dd a:hover,.caseReminder dd li a:hover,.caseReminder dd p i:hover{
+    color: #10a4ea;
+}
+.ll-part1 .myTask dd span{
+    color: #999;
+}
+/*caseReminder样式*/
+.ll-part1 .caseReminder{
+    width:calc(50.29% - 8px);
+}
+.caseReminder>p{
+    color: #333;
+}
+.caseReminder dl{
+    overflow-y:scroll ;
+    height: 288px;
+}
+
+.caseReminder dd p{
+    padding-left: 4.5%;
+    background: url("../images/zhankai.png") no-repeat 3% center;
+}
+.caseReminder dd p.active{
+    background: url("../images/shouqi.png") no-repeat 3% center;
+}
+.caseReminder dd p i{
+    padding-left:2.12%;
+    cursor: pointer;
+}
+.caseReminder dd p span{
+    top:13px;
+    right: -26px;
+}
+.caseReminder dd ul{
+    display: none;
+}
+.caseReminder dd li{
+    padding-left: 8.8%;
+}
+.caseReminder dd li a{
+    color: #666;
+}
+/*ll-part2样式*/
+.ll-part2{
+    background: #fff;
+    box-sizing: border-box;
+    color: #333;
+}
+.ll-part2 .topNav{
+    padding-top: 12px;
+    border-bottom: 1px solid #dedede;
+    zoom: 1;
+}
+.ll-part2 .topNav:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.ll-part2 .topNav p{
+    width: 100px;
+    padding-left: 0.936%;
+}
+.ll-part2 .topNav p,.ll-part2 .topNav ul{
+    float: left;
+    height: 44px;
+    line-height: 43px;
+}
+.ll-part2 .topNav ul li{
+    position: relative;
+    float: left;
+    margin-right: 6px;
+    /*height: 44px;*/
+}
+.ll-part2 .topNav li span{
+    display: block;
+    width: 90px;
+    text-align: center;
+    border:1px solid #dedede;
+    background: #f5f5f5;
+    cursor: pointer;
+    border-bottom: 0;
+}
+.ll-part2 .topNav li span.current{
+    background: #fff;
+    height: 44px;
+}
+.ll-part2 .topNav ul li em{
+    top:-10px;
+    left:72px;
+    font-style: normal;
+}
+.ll-part2 .tableBox p{
+    height: 50px;
+    line-height: 50px;
+    padding-top: 22px;
+    padding-left: 0.936%;
+}
+.ll-part2 .tableBox p span{
+    color: #ff6c60;
+    font-size: 18px;
+}
+.ll-part2 .tableBox p em{
+    color: #999;
+    font-style: normal;
+    padding-right: 32px;
+}
+.ll-part2 .tableBox th{
+    background: #edf4fb;
+    font-weight: normal;
+}
+.ll-part2 tbody tr:hover{
+    background: #f5f5f5;
+}
+.ll-part2 .tableBox table{
+    width: 98%;
+    margin:0 auto 20px;
+    display: none;
+}
+.ll-part2 .tableBox table.tabActive{
+    /*display: block;*/
+}
+.ll-part2 .tableBox th,.ll-part2 .tableBox td{
+    height:47px;
+    text-align: center;
+    border:1px solid #dedede;
+}

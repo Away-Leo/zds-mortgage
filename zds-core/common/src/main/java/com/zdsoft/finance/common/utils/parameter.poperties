@@ -1,0 +1,26 @@
+属性名|比较符|类型
+
+比较符：
+>        R
+>=       RE
+<        L
+<=       LE
+=        E
+<>       NE
+like     LK
+in       IN
+Between  BT
+not in   NN
+in (like or like ...)        
+         OL  多关键字OR条件模糊查询。事例：(表名.字段 like "%值1%" OR 表名.字段 like "%值2%")
+
+类型：
+Long:L 
+Double:D
+Float:F
+String:S
+Date:T   
+BigDecimal:BD
+Integer:I
+Boolean:B
+时间比较(后台为Long)：BT

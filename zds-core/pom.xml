@@ -1,0 +1,347 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>com.zdsoft.finance</groupId>
+        <artifactId>zds-finance-mortgage</artifactId>
+        <version>1.0</version>
+    </parent>
+	<artifactId>zds-core</artifactId>
+	<packaging>pom</packaging>
+	<name>ZDS Finance Main</name>
+	<description>ZDS Finance Main Project</description>
+	<modules>
+		<module>common</module>
+		<module>dto</module>
+		<module>domain</module>
+		<module>business</module>
+	</modules>
+	<properties>
+		<spring.datajpa.version>1.10.2.RELEASE</spring.datajpa.version>
+		<spring.version>4.3.2.RELEASE</spring.version>
+		<spring.boot.version>1.4.0.RELEASE</spring.boot.version>
+		<hibernate.version>5.2.2.Final</hibernate.version>
+		<junit.version>4.12</junit.version>
+		<javassist.version>3.12.1.GA</javassist.version>
+		<druid.version>1.0.25</druid.version>
+		<mysql.version>5.1.40</mysql.version>
+		<slf4j.version>1.7.21</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<jackson.version>2.8.2</jackson.version>
+		<ehcache.version>2.10.2</ehcache.version>
+		<logback-classic.version>1.1.3</logback-classic.version>
+		<logback-ext-spring.version>0.1.4</logback-ext-spring.version>
+		<jsonassert.version>1.3.0</jsonassert.version>
+		<json-path.version>2.2.0</json-path.version>
+		<servlet-api.version>3.1.0</servlet-api.version>
+		<jsop.version>1.8.2</jsop.version>
+		<jxl.version>2.6</jxl.version>
+		<apache-poi.version>3.7</apache-poi.version>
+		<google-zxing.version>3.1.0</google-zxing.version>
+		<!-- 基础开发平台 -->
+		<zds.framework.version>4.1.2</zds.framework.version>
+		<!-- 工作流 -->
+		<zds.workflow.version>4.1.2</zds.workflow.version>
+		<!-- 设置源代码的字符集 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!--谷歌二维码包依赖-->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${google-zxing.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>${google-zxing.version}</version>
+			</dependency>
+
+			<!--JSOP依赖-->
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsop.version}</version>
+			</dependency>
+			<!--jxl依赖-->
+			<dependency>
+				<groupId>net.sourceforge.jexcelapi</groupId>
+				<artifactId>jxl</artifactId>
+				<version>${jxl.version}</version>
+			</dependency>
+
+			<!-- spring 依赖 -->
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring.datajpa.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- 测试用例 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- hibernate 依赖 -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-ehcache</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+			<!-- 连接池依赖 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<!-- 平台依赖 -->
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-core-common</artifactId>
+				<version>${zds.framework.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-base-authentication-client</artifactId>
+				<version>${zds.framework.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-fromework-cra-activemq</artifactId>
+				<version>${zds.framework.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-framework-cra-client</artifactId>
+				<version>${zds.framework.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-base-data-client</artifactId>
+				<version>${zds.framework.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-base-data-dto</artifactId>
+				<version>${zds.framework.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<!-- 引入工作流 START -->
+			<dependency>
+				<groupId>com.zdsoft.workflow</groupId>
+				<artifactId>zds-workflow-client</artifactId>
+				<version>${zds.workflow.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- 引入工作流 END -->
+			<!-- 业务公共包 -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 业务数据传输 -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>dto</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- 核心业务层 -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>business</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 核心业务层 -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 接口层 -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>zds-spi</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- mysql 连接 -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.skyscreamer</groupId>
+				<artifactId>jsonassert</artifactId>
+				<version>${jsonassert.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.jsonpath</groupId>
+				<artifactId>json-path</artifactId>
+				<version>${json-path.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- spring-mvc and json-object-mapper-issue -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- 日志 -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback-classic.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.logback-extensions</groupId>
+				<artifactId>logback-ext-spring</artifactId>
+				<version>${logback-ext-spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+
+		</dependencies>
+	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>internal repository</id>
+			<name>Local repository</name>
+			<url>http://222.177.14.56:81/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>interval:30</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Internal Snapshots</name>
+			<url>http://222.177.14.56:81/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>releases</id>
+			<name>Internal Releases</name>
+			<url>http://222.177.14.56:81/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
+</project>
