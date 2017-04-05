@@ -44,7 +44,7 @@
             			<th data-options="field:archivesName">档案名称</th>
             			<th data-options="field:archivesLevelName">档案等级</th>
             			<th data-options="field:archivesTypeName">原件/复印件/照片件</th>
-            			<th data-options="field:id" formatter="billSave">操作</th>
+            			<th data-options="field:id" formatter="archivesFunction">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -53,7 +53,7 @@
 </div>
 <div id="bill_dialog_add" style="display: none">
 	<div id="bill_dialog_add_form">
-		<form class="zui-form" id="addFormBill">
+		<form class="zui-form mt10" id="addFormBill">
 			<input type="hidden" name="id" />
 			<input type="hidden" name="productId" value="${productId}" />
 			<dl class="form-item">
@@ -63,21 +63,19 @@
 				</dt>
 				<dd class="detail">
 					<label>
-						<input class="zui-input zui-validatebox" validate-type="Require" name="archivesName">
+						<input class="zui-input zui-validatebox" validate-type="Require,Length[1-60]" name="archivesName">
 					</label>
 				</dd>
 			</dl>
 			<dl class="form-item">
-				<dt class="sptitle">
+				<dt class="title">
 					<b class="c-red mr5">*</b>
 					档案等级：
 				</dt>
 				<dd class="detail">
-					<label>
-						<input class="zui-combobox zui-validatebox" validate-type="Require" type="hidden" name="archivesLevel"
-							data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=archivesLevel"
-						    data-valuefield="fullcode" data-textfield="name" >
-					</label>
+					<input class="zui-combobox zui-validatebox" validate-type="Require" type="hidden" name="archivesLevel"
+						data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00127"
+					    data-valuefield="fullcode" data-textfield="name" >
 				</dd>
 			</dl>
 			<dl class="form-item">
@@ -86,18 +84,17 @@
 					原件/复印件/照片件：
 				</dt>
 				<dd class="detail">
-					<label>
-						<input class="zui-combobox zui-validatebox" validate-type="Require" type="hidden" name="archivesType"
-							data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=archivesType"
-						    data-valuefield="fullcode" data-textfield="name" >
-					</label>
+					<input class="zui-checkbox zui-validatebox" validate-type="Require" type="hidden" name="archivesType"
+						data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00128"
+						data-multiple="true"
+					    data-valuefield="fullcode" data-textfield="name" >
 				</dd>
 			</dl>
 		</form>
 	</div>
 </div>
 <div id="bill_dialog_sets" style="display: none">
-	<div id="bill_dialog_sets_form">
+	<div id="bill_dialog_sets_form" class="p10">
 		<form class="zui-form" id="setsForm">
 			<input type="hidden" name="ids" />
 			<dl class="form-item">
@@ -106,11 +103,9 @@
 					档案等级：
 				</dt>
 				<dd class="detail">
-					<label>
 						<input class="zui-combobox zui-validatebox" validate-type="Require" type="hidden" name="archivesLevel"
-							data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=archivesLevel"
+							data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00127"
 						    data-valuefield="fullcode" data-textfield="name" >
-					</label>
 				</dd>
 			</dl>
 			<dl class="form-item">
@@ -119,11 +114,10 @@
 					原件/复印件/照片件：
 				</dt>
 				<dd class="detail">
-					<label>
 						<input class="zui-combobox zui-validatebox" validate-type="Require" type="hidden" name="archivesType"
-							data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=archivesType"
+							data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00128"
+							data-multiple="true"
 						    data-valuefield="fullcode" data-textfield="name" >
-					</label>
 				</dd>
 			</dl>
 			<div class="page-box">
@@ -231,8 +225,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 				if(rdata.status == 1){
 					$.ZMessage.success("提示", rdata.msg, function () {
 						$("#bill_dialog_sets").Zdialog("close");
-						var formArray=$("#bill_search_from").serialize();
-						formArray = decodeURIComponent(formArray, true);
+						var formArray=$("#bill_search_from").serializeArray();
 						$('#archivesBillTable').ZTable("reload",formArray);
 	                });
 				}else{
@@ -260,9 +253,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 				if(rdata.status == 1){
 					$.ZMessage.success("提示", rdata.msg, function () {
 						$("#bill_dialog_add").Zdialog("close");
-						var formArray=$("#bill_search_from").serialize();
-						formArray = decodeURIComponent(formArray, true);
-						$('#archivesBillTable').ZTable("reload",formArray);
+						$('#archivesBillTable').ZTable("reload",{});
 	                });
 				}else{
 					$.ZMessage.error("错误", rdata.msg, function () {
@@ -272,17 +263,21 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		});
 	}
 	//操作
-	CALLBACK.billSave = function(row,value){
-		var html = "<a title='修改' class='handler-icon icon-btn22' onclick='billEdit'></a>";
-		html += "<a title='删除' class='handler-icon icon-btn12' onclick='billDel'></a>";
-		return html;
+	CALLBACK.archivesFunction = function(row,value){
+		var str = "<a title='修改' class='btn-blue' onclick='billEdit'>修改</a>" +
+    	"&nbsp;&nbsp;<a title='删除' class='btn-blue' onclick='billDel'>删除</a>";
+		return str;
 	};
 	//编辑
 	CALLBACK.billEdit = function(index,data){
 		$("#addFormBill input[name='id']").val(data.id);
 		$("#addFormBill input[name='archivesName']").val(data.archivesName);
 		$("#addFormBill input[name='archivesLevel']").ZCombobox("setValue",data.archivesLevel);
-		$("#addFormBill input[name='archivesType']").ZCombobox("setValue",data.archivesType);
+		var valueArray = data.archivesType.split(",");
+        var arraysize = valueArray.length;
+        for (var i = 0; i <= arraysize - 1; i++) {
+            $("#addFormBill input[name='archivesType").ZCheckbox("setValue", valueArray[i]);
+        }
 		$("#bill_dialog_add").Zdialog("open");
 	};
 	//删除
@@ -297,8 +292,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 			success:function(rdata){
 				if(rdata.status == 1){
 					$.ZMessage.success("提示", rdata.msg, function () {
-						var formArray=$("#bill_search_from").serialize();
-						formArray = decodeURIComponent(formArray, true);
+						var formArray=$("#bill_search_from").serializeArray();
 						$('#archivesBillTable').ZTable("reload",formArray);
 	                });
 				}else{
@@ -316,8 +310,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	$.ZUI.initForms("#bill_dialog_sets_form");
 	//查询
 	$('#btn-search-bill').click(function(){
-		var formArray=$("#bill_search_from").serialize();
-		formArray = decodeURIComponent(formArray, true);
+		var formArray=$("#bill_search_from").serializeArray();
 		$('#archivesBillTable').ZTable("reload",formArray);
 	});
 	//重置

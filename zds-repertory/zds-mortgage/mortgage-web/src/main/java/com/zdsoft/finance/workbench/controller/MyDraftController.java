@@ -21,17 +21,18 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.common.util.StoreHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
-import com.zdsoft.framework.cra.annotation.Menu;
 import com.zdsoft.framework.cra.client.service.CRA;
 import com.zdsoft.framework.cra.dto.MenuDTO;
 
 /**
- * 我的草稿箱控制器
- * @author longwei
- * @date 2017/01/13
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MyDraftController.java 
+ * @ClassName: MyDraftController 
+ * @Description: 我的草稿箱控制器
+ * @author longwei 
+ * @date 2017年2月6日 上午11:12:55 
+ * @version V1.0
  */
-
 @Controller
 @RequestMapping("/myDraft")
 public class MyDraftController extends BaseController {
@@ -46,7 +47,7 @@ public class MyDraftController extends BaseController {
 	 */
 	@RequestMapping("/list")
 	@UriKey(key = "com.zdsoft.finance.myDraft.list")
-	@Menu(resource = "com.zdsoft.finance.myDraft.list", label = "我的草稿", group = "workbench", order = 5)
+//	@Menu(resource = "com.zdsoft.finance.myDraft.list", label = "我的草稿", group = "workbench", order = 5)
 	public ModelAndView list() {
 		return new ModelAndView("/workbench/my_draft_list");
 	}

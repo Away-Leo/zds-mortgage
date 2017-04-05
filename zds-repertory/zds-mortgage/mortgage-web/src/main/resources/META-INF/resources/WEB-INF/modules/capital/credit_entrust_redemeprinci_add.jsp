@@ -16,7 +16,7 @@
 			<input type="hidden" id="id" name="id" value="${creditEntrustRedemPrinciVo.id }"/>
 			<input type="hidden" id="creditEntrustId" name="creditEntrustId" value="${creditEntrustId}"/>
 			<div class="page-box">
-				<div class="page-title">本金投入信息</div>
+				<div class="page-title">本金赎回信息</div>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>出资方：</dt>
 					<dd class="detail">
@@ -29,7 +29,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>出资方类型：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="contributionType" name="contributionType" type="hidden" value="${creditEntrustRedemPrinciVo.contributionType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=ittp2"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00142"
                               data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 					</dd>
 				</dl>
@@ -61,7 +61,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>

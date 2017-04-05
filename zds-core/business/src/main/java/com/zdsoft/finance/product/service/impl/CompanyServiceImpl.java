@@ -14,11 +14,15 @@ import com.zdsoft.finance.product.service.CompanyService;
 import com.zdsoft.framework.core.common.annotation.Log;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 机构操作接口实现
- * @author longwei
- * @date 2016/12/26
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CompanyServiceImpl.java 
+ * @ClassName: CompanyServiceImpl 
+ * @Description: 机构操作接口实现
+ * @author gufeng 
+ * @date 2017年3月14日 下午4:57:02 
+ * @version V1.0
  */
 @Service("companyService")
 public class CompanyServiceImpl extends BaseServiceImpl<Company, CustomRepository<Company,String>> implements CompanyService{

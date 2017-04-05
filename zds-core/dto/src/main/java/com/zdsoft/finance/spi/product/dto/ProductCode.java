@@ -1,10 +1,13 @@
 package com.zdsoft.finance.spi.product.dto;
 
 /**
- * 产品类别维护
- * @author longwei
- * @date 2016/11/15
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductCode.java 
+ * @ClassName: ProductCode 
+ * @Description: 产品类别维护
+ * @author longwei 
+ * @date 2017年2月6日 上午11:19:11 
+ * @version V1.0
  */
 public enum ProductCode {
 

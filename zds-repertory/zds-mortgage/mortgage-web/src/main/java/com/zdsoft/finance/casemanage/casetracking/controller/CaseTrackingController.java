@@ -1,7 +1,5 @@
 package com.zdsoft.finance.casemanage.casetracking.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,13 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.zdsoft.finance.authgrade.entity.OrgIntermediate;
-import com.zdsoft.finance.casemanage.casetracking.service.CaseTrackingService;
+import com.zdsoft.essential.client.aop.annotation.DataAuthResource;
+import com.zdsoft.essential.client.service.CED;
+import com.zdsoft.essential.dto.permission.DataOperPermDto;
 import com.zdsoft.finance.common.base.QueryObj;
+import com.zdsoft.finance.common.utils.ParameterUtil;
+import com.zdsoft.finance.marketing.service.CaseApplyService;
 import com.zdsoft.framework.core.common.dto.ResponseMsg;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.PageRequest;
-import com.zdsoft.framework.core.common.util.ObjectHelper;
+import com.zdsoft.framework.core.common.util.StoreHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 import com.zdsoft.framework.cra.annotation.Menu;
@@ -28,30 +29,34 @@ import com.zdsoft.framework.cra.annotation.Menu;
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:CaseTrackingController.java
- * @Package:com.zdsoft.finance.casemanage.controller
- * @Description:案件跟踪表
- * @author: caixiekang
- * @date:2017年1月13日 下午10:28:38
- * @version:v1.0
+ * @Title: CaseTrackingController.java 
+ * @ClassName: CaseTrackingController 
+ * @Description: 案件跟踪表
+ * @author xj 
+ * @date 2017年2月23日 上午11:47:42 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/casemanage")
 public class CaseTrackingController extends BaseController {
     
     @Autowired
-    private CaseTrackingService caseTrackingService;
+    private CaseApplyService caseApplyService;
+    
+    @Autowired
+    private CED CED ;
     
     /**
      * 
-     * 案件跟踪初始化
-     *
-     * @author caixiekang
+     * @Title: listCaseTracking 
+     * @Description: 案件跟踪初始化
+     * @author xj 
      * @return
      */
     @RequestMapping("/listCaseTracking")
-    @UriKey(key = "com.zdsoft.finance.casemanage.casetracking.listCaseTracking")
-    @Menu(resource = "com.zdsoft.finance.casemanage.casetracking.listCaseTracking", label = "案件跟踪表", group = "project", order = 15)
+    @UriKey(key = "com.cnfh.rms.casemanage.casetracking.listCaseTracking")
+    @Menu(resource = "com.cnfh.rms.casemanage.casetracking.listCaseTracking", label = "案件跟踪表", group = "project", order = 15)
+    @DataAuthResource(resource="com.cnfh.rms.casemanage.casetracking.listCaseTracking.dataAuth",label="案件跟踪表",group="com.cnfh.rms.casemanage.casetracking.listCaseTracking")
     public ModelAndView listCaseTracking(){
         
         return new ModelAndView("/casemanage/casetracking/case_tracking_list");
@@ -60,22 +65,23 @@ public class CaseTrackingController extends BaseController {
     
     /**
      * 
-     * 获取案件跟踪列表
-     *
-     * @author caixiekang
+     * @Title: getCaseTrackingList 
+     * @Description: 获取案件跟踪列表
+     * @author xj 
      * @param request
      * @param pageable
      * @return
      */
-    @SuppressWarnings("unchecked")
     @RequestMapping("/getCaseTrackingList")
-    @UriKey(key = "com.zdsoft.finance.casemanage.casetracking.getCaseTracking")
+    @UriKey(key = "com.cnfh.rms.casemanage.casetracking.getCaseTracking")
     @ResponseBody
     public ResponseMsg getCaseTrackingList(HttpServletRequest request,PageRequest pageable){
         ResponseMsg msg = new ResponseMsg();
         try {
-            List<QueryObj> queryObjs = (List<QueryObj>) request.getAttribute("listObj");
-            Page<Map<String, Object>> caseTrackingList = caseTrackingService.queryAllCaseTracking(pageable, queryObjs);
+        	List<QueryObj> queryObjs = ParameterUtil.getQueryObjByParameter(request, new String[]{"ma","bcust"});
+        	//数据权限
+            DataOperPermDto dtOperPermDto=CED.findDataPerms(StoreHelper.getApplication(), "com.cnfh.rms.casemanage.casetracking.listCaseTracking.dataAuth");
+            Page<Map<String, Object>> caseTrackingList = caseApplyService.findPageCaseApplyBasicInforList(pageable, queryObjs,dtOperPermDto);
             msg.setMsg("案件跟踪列表查询成功");
             msg.setResultStatus(ResponseMsg.SUCCESS);
             msg.setTotal(caseTrackingList.getTotalRows());
@@ -88,25 +94,4 @@ public class CaseTrackingController extends BaseController {
         return msg;
     }
     
-    /**
-     * 案件状态自定义下拉框
-     * @param jsoncallback
-     * @return
-     */
-    @RequestMapping(value = "/findAllCaseApplyStage")
-    @UriKey(key = "com.zdsoft.finance.casemanage.casetracking.findAllCaseApplyStage")
-    @ResponseBody
-    public String findAllCaseApplyStage(String jsoncallback){
-//       List<Map<String,Object>> returnData=new ArrayList<Map<String,Object>>();
-//        List<OrgIntermediate> sourceData=this.institutionGradeService.findAllOrg();
-//        for(OrgIntermediate temp:sourceData){
-//            Map<String,Object> rowData=new HashMap<String,Object>();
-//            rowData.put("id",temp.getOrgCd());
-//            rowData.put("text",temp.getOrgNm());
-//            returnData.add(rowData);
-//        }
-//        return ObjectHelper.objectToJson(returnData,jsoncallback);
-        return null;
-    }
-
 }

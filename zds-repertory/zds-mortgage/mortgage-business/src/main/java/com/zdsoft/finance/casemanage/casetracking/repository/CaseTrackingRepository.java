@@ -1,10 +1,5 @@
 package com.zdsoft.finance.casemanage.casetracking.repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-
 import com.zdsoft.finance.casemanage.casetracking.entity.ManualNodeRecord;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.marketing.entity.CaseApplyBeforeCustomer;
@@ -38,11 +33,11 @@ public interface CaseTrackingRepository extends CustomRepository<ManualNodeRecor
             + " ca.developmentManagerName \"developmentManagerName\", "
             + " ca.applyDate \"applyDate\", "
             + " ca.id \"id\" "
-            + " FROM mark_case_apply ca "
-            + " LEFT JOIN prct_category prc ON ca.productTypeId = prc.id "
-            + " LEFT JOIN prct_product prp ON  ca.productSubtypeId = prp.id "
+            + " FROM mkt_case_apply ca "
+            + " LEFT JOIN prd_category prc ON ca.productTypeId = prc.id "
+            + " LEFT JOIN prd_product prp ON  ca.productSubtypeId = prp.id "
             + " LEFT JOIN case_before_customer casea ON ca.id = casea.caseApplyId "
-            + " LEFT JOIN cus_before_customer cu ON casea.customerId = cu.id "
+            + " LEFT JOIN cust_before_customer cu ON casea.customerId = cu.id "
             + " LEFT JOIN case_manual_node_record_before  rec ON ca.id = rec.caseApplyId  "
             + " WHERE 1 = 1 AND casea.joinType = '" + CaseApplyBeforeCustomer.MAIN_BORROW + "' ");
                 

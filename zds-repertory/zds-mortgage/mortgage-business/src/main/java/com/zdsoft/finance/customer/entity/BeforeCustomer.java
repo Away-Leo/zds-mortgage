@@ -30,60 +30,70 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
  * @version:v1.0
  */
 @Entity
-@Table(name = "cus_before_customer")
+@Table(name = "cust_before_customer")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "customerType", discriminatorType = DiscriminatorType.STRING, length = 4)
 public abstract class BeforeCustomer extends BaseEntity{
 
 	/**
-	 * 用一句话描述这个变量表示什么
+	 * 序列化
 	 */
 	private static final long serialVersionUID = -5614867858997954291L;
+	
 	/**
 	 * 姓名
 	 */
 	@Column(length=128)
 	private String customerName;
+	
 	/**
 	 * 证件类型
 	 */
 	@Column(length=20)
 	private String credentialType;
+	
 	/**
 	 * 证件号码
 	 */
 	@Column(length=64)
 	private String credentialNo;
+	
 	/**
 	 * 创建人姓名
 	 */
 	@Column(length=128)
 	private String creatorName;
+	
 	/**
 	 * 公司代码
 	 */
 	@Column(length=32)
 	private String companyCode;
+	
 	/**
 	 * 公司名称
 	 */
 	@Column(length=128)
 	private String companyName;
+	
 	/**
 	 * 部门代码
 	 */
 	@Column(length=32)
 	private String departmentCode;
+	
 	/**
 	 * 部门代码
 	 */
 	@Column(length=128)
 	private String departmentName;
+	
 	/**
 	 * 客户创建类型
 	 */
 	@Column
 	private Integer createType;
+	
 	/**
 	 * 联系方式
 	 */
@@ -91,6 +101,7 @@ public abstract class BeforeCustomer extends BaseEntity{
 	@JoinColumn(name = "customerId")
 	@LazyCollection(LazyCollectionOption.TRUE)
 	private List<BeforeContact> beforeContacts = new ArrayList<BeforeContact>();
+	
 	/**
 	 * 客户地址
 	 */
@@ -98,6 +109,7 @@ public abstract class BeforeCustomer extends BaseEntity{
 	@JoinColumn(name = "customerId")
 	@LazyCollection(LazyCollectionOption.TRUE)
 	private List<BeforeAddress> beforeAddresss = new ArrayList<BeforeAddress>();
+	
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -115,7 +127,7 @@ public abstract class BeforeCustomer extends BaseEntity{
 		return credentialNo;
 	}
 	public void setCredentialNo(String credentialNo) {
-		this.credentialNo = credentialNo;
+		this.credentialNo = credentialNo.toUpperCase();
 	}
 	public String getCreatorName() {
 		return creatorName;

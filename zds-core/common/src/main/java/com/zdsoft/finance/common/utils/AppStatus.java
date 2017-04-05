@@ -1,8 +1,13 @@
 package com.zdsoft.finance.common.utils;
 /**
- * APP返回状态值
- * @author XJ
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: AppStatus.java 
+ * @ClassName: AppStatus 
+ * @Description: APP返回状态值
+ * @author xj 
+ * @date 2017年3月8日 下午3:29:54 
+ * @version V1.0
  */
 public enum AppStatus {
 

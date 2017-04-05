@@ -86,7 +86,7 @@ public class CaseMaterialListServiceImpl extends BaseServiceImpl<CaseMaterialLis
 
             //资料类型名称 materiaName;
 
-            //对应产品资料清单id(与prct_materialList弱关联),暂时不用 materialListId;
+            //对应产品资料清单id(与prd_materialList弱关联),暂时不用 materialListId;
 
             // 添加修改人、修改人机构，用于数据权限查询
             oldCaseMaterialList.setUpdateBy(emp.getEmpCd());
@@ -109,7 +109,7 @@ public class CaseMaterialListServiceImpl extends BaseServiceImpl<CaseMaterialLis
 
             //资料类型名称 materiaName;
 
-            //对应产品资料清单id(与prct_materialList弱关联),暂时不用 materialListId;
+            //对应产品资料清单id(与prd_materialList弱关联),暂时不用 materialListId;
 
             // 添加创建人、添加机构，用于数据权限查询
             entity.setCreateBy(emp.getEmpCd());

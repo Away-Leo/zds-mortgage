@@ -4,20 +4,12 @@
 	    <div id="InfoDialog" >
 	        <form id="contactForm" class="zui-form mt15" >
 	        	<input type="hidden" name="id"  id="infoid" value="${infoVo.id}" >
-	            <input type="hidden" id="capitalistId" name="capitalistId" value="${capitalistId}">
+	            <input type="hidden" id="partnerId" name="partnerId" value="${capitalistId}">
 	            <dl class="form-item">
 	                <dt class="title"><b class="c-red mr5">*</b>联系人名称:</dt>
 	                <dd class="detail">
 	                    <label>
-	                    	<input class="zui-input zui-validatebox" name="contactName" validate-type="Require,Length[0-15]"  id=contactName value="${infoVo.contactName}" >
-	                    </label>
-	                </dd>
-	            </dl>
-	             <dl class="form-item">
-	                <dt class="title"><b class="c-red mr5">*</b>电话:</dt>
-	                <dd class="detail">
-	                	 <label>
-	                    	<input class="zui-input zui-validatebox"  validate-type="Require,Number,Length[0-11]"  name="contactTelNumber" id="contactTelNumberShow"  value="${infoVo.contactTelNumber}">
+	                    	<input class="zui-input zui-validatebox" name="linkman" validate-type="Require,Length[1-128]" id="linkman" value="${infoVo.linkman}" >
 	                    </label>
 	                </dd>
 	            </dl>
@@ -25,12 +17,19 @@
 	                <dt class="title">联系类型:</dt>
 	               <dd class="detail">
                               <input class="zui-combobox zui-validatebox" id="contactType" name="contactType" type="hidden" value="${infoVo.contactType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=pglxlx"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=c0115"
                               data-valuefield="fullcode"  
                               data-textfield="name" >
 	                </dd>
 	            </dl>
-	           
+	            <dl class="form-item">
+	                <dt class="title"><b class="c-red mr5">*</b>电话号码:</dt>
+	                <dd class="detail">
+	                	 <label>
+	                    	<input class="zui-input zui-validatebox"  validate-type="Require,PhoneOrMobile"  name="contactNumber" id="contactTelNumberShow"  value="${infoVo.contactNumber}">
+	                    </label>
+	                </dd>
+	            </dl>
 	        </form>
 	    </div>
 	</div>

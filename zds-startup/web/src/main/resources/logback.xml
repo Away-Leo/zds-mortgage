@@ -8,9 +8,9 @@
     </appender>
 
     <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/tmp/logs/quickstart.log</file>
+        <file>/tmp/logs/finance/quickstart.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/tmp/logs/quickstart.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>/tmp/logs/finance/quickstart.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -24,9 +24,9 @@
         </encoder>
     </appender>
     <appender name="tomcat" class="ch.qos.logback.core.rolling.RollingFileAppender">  
-        <file>${catalina.home}/logs/finance.log</file>
+        <file>${catalina.home}/logs/finance/finance.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
-            <fileNamePattern>${catalina.home}/logs/finance.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${catalina.home}/logs/finance/finance.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -48,7 +48,7 @@
 
     <root level="INFO">
         <appender-ref ref="console" />
-        <!-- <appender-ref ref="tomcat" /> -->
+         <appender-ref ref="tomcat" />
         <!--<appender-ref ref="rollingFile" />-->
     </root>
 </configuration>

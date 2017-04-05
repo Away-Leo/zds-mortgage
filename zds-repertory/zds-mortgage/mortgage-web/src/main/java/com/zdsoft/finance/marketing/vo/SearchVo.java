@@ -6,14 +6,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.marketing.entity.Search;
 
 /**
- * 版权所有：重庆正大华日软件有限公司
  * 
- * @Title:Search.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:产权状态Vo
- * @author: zhoushichao
- * @date:2017年1月13日 下午9:32:35
- * @version:v1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: SearchVo.java 
+ * @ClassName: SearchVo 
+ * @Description: 产权状态Vo
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:50:43 
+ * @version V1.0
  */
 public class SearchVo extends BaseVo<Search> {
 
@@ -261,7 +261,7 @@ public class SearchVo extends BaseVo<Search> {
         super(po);
     }
 
-    public Search toPO() {
+    public Search toPo() {
         Search po = new Search();
         return super.toPo(this, po);
     }

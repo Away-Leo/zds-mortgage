@@ -14,7 +14,7 @@
 					</table>
 				</div>
 				<div id="btn-applylist_operat">
-				    <a class="zui-toolbar"  id="btn-add" text="增加" iconCls="icon-add" buttonCls="btn-blue" handler="doBank"></a>
+				    <a class="zui-toolbar"  id="btn-add" text="新增" iconCls="icon-add" buttonCls="btn-blue" handler="doBank"></a>
 				</div>
 			</div>
 		</div>
@@ -26,9 +26,9 @@
     , function ($, CALLBACK, Loading, Switch, Zdialog, ZUI_MESSAGE_CLIENT) {
 		//操作
 		CALLBACK.validateState = function(row,value){
-			var html = "<a title='编辑' class='icon-btn22 handler-icon c-green' onclick='bankEdit'></a>";
-			html += "<a title='删除' class='icon-btn12 handler-icon c-gray' onclick='bankDel'></a>";
-			html += "<a title='查看' class='icon-btn31 handler-icon c-orange' onclick='bankView'></a>";
+			var html = "<a title='编辑' class='btn-blue mr5' onclick='bankEdit'>编辑</a>";
+			html += "<a title='删除' class='btn-blue  mr5' onclick='bankDel'>删除</a>";
+			html += "<a title='查看' class='btn-blue' onclick='bankView'>查看</a>";
 			return html;
 		};
 

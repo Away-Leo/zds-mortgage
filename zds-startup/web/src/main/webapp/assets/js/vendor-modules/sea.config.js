@@ -1,10 +1,14 @@
-var resServer = "/web";
 seajs.config({
-    base: '/web/assets/js/',
+    base: resServer+'/assets/js/',
     alias: {
         'jquery': 'zd/jquery',
         'datepicker': 'vendor-modules/datepicker/WdatePicker',
         'ztree': 'vendor-modules/ztree/jquery.ztree.all-3.5',
-        'upload': 'vendor-modules/uploadify/jquery.uploadify.js'
+        'exhide': 'vendor-modules/ztree/jquery.ztree.exhide-3.5.min.js',
+        'upload': 'vendor-modules/uploadify/jquery.uploadify.js',
+        'zd': 'zd',
+        'project': 'project',
+        'xd':'vendor-modules/xd',
+        'echart':'vendor-modules/echarts.min'
     }
 });

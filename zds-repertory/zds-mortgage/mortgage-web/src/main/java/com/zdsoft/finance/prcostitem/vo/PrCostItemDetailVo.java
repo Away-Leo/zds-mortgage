@@ -5,12 +5,19 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.prcostitem.entity.PrCostItemDetail;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 费用项明细
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemDetailVo.java 
+ * @ClassName: PrCostItemDetailVo 
+ * @Description: 费用项明细
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:09:55 
+ * @version V1.0
  */
 public class PrCostItemDetailVo extends BaseVo<PrCostItemDetail>{
+
+	private static final long serialVersionUID = -3968022932080441649L;
 
 	/**
 	 * 费用项编码

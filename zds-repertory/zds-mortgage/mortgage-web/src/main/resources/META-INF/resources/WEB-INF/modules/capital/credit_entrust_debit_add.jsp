@@ -23,19 +23,19 @@
 					<dt class="title"><b class="c-red mr5">*</b>借方类型：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="debitType" name="debitType" type="hidden" data-width="94" value="${creditEntrustDebitVo.debitType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=dbtp"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00137"
                               data-valuefield="fullcode" data-callback="getFeeItems" data-textfield="name" validate-type="Require">
 					</dd>
 					<dd class="detail" id="debtorTypeDl">
 						<input class="zui-combobox zui-validatebox" id="debtorType" name="debtorType" type="hidden" data-width="94" value="${creditEntrustDebitVo.debtorType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=edty"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00133"
                               data-valuefield="fullcode" data-callback="getFeeItemT" data-textfield="name">
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>对象名称：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]"
 							 id="objectName" value="${creditEntrustDebitVo.objectName }" name="objectName">
 						</label>
 					</dd>
@@ -45,7 +45,7 @@
 				<div id="displayDiv" >
 					<table class="table-index">
 						<c:if test="${fn:length(feeItemVos)>0}">
-							<tr><td>序号</td><td>费用项目</td><td>金额</td></tr>
+							<tr><td>序号</td><td>费用项目</td><td>金额(元)</td></tr>
 						</c:if>
 						<c:forEach var="feeItemVo" items="${feeItemVos }" varStatus="status">
 							<tr>
@@ -53,16 +53,16 @@
 								<td>${feeItemVo.feeItemNm }</td>
 								<td><input type="hidden" id="feeItemCd" name="feeItemCd" value="${feeItemVo.feeItemCd }"/>
 									<input type="hidden" id="feeItemNm" name="feeItemNm" value="${feeItemVo.feeItemNm }"/> 
-									<input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require,Digital[18-12]" value="${feeItemVo.feeAmount }"  name="feeAmount"/>
+									<input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require,Digital[18-2]" validate-false="请输入必填项|请输入正确的金额" value="${feeItemVo.feeAmount }"  name="feeAmount"/>
 								</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 				<dl class="form-item">
-					<dt class="title">总计：</dt>
+					<dt class="title">总计(元)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-disabled zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-disabled zui-validatebox" readonly="readonly" validate-type="Require,Digital[18-12]"
 							 id="totalAmount" value="${creditEntrustDebitVo.totalAmount }" name="totalAmount">
 						</label>
 					</dd>
@@ -74,7 +74,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>支出日期：</dt>
 					<dd class="detail">
 						 <label>
-                            <input type="text" id="expenditureDateLocal" class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustDebitVo.expenditureDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'expenditureDate'})">
+                            <input type="text" id="expenditureDateLocal" class="zui-input strToDate zui-validatebox" validate-type="Require" value="${creditEntrustDebitVo.expenditureDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'expenditureDate'})">
                             <input type="hidden" value="${creditEntrustDebitVo.expenditureDate }" name="expenditureDate" id="expenditureDate" />
                          </label>
 					</dd>
@@ -83,7 +83,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>实际转出日期：</dt>
 					<dd class="detail">
 						 <label>
-                            <input type="text" id="actualOutDateLocal" value="${creditEntrustDebitVo.actualOutDate }" class="zui-input  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'actualOutDate'})">
+                            <input type="text" id="actualOutDateLocal" value="${creditEntrustDebitVo.actualOutDate }" class="zui-input strToDate  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'actualOutDate'})">
                             <input type="hidden" value="${creditEntrustDebitVo.actualOutDate }" name="actualOutDate" id="actualOutDate" />
                          </label>
 					</dd>
@@ -92,7 +92,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>资金状态：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="capitalState" name="capitalState" type="hidden" value="${creditEntrustDebitVo.capitalState }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=cpst"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00139"
                               data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 					</dd>
 				</dl>
@@ -116,7 +116,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>
@@ -137,7 +137,7 @@
 			
 			// 费用项获取
 			CALLBACK.getFeeItems = function(index,rowData){
-				if('dbtp002' == index){
+				if('YWDM0013702' == index){
 					$('#debtorTypeDl').show();
 				}else{
 					$('#debtorTypeDl').hide();
@@ -152,14 +152,15 @@
                             if (data.resultStatus == 0) {
                             	if(data.rows.length != 0){
                             		tempData = data.rows;
-                            		var appendHtml = '<table class="table-index"><tr><td>序号</td><td>费用项目</td><td>金额</td></tr>';
+                            		var appendHtml = '<table class="table-index"><tr><td>序号</td><td>费用项目</td><td>金额(元)</td></tr>';
                             		for(var i=0;i<data.rows.length;i++){
 										var rows = data.rows;
-										appendHtml +=  '<tr><td>'+(i+1)+'</td><td>'+rows[i].feeItemNm+'</td><td><input type="hidden" id="feeItemCd" name="feeItemCd" value="'+rows[i].feeItemCd +'"/><input type="hidden" id="feeItemNm" name="feeItemNm" value="'+rows[i].feeItemNm+'"/> <input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require,Digital[18-12]" value=""  name="feeAmount"/></td></tr>';
+										appendHtml +=  '<tr><td>'+(i+1)+'</td><td>'+rows[i].feeItemNm+'</td><td><input type="hidden" id="feeItemCd" name="feeItemCd" value="'+rows[i].feeItemCd +'"/><input type="hidden" id="feeItemNm"  name="feeItemNm" value="'+rows[i].feeItemNm+'"/><dl class="form-item"><dd class="detail"><label> <input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require,Digital[18-2]" validate-false="请输入必填项|请输入正确的金额" value="" data-toggle="validate"  name="feeAmount"/></label></dd></dl></td></tr>';
                             		}
                             		appendHtml += '</table>';
                             		$('#displayDiv').html('');
                             		$('#displayDiv').html(appendHtml);
+                            		$('[data-toggle="validate"]').ZDSValidatebox();
                             	}
                             }else{
                             	$.ZMessage.error("错误", data.msg, function () {
@@ -191,11 +192,12 @@
                             if (data.resultStatus == 0) {
                             	if(data.rows.length != 0){
                             		tempData = data.rows;
-                            		var appendHtml = '';
+                            		var appendHtml = '<table class="table-index"><tr><td>序号</td><td>费用项目</td><td>金额(元)</td></tr>';
                             		for(var i=0;i<data.rows.length;i++){
-                            			var rows = data.rows;
-                            			appendHtml += '<dl class="form-item"><dt class="title"><b class="c-red mr5">*</b>'+rows[i].feeItemNm+'：</dt><dd class="detail"><label><input type="hidden" id="feeItemCd" name="feeItemCd" value="'+rows[i].feeItemCd+'"/><input type="hidden" id="feeItemNm" name="feeItemNm" value="'+rows[i].feeItemNm+'"/> <input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require"  name="feeAmount"></label></dd></dl>';
+										var rows = data.rows;
+										appendHtml +=  '<tr><td>'+(i+1)+'</td><td>'+rows[i].feeItemNm+'</td><td><input type="hidden" id="feeItemCd" name="feeItemCd" value="'+rows[i].feeItemCd +'"/><input type="hidden" id="feeItemNm" name="feeItemNm" value="'+rows[i].feeItemNm+'"/> <input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require,Digital[18-12]" value=""  name="feeAmount"/></td></tr>';
                             		}
+                            		appendHtml += '</table>';
                             		$('#displayDiv').html('');
                             		$('#displayDiv').html(appendHtml);
                             	}
@@ -218,6 +220,8 @@
 			
 			// 初始化
 			$.ZUI.init();
+			
+			$.ZUI.strToDate();
 			
 			// 计算总金额
 			window.sumAmount = function(){
@@ -267,7 +271,7 @@
 			// 页面显示判断
 			$(function(){
 				var tempVar = $('#debitType').ZCombobox('getValue');
-				if('dbtp002' == tempVar){
+				if('YWDM0013702' == tempVar){
 					$('#debtorTypeDl').show();
 				}else{
 					$('#debtorTypeDl').hide();

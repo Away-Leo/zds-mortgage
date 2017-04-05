@@ -38,16 +38,7 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.zdsoft.framework</groupId>
-			<artifactId>zds-fromework-cra-activemq</artifactId>
-		</dependency>
-		<!--  -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
-		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>control</artifactId>
@@ -68,10 +59,23 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!--  -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.logback-extensions</groupId>
 			<artifactId>logback-ext-spring</artifactId>
@@ -130,7 +134,7 @@
                 <excludes>
                     <exclude>**.sql</exclude>
                     <exclude>**.tld</exclude>
-                    <exclude>logback.xml</exclude>
+                   <!--  <exclude>logback.xml</exclude> -->
                 </excludes>
             </resource>
         </resources>

@@ -3,10 +3,15 @@ package com.zdsoft.finance.archive.controller;
 import java.math.BigDecimal;
 
 
+
 /**
- * 案件 TODO 临时使用
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-21
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: TempProject.java 
+ * @ClassName: TempProject 
+ * @Description: 案件 TODO 临时使用
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:08:59 
+ * @version V1.0
  */
 public class TempProject{
 

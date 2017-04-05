@@ -10,17 +10,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
+import com.zdsoft.finance.capital.entity.CreditEntrust;
 import com.zdsoft.finance.capital.entity.CreditEntrustOperationLog;
 import com.zdsoft.finance.capital.entity.CreditEntrustRedemPrinci;
 import com.zdsoft.finance.capital.repository.CreditEntrustRedemPrinciRepository;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
 import com.zdsoft.finance.capital.service.CreditEntrustRedemPrinciService;
+import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.spi.common.dto.OperationTypeNm;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustRedemPrinciServiceImpl.java
+ * @ClassName: CreditEntrustRedemPrinciServiceImpl
+ * @Description: 信托计划本金赎回ServiceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:39:53
+ * @version V1.0
+ */
 @Service("creditEntrustRedemPrinciService")
 public class CreditEntrustRedemPrinciServiceImpl
 		extends BaseServiceImpl<CreditEntrustRedemPrinci, CustomRepository<CreditEntrustRedemPrinci, String>>
@@ -31,6 +45,12 @@ public class CreditEntrustRedemPrinciServiceImpl
 
 	@Autowired
 	CreditEntrustOperationLogService creditEntrustOperationLogService;
+
+	@Autowired
+	CreditEntrustService creditEntrustService;
+
+	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
 
 	@Autowired
 	CED CED;
@@ -69,7 +89,7 @@ public class CreditEntrustRedemPrinciServiceImpl
 			creditEntrustRedemPrinci.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			creditEntrustRedemPrinci.setCompleteEmpName(CED.getLoginUser().getEmpNm());
 			creditEntrustRedemPrinci
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 保存贷方资金跟踪信息
 			creditEntrustRedemPrinci = creditEntrustRedemPrinciRepository.saveEntity(creditEntrustRedemPrinci);
@@ -80,12 +100,19 @@ public class CreditEntrustRedemPrinciServiceImpl
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
 			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(creditEntrustRedemPrinci.getId());
 			creditEntrustOperationLogService.saveEntity(operationLog);
+		}
+
+		// 重新填充列表信息
+		if (ObjectHelper.isNotEmpty(creditEntrustRedemPrinci.getCreditEntrust())) {
+			CreditEntrust creditEntrust = creditEntrustToolService
+					.listFill(creditEntrustRedemPrinci.getCreditEntrust());
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
 		}
 
 		return creditEntrustRedemPrinci;

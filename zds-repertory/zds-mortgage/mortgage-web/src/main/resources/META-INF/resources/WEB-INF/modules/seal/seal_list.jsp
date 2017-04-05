@@ -46,7 +46,7 @@
 						<dt class="title">案件状态：</dt>
 						<dd class="detail">
 							<input class="zui-combobox zui-validatebox" id="bust" name="bust"
-								<%--                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=bust" --%>
+								<%--                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00140" --%>
                               data-data="[{'id':'0','text':'渤海信托'},{'id':'1','text':'外贸信托'}]"
 								data-valuefield="fullcode" data-textfield="name"
 								validate-type="Require">

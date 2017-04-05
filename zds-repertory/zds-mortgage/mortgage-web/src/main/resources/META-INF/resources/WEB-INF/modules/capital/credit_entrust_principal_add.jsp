@@ -20,7 +20,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>出资方：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustPrincipalVo.contribution }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustPrincipalVo.contribution == null ? contribution : creditEntrustPrincipalVo.contribution }"
 							 id="contribution" name="contribution">
 						</label>
 					</dd>
@@ -29,7 +29,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>出资方类型：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="contributionType" name="contributionType" type="hidden" value="${creditEntrustPrincipalVo.contributionType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=ittp"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00141"
                               data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 					</dd>
 				</dl>
@@ -42,7 +42,7 @@
 					</dd>
 				</dl>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>合同收益率(%)：</dt>
+					<dt class="title sptitle"><b class="c-red mr5">*</b>合同收益率(%)：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]" value="${creditEntrustPrincipalVo.profitRate }"
 							 id="profitRate" name="profitRate">
@@ -53,15 +53,15 @@
 					<dt class="title"><b class="c-red mr5">*</b>追加日期：</dt>
 					<dd class="detail">
 						 <label>
-                            <input type="text" id="addDateLocal" value="${creditEntrustPrincipalVo.addDate }" class="zui-input  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'addDate'})">
+                            <input type="text" id="addDateLocal" value="${creditEntrustPrincipalVo.addDate }" class="zui-input strToDate  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'addDate'})">
                             <input type="hidden" name="addDate" value="${creditEntrustPrincipalVo.addDate }" id="addDate" />
                          </label>
 					</dd>
 				</dl>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>使用比率(%)：</dt>
+					<dt class="title sptitle"><b class="c-red mr5">*</b>信托保障基金比率(%)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]" value="${creditEntrustPrincipalVo.useProp }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12],Size[0-100]" value="${creditEntrustPrincipalVo.useProp }"
 							 id="useProp" name="useProp">
 						</label>
 					</dd>
@@ -70,7 +70,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>预计到账日期：</dt>
 					<dd class="detail">
 						 <label>
-                            <input type="text" id="expectDateLocal" class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustPrincipalVo.expectDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'expectDate'})">
+                            <input type="text" id="expectDateLocal" class="zui-input strToDate zui-validatebox" validate-type="Require" value="${creditEntrustPrincipalVo.expectDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'expectDate'})">
                             <input type="hidden" name="expectDate" id="expectDate" value="${creditEntrustPrincipalVo.expectDate }" />
                          </label>
 					</dd>
@@ -79,7 +79,7 @@
 					<dt class="title">到账日期：</dt>
 					<dd class="detail">
 						 <label>
-                            <input type="text" id="actualDateLocal" class="zui-input" value="${creditEntrustPrincipalVo.actualDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'actualDate'})">
+                            <input type="text" id="actualDateLocal" class="zui-input strToDate" value="${creditEntrustPrincipalVo.actualDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'actualDate'})">
                             <input type="hidden" name="actualDate" id="actualDate" value="${creditEntrustPrincipalVo.actualDate }" />
                          </label>
 					</dd>
@@ -88,7 +88,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>使用额度(元)：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-disable zui-validatebox" validate-type="Require,Digital[18-12]" value="${creditEntrustPrincipalVo.usedQuota }"
-							 id="usedQuota" name="usedQuota" disabled>
+							 id="usedQuota" name="usedQuota" >
 						</label>
 					</dd>
 				</dl>
@@ -96,23 +96,23 @@
 					<dt class="title"><b class="c-red mr5">*</b>派息周期：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="payoutPeriod" name="payoutPeriod" type="hidden" value="${creditEntrustPrincipalVo.payoutPeriod }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=popd"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00136"
                               data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>派息日：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]" value="${creditEntrustPrincipalVo.termDay }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Size[1-31]" value="${creditEntrustPrincipalVo.termDay }"
 							 id="termDay" name="termDay">
 						</label>
 					</dd>
 				</dl>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>到期日期：</dt>
+					<dt class="title">到期日期：</dt>
 					<dd class="detail">
 						 <label>
-                            <input type="text" id="maturityDateLocal" class="zui-input  zui-validatebox" validate-type="Require" value="${creditEntrustPrincipalVo.maturityDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'maturityDate'})">
+                            <input type="text" id="maturityDateLocal" class="zui-input strToDate  zui-validatebox" value="${creditEntrustPrincipalVo.maturityDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'maturityDate'})">
                             <input type="hidden" name="maturityDate" id="maturityDate" value="${creditEntrustPrincipalVo.maturityDate }" />
                          </label>
 					</dd>
@@ -137,7 +137,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>
@@ -198,15 +198,14 @@
 				var useProp = $('#useProp').val();
 				
 				if(principalAmount && useProp){
-					$('#usedQuota').val(parseFloat(principalAmount) * parseFloat(useProp) / 100);
+					$('#usedQuota').val(parseFloat(principalAmount) - parseFloat(principalAmount) * parseFloat(useProp) / 100);
 				}
 			});
 			$('#useProp').change(function(){
 				var principalAmount = $('#principalAmount').val();
 				var useProp = $('#useProp').val();
-				
 				if(principalAmount && useProp){
-					$('#usedQuota').val(parseFloat(principalAmount) * parseFloat(useProp) / 100);
+					$('#usedQuota').val(parseFloat(principalAmount) - parseFloat(principalAmount) * parseFloat(useProp) / 100);
 				}
 			});
 		});

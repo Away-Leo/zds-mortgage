@@ -17,7 +17,10 @@
 
 
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-	<context:component-scan base-package="com.zdsoft.bpm.service.client,com.zdsoft.finance,com.zdsoft.essential.client.service,com.zdsoft.framework.cra.client.service,com.zdsoft.framework.core.server">
+	<context:component-scan base-package="com.zdsoft.bpm.service.client,com.zdsoft.finance,com.zdsoft.essential.client.service,com.zdsoft.framework.core.server,com.zdsoft.framework.cra.client.service,
+	                                      com.zdsoft.framework.cra.rpcservice,
+					  					  com.zdsoft.framework.core.server,
+					                      com.zdsoft.framework.cra.timer">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 		<context:include-filter type="annotation"
@@ -106,10 +109,8 @@
 
 	<!-- 引入工作流 -->
 	<import resource="classpath:spring/spring-bpmclient-mvc.xml"/>
-
-	<!-- 资源注册中心mq -->
-	<import resource="classpath:META-INF/spring/spring-cra-activemq.xml" />
-	
+	<!-- 引入cms -->
+	<import resource="classpath:spring/spring-cms-client.xml"/>
 	
 	<!-- 导入公共Spring配置文件 -->
 	<import resource="classpath:META-INF/spring/spring-common-context.xml" />

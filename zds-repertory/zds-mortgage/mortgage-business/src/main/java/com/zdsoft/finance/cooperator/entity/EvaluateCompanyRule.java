@@ -7,13 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
+
 /**
- * 评估公司权重表
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: EvaluateCompanyRule.java 
+ * @ClassName: EvaluateCompanyRule 
+ * @Description: 评估公司权重表
+ * @author liuwei
+ * @date 2017年3月8日 上午9:56:07 
+ * @version V1.0
  */
 @Entity
-@Table(name="zf_evaluate_company_rule")
+@Table(name="cpt_evaluate_company_rule")
 public class EvaluateCompanyRule extends BaseEntity{
 
 	/**
@@ -25,7 +31,7 @@ public class EvaluateCompanyRule extends BaseEntity{
 	 * 机构ID
 	 */
 	@Column(precision=32)
-	private BigDecimal orgId;
+	private BigDecimal orgId = BigDecimal.ZERO;
 	
 	/**
 	 * 机构名
@@ -67,13 +73,13 @@ public class EvaluateCompanyRule extends BaseEntity{
 	 * 对外展示比例（%）(1)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal outProportionOne;
+	private BigDecimal outProportionOne = BigDecimal.ZERO;
 	
 	/**
 	 * 计算规则(1)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal calculateRuleOne;
+	private BigDecimal calculateRuleOne = BigDecimal.ZERO;
 	
 	/**
 	 * 评估公司(2)
@@ -85,13 +91,13 @@ public class EvaluateCompanyRule extends BaseEntity{
 	 * 对外展示比例（%）(2)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal outProportionTwo;
+	private BigDecimal outProportionTwo = BigDecimal.ZERO;
 	
 	/**
 	 * 计算规则(2)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal calculateRuleTwo;
+	private BigDecimal calculateRuleTwo = BigDecimal.ZERO;
 	
 	/**
 	 * 评估公司(3)
@@ -103,13 +109,13 @@ public class EvaluateCompanyRule extends BaseEntity{
 	 * 对外展示比例（%）(3)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal outProportionThree;
+	private BigDecimal outProportionThree = BigDecimal.ZERO;
 	
 	/**
 	 * 计算规则(3)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal calculateRuleThree;
+	private BigDecimal calculateRuleThree = BigDecimal.ZERO;
 	
 	/**
 	 * 评估公司(4)
@@ -121,13 +127,13 @@ public class EvaluateCompanyRule extends BaseEntity{
 	 * 对外展示比例（%）(4)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal outProportionFour;
+	private BigDecimal outProportionFour = BigDecimal.ZERO;
 	
 	/**
 	 * 计算规则(4)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal calculateRuleFour;
+	private BigDecimal calculateRuleFour = BigDecimal.ZERO;
 	
 	/**
 	 * 评估公司(5)
@@ -139,13 +145,13 @@ public class EvaluateCompanyRule extends BaseEntity{
 	 * 对外展示比例（%）(5)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal outProportionFive;
+	private BigDecimal outProportionFive = BigDecimal.ZERO;
 	
 	/**
 	 * 计算规则(5)
 	 */
 	@Column(precision=30,scale=12)
-	private BigDecimal calculateRuleFive;
+	private BigDecimal calculateRuleFive = BigDecimal.ZERO;
 
 	public BigDecimal getOrgId() {
 		return orgId;

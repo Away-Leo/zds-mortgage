@@ -5,23 +5,25 @@ import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.marketing.entity.Search;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:SearchService.java
- * @Package:com.zdsoft.finance.marketing.service
- * @Description:房产产权实现类
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:07:00
- * @version:v1.0
+ * @Title: SearchService.java 
+ * @ClassName: SearchService 
+ * @Description: 房产产权状态实现类
+ * @author zhoushichao 
+ * @date 2017年3月8日 下午4:51:32 
+ * @version V1.0
  */
 public interface SearchService extends BaseService<Search>{
-    /**
-     * 
-     * 通过房产Id找出产权状态
-     *
-     * @author caixiekang
-     * @param housePropertyId
-     * @return
-     */
-   public Search findByHouseProperyId(String housePropertyId) throws BusinessException;
 
+	/**
+	 * 
+	 * @Title: findByHouseProperyId 
+	  * @Description: 通过房产Id查找房产产权状态
+	 * @author zhoushichao 
+	 * @param housePropertyId 房产Id
+	 * @return
+	 * @throws BusinessException
+	 */
+   public Search findByHousePropertyId(String housePropertyId) throws BusinessException;
 }

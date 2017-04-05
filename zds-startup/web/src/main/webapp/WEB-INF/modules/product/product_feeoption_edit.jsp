@@ -17,220 +17,175 @@
         </h1>
 
         <div id="feeOptionEditDiv" class="p10">
-            <form id="feeOptionEditForm" class="zui-form form-search" zdata-options={"url":"www.zds.com"}>
-
-                <input type="hidden" name="productCode" value="${productCode}"/>
-                <input type="hidden" name="productName" value="${productName}"/>
-                <input type="hidden" name="id" id="id" value="${id}"/>
-
+            <form id="feeOptionEditForm" class="zui-form form-search" zdata-options={}>
+                <input type="hidden" name="productId" value="${productId}"/>
+                <input type="hidden" name="id" id="id" value="${feeOption.id}"/>
                 <dl class="form-item">
                     <dt class="title"><b class="c-red mr5">*</b>收费类型：</dt>
                     <dd class="detail">
-                        <input class="zui-combobox zui-validatebox" id="chargeTypeCode" name="chargeTypeCode"
-                               value="${chargeTypeCode}"
+                        <input class="zui-combobox zui-validatebox" id="feeType" name="feeType"
+                               value="${feeOption.feeType}"
                                type="hidden"
-                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=chargeClass"
-                               data-callback="chargeTypeCodeChange"
+                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00146"
                                data-height="300"
-                               data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="chargeTypeName" name="chargeTypeName" value="${chargeTypeName}"/>
+                               data-valuefield="fullcode" data-textfield="text" validate-type="Require">
                     </dd>
                 </dl>
-
-                <dl class="form-item">
+				 <dl class="form-item">
                     <dt class="title"><b class="c-red mr5">*</b>收费项目：</dt>
                     <dd class="detail">
-                        <input class="zui-combobox zui-validatebox" id="chargingItemCode" name="chargingItemCode"
-                               type="hidden" value="${chargingItemCode}"
-                        <%--data-url="<z:ukey key="com.zdsoft.finance.getMateriaSimpleCode" context="admin"/>&jsoncallback=?"--%>
-                               data-url="<z:ukey key="com.zdsoft.finance.findAllEffectiveItemSimpleCode" context="admin"/>&jsoncallback=?"
-                        <%--data-data="[{'id':'1',text:'收费项目1'},{'id':'2',text:'收费项目2'},{'id':'3',text:'收费项目3'}]"--%>
-                               data-callback="chargingItemCodeChange"
+                        <input class="zui-combobox zui-validatebox" id="feeItem" name="feeItem"
+                               type="hidden" value="${feeOption.feeItem}"
+                               data-url="<z:ukey key="com.zdsoft.finance.parameter.findAllEffectiveItemSimpleCode" context="admin"/>&jsoncallback=?"
                                data-height="300"
-                               data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="chargingItemName" name="chargingItemName" value="${chargingItemName}"/>
+                               data-valuefield="code" data-textfield="text" validate-type="Require">
                     </dd>
                 </dl>
-
                 <dl class="form-item">
                     <dt class="title"><b class="c-red mr5">*</b>收款计算方式：</dt>
                     <dd class="detail">
-                        <input class="zui-checkbox zui-validatebox" id="collectionMethodCode"
-                               name="collectionMethodCode" value="${collectionMethodCode}"
+                        <input class="zui-checkbox zui-validatebox" id="chargeCalculateWay"
+                               name="chargeCalculateWay" value="${feeOption.chargeCalculateWay==null?'chargeCalculateWay1':feeOption.chargeCalculateWay}"
                                type="hidden" data-multiple="false"
-                               data-callback="collectionMethodCodeChange"
-                               data-data="[{'id':'collectionMethodCode1','text':'固定'},{'id':'collectionMethodCode2','text':'比例'}]"
-                               data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="collectionMethodName" name="collectionMethodName"
-                               value="${collectionMethodName}"/>
+                               data-data="[{'id':'chargeCalculateWay1','text':'固定'},{'id':'chargeCalculateWay2','text':'比例'}]"
+                               data-valuefield="id" data-textfield="text" validate-type="Require" data-callback="checkValue">
                     </dd>
                 </dl>
-
-                <dl class="form-item">
-                    <dt class="title"><b class="c-red mr5">*</b>收款金额：</dt>
+                <dl class="form-item" id="chargeAmountDl">
+                    <dt class="title"><b class="c-red mr5">*</b>收款金额(元)：</dt>
                     <dd class="detail">
                         <label>
-                            <input class="zui-input zui-validatebox" type="text" validate-type="Require,Digital[30-6]"
-                                   data-toggle="validate"
-                                   id="collectionAmount" value="${collectionAmount}"
-                                   name="collectionAmount"/>
-                        </label>
-                        <span class="word" >元</span>
-                    </dd>
-                </dl>
-                <dl class="form-item">
-                    <dt class="title">收款比例(%)：</dt>
-                    <dd class="detail">
-                        <label>
-                            <input class="zui-input zui-validatebox" type="text" validate-type="Integer,Length[0-2]"
-                                   id="collectionRatio" value="${collectionRatio}" data-toggle="validate"
-                                   name="collectionRatio"/>
+                            <input class="zui-input zui-validatebox" type="text" validate-type="Require,Digital[18-6]" data-toggle="validate"
+                                   id="chargeAmount" value="${feeOption.chargeAmount}" name="chargeAmount"/>
                         </label>
                     </dd>
                 </dl>
-                <dl class="form-item">
-                    <dt class="title"><b class="c-red mr5">*</b>付款计算方式：</dt>
-                    <dd class="detail">
-                        <input class="zui-checkbox zui-validatebox" id="paymentMethodCode" name="paymentMethodCode"
-                               value="${paymentMethodCode}"
-                               type="hidden" data-multiple="false"
-                               data-callback="paymentMethodCodeChange"
-                               data-data="[{'id':'paymentMethodCode1','text':'固定'},{'id':'paymentMethodCode2','text':'比例'}]"
-                               data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="paymentMethodName" name="paymentMethodName"
-                               value="${paymentMethodName}"/>
-                    </dd>
-                </dl>
-                <dl class="form-item">
-                    <dt class="title">付款金额：</dt>
+                <dl class="form-item" id="chargeRatioDl" style="display: none;">
+                    <dt class="title"><b class="c-red mr5">*</b>收款比例(%)：</dt>
                     <dd class="detail">
                         <label>
-                            <input class="zui-input zui-validatebox" type="text" validate-type="Require,Digital[30-6]"
-                                   data-toggle="validate" id="paymentAmount" value="${paymentAmount}"
-                                   name="paymentAmount"/>
+                            <input class="zui-input zui-validatebox" type="text" validate-type="Digital[2-2]"
+                                   id="chargeRatio" value="${feeOption.chargeRatio}" data-toggle="validate" name="chargeRatio"/>
                         </label>
-                        <span class="word" >元</span>
                     </dd>
                 </dl>
-                <dl class="form-item">
+                <dl class="form-item" id="payAmountDl">
+                    <dt class="title">付款金额(元)：</dt>
+                    <dd class="detail">
+                        <label>
+                            <input class="zui-input zui-validatebox" type="text" validate-type="Digital[18-6]"
+                                   data-toggle="validate" id="payAmount" value="${feeOption.payAmount}" name="payAmount"/>
+                        </label>
+                    </dd>
+                </dl>
+                <dl class="form-item" id="payRatioDl" style="display: none;">
                     <dt class="title">付款比例(%)：</dt>
                     <dd class="detail">
                         <label>
-                            <input class="zui-input zui-validatebox" type="text" validate-type="Integer,Length[0-2]"
-                                   id="paymentRatio"
-                                   data-toggle="validate" value="${paymentRatio}"
-                                   name="paymentRatio"/>
+                            <input class="zui-input zui-validatebox" type="text" validate-type="Digital[2-2]"
+                                   id="payRatio" data-toggle="validate" value="${feeOption.payRatio}" name="payRatio"/>
                         </label>
+                    </dd>
+                </dl>
+                <dl class="form-item">
+                    <dt class="title">付款计算方式：</dt>
+                    <dd class="detail">
+                        <input class="zui-checkbox zui-validatebox" id="payCalculateWay" name="payCalculateWay"
+                               value="${feeOption.payCalculateWay==null?'payCalculateWay1':feeOption.payCalculateWay}"
+                               type="hidden" data-multiple="false"
+                               data-data="[{'id':'payCalculateWay1','text':'固定'},{'id':'payCalculateWay2','text':'比例'}]"
+                               data-valuefield="id" data-textfield="text" data-callback="checkValue2">
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title"><b class="c-red mr5">*</b>营业收支：</dt>
                     <dd class="detail">
-                        <input class="zui-checkbox zui-validatebox" id="isBusinessInAndOutCode"
-                               name="isBusinessInAndOutCode" value="${isBusinessInAndOutCode}"
+                        <input class="zui-checkbox zui-validatebox" id="isOperateIncome"
+                               name="isOperateIncome" value="${feeOption.isOperateIncome == null?'false':feeOption.isOperateIncome}"
                                type="hidden" data-multiple="false"
-                               data-callback="isBusinessInAndOutCodeChange"
-                               data-data="[{'id':'isBusinessInAndOutCode1','text':'是'},{'id':'isBusinessInAndOutCode2','text':'否'}]"
+                               data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]"
                                data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="isBusinessInAndOutName" name="isBusinessInAndOutName"
-                               value="${isBusinessInAndOutName}"/>
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title"><b class="c-red mr5">*</b>先请再付：</dt>
                     <dd class="detail">
-                        <input class="zui-checkbox zui-validatebox" id="isRepayCode" name="isRepayCode"
-                               value="${isRepayCode}"
-                               type="hidden" data-multiple="false"
-                               data-callback="isRepayCodeChange"
-                               data-data="[{'id':'isRepayCode1','text':'是'},{'id':'isRepayCode2','text':'否'}]"
+                        <input class="zui-checkbox zui-validatebox" id="isPayFirst" name="isPayFirst"
+                               value="${feeOption.isPayFirst == null?'false':feeOption.isPayFirst}" type="hidden" data-multiple="false"
+                               data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]"
                                data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="isRepayName" name="isRepayName" value="${isRepayName}"/>
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title"><b class="c-red mr5">*</b>支付条件：</dt>
                     <dd class="detail">
-                        <input class="zui-combobox zui-validatebox" id="payConditionCode" name="payConditionCode"
-                               type="hidden" value="${payConditionCode}"
-                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=payConditionClass"
-                               data-callback="payConditionCodeChange"
+                        <input class="zui-combobox zui-validatebox" id="paymentTerms" name="paymentTerms"
+                               type="hidden" value="${feeOption.paymentTerms}"
+                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00145"
                                data-height="300"
-                               data-valuefield="id" data-textfield="text" validate-type="Require">
-                        <input type="hidden" id="payConditionName" name="payConditionName" value="${payConditionName}"/>
+                               data-valuefield="fullcode" data-textfield="text" validate-type="Require">
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title">是否支佣：</dt>
                     <dd class="detail">
-                        <input class="zui-checkbox zui-validatebox" id="isPayCommissionCode" name="isPayCommissionCode"
-                               value="${isPayCommissionCode}"
+                        <input class="zui-checkbox zui-validatebox" id="isPayCommission" name="isPayCommission"
+                               value="${feeOption.isPayCommission == null?'false':feeOption.isPayCommission}"
                                type="hidden" data-multiple="false"
-                               data-callback="isPayCommissionCodeChange"
-                               data-data="[{'id':'isPayCommissionCode1','text':'是'},{'id':'isPayCommissionCode2','text':'否'}]"
+                               data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]"
                                data-valuefield="id" data-textfield="text" validate-type="">
-                        <input type="hidden" id="isPayCommissionName" name="isPayCommissionName"
-                               value="${isPayCommissionName}"/>
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title">佣金支付条件：</dt>
                     <dd class="detail">
-                        <input class="zui-combobox zui-validatebox" id="payCommiCondCode" name="payCommiCondCode"
-                               type="hidden" value="${payCommiCondCode}"
-                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=payConditionClass"
-                               data-callback="payCommiCondCodeChange"
-                               data-height="300"
-                               data-valuefield="id" data-textfield="text" validate-type="">
-                        <input type="hidden" id="payCommiCondName" name="payCommiCondName" value="${payCommiCondName}"/>
+                        <input class="zui-combobox zui-validatebox" id="payCondition" name="payCondition"
+                               type="hidden" value="${feeOption.payCondition}"
+                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00145"
+                               data-height="300" data-valuefield="fullcode" data-textfield="text" validate-type="">
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title">支佣节点：</dt>
                     <dd class="detail">
                         <label>
-                            <input class="zui-input zui-validatebox" type="text" validate-type="" id="payCommiNode"
-                                   value="${payCommiNode}"
-                                   name="payCommiNode"/>
+                            <input class="zui-input zui-validatebox" type="text" validate-type="" id="point"
+                                   value="${feeOption.point}",validate-type="Length[0-30]" name="point"/>
                         </label>
                     </dd>
                 </dl>
                 <dl class="form-item">
                     <dt class="title">是否停用：</dt>
                     <dd class="detail">
-                        <input class="zui-checkbox zui-validatebox" id="isStopCode" name="isStopCode"
-                               value="${isStopCode}"
+                    	<input class="zui-checkbox zui-validatebox" id="isEnable" name="isEnable"
+                               value="${feeOption.isEnable == null?'false':feeOption.isEnable}"
                                type="hidden" data-multiple="false"
-                               data-callback="isStopCodeChange"
-                               data-data="[{'id':'isStopCode1','text':'是'},{'id':'isStopCode2','text':'否'}]"
+                               data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]"
                                data-valuefield="id" data-textfield="text" validate-type="">
-                        <input type="hidden" id="isStopName" name="isStopName" class="zui-validatebox"
-                               value="${isStopName}"
-                               validate-type=""/>
                     </dd>
                 </dl>
                 <dl class="form-item block">
                     <dt class="title">备注：</dt>
                     <dd class="detail">
                         <label>
-                         <textarea class="zui-area zui-validatebox" data-toggle="validate" id="mo"
-                                   name="mo"
-                                   validate-type="Length[0-3000]"
-                                   placeholder="最多可以输入3000个字符">${mo}</textarea>
+                         <textarea class="zui-area zui-validatebox" data-toggle="validate" id="remark"
+                                   name="remark"
+                                   validate-type="Length[0-500]"
+                                   placeholder="最多可以输入500个字符">${feeOption.remark}</textarea>
                         </label>
-
                         <div class="zd-area">
-                            <span class="zd-curval">0</span>/<span class="zd-maxval">3000</span></div>
+                            <span class="zd-curval">0</span>/<span class="zd-maxval">500</span></div>
                     </dd>
                 </dl>
+               
             </form>
         </div>
     </div>
 
 </div>
 <div class="save">
-    <button id="feeoption-btn-save" class="btn-blue mr10">保存</button>
     <button id="feeoption-btn-cancel" class="btn-gray mr10">取消</button>
+    <button id="feeoption-btn-save" class="btn-blue mr10">保存</button>
 </div>
 <script>
     seajs.use(['jquery', 'zd/jquery.zds.page.callback', 'zd/jquery.zds.combobox', 'zd/jquery.zds.checkbox', 'zd/jquery.zds.loading', 'zd/switch',
@@ -238,125 +193,126 @@
                 'datepicker', 'zd/jquery.zds.table', 'zd/jquery.zds.seleter', 'zd/bothselecter', 'zd/jquery.zds.button'],
             function ($, CALLBACK, Loading, Switch, DropDown, Filter, Check, Zdialog, ZUI_MESSAGE_CLIENT) {
 
-
-                CALLBACK.formatFuntion = function (index, rowData) {
-                    var html = '<a title="编辑" class="handler-icon icon-btn22 c-blue"  onclick="editData"></a>';
-                    html += '<a title="删除" class="handler-icon icon-btn12 c-blue"  onclick="deleteData" ></a>';
-                    return html;
-                };
-                //编辑按钮
-                CALLBACK.editData = function (index, rowData) {
-                    //赋值
-                    $("#materiaTypeCode").ZCombobox("setValue", rowData.materiaTypeCode);
-                    $("#materiaTypeName").val(rowData.materiaTypeName);
-                    $("#materiaCode").ZCombobox("setValue", rowData.materiaCode);
-                    $("#materiaName").val(rowData.materiaName);
-                    $("#rememberCode").val(rowData.rememberCode);
-                    $("#rememberNo").val(rowData.rememberNo);
-                    $("#materiaIdentifyName").val(rowData.materiaIdentifyName);
-                    $("#materiaIdentify").val(rowData.materiaIdentify);
-                    //复选框赋值
-                    var valueArray = (rowData.materiaIdentify).split(",");
-                    var arraysize = valueArray.length;
-                    for (var i = 0; i <= arraysize - 1; i++) {
-                        $("#materiaIdentifyCkeck").ZCheckbox("setValue", valueArray[i]);
+        $("#feeoption-btn-save").click(function () {
+            var finalResult = $.ZUI.validateForm($('#feeOptionEditForm'));
+            if (!finalResult) {
+                return false;
+            }
+            var param = $("#feeOptionEditForm").serializeArray();
+            var url = '<z:ukey key="com.zdsoft.finance.saveOrUpdateFeeOption" context="admin" />';
+            $.ajax({
+                url: url,
+                data: param,
+                dataType:"json",
+                type: "post",
+                success: function (data) {
+                	if (data.resultStatus == 0) {
+                        $.ZMessage.success("成功", "操作成功", function () {
+                            ZDS_MESSAGE_CLIENT.refreshOpenner();
+                            setTimeout(function () {
+                                ZDS_MESSAGE_CLIENT.closeSelf();
+                            }, 200);
+                        });
+                    } else {
+                        $.ZMessage.error("错误", data.msg, function () {
+                            return false;
+                        });
                     }
-                    //赋值ID
-                    $("#id").val(rowData.id);
-                    $("#materiaIdentifyCkeck").ZCheckbox();
-                    //alert($("#materiaIdentifyName").val()+"------"+$("#materiaIdentify").val());
-                    $("#dialogAdd").Zdialog("open");
-                };
-
-                CALLBACK.chargeTypeCodeChange = function (index, rowData, row, thisobj) {
-                    $("#chargeTypeName").val(rowData);
-                };
-                CALLBACK.chargingItemCodeChange = function (index, rowData, row, thisobj) {
-                    $("#chargingItemName").val(rowData);
-                };
-                CALLBACK.collectionMethodCodeChange = function (index, rowData, row, thisobj) {
-                    $("#collectionMethodName").val(rowData);
-                };
-                CALLBACK.paymentMethodCodeChange = function (index, rowData, row, thisobj) {
-                    $("#paymentMethodName").val(rowData);
-                };
-                CALLBACK.isBusinessInAndOutCodeChange = function (index, rowData, row, thisobj) {
-                    $("#isBusinessInAndOutName").val(rowData);
-                };
-                CALLBACK.isRepayCodeChange = function (index, rowData, row, thisobj) {
-                    $("#isRepayName").val(rowData);
-                };
-                CALLBACK.payConditionCodeChange = function (index, rowData, row, thisobj) {
-                    $("#payConditionName").val(rowData);
-                };
-                CALLBACK.isPayCommissionCodeChange = function (index, rowData, row, thisobj) {
-                    $("#isPayCommissionName").val(rowData);
-                };
-                CALLBACK.payCommiCondCodeChange = function (index, rowData, row, thisobj) {
-                    $("#payCommiCondName").val(rowData);
-                };
-                CALLBACK.isStopCodeChange = function (index, rowData, row, thisobj) {
-                    $("#isStopName").val(rowData);
-                };
-
-                $("#feeoption-btn-save").click(function () {
-//                    var flog = $('#feeOptionEditForm').ZDSValidatebox('validateAll', $('#feeOptionEditForm'));
-                    var finalResult = $.ZUI.validateForm($('#feeOptionEditForm'));
-                    if (!finalResult) {
+                },
+                error: function (data) {
+                    $.ZMessage.error("错误", "操作失败" + data, function () {
                         return false;
-                    }
-                    var param = $("#feeOptionEditForm").serializeArray();
-                    var url = '<z:ukey key="com.zdsoft.finance.saveOrUpdateFeeOption" context="admin" />';
-                    $.ajax({
-                        url: url,
-                        data: param,
-                        dataType: 'json',
-                        type:"post",
-                        success: function (data) {
-                            if (data.resultStatus == 0) {
-                                $.ZMessage.success("成功", "数据操作成功", function () {
-                                    ZDS_MESSAGE_CLIENT.refreshOpenner();
-                                    setTimeout(function () {
-                                        ZDS_MESSAGE_CLIENT.closeSelf();
-                                    }, 200);
-                                });
-                            } else {
-                                $.ZMessage.error("错误", "数据操作失败" + data.msg, function () {
-                                    return false;
-                                });
-                            }
-                        },
-                        error: function (data) {
-                            $.ZMessage.error("错误", "数据操作失败" + data, function () {
-                                return false;
-                            });
-                        }
                     });
-                });
-                $("#feeoption-btn-cancel").click(function () {
-                    ZDS_MESSAGE_CLIENT.closeSelf();
-                });
+                }
+            });
+            
+        });
+        $("#feeoption-btn-cancel").click(function () {
+            ZDS_MESSAGE_CLIENT.closeSelf();
+        });
+                
+        CALLBACK.checkValue = function(index,rowData){
+			if('chargeCalculateWay1' == index){
+				$('#chargeAmount').attr('validate-type','Require,Digital[18-6]');
+				$('#chargeRatio').attr('validate-type','Digital[2-2]');
+				$("#chargeRatio").val("");
+				$("#chargeAmountDl").show();
+				$("#chargeRatioDl").hide();
+				$("#chargeAmount").val("${feeOption.chargeAmount}");
+			}else if('chargeCalculateWay2' == index){
+				$('#chargeAmount').attr('validate-type','Digital[18-6]');
+				$("#chargeAmount").val("");
+				$('#chargeRatio').attr('validate-type','Require,Digital[2-2]');
+				$("#chargeAmountDl").hide();
+				$("#chargeRatioDl").show();
+				$("#chargeRatio").val("${feeOption.chargeRatio}");
+			}
+        };
+                
+        CALLBACK.checkValue2 = function(index,rowData){
+			if('payCalculateWay1' == index){
+				$('#payAmount').attr('validate-type','Require,Digital[18-6]');
+				$('#payRatio').attr('validate-type','Digital[2-2]');
+				$("#payAmountDl").show();
+				$("#payRatioDl").hide();
+				$("#payAmount").val("${feeOption.payAmount}");
+			}else if('payCalculateWay2' == index){
+				$('#payAmount').attr('validate-type','Digital[18-6]');
+				$('#payRatio').attr('validate-type','Require,Digital[2-2]');
+				$("#payAmountDl").hide();
+				$("#payRatioDl").show();
+				$("#payRatio").val("${feeOption.payRatio}");
+			}
+         };
+                
+         $(function(){
+           	var chargeCalculateWay = $('#chargeCalculateWay').ZCombobox('getValue');
+           	var payCalculateWay = $('#payCalculateWay').ZCombobox('getValue');
+           	
+           	if('chargeCalculateWay1' == chargeCalculateWay){
+				$('#chargeAmount').attr('validate-type','Require,Digital[18-6]');
+				$('#chargeRatio').attr('validate-type','Digital[2-2]');
+				$("#chargeAmountDl").show();
+				$("#chargeRatioDl").hide();
+			}else if('chargeCalculateWay2' == chargeCalculateWay){
+				$('#chargeAmount').attr('validate-type','Digital[18-6]');
+				$('#chargeRatio').attr('validate-type','Require,Digital[2-2]');
+				$("#chargeAmountDl").hide();
+				$("#chargeRatioDl").show();
+			}
+           	
+           	
+           	if('payCalculateWay1' == payCalculateWay){
+				$('#payAmount').attr('validate-type','Require,Digital[18-6]');
+				$('#payRatio').attr('validate-type','Digital[2-2]');
+				$("#payAmountDl").show();
+				$("#payRatioDl").hide();
+			}else if('payCalculateWay2' == payCalculateWay){
+				$('#payAmount').attr('validate-type','Digital[18-6]');
+				$('#payRatio').attr('validate-type','Require,Digital[2-2]');
+				$("#payAmountDl").hide();
+				$("#payRatioDl").show();
+			}
+       });
 
 
                 //下拉菜单与单选菜单初始化
-                $("#chargeTypeCode").ZCombobox();
-                $("#chargingItemCode").ZCombobox();
-                $("#payConditionCode").ZCombobox();
-                $("#payCommiCondCode").ZCombobox();
-
-                $("#collectionMethodCode").ZCheckbox();
-                $("#paymentMethodCode").ZCheckbox();
-                $("#isBusinessInAndOutCode").ZCheckbox();
-                $("#isRepayCode").ZCheckbox();
-                $("#isPayCommissionCode").ZCheckbox();
-                $("#isStopCode").ZCheckbox();
+                $("#feeType").ZCombobox();
+                $("#feeItem").ZCombobox();
+                $("#chargeCalculateWay").ZCheckbox();
+                $("#payCalculateWay").ZCheckbox();
+                $("#isOperateIncome").ZCheckbox();
+                $("#isPayFirst").ZCheckbox();
+                $("#paymentTerms").ZCombobox();
+                $("#isPayCommission").ZCheckbox();
+                $("#payCondition").ZCombobox();
+                $("#isEnable").ZCheckbox();
+                
                 $.ZUI.initGrid("#feeOptionEditContentDiv");
                 $.ZUI.initForms("#feeOptionEditForm");
 
                 formatAmount("collectionAmount,paymentAmount",6);
                 formatScale("collectionRatio,paymentRatio",0);
-
-
 
                 //初始化金额小数位数显示
                 function formatAmount(elements,index){
@@ -364,7 +320,9 @@
                     for(var i=0;i<elementArray.length;i++){
                         var ele=elementArray[i];
                         var eleValue=$("#"+ele).val();
-                        $("#"+ele).val(eleValue.substring(0,eleValue.indexOf(".")+index+1));
+                        if(eleValue != null && eleValue != ''){
+	                        $("#"+ele).val(eleValue.substring(0,eleValue.indexOf(".")+index+1));
+                        }
                     }
                 }
                 //初始化比例数显示
@@ -373,7 +331,9 @@
                     for(var i=0;i<elementArray.length;i++){
                         var ele=elementArray[i];
                         var eleValue=$("#"+ele).val();
-                        $("#"+ele).val(eleValue.substring(0,eleValue.indexOf(".")+index));
+                        if(eleValue != null && eleValue != ''){
+	                        $("#"+ele).val(eleValue.substring(0,eleValue.indexOf(".")+index));
+                        }
                     }
                 }
 

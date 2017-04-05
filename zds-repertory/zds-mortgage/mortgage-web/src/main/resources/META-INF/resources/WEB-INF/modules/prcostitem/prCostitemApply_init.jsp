@@ -6,13 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>收费支拥管理</title>
+<title>收费支佣管理</title>
 </head>
 <body>
 <div class="frm-content">
 	<!-- 查询区域 -->
 	<div class="page-box">
-		<div class="page-title">收费支拥管理筛选条件</div>
+		<div class="page-title">收费支佣管理筛选条件</div>
 		<div class="p10">
 			<form id="search_from" class="zui-form form-search" method="post" enctype="multipart/form-data">
 				<dl class="form-item">
@@ -33,7 +33,7 @@
 					<dt class="title">申请人：</dt>
 					<dd class="detail">
 						<label> 
-							<input class="zui-input" name="applyEmpNm">
+							<input class="zui-input" id="applyName" name="applyEmpNm|LK|S">
 						</label>
 					</dd>
 				</dl>
@@ -41,7 +41,7 @@
 					<dt class="title">状态：</dt>
 					<dd class="detail">
 						<label>
-							<input class="zui-combobox zui-validatebox" id="status" name="status" type="hidden" data-multiple="false"
+							<input class="zui-combobox zui-validatebox" id="status" name="status|E|S" type="hidden" data-multiple="false"
                                data-data="[{'id':'0','text':'草稿'},{'id':'1','text':'审批中'},{'id':'2','text':'暂停'},{'id':'3','text':'已作废'},{'id':'4','text':'审批通过'},{'id':'5','text':'审批不通过'}]"
                                data-valuefield="id" data-textfield="text">
 						</label>
@@ -51,7 +51,7 @@
 					<dt class="title">机构：</dt>
 					<dd class="detail">
 						<label> 
-							<input class="zui-input" id="orgNm" name="orgNm">
+							<input class="zui-input" id="orgNm" name="applyOrgNm|LK|S">
 						</label>
 					</dd>
 				</dl>
@@ -64,7 +64,7 @@
 	</div>
 	<!-- 列表区域 -->
 	<div class="page-box">
-		<div class="page-title">收费支拥</div>
+		<div class="page-title">收费支佣</div>
 		<div class="p10">
 			<div id="ztoolbar">
 				<a class="zui-toolbar" iconCls="icon-btn08" text="新增" buttonCls="btn-blue" handler="add"></a>
@@ -77,7 +77,7 @@
             			<th data-options="field:applyEmpNm">申请人</th>
             			<th data-options="field:applyDepNm">申请人部门</th>
             			<th data-options="field:statusNm">状态</th>
-            			<th data-options="field:id" formatter="operate">操作</th>
+            			<th data-options="field:id,width:15%" formatter="operate">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -93,10 +93,10 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	};
 	//操作
 	CALLBACK.operate = function(row,value){
-		var html = "<a title='详情' class='handler-icon icon-btn31' onclick='detail'></a>";
+		var html = "<a href='javascript:void(0)' class='btn-blue' onclick='detail'>详情</a>";
 		if(row.status == 0){
-			html += "<a title='编辑' class='handler-icon icon-btn22' onclick='edit'></a>";
-			html += "<a title='删除' class='handler-icon icon-btn12' onclick='del'></a>";
+			html += "&nbsp;&nbsp;<a href='javascript:void(0)' class='btn-blue' onclick='edit'>编辑</a>&nbsp;&nbsp;";
+			html += "<a href='javascript:void(0)' class='btn-blue' onclick='del'>删除</a>";
 		}
 		return html;
 	};
@@ -112,36 +112,40 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
     //详情
     CALLBACK.detail = function(index,row){
     	var editPrCostitem = '<z:ukey key="com.zdsoft.finance.prCostitemApply.detail" context="admin"/>&id=' + row.id;
-        ZDS_MESSAGE_CLIENT.openMenuLink('费用支拥详情','费用支拥详情',editPrCostitem + "&openMethod=tabs");
+        ZDS_MESSAGE_CLIENT.openMenuLink('费用支佣详情','费用支佣详情',editPrCostitem + "&openMethod=tabs");
     };
     //编辑
     CALLBACK.edit = function(index,row){
     	var editPrCostitem = '<z:ukey key="com.zdsoft.finance.prCostitemApply.add" context="admin"/>&id=' + row.id;
-        ZDS_MESSAGE_CLIENT.openMenuLink('费用支拥编辑','费用支拥编辑',editPrCostitem + "&openMethod=tabs");
+        ZDS_MESSAGE_CLIENT.openMenuLink('费用支佣编辑','费用支佣编辑',editPrCostitem + "&openMethod=tabs");
     };
     //删除
     CALLBACK.del = function(index,row){
-    	$.ajax({
-			url:'<z:ukey key="com.zdsoft.finance.prCostitemApply.del" context="admin"/>&jsoncallBack=?',
-			data:{
-				id:row.id
-			},
-			type:"post",
-			dataType:"jsonp",
-			success:function(rdata){
-				if(rdata.status == 1){
-					$.ZMessage.success("提示", rdata.msg, function () {
-						var s = $("#applyTimeS").val();
-						var e = $("#applyTimeE").val();
-						var formArray=$("#search_from").serialize();
-						formArray = decodeURIComponent(formArray, true);
-						formArray += "&applyTime|BT|BT=" + s + "," + e;
-						$('#costitemTable').ZTable("reload",formArray);
-	                });
-				}else{
-					$.ZMessage.error("错误", rdata.msg, function () {
-	                });
-				}
+		$.ZMessage.confirm("确认","确认删除",function(r){
+			if(r){
+				$.ajax({
+					url:'<z:ukey key="com.zdsoft.finance.prCostitemApply.del" context="admin"/>&jsoncallBack=?',
+					data:{
+						id:row.id
+					},
+					type:"post",
+					dataType:"jsonp",
+					success:function(rdata){
+						if(rdata.status == 1){
+							$.ZMessage.success("提示", rdata.msg, function () {
+								var s = $("#applyTimeS").val();
+								var e = $("#applyTimeE").val();
+								var formArray=$("#search_from").serialize();
+								formArray = decodeURIComponent(formArray, true);
+								formArray += "&applyTime|BT|BT=" + s + "," + e;
+								$('#costitemTable').ZTable("reload",formArray);
+							});
+						}else{
+							$.ZMessage.error("错误", rdata.msg, function () {
+							});
+						}
+					}
+				});
 			}
 		});
     };
@@ -151,7 +155,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	//新增
 	CALLBACK.add = function(){
 		var addPrCostitem = '<z:ukey key="com.zdsoft.finance.prCostitemApply.add" context="admin"/>';
-        ZDS_MESSAGE_CLIENT.openMenuLink('费用支拥添加','费用支拥添加',addPrCostitem + "&openMethod=tabs");
+        ZDS_MESSAGE_CLIENT.openMenuLink('费用支佣添加','费用支佣添加',addPrCostitem + "&openMethod=tabs");
 	};
 	
 	//查询
@@ -165,7 +169,13 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	});
 	//重置
 	$("#btn-reset").click(function(){
-		$("#search_from")[0].reset();
+		$("#d4311").val("");
+		$("#d4312").val("");
+		$("#applyTimeS").val("");
+		$("#applyName").val("");
+		$("#applyTimeE").val("");
+		$("#orgNm").val("");
+		$("#status").ZCombobox("setValue","");
 	});
 });
 </script>

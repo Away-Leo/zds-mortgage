@@ -4,7 +4,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.zdsoft.framework.core.common.util.ObjectHelper;
-
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: TrialRepayPlanToolVo.java 
+ * @ClassName: TrialRepayPlanToolVo 
+ * @Description: 还款计划工具vo
+ * @author jingjiyan 
+ * @date 2017年3月13日 上午9:39:12 
+ * @version V1.0
+ */
 public class TrialRepayPlanToolVo implements Serializable {
 	
 	private static final long serialVersionUID = -3052334612139578988L;

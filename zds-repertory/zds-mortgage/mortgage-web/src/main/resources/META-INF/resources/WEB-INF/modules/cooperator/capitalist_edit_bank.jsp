@@ -19,7 +19,7 @@
 							<dd class="detail">
 								<label> 
 								<input class="zui-combobox zui-validatebox" id="capitalistType"  name="capitalistType" type="hidden" value="${capitalist.capitalistType }"
-		                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=zflx"
+		                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00112"
 		                              data-valuefield="fullcode" data-callback="reloadMeetingProject" data-textfield="name" validate-type="Require">
 								</label>
 							</dd>
@@ -27,8 +27,8 @@
 						<dl class="form-item">
 							<dt class="title"><b class="c-red mr5">*</b>是否停用：</dt>
 							<dd class="detail">
-									<input class="zui-checkbox zui-validatebox" id="isStop" name="isStop" type="hidden" data-multiple="false" value="${capitalist.isStop }"
-		                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=yorn"
+									<input class="zui-checkbox zui-validatebox" id="isStop" name="isStop" type="hidden" data-multiple="false" value="${capitalist.isStop == null ? 'YWDM0049001': capitalist.isStop}"
+		                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM0049"
 		                               data-valuefield="id" data-textfield="text" validate-type="Require">
 							</dd>
 						</dl>
@@ -37,7 +37,7 @@
 							<dd class="detail">
 								<label> 
 								<input class="zui-combobox zui-validatebox" id="capitalistCategory"  name="capitalistCategory" type="hidden" value="${capitalist.capitalistCategory }"
-		                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=zflx"
+		                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00112"
 		                              data-valuefield="fullcode" data-callback="reloadMeetingProject" data-textfield="name" >
 								</label>
 							</dd>
@@ -46,7 +46,7 @@
 							<dt class="title"><b class="c-red mr5">*</b>资方名称：</dt>
 							<dd class="detail">
 								<label> 
-									<input class="zui-input zui-validatebox" validate-type="Require,Length[1-15]" disabled   id="cooperatorName" value="${capitalist.cooperatorName}" >
+									<input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]"  id="capitalName" name ="capitalName" value="${capitalist.capitalName}" >
 									<input type="hidden" name="id" id="id" value="${capitalist.id}" >
 								</label>
 							</dd>
@@ -54,28 +54,30 @@
 						<dl class="form-item">
 							<dt class="title">简称：</dt>
 							<dd class="detail">
-								<label> <input class="zui-input zui-validatebox" validate-type="Length[0-15]" name="cooperatorShortName"  id="cooperatorShortName" value="${capitalist.cooperatorShortName}" >
+								<label> <input class="zui-input zui-validatebox" validate-type="Length[0-32]" name="capitalShortName"  id="capitalShortName" value="${capitalist.capitalShortName}" >
 								</label>
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">电话：</dt>
 							<dd class="detail">
-								<label> <input class="zui-input zui-validatebox" validate-type="Number,Length[0-11]" name="contactTelNumber"  id="contactTelNumber" value="${capitalist.contactTelNumber}" >
+								<label> <input class="zui-input zui-validatebox" validate-type="PhoneOrMobile" name="telephone"  id="telephone" value="${capitalist.telephone}" >
 								</label>
 							</dd>
 						</dl>
 						<dl class="form-item block">
 		                    <dt class="title">地区及详细地址:</dt>
 		                    <dd class="detail">
-		                        <div id="selectAddress" data-code="${capitalist.regionCode }">
-		                            <input id="region" class="zui-input zui-validatebox"  type="text" readonly="true" style="width: 200px;" />
-		                            <input id="regionCode" type="hidden" name="regionCode" value="50,5002,500233,500233100"/>
+		                        <div id="selectAddress" data-code="${capitalist.addCountry }">
+		                            <input id="region" class="zui-input zui-validatebox" type="text" readonly="true" style="width: 200px;" />
 		                        </div>
+		                        <input type="hidden" name="addProvince" id="addProvince" value="${capitalist.addProvince  }"/>
+		                        <input type="hidden" name="addCity" id="addCity" value="${capitalist.addCity  }"/>
+		                        <input type="hidden" name="addCountry" id="addCountry" value="${capitalist.addCountry  }"/>
 		                    </dd>
 		                    <dd class="detail">
 								<label>
-		                            <input class="zui-input zui-validatebox" validate-type="Length[1-64]" id="cooperatorAddress" name="cooperatorAddress" value="${capitalist.cooperatorAddress }" />
+		                            <input class="zui-input zui-validatebox" validate-type="Length[0-64]" style="width:610px;" id="address" name="address" value="${capitalist.address }" />
 		                        </label>
 							</dd>
 		                </dl>
@@ -86,7 +88,7 @@
 							<dt class="title">成立时间：</dt>
 							<dd class="detail">
 								<label>
-		                            <input class="zui-input zui-validatebox"    id="foundDate" value="${capitalist.foundDateNm }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'changeFoundDate'})">
+		                            <input class="zui-input zui-validatebox"    id="foundDate" value="${capitalist.foundDate }" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'changeFoundDate',maxDate:'${maxDate}'})">
 		                            <input type="hidden" id="changeFoundDate" name="foundDate" value="${capitalist.foundDate }" />
 		                        </label>
 							</dd>
@@ -103,7 +105,7 @@
 							<dt class="title">税号：</dt>
 							<dd class="detail">
 								<label>
-		                            <input class="zui-input zui-validatebox" validate-type="Length[0-15]" id="dutyParagraph" name="dutyParagraph" value="${capitalist.dutyParagraph }" />
+		                            <input class="zui-input zui-validatebox" validate-type="Length[0-32]" id="dutyParagraph" name="dutyParagraph" value="${capitalist.dutyParagraph }" />
 		                        </label>
 							</dd>
 						</dl>
@@ -111,7 +113,7 @@
 							<dt class="title">银行帐号：</dt>
 							<dd class="detail">
 								<label>
-		                            <input class="zui-input zui-validatebox" validate-type="Number,Length[0-20]" id="bankAccountShow" name="bankAccountShow" value="${capitalist.cooperatorBankVo.bankAccount }" />
+		                            <input class="zui-input zui-validatebox" validate-type="Number,Length[0-20]" id="bankAccount" name="bankAccount" value="${capitalist.bankAccount }" />
 		                        </label>
 							</dd>
 						</dl>
@@ -119,8 +121,8 @@
 							<dt class="title">行业：</dt>
 							<dd class="detail">
 								<label>
-									 <input class="zui-combobox zui-validatebox" id="industry" name="industry" type="hidden" data-multiple="false" value="${capitalist.industry }"
-		                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=hangye"
+									 <input class="zui-combotree zui-validatebox" id="industry" name="industry" type="hidden" data-multiple="false" value="${capitalist.industry }"
+		                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM0021"
 		                               data-valuefield="id" data-textfield="text" >
 		                        </label>
 							</dd>
@@ -130,7 +132,7 @@
 							<dd class="detail">
 								<label>
 								 <input class="zui-checkbox zui-validatebox" id="isHasBankAgreement" name="isHasBankAgreement" type="hidden" data-multiple="false" value="${capitalist.isHasBankAgreement }"
-		                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=yorn"
+		                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM0049"
 		                               data-valuefield="id" data-textfield="text" >
 		                        </label>
 							</dd>
@@ -141,13 +143,16 @@
 								<label>
 		                            <textarea class="zui-area zui-validatebox" id="remark" name="remark" validate-type="Length[0-500]" placeholder="最多可以输入500个字符">${capitalist.remark }</textarea>
 		                        </label>
+		                        <div class="zd-area">
+			                    	<span class="zd-curval">0</span>/<span class="zd-maxval">512</span>
+			                 	</div>
 							</dd>
 						</dl>
 					</div>
 				</form>
-		            <div class="form-btn">
-	                	<button id="saveMeet" type="button" class="btn-blue">保存</button>
-	                </div>
+	            <div class="form-btn">
+                	<button id="saveCapital" type="button" class="btn-blue">保存</button>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -158,33 +163,31 @@
 	function($, CALLBACK, Switch,Loading) {
 			$.ZUI.init();
         	$('#capitalistType').data("choose","disable");
+        	
+        	// 如果为查看，则修改为查看框
         	var operateType = "${operationType }";
-        	 if(operateType == 'add'){
-      			$("#isStop").val('yorn002');
-      		}
-        		if(operateType == 'view'){
-        			$("#saveMeet").hide();
-        			
-        			$('#isStop').data("choose","disable");
-        			$('#capitalistCategory').data("choose","disable");
-        			$('#companyType').data("choose","disable");
-        			$('#regionCode').data("choose","disable");
-        			$('#industry').data("choose","disable");
-        			
-        			$('#cooperatorAddress').attr("disabled","disabled");
-        			$('#cooperatorShortName').attr("disabled","disabled");
-        			
-        			$('#belongType').attr("disabled","disabled");
-        			$('#contactTelNumber').attr("disabled","disabled");
-        			
-        			$('#foundDate').attr("disabled","disabled");
-        			$('#legalPerson').attr("disabled","disabled");
-        			$('#dutyParagraph').attr("disabled","disabled");
-        			$('#bankAccountShow').attr("disabled","disabled");
-        			$('#industry').attr("disabled","disabled");
-        			$('#isHasIdea').data("choose","disable");
-        			$('#remark').attr("disabled","disabled");
-        		}
+       		if(operateType == 'view'){
+       			$("#saveMeet").hide();
+       			
+       			$("#saveMeet").hide();
+       			$('#isStop').data("choose","disable");
+       			$('#capitalistCategory').data("choose","disable");
+       			$('#capitalName').attr("disabled","disabled");
+       			$('#capitalShortName').attr("disabled","disabled");
+       			$('#telephone').attr("disabled","disabled");
+       			$('#region').data("choose","disable");
+       			$('#address').attr("disabled","disabled");
+       			$('#foundDate').attr("disabled","disabled");
+       			$('#legalPerson').attr("disabled","disabled");
+       			$('#dutyParagraph').attr("disabled","disabled");
+       			$('#bankAccount').attr("disabled","disabled");
+       			$('#industry').data("choose","disable");
+       			$('#remark').attr("disabled","disabled");
+       			$('#isHasBankAgreement').attr("disabled","disabled");
+       			$('#saveCapital').hide();
+       		}
+       		
+       		// 地址选择器
             $("#selectAddress").Address({
             	showStreet:false,//不显示街道
             	cityUrl:'<z:res resource="ess.simplecode.ByParentId" isDefault="true"/>&jsonCallBack=?',//真实数据源
@@ -203,10 +206,12 @@
                         }
                     }
                     $('#region').val(str);
-                    $('#regionCode').val(strCode);
+                    $('#addProvince').val(selected_ids[0]);
+                    $('#addCity').val(selected_ids[1]);
+                    $('#addCountry').val(selected_ids[2]);
                 }
             });
-			$('#saveMeet').click(function(){
+			$('#saveCapital').click(function(){
 				var isValidate = $.ZUI.validateForm($('#capitalist_change_form'));
 				if(isValidate){
 					var param = $('#capitalist_change_form').serialize();
@@ -237,7 +242,6 @@
                     });
 				}
 			});
-			
 		});
 	</script>
 </body>

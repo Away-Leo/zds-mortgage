@@ -21,7 +21,7 @@
 					<dt class="title">机构：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-disabled zui-validatebox" validate-type="Require"
-							 id="orgName" value="${fundsVo.orgName }" name="orgName" disabled>
+							 id="orgName" value="${fundsVo.orgName }" name="orgName" >
 						</label>
 					</dd>
 				</dl>
@@ -39,7 +39,7 @@
 					<dt class="title">修改时间：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-disabled zui-validatebox" validate-type="Require"
-							 id="updateTime" value="${updateTime }" name="updateTime" disabled>
+							 id="updateTime" value="${updateTime }" name="updateTime" >
 						</label>
 					</dd>
 				</dl>

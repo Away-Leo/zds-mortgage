@@ -1,13 +1,11 @@
 package com.zdsoft.finance.app.usercenter;
 
-import java.math.BigDecimal;
-
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
  * @Title:MyBusiInfoDto.java
  * @Package:com.zdsoft.finance.app.usercenter
- * @Description:我的
+ * @Description:我的申请Dto（APP）
  * @author: jingyh
  * @date:2017年1月13日 下午6:31:56
  * @version:v1.0
@@ -20,49 +18,40 @@ public class MyBusiInfoDto {
 	private String caseApplyId;
 	
 	/**
-	 * 案件编号
+	 * 具体业务表单Id
 	 */
-	private String caseCode;
+	private String businessKey;
 	
 	/**
-	 * 贷款金额
+	 * 流程实例Id
 	 */
-	private BigDecimal applyAmount;
+	private String processInstanceId;
 	
 	/**
-	 * 产品名称
+	 * 标题
 	 */
-	private String productName;
+	private String applyTitle;
 	
 	/**
-	 * 综合评估价
+	 * 状态值
 	 */
-	private BigDecimal estimate;
+	private Integer formStatus;
 	
 	/**
-	 * 客户姓名
+	 * 主借人姓名
 	 */
-	private String clientName;
+	private String mainCustomerName;
 	
 	/**
-	 * 联系方式
+	 * 申请时间字符串
 	 */
-	private String contact;
+	private Long applyDate;
 	
 	/**
-	 * 审批状态
+	 * 申请类型标示
 	 */
-	private String caseApplyStatus;
+	private String modelType;
 	
-	/**
-	 * 评估价抵押成数
-	 */
-	private String assessedPriceMortgage;
-	/**
-	 * 案件阶段
-	 */
-	private Integer stage;
-
 	public String getCaseApplyId() {
 		return caseApplyId;
 	}
@@ -71,76 +60,60 @@ public class MyBusiInfoDto {
 		this.caseApplyId = caseApplyId;
 	}
 
-	public String getCaseCode() {
-		return caseCode;
+	public String getBusinessKey() {
+		return businessKey;
 	}
 
-	public void setCaseCode(String caseCode) {
-		this.caseCode = caseCode;
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
 	}
 
-	public BigDecimal getApplyAmount() {
-		return applyAmount;
+	public String getApplyTitle() {
+		return applyTitle;
 	}
 
-	public void setApplyAmount(BigDecimal applyAmount) {
-		this.applyAmount = applyAmount;
+	public void setApplyTitle(String applyTitle) {
+		this.applyTitle = applyTitle;
 	}
 
-	public String getProductName() {
-		return productName;
+	public Integer getFormStatus() {
+		return formStatus;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setFormStatus(Integer formStatus) {
+		this.formStatus = formStatus;
 	}
 
-	public BigDecimal getEstimate() {
-		return estimate;
+	public String getMainCustomerName() {
+		return mainCustomerName;
 	}
 
-	public void setEstimate(BigDecimal estimate) {
-		this.estimate = estimate;
+	public void setMainCustomerName(String mainCustomerName) {
+		this.mainCustomerName = mainCustomerName;
+	}
+	
+	public String getModelType() {
+		return modelType;
 	}
 
-	public String getClientName() {
-		return clientName;
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
 	}
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
+	public Long getApplyDate() {
+		return applyDate;
 	}
 
-	public String getContact() {
-		return contact;
+	public void setApplyDate(Long applyDate) {
+		this.applyDate = applyDate;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
+	public String getProcessInstanceId() {
+		return processInstanceId;
 	}
 
-	public String getCaseApplyStatus() {
-		return caseApplyStatus;
-	}
-
-	public void setCaseApplyStatus(String caseApplyStatus) {
-		this.caseApplyStatus = caseApplyStatus;
-	}
-
-	public String getAssessedPriceMortgage() {
-		return assessedPriceMortgage;
-	}
-
-	public void setAssessedPriceMortgage(String assessedPriceMortgage) {
-		this.assessedPriceMortgage = assessedPriceMortgage;
-	}
-
-	public Integer getStage() {
-		return stage;
-	}
-
-	public void setStage(Integer stage) {
-		this.stage = stage;
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
 	}
 
 	public MyBusiInfoDto() {

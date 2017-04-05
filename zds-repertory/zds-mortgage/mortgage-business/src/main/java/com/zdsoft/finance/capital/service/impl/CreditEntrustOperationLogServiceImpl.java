@@ -8,11 +8,15 @@ import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
 import com.zdsoft.finance.common.base.CustomRepository;
 
 /**
- * 信托计划日志serviceImpl
  * 
- * @createTime:2017年1月12日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustOperationLogServiceImpl.java
+ * @ClassName: CreditEntrustOperationLogServiceImpl
+ * @Description: 信托计划日志serviceImpl
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:39:24
+ * @version V1.0
  */
 @Service("creditEntrustOperationLogService")
 public class CreditEntrustOperationLogServiceImpl

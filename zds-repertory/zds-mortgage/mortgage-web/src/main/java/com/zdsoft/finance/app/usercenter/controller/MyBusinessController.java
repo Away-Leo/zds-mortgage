@@ -32,7 +32,7 @@ import com.zdsoft.framework.core.commweb.component.BaseController;
  * 版权所有：重庆正大华日软件有限公司
  * @Title:MyBusinessController.java
  * @Package:com.zdsoft.finance.app.flow.controller
- * @Description:用一句话描述该文件做什么
+ * @Description:我的业务Controller
  * @author: jingyh
  * @date:2017年1月13日 下午5:33:17
  * @version:v1.0
@@ -71,20 +71,11 @@ public class MyBusinessController extends BaseController {
         log.debug("分页参数为，页号：{},分页大小：{}",pageIndex, pageSize);
         Map<String, Object> params = new HashMap<String,Object>();
         params.put("keyWord", req.getParameter("keyword"));
-        params.put("stage", req.getParameter("type"));
+        params.put("formStatus", req.getParameter("formStatus"));
         log.debug("查询条件为：{}", params);
         try {
-        	String status = req.getParameter("caseApplyStatus");
-        	log.debug("传入的状态为：{}", status);
-        	if (ObjectHelper.isEmpty(status)) {
-        		throw new BusinessException("10010004", "传入查询类型为空！");
-        	}
-        	String[] busiType = status.split(",");
-        	if (ObjectHelper.isEmpty(busiType)) {
-        		throw new BusinessException("10010003", "传入查询类型错误！" + status);
-        	}
         	// 查询数据
-        	List<MyBusiInfoDto> listResult = this.myBusiService.findMyBusiPageInfo(busiType, params, pageInfo);
+        	List<MyBusiInfoDto> listResult = this.myBusiService.findMyBusiPageInfo(params, pageInfo);
         	// 封装数据
         	List<MyBusiInfoVo> result = new ArrayList<MyBusiInfoVo>();
         	for (MyBusiInfoDto info : listResult) {
@@ -123,6 +114,10 @@ public class MyBusinessController extends BaseController {
 			log.debug("当前节点处理人：{}", busiForm.getCurrentDealEmpNm());
 			// 下一节点处理人
 			map.put("feedback", busiForm.getCurrentDealEmpNm());
+			if (ObjectHelper.isNotEmpty(busiForm.getHadRulesRefuse()) && busiForm.getHadRulesRefuse()) {
+				// 状态为规则拒绝
+				return AppServerUtil.buildError(AppStatus.BlackListError);
+			}
 			return AppServerUtil.buildJsonObject(map);
 		} catch (Exception e) {
 			log.error("启动流程失败：{}",e);

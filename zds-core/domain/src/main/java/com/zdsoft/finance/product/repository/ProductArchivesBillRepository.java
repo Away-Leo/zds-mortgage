@@ -10,16 +10,22 @@ import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.ProductArchivesBill;
 
+
 /**
- * 档案清单
- * @createTime 2017年1月10日 上午11:42:41
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductArchivesBillRepository.java 
+ * @ClassName: ProductArchivesBillRepository 
+ * @Description: 档案清单
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:47:37 
+ * @version V1.0
  */
 public interface ProductArchivesBillRepository extends CustomRepository<ProductArchivesBill, String>{
 
 	/**
-	 * 逻辑删除
+	 * @Title: logicByProduct 
+	 * @Description: 逻辑删除
+	 * @author gufeng 
 	 * @param productId 产品id
 	 */
 	@Modifying
@@ -27,10 +33,12 @@ public interface ProductArchivesBillRepository extends CustomRepository<ProductA
 	public void logicByProduct(@Param("productId")String productId);
 
 	/**
-	 * 查询
-	 * @param productId
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findByProductId 
+	 * @Description: 查询
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return  结果
+	 * @throws BusinessException 异常
 	 */
 	@Query("select pab from ProductArchivesBill pab where pab.isDeleted=false and pab.productId=:productId ")
 	public List<ProductArchivesBill> findByProductId(@Param("productId")String productId) throws BusinessException;

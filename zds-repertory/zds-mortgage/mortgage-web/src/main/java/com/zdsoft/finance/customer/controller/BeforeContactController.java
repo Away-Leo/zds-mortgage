@@ -16,15 +16,16 @@ import com.zdsoft.framework.core.common.dto.ResponseMsg;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
+
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:BeforeContactController.java
- * @Package:com.zdsoft.finance.customer.controller
- * @Description:贷前客户联系方式
- * @author: xj
- * @date:2017年1月12日 下午10:13:12
- * @version:v1.0
+ * @Title: BeforeContactController.java 
+ * @ClassName: BeforeContactController 
+ * @Description: 贷前客户联系方式
+ * @author xj 
+ * @date 2017年3月13日 上午9:27:27 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("beforeContact")
@@ -33,6 +34,16 @@ public class BeforeContactController extends BaseController {
 	private BeforeContactService beforeContactService;
 	@Autowired
 	private CED CED;
+	
+	/**
+	 * 
+	 * @Title: listContactByCustomerId 
+	 * @Description: 客户客户id查询联系方式
+	 * @author xj 
+	 * @param customerId 客户id
+	 * @param jsoncallback
+	 * @return
+	 */
 	@RequestMapping("/listContactByCustomerId")
 	@UriKey(key = "com.zdsoft.finance.beforeContact.listContactByCustomerId")
 	@ResponseBody

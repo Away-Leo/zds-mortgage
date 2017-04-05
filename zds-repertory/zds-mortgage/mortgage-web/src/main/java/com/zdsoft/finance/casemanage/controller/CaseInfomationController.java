@@ -68,7 +68,7 @@ public class CaseInfomationController {
 			ReceivableInfo po = caseApply.getReceivableInfo();
 			// 获取资方银行卡信息
 			Capitalist capitalist = capitalistService.findOne(caseApply.getCapitalSource());
-			CooperatorBank cooperatorBank = capitalist.getCooperatorBank();
+			CooperatorBank cooperatorBank = null;
 			cooperatorBankVo=new CooperatorBankVo(cooperatorBank);
 			if (ObjectHelper.isNotEmpty(po)) {
 				infoVo = new ReceivableInfoVo(po);

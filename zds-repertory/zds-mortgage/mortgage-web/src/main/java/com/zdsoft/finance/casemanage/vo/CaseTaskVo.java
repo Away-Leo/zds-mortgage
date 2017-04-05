@@ -7,7 +7,7 @@ import com.zdsoft.finance.marketing.entity.CaseTask;
 * 版权所有：重庆正大华日软件有限公司	
 * @Title: CaseTaskVo.java 	
 * @Package com.zdsoft.finance.casemanage.vo 	
-* @Description: TODO	
+* @Description: 派工vo	
 * @author liuhuan 	
 * @date 2017年1月22日 上午10:34:51 	
 * @version V1.0 	
@@ -39,7 +39,7 @@ public class CaseTaskVo extends BaseVo<CaseTask>{
 	/**
 	 * 派工说明
 	 */
-	private String mo;
+	private String remark;
 
 	
 	public CaseTaskVo() {
@@ -85,14 +85,14 @@ public class CaseTaskVo extends BaseVo<CaseTask>{
 	public void setTaskPersonnelCode(String taskPersonnelCode) {
 		this.taskPersonnelCode = taskPersonnelCode;
 	}
-
-	public String getMo() {
-		return mo;
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public void setMo(String mo) {
-		this.mo = mo;
-	}
+
 	
 	
 }

@@ -5,24 +5,20 @@ import com.zdsoft.finance.marketing.entity.PropertyOwner;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:PropertyOwnerVo.java
- * @Package:com.zdsoft.finance.marketing.vo
- * @Description:产权人Vo
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:15:44
- * @version:v1.0
+ * @Title: PropertyOwnerVo.java 
+ * @ClassName: PropertyOwnerVo 
+ * @Description: 产权人Vo
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:50:13 
+ * @version V1.0
  */
 public class PropertyOwnerVo extends BaseVo<PropertyOwner>{
 
 	private static final long serialVersionUID = 1L;
-
 	/**
-	 * 案件ID
-	 */
-	private String caseApplyId;
-	/**
-	 * 房产
+	 * 房产Id
 	 */
 	private String housePropertyId;
 	/**
@@ -45,18 +41,22 @@ public class PropertyOwnerVo extends BaseVo<PropertyOwner>{
 	 * 证件期限
 	 */
 	private String identityTerm;
+	private String identityTermName;
 	/**
 	 * 省
 	 */
 	private String province;
+	private String provinceName;
 	/**
 	 * 市
 	 */
 	private String city;
+	private String cityName;
 	/**
 	 * 区
 	 */
 	private String district;
+	private String districtName;
 	/**
 	 * 产权人手机号码
 	 */
@@ -73,13 +73,6 @@ public class PropertyOwnerVo extends BaseVo<PropertyOwner>{
 	 * 综合地址
 	 */
 	private String comprehensiveAddress;
-	
-	public String getCaseApplyId() {
-		return caseApplyId;
-	}
-	public void setCaseApplyId(String caseApplyId) {
-		this.caseApplyId = caseApplyId;
-	}
 	public String getHousePropertyId() {
 		return housePropertyId;
 	}
@@ -140,6 +133,12 @@ public class PropertyOwnerVo extends BaseVo<PropertyOwner>{
 	public void setIdentityTerm(String identityTerm) {
 		this.identityTerm = identityTerm;
 	}
+	public String getIdentityTermName() {
+		return identityTermName;
+	}
+	public void setIdentityTermName(String identityTermName) {
+		this.identityTermName = identityTermName;
+	}
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -155,32 +154,46 @@ public class PropertyOwnerVo extends BaseVo<PropertyOwner>{
 	public void setComprehensiveAddress(String comprehensiveAddress) {
 		this.comprehensiveAddress = comprehensiveAddress;
 	}
+	public String getProvinceName() {
+		return provinceName;
+	}
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+	public String getCityName() {
+		return cityName;
+	}
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	public String getDistrictName() {
+		return districtName;
+	}
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
 	public String getComprehensiveAddress() {
 		if (ObjectHelper.isNotEmpty(getProvince())) {
-			comprehensiveAddress = getProvince();
+			comprehensiveAddress = getProvinceName();
 		}
 		if (ObjectHelper.isNotEmpty(getCity())) {
-			comprehensiveAddress += "/"+getCity();
+			comprehensiveAddress += "/"+getCityName();
 		}
 		if (ObjectHelper.isNotEmpty(getDistrict())) {
-			comprehensiveAddress += "/"+getDistrict();
+			comprehensiveAddress += "/"+getDistrictName();
 		}
 		if (ObjectHelper.isNotEmpty(getMailingAddress())) {
 			comprehensiveAddress += "/"+getMailingAddress();
 		}
 		return comprehensiveAddress;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 	public PropertyOwnerVo() {
 		super();
 	}
 	public PropertyOwnerVo(PropertyOwner po){
-		super(po);
+		super(po,null,new String[] {"province","city","district","identityTerm"});
 	}
-	public PropertyOwner toPO(){
+	public PropertyOwner toPo(){
 		PropertyOwner po = new PropertyOwner();
 		return super.toPo(this, po);
 	}

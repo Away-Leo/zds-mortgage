@@ -1,43 +1,33 @@
 package com.zdsoft.finance.marketing.entity;
 
+import com.zdsoft.finance.busiform.entity.BusiForm;
+import com.zdsoft.finance.casemanage.booking.entity.Booking;
+import com.zdsoft.finance.casemanage.datasurvey.entity.FeeInfomation;
+import com.zdsoft.finance.casemanage.datasurvey.entity.RiskInfomation;
+import com.zdsoft.finance.casemanage.interview.entity.Interview;
+import com.zdsoft.finance.casemanage.receivablePlan.entity.BankAccount;
+import com.zdsoft.finance.casemanage.receivablePlan.entity.ReceivableInfo;
+import com.zdsoft.framework.core.common.domain.BaseEntity;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-import com.zdsoft.finance.busiform.entity.BusiForm;
-import com.zdsoft.finance.casemanage.appointment.entity.Appointment;
-import com.zdsoft.finance.casemanage.datasurvey.entity.FeeInfomation;
-import com.zdsoft.finance.casemanage.datasurvey.entity.RiskInfomation;
-import com.zdsoft.finance.casemanage.interview.entity.Interview;
-import com.zdsoft.finance.casemanage.limitapply.entity.FundPlanInfo;
-import com.zdsoft.finance.casemanage.receivablePlan.entity.BankAccount;
-import com.zdsoft.finance.casemanage.receivablePlan.entity.ReceivableInfo;
-import com.zdsoft.framework.core.common.domain.BaseEntity;
-
 /**
- * 版权所有：重庆正大华日软件有限公司
  * 
- * @Title:CaseApply.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:案件实体类
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:44:35
- * @version:v1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CaseApply.java 
+ * @ClassName: CaseApply 
+ * @Description: 案件实体类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:42:47 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_case_apply")
+@Table(name = "mkt_case_apply")
 public class CaseApply extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -45,15 +35,26 @@ public class CaseApply extends BaseEntity {
     /**
      * 项目申请流程类型代码
      */
-    public static final String PROCESS_KEY_CODE = "processFormCd01";
+    public static final String PROCESS_KEY_CODE = "YWDM0012601";
     /**
      * 正常
      */   
     public static final String NORMAL = "01";
 
-    /**     * 退单
+    /**
+     * 退单
      */   
     public static final String BACK = "02";
+    
+    /**
+     * 否
+     */
+    public static final Integer NOTERMINALCASE = new Integer(0);
+    
+    /**
+     * 是
+     */
+    public static final Integer YESTERMINALCASE = new Integer(1);
   
     /**
      * 一审(初审)
@@ -67,6 +68,26 @@ public class CaseApply extends BaseEntity {
      * 二审
      */
     public static final String SECOND_INSTANCE = "102";
+    
+    /**
+     * 案件状态：资调
+     */
+    public static final String CASE_STATUS_DATASURVEY = "YWDM009206";
+    
+    /**
+     * simplecode 年
+     */
+    public static final String DATEUNIT_YEAR = "0931001";
+    /**
+     * simplecode 月
+     */
+    public static final String DATEUNIT_MONTH = "0931002";
+    /**
+     * simplecode 日
+     */
+    public static final String DATEUNIT_DAY = "0931003";
+    
+    
     /**
      * 案件号
      */
@@ -96,7 +117,7 @@ public class CaseApply extends BaseEntity {
      * 申请金额
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal applyAmount;
+    private BigDecimal applyAmount=BigDecimal.ZERO;
     /**
      * 申请时间
      */
@@ -106,23 +127,53 @@ public class CaseApply extends BaseEntity {
      * 申请期限
      */
     @Column
-    private Integer applyDeadline;
+    private Integer applyTerm;
     /**
      * 申请期限单位
      */
     @Column(length = 20)
-    private String applyDeadlineUnit;
+    private String applyTermUnit;
 
     /**
      * 贷款利率
      */
     @Column(precision = 18, scale = 6)
-    private BigDecimal applyRate;
+    private BigDecimal applyRate=BigDecimal.ZERO;
+    /**
+     * 贷款利率单位
+     */
+    @Column(length = 32)
+    private String applyRateUnit;
     /**
      * 逾期利率
      */
     @Column(precision = 18, scale = 6)
-    private BigDecimal overdueRate;
+    private BigDecimal overdueRate=BigDecimal.ZERO;
+    /**
+     * 逾期利率单位
+     */
+    @Column(length = 32)
+    private String overdueRateUnit;
+    /**
+     * 综合利率
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal synthesizeRate=BigDecimal.ZERO;
+    /**
+     * 综合利率单位
+     */
+    @Column(length = 32)
+    private String synthesizeRateUnit;
+    /**
+     * 动态转换利率
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal dynamicRate=BigDecimal.ZERO;
+    /**
+     * 动态转换利率单位
+     */
+    @Column(length = 32)
+    private String dynamicRateUnit;
     /**
      * 终端ID
      */
@@ -149,12 +200,12 @@ public class CaseApply extends BaseEntity {
     @Column(length = 128)
     private String developmentDepartmentName;
     /**
-     * 机构代码
+     * 公司代码
      */
     @Column(length = 128)
     private String mechanismCode;
     /**
-     * 机构名称
+     * 公司名称  
      */
     @Column(length = 128)
     private String mechanismName;
@@ -200,10 +251,11 @@ public class CaseApply extends BaseEntity {
     private String mo;
 
     /**
-     * 案件阶段（CaseApplyStageEnum.value）
+     * 案件阶段
+     * model by liuhuan 修改为String 用SimpleCode维护
      */
-    @Column
-    private Integer stage;
+    @Column(length=20)
+    private String stage;
     /**
      * 案件是否算尾
      */
@@ -247,23 +299,8 @@ public class CaseApply extends BaseEntity {
     @JoinColumn(name = "riskInfoId", nullable = true, unique = true)
     private RiskInfomation riskInfo;
 
-    @OneToMany(mappedBy = "caseApply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "caseApply", fetch = FetchType.LAZY)
     private List<FeeInfomation> feeInfoList;
-
-    /**
-     * 资金计划信息
-     */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "fundPlanInfoId", nullable = true, unique = true)
-    private FundPlanInfo fundPlanInfo;
-
-    /**
-     * 还款计划信息
-     */
-    // @OneToOne
-    // @JoinColumn(name="id")
-    // @LazyCollection(LazyCollectionOption.TRUE)
-    // private ReceivevableInfo receivevableInfo;
 
     /**
      * 案件额度实际申请金额(默认为申请金额applyAmount)
@@ -272,7 +309,7 @@ public class CaseApply extends BaseEntity {
      * @date 2017-01-10
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal actualApplyAmount;
+    private BigDecimal actualApplyAmount=BigDecimal.ZERO;
 
     /**
      * 实际申请额度状态(0.未配额度(默认);1.已配额度未配资金;2.已配额度已配资金)
@@ -282,6 +319,25 @@ public class CaseApply extends BaseEntity {
      */
     @Column(length = 20)
     private String actualLimitStatus = "YWDM0051056";
+    
+    /**
+     * 案件放款金额
+     * 
+     * @author jingjy
+     * @date 2017-02-18
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal loanApplyAnount=BigDecimal.ZERO;
+    
+    /**
+     * 案件余额
+     * 
+     * @author jingjy
+     * @date 2017-02-18
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal caseApplyBalance=BigDecimal.ZERO;
+    
 
     @OneToOne
     @JoinColumn(name = "receivableInfoId")
@@ -292,15 +348,15 @@ public class CaseApply extends BaseEntity {
      * 案件预约信息
      */
     @OneToOne
-    @JoinColumn(name = "appointmentId")
+    @JoinColumn(name = "bookingId")
     @LazyCollection(LazyCollectionOption.TRUE)
-    private Appointment appointment;
+    private Booking booking;
 
     /**
      * 预约状态(0.未预约(默认);1.已预约)
      */
     @Column(length = 20)
-    private String appointmentType = "YWDM0051061";
+    private String bookingType = "YWDM0051061";
 
     /**
      * 案件银行卡信息
@@ -327,8 +383,42 @@ public class CaseApply extends BaseEntity {
      * 面签状态(0.未面签(默认);1.已面签)
      */
     @Column(length = 20)
-    private String interviewStatus = "YWDM0051076";
+    private String interviewStatus = "YWDM0051077";
     
+    /**
+     * 是否是终端进件的案件(0.否(默认);1.是)
+     */
+    @Column
+    private Integer isTerminalCase;
+    
+    /**
+     * 案件结算状态 0已结算 null未操作
+     */
+    @Column(length = 20)
+    private String settlementStatus;
+
+    /**
+     * 是否出险
+     */
+    @Column(length = 20)
+    private String isLoss;
+
+
+    public String getIsLoss() {
+        return isLoss;
+    }
+
+    public void setIsLoss(String isLoss) {
+        this.isLoss = isLoss;
+    }
+
+    public String getSettlementStatus() {
+		return settlementStatus;
+	}
+
+	public void setSettlementStatus(String settlementStatus) {
+		this.settlementStatus = settlementStatus;
+	}
 
     public String getCaseApplyCode() {
         return caseApplyCode;
@@ -384,22 +474,6 @@ public class CaseApply extends BaseEntity {
 
     public void setApplyDate(Long applyDate) {
         this.applyDate = applyDate;
-    }
-
-    public Integer getApplyDeadline() {
-        return applyDeadline;
-    }
-
-    public void setApplyDeadline(Integer applyDeadline) {
-        this.applyDeadline = applyDeadline;
-    }
-
-    public String getApplyDeadlineUnit() {
-        return applyDeadlineUnit;
-    }
-
-    public void setApplyDeadlineUnit(String applyDeadlineUnit) {
-        this.applyDeadlineUnit = applyDeadlineUnit;
     }
 
     public BigDecimal getApplyRate() {
@@ -498,15 +572,15 @@ public class CaseApply extends BaseEntity {
         this.mo = mo;
     }
 
-    public Integer getStage() {
-        return stage;
-    }
+    public String getStage() {
+		return stage;
+	}
 
-    public void setStage(Integer stage) {
-        this.stage = stage;
-    }
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
 
-    public String getInterestType() {
+	public String getInterestType() {
         return interestType;
     }
 
@@ -561,11 +635,6 @@ public class CaseApply extends BaseEntity {
     public void setCaseApplyStatus(String caseApplyStatus) {
         this.caseApplyStatus = caseApplyStatus;
     }
-
-    /*
-     * public List<CaseApplyFee> getFeeInfoList() { return feeInfoList; } public void setFeeInfoList(List<CaseApplyFee>
-     * feeInfoList) { this.feeInfoList = feeInfoList; }
-     */
 
     public RiskInfomation getRiskInfo() {
         return riskInfo;
@@ -659,13 +728,6 @@ public class CaseApply extends BaseEntity {
         return PROCESS_KEY_CODE;
     }
 
-    public FundPlanInfo getFundPlanInfo() {
-        return fundPlanInfo;
-    }
-
-    public void setFundPlanInfo(FundPlanInfo fundPlanInfo) {
-        this.fundPlanInfo = fundPlanInfo;
-    }
 
     public BusiForm getBusiForm() {
         return busiForm;
@@ -673,22 +735,6 @@ public class CaseApply extends BaseEntity {
 
     public void setBusiForm(BusiForm busiForm) {
         this.busiForm = busiForm;
-    }
-
-    public Appointment getAppointment() {
-        return appointment;
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
-
-    public String getAppointmentType() {
-        return appointmentType;
-    }
-
-    public void setAppointmentType(String appointmentType) {
-        this.appointmentType = appointmentType;
     }
 
 	public Interview getInterview() {
@@ -706,7 +752,109 @@ public class CaseApply extends BaseEntity {
 	public void setInterviewStatus(String interviewStatus) {
 		this.interviewStatus = interviewStatus;
 	}
-    
-    
 
+	public String getApplyRateUnit() {
+		return applyRateUnit;
+	}
+
+	public void setApplyRateUnit(String applyRateUnit) {
+		this.applyRateUnit = applyRateUnit;
+	}
+
+	public String getOverdueRateUnit() {
+		return overdueRateUnit;
+	}
+
+	public void setOverdueRateUnit(String overdueRateUnit) {
+		this.overdueRateUnit = overdueRateUnit;
+	}
+
+	public BigDecimal getSynthesizeRate() {
+		return synthesizeRate;
+	}
+
+	public void setSynthesizeRate(BigDecimal synthesizeRate) {
+		this.synthesizeRate = synthesizeRate;
+	}
+
+	public String getSynthesizeRateUnit() {
+		return synthesizeRateUnit;
+	}
+
+	public void setSynthesizeRateUnit(String synthesizeRateUnit) {
+		this.synthesizeRateUnit = synthesizeRateUnit;
+	}
+
+	public BigDecimal getDynamicRate() {
+		return dynamicRate;
+	}
+
+	public void setDynamicRate(BigDecimal dynamicRate) {
+		this.dynamicRate = dynamicRate;
+	}
+
+	public String getDynamicRateUnit() {
+		return dynamicRateUnit;
+	}
+
+	public void setDynamicRateUnit(String dynamicRateUnit) {
+		this.dynamicRateUnit = dynamicRateUnit;
+	}
+
+	public Integer getIsTerminalCase() {
+		return isTerminalCase;
+	}
+
+	public void setIsTerminalCase(Integer isTerminalCase) {
+		this.isTerminalCase = isTerminalCase;
+	}
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public String getBookingType() {
+        return bookingType;
+    }
+
+    public void setBookingType(String bookingType) {
+        this.bookingType = bookingType;
+    }
+
+	public BigDecimal getLoanApplyAnount() {
+		return loanApplyAnount;
+	}
+
+	public void setLoanApplyAnount(BigDecimal loanApplyAnount) {
+		this.loanApplyAnount = loanApplyAnount;
+	}
+
+	public BigDecimal getCaseApplyBalance() {
+		return caseApplyBalance;
+	}
+
+	public void setCaseApplyBalance(BigDecimal caseApplyBalance) {
+		this.caseApplyBalance = caseApplyBalance;
+	}
+
+    public Integer getApplyTerm() {
+        return applyTerm;
+    }
+
+    public void setApplyTerm(Integer applyTerm) {
+        this.applyTerm = applyTerm;
+    }
+
+    public String getApplyTermUnit() {
+        return applyTermUnit;
+    }
+
+    public void setApplyTermUnit(String applyTermUnit) {
+        this.applyTermUnit = applyTermUnit;
+    }
+	
 }

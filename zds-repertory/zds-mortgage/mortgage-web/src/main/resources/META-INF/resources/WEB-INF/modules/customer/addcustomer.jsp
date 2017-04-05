@@ -9,6 +9,9 @@
 <title>客户信息新增</title>
 </head>
 <body>
+                  <div class="save">
+	                	<button id="submitClient" type="button" class="btn-blue" >保存</button>
+	                </div>
 	<div>
 		<div class="page-box">
 			<div class="p10">
@@ -41,7 +44,7 @@
 			                                </dd>
 			                            </dl>
 			                        </td>
-			                        <td class="td-title pct10">客户头像</td>
+			                        <td class="td-title pct10"></td>
 			                        <td class="pct30" rowspan="4">
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
@@ -50,18 +53,19 @@
 			                        </td>
 			                    </tr>
 			                    <tr>
-			                        <td class="td-title"><b class="c-red mr5">*</b>证件类型</td>
-			                        <td>
+			                        <td class="td-title pct10"><b class="c-red mr5">*</b>证件类型</td>
+			                        <td class="pct20">
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
-			                                    <label>
-			                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="credentiaType" type="hidden" name="credentiaType" value=""
-							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=0606"
+			                                  
+			                                        <input class="zui-combobox zui-validatebox" validate-type="Require" id="credentialType" type="hidden" name="credentialType" 
+							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0025"
 							                           data-valuefield="fullcode" data-textfield="name" data-callback="setattr">
-			                                    </label>
+			                               
 			                                </dd>
 			                            </dl>
 			                        </td>
+			 
 			                        <td class="td-title"><b class="c-red mr5">*</b>证件号码</td>
 			                        <td>
 			                            <dl class="form-item form-auto">
@@ -80,11 +84,11 @@
 			                        <td>
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
-			                                    <label>
+			                                  
 			                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="gender" type="hidden" name="gender" value=""
 							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=3030"
 							                           data-valuefield="fullcode" data-textfield="name" >
-			                                    </label>
+			                                    
 			                                </dd>
 			                            </dl>
 			                        </td>
@@ -93,7 +97,7 @@
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
 			                                <label>
-			                                    <input type="text" class="zui-date zui-validatebox strToDate" readonly validate-type="Require" id="birthday" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'changeBirthday'})" onblur="setAge()">
+			                                    <input type="text" class="zui-date zui-validatebox strToDate" readonly validate-type="Require" id="birthday" onclick="WdatePicker({maxDate: '%y-%M-{%d-1}',realDateFmt:'yyyyMMdd',vel:'changeBirthday'})" onblur="setAge()">
 		                            			<input type="hidden" id="changeBirthday" name="birthdayDate" />
 			                                </label>
 			                                </dd>
@@ -117,11 +121,11 @@
 			                        <td>
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
-			                                    <label>
+			                                    
 			                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="maritalStatus" type="hidden" name="maritalStatus" value=""
-							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=x030300"
+							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00113"
 							                           data-valuefield="fullcode" data-textfield="name" data-callback="onselect">
-			                                    </label>
+			                                   
 			                                </dd>
 			                            </dl>
 			                        </td>
@@ -132,11 +136,11 @@
 			                        <td>
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
-			                                    <label>
+			                                   
 			                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="careerType" type="hidden" name="careerType" value=""
-							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=g050500"
+							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00114"
 							                           data-valuefield="fullcode" data-textfield="name" >
-			                                    </label>
+			                                    
 			                                </dd>
 			                            </dl>
 			                        </td>
@@ -144,11 +148,11 @@
 			                        <td>
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
-			                                    <label>
+			                                    
 			                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="degree" type="hidden" name="degree" value=""
-							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=e030300"
+							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00115"
 							                           data-valuefield="fullcode" data-textfield="name" >
-			                                    </label>
+			                                    
 			                                </dd>
 			                            </dl>
 			                        </td>
@@ -156,11 +160,11 @@
 			                        <td colspan="3">
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
-			                                    <label>
+			                                   
 			                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="liveAge" type="hidden" name="liveAge" value=""
-							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=y00100"
+							                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00116"
 							                           data-valuefield="fullcode" data-textfield="name" data-defaultvalue="">
-			                                    </label>
+			                                  
 			                                </dd>
 			                            </dl>
 			                        </td>
@@ -240,7 +244,7 @@
 											<dd class="detail">
 											<label>
 			                               		<input class="zui-combobox" type="hidden" 
-			                               		data-data="[{'id':'homeDistrict','text':'复制家庭地址','isDefault':'true'}]"
+			                               		data-data="[{'id':'homeDistrict','text':'复制家庭地址'}]"
 			                               		data-valuefield="id" data-textfield="text" data-callback="copy">
 		                               		</label>
 											</dd>
@@ -280,8 +284,8 @@
 		                                </dd>
 		                            </dl>
 		                        </td>
-		                        <td class="td-title pct10">客户头像</td>
-		                        <td class="pct30" rowspan="4">
+		                        <td class="td-title pct10"></td>
+		                        <td class="pct30" rowspan="3">
 		                            <dl class="form-item form-auto">
 		                                <dd class="detail">
 		                                </dd>
@@ -293,11 +297,11 @@
 		                        <td>
 		                            <dl class="form-item form-auto">
 		                                <dd class="detail">
-		                                    <label>
-		                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="maritalcredentiaType" type="hidden" name="credentiaType" value=""
-						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=060600"
+		                                   
+		                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="maritalcredentialType" type="hidden" name="credentialType" value=""
+						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0025"
 						                           data-valuefield="fullcode" data-textfield="name" data-callback="setattrs">
-		                                    </label>
+		                                   
 		                                </dd>
 		                            </dl>
 		                        </td>
@@ -330,23 +334,17 @@
 		                        <td>
 		                            <dl class="form-item form-auto">
 		                                <dd class="detail">
-		                                    <label>
+		                                   
 		                                        <input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="maritalcareerType" type="hidden" name="careerType" value=""
-						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=g050500"
+						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00114"
 						                           data-valuefield="fullcode" data-textfield="name" >
-		                                    </label>
+		                                    
 		                                </dd>
 		                            </dl>
 		                        </td>
 		                        <td class="td-title"></td>
 		                    </tr>
-		                    <tr>
-	                    	<td></td>
-	                        <td></td>
-	                        <td></td>
-	                        <td></td>
-	                        <td></td>
-		                    </tr>
+		                   
 	                    </table>
 	                    </div>
 					</div>					
@@ -397,9 +395,7 @@
 						    </div>
 						</div>
 					</div>
-		            <div class="form-btn">
-	                	<button id="submitClient" type="button" class="btn-blue" >保存</button>
-	                </div>
+		           
 			</div>
 		</div>
 	</div>
@@ -421,11 +417,11 @@
 								<dl class="form-item">
 									<dt class="title"><b class="c-red mr5">*</b>联系类型：</dt>
 									<dd class="detail">
-									<label>
+									
 											<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="contactType" type="hidden" name="contactType" value=""
-						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=c0115"
+						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00117"
 						                           data-valuefield="fullcode" data-textfield="name" >
-	                                </label>
+	                               
 									</dd>
 								</dl>
 								<dl class="form-item">
@@ -458,11 +454,11 @@
 								<dl class="form-item">
 									<dt class="title"><b class="c-red mr5">*</b>联系类型：</dt>
 									<dd class="detail">
-									<label>
+									
 											<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="contactTypeEdit" type="hidden" name="contactType" value=""
-						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=c0115"
+						                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00117"
 						                           data-valuefield="fullcode" data-textfield="name" >
-	                                </label>
+	                                
 									</dd>
 								</dl>
 								<dl class="form-item">
@@ -504,27 +500,26 @@
 								<dl class="form-item">
 									<dt class="title">行业类型：</dt>
 									<dd class="detail">
-											<input class="zui-combobox zui-validatebox" validate-type="Length[0-15]" id="industryType" type="hidden" name="industryType" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=i00100"
-				                           data-valuefield="fullcode" data-textfield="name" >
+				                           <input class="zui-combobox zui-validatebox" type="hidden"
+					                        data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0021"
+					                      data-valuefield="fullcode" data-textfield="name" validate-type=""  name="industryType" id="industryType" data-toggle="combobox" data-callback="industryChange">
 									</dd>
 								</dl>
 								<dl class="form-item">
 									<dt class="title">行业：</dt>
 									<dd class="detail">
-											<input class="zui-combobox zui-validatebox" validate-type="Length[0-15]" id="industry" type="hidden" name="industry" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=1818"
-				                           data-valuefield="fullcode" data-textfield="name" >
+				                           <input class="zui-combobox zui-validatebox" type="hidden"
+                      						data-valuefield="fullcode" data-textfield="name" validate-type=""  name="industry" id="industry" >
 									</dd>
 								</dl>
 								<dl class="form-item">
 									<dt class="title"><b class="c-red mr5">*</b>单位性质：</dt>
 									<dd class="detail">
-									<label>
+									
 											<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="workUnitNature" type="hidden" name="workUnitNature" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=w0121"
+				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00118"
 				                           data-valuefield="fullcode" data-textfield="name" >
-	                                </label>
+	                             
 									</dd>
 								</dl>
 								<dl class="form-item">
@@ -539,18 +534,20 @@
 								<dl class="form-item">
 									<dt class="title"><b class="c-red mr5">*</b>职务：</dt>
 									<dd class="detail">
-									<label>
+									
 											<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="position" type="hidden" name="position" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=p0126"
+				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=2626"
 				                           data-valuefield="fullcode" data-textfield="name" >
-	                                </label>
+	                             
 									</dd>
 								</dl>
 								<dl class="form-item">
 									<dt class="title">工作单位电话：</dt>
 									<dd class="detail">
-											<input class="zui-input zui-validatebox" validate-type="Length[1-15],PhoneOrMobile" 
+									<label>
+											<input class="zui-input zui-validatebox" validate-type="PhoneOrMobile" 
 											value="" id="unitPhoneNumber" name="phoneNumber" >
+									</label>
 									</dd>
 								</dl>
 								<dl class="form-item">
@@ -599,27 +596,26 @@
 								<dl class="form-item">
 									<dt class="title">行业类型：</dt>
 									<dd class="detail">
-											<input class="zui-combobox zui-validatebox" validate-type="Length[0-15]" id="industryTypeEdit" type="hidden" name="industryType" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=i00100"
-				                           data-valuefield="fullcode" data-textfield="name" >
+				                           <input class="zui-combobox zui-validatebox" type="hidden"
+					                        data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0021"
+					                      data-valuefield="fullcode" data-textfield="name" validate-type=""  name="industryType" id="industryTypeEdit" data-toggle="combobox" data-callback="industryChangeEdit">
 									</dd>
 								</dl>
 								<dl class="form-item">
 									<dt class="title">行业：</dt>
 									<dd class="detail">
-											<input class="zui-combobox zui-validatebox" validate-type="Length[0-15]" id="industryEdit" type="hidden" name="industry" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=1818"
-				                           data-valuefield="fullcode" data-textfield="name" >
+				                           <input class="zui-combobox zui-validatebox" type="hidden"
+                      						data-valuefield="fullcode" data-textfield="name" validate-type=""  name="industry" id="industryEdit" data-toggle="combobox">
 									</dd>
 								</dl>
 								<dl class="form-item">
 									<dt class="title"><b class="c-red mr5">*</b>单位性质：</dt>
 									<dd class="detail">
-									<label>
+									
 											<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="workUnitNatureEdit" type="hidden" name="workUnitNature" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=w0121"
+				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00118"
 				                           data-valuefield="fullcode" data-textfield="name" >
-	                                </label>
+	                                
 									</dd>
 								</dl>
 								<dl class="form-item">
@@ -634,18 +630,20 @@
 								<dl class="form-item">
 									<dt class="title"><b class="c-red mr5">*</b>职务：</dt>
 									<dd class="detail">
-									<label>
+									
 											<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="positionEdit" type="hidden" name="position" value=""
-				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=p0126"
+				                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=2626"
 				                           data-valuefield="fullcode" data-textfield="name" >
-	                                </label>
+	                                
 									</dd>
 								</dl>
 								<dl class="form-item">
 									<dt class="title">工作单位电话：</dt>
 									<dd class="detail">
-											<input class="zui-input zui-validatebox" validate-type="Length[1-15],PhoneOrMobile" 
+									<label>
+											<input class="zui-input zui-validatebox" validate-type="PhoneOrMobile" 
 											value="" id="unitPhoneNumberEdit" name="phoneNumber" >
+									</label>
 									</dd>
 								</dl>
 								<dl class="form-item">
@@ -671,18 +669,52 @@
 		seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.address','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter','zd/make-first-py'], 
 			function($, CALLBACK) {
 			
+			var industryTypeArray={};
+			$.ajax({
+                async: false,
+                url: "<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0021",
+                dataType: "json",
+                success: function (data) {  
+                 	if(data){
+                		 for(var i=0;i<data.length;i++){
+                			var children = data[i].children;
+                			industryTypeArray[data[i].fullcode] = children; 
+                		 }
+                	} 
+                },
+                error: function () {
+                    alert("请求错误,获取行业下拉数据失败!");
+                }
+            });
+			//行业级联
+			CALLBACK.industryChange = function(v,t){
+				 $("#industry").ZCombobox({
+           		 	valueField: "fullcode",
+                    textField: "name",
+                    data: industryTypeArray[v]
+           		}); 
+			}
+			//行业级联
+			CALLBACK.industryChangeEdit = function(v,t){
+				 $("#industryEdit").ZCombobox({
+           		 	valueField: "fullcode",
+                    textField: "name",
+                    data: industryTypeArray[v]
+           		}); 
+			}
+			
 			//校验证件类型+证件号（主借人）
 			window.checkClientCredentialNo = function(){
 				
 				var credentialNo = $("#credentialNo").val();
-				var credentiaType = $("#credentiaType").ZCombobox("getValue");
-				var credentiaTypeText = $("#credentiaType").ZCombobox("getText");
+				var credentialType = $("#credentialType").ZCombobox("getValue");
+				var credentialTypeText = $("#credentialType").ZCombobox("getText");
 				
-				if(credentialNo!=null && credentialNo!="" && credentiaType!=null) {
+				if(credentialNo!=null && credentialNo!="" && credentialType!=null) {
 					$.ajax({
 	                    type: 'post',
 	                    url: '<z:ukey key="com.cnfh.customer.findByCredentiaTypeAndCredentialNo" context="admin"/>',
-	                    data: {credentiaType:credentiaType,credentialNo:credentialNo},
+	                    data: {credentialType:credentialType,credentialNo:credentialNo},
 	                    dataType: 'json',
 	                    success: function (result) {
 	                        if (result.resultStatus == 0) {
@@ -694,7 +726,7 @@
                 						$('#customerId').val(data.id);
                 						$("#customerName").val(data.customerName);
                 						$("#formerName").val(data.formerName);
-                						$("#credentiaType").ZCombobox('setValue',data.credentiaType);
+                						$("#credentialType").ZCombobox('setValue',data.credentialType);
                 						$("#credentialNo").val(data.credentialNo);
                 						$("#gender").ZCombobox('setValue',data.gender);
                 						if(data.birthdayDate != '' && data.birthdayDate != null){
@@ -800,7 +832,7 @@
                 		                });
                 						
                 						//有配偶给配偶赋值
-                						if(data.maritalStatus == 'x0303002' || data.maritalStatus == 'x0303003' || data.maritalStatus == 'x0303004' || data.maritalStatus == 'x0303005'){
+                						if(data.maritalStatus == 'YWDM0011302' || data.maritalStatus == 'YWDM0011303' || data.maritalStatus == 'YWDM0011304' || data.maritalStatus == 'YWDM0011305'){
                 							$('#marital_form').css("display","inline");
                 							var clientId = data.id;
 	                						$.ajax({
@@ -818,7 +850,7 @@
 	                		            						$('#maritalId').val(data.id);
 	                		            						$("#maritalclientNm").val(data.customerName);
 	                		            						$("#maritalformerNm").val(data.formerName);
-	                		            						$("#maritalcredentiaType").ZCombobox('setValue',data.credentiaType);
+	                		            						$("#maritalcredentialType").ZCombobox('setValue',data.credentialType);
 	                		            						$("#maritalcredentialNo").val(data.credentialNo);
 	                		            						$("#maritalcareerType").ZCombobox('setValue',data.careerType);
 	                		            						$("#maritalemail").val(data.email);
@@ -848,7 +880,7 @@
 				};
 				
 				// 证件类型为身份证
-				if(credentiaTypeText == '身份证'){
+				if(credentialTypeText == '身份证'){
 					// 根据身份证自动填充出生日期 和性别 和年龄
 					if(credentialNo!=null && credentialNo!=""  && credentialNo.length==18){
 						// 根据身份证自动填充出生日期
@@ -858,10 +890,10 @@
 						var sex = "";
 						if (parseInt(credentialNo.charAt(16) / 2) * 2 != credentialNo.charAt(16)){
 							sex = '男';
-							$("#gender").ZCombobox('setValue','g01561');
+							$("#gender").ZCombobox('setValue','303001');
 						}else{
 							 sex = '女';
-							 $("#gender").ZCombobox('setValue','g01562');
+							 $("#gender").ZCombobox('setValue','303002');
 						}
 						var year = credentialNo.substr(6, 4);
 						var date = new Date();
@@ -884,10 +916,13 @@
 			}
 			
 			CALLBACK.setattr = function(index,value){
+				$("#credentialNo").val("");
 				if(value == '身份证'){
 					$("#credentialNo").attr('validate-type',"Require,Length[1-64],IDCard");
+					$("#birthday").attr('onclick',"");
 				}else{
 					$("#credentialNo").attr('validate-type',"Require,Length[1-64]");
+					$("#birthday").attr('onclick',"WdatePicker({maxDate: '%y-%M-{%d-1}',realDateFmt:'yyyyMMdd',vel:'changeBirthday'})");
 				}
 			}
 			
@@ -903,14 +938,14 @@
 			window.checkMaritalCredentialNo = function(){
 				
 				var credentialNo = $("#maritalcredentialNo").val();
-				var credentiaType = $("#maritalcredentiaType").ZCombobox("getValue");
-				var credentiaTypeText = $("#maritalcredentiaType").ZCombobox("getText");
+				var credentialType = $("#maritalcredentialType").ZCombobox("getValue");
+				var credentialTypeText = $("#maritalcredentialType").ZCombobox("getText");
 				
-				if(credentialNo!=null && credentialNo!="" && credentiaType!=null) {
+				if(credentialNo!=null && credentialNo!="" && credentialType!=null) {
 					$.ajax({
 	                    type: 'post',
 	                    url: '<z:ukey key="com.cnfh.customer.findByCredentiaTypeAndCredentialNo" context="admin"/>',
-	                    data: {credentiaType:credentiaType,credentialNo:credentialNo},
+	                    data: {credentialType:credentialType,credentialNo:credentialNo},
 	                    dataType: 'json',
 	                    success: function (result) {
 	                        if (result.resultStatus != 0) {
@@ -922,7 +957,7 @@
                 						$('#maritalId').val(data.id);
 	            						$("#maritalclientNm").val(data.customerName);
 	            						$("#maritalformerNm").val(data.formerName);
-	            						$("#maritalcredentiaType").ZCombobox('setValue',data.credentiaType);
+	            						$("#maritalcredentialType").ZCombobox('setValue',data.credentialType);
 	            						$("#maritalcredentialNo").val(data.credentialNo);
 	            						$("#maritalcareerType").ZCombobox('setValue',data.careerType);
 	            						$("#maritalemail").val(data.email);
@@ -939,7 +974,7 @@
 			
 			//判断主借人配偶信息是否显示
 			CALLBACK.onselect = function(value,text,index){
-				if(value == 'x0303002' || value == 'x0303003' || value == 'x0303004' || value == 'x0303005'){
+				if(value == 'YWDM0011302' || value == 'YWDM0011303' || value == 'YWDM0011304' || value == 'YWDM0011305'){
 					$('#marital_form').css("display","inline");
 				}else{
 					$('#marital_form').css("display","none");
@@ -1399,7 +1434,7 @@
 			
 			$('#submitClient').click(function(){
 				var maritalStatus = $('#maritalStatus').ZCombobox("getValue");
-				if(maritalStatus == 'x0303002' || maritalStatus == 'x0303003' || maritalStatus == 'x0303004' || maritalStatus == 'x0303005'){
+				if(maritalStatus == 'YWDM0011302' || maritalStatus == 'YWDM0011303' || maritalStatus == 'YWDM0011304' || maritalStatus == 'YWDM0011305'){
 					//校验主借人
 					var isValidate = $.ZUI.validateForm($('#client_form'));
 					//校验家庭地址

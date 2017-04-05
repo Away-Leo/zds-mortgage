@@ -7,11 +7,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 
 /**
- * 信托计划借方资金Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustDebitVo.java 
+ * @ClassName: CreditEntrustDebitVo 
+ * @Description: 信托计划借方资金Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:19:25 
+ * @version V1.0
  */
 public class CreditEntrustDebitVo extends BaseVo<CreditEntrustDebit> {
 

@@ -19,6 +19,7 @@ import com.zdsoft.finance.capital.repository.LoanCapitalRepository;
 import com.zdsoft.finance.capital.service.CreditEntrustFeeItemService;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
 import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.capital.service.FeeItemService;
 import com.zdsoft.finance.capital.service.LoanCapitalService;
 import com.zdsoft.finance.common.base.CustomRepository;
@@ -28,11 +29,15 @@ import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 专户贷方资金跟踪Service
  * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: LoanCapitalServiceImpl.java
+ * @ClassName: LoanCapitalServiceImpl
+ * @Description: 专户贷方资金跟踪ServiceImpl
  * @author liuwei
- * @date 2016年12月23日
- * @version 1.0
+ * @date 2017年2月8日 上午10:40:43
+ * @version V1.0
  */
 @Service("looanCapitalService")
 public class LoanCapitalServiceImpl extends BaseServiceImpl<LoanCapital, CustomRepository<LoanCapital, String>>
@@ -55,6 +60,9 @@ public class LoanCapitalServiceImpl extends BaseServiceImpl<LoanCapital, CustomR
 
 	@Autowired
 	CreditEntrustService creditEntrustService;
+
+	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
 
 	@Override
 	@Transactional
@@ -83,12 +91,13 @@ public class LoanCapitalServiceImpl extends BaseServiceImpl<LoanCapital, CustomR
 
 			// 将原有费用逻辑删除
 			List<CreditEntrustFeeItem> oldFeeItems = creditEntrustFeeItemService.findByBusinessId(loanCapital.getId());
-			for (CreditEntrustFeeItem creditEntrustFeeItem : oldFeeItems) {
-				creditEntrustFeeItemService.logicDelete(creditEntrustFeeItem);
+			for (int i = 0; i < oldFeeItems.size(); i++) {
+				creditEntrustFeeItemService.logicDelete(oldFeeItems.get(i));
 			}
 
 			// 持久最新的费用
-			for (CreditEntrustFeeItem creditEntrustFeeItem : feeItems) {
+			for (int i = 0; i < feeItems.size(); i++) {
+				CreditEntrustFeeItem creditEntrustFeeItem = feeItems.get(i);
 				creditEntrustFeeItem.setBusinessId(loanCapital.getId());
 				creditEntrustFeeItemService.saveEntity(creditEntrustFeeItem);
 			}
@@ -107,17 +116,17 @@ public class LoanCapitalServiceImpl extends BaseServiceImpl<LoanCapital, CustomR
 			// 提交人/提交时间
 			loanCapital.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			loanCapital.setCompleteEmpName(CED.getLoginUser().getEmpNm());
-			loanCapital
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			loanCapital.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 保存贷方资金跟踪信息
 			loanCapital = loanCapitalRepository.saveEntity(loanCapital);
 
 			// 保存特有费用
 			List<CreditEntrustFeeItem> feeItems = loanCapital.getCreditEntrustFeeItems();
-			for (CreditEntrustFeeItem creditEntrustFeeItem : feeItems) {
-				creditEntrustFeeItem.setBusinessId(loanCapital.getId());
-				creditEntrustFeeItemService.saveEntity(creditEntrustFeeItem);
+			for (int i = 0; i < feeItems.size(); i++) {
+				CreditEntrustFeeItem creditFeeItem = feeItems.get(i);
+				creditFeeItem.setBusinessId(loanCapital.getId());
+				creditEntrustFeeItemService.saveEntity(creditFeeItem);
 			}
 
 			CreditEntrustOperationLog operationLog = new CreditEntrustOperationLog();
@@ -125,17 +134,16 @@ public class LoanCapitalServiceImpl extends BaseServiceImpl<LoanCapital, CustomR
 			operationLog.setOperationContent("专户贷方资金跟踪");
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+			operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(loanCapital.getId());
 			creditEntrustOperationLogService.saveEntity(operationLog);
 
-			totalAmount = loanCapital.getTotalAmount();
+			totalAmount = BigDecimal.ZERO;
 		}
 
+		// 修改收入金额
 		if (ObjectHelper.isNotEmpty(loanCapital.getCreditEntrust())) {
 			CreditEntrust creditEntrust = loanCapital.getCreditEntrust();
 			BigDecimal incomeBalance = creditEntrust.getIncomeBalance();
@@ -144,6 +152,10 @@ public class LoanCapitalServiceImpl extends BaseServiceImpl<LoanCapital, CustomR
 					.add(loanCapital.getTotalAmount() == null ? BigDecimal.ZERO : loanCapital.getTotalAmount());
 
 			creditEntrust.setIncomeBalance(incomeBalance);
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
+
+			// 重新填充列表统计信息
+			creditEntrust = creditEntrustToolService.listFill(creditEntrust);
 			creditEntrustService.updateEntity(creditEntrust);
 		}
 

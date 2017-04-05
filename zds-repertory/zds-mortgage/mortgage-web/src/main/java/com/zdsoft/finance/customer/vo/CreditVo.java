@@ -4,24 +4,18 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.common.utils.VoUtil;
 import com.zdsoft.finance.customer.entity.Credit;
 
-/**
+
+/** 
  * 版权所有：重庆正大华日软件有限公司
- * 
- * @Title:BeforeCustomerCreditVo.java
- * @Package:com.zdsoft.finance.customer.vo
- * @Description:客户征信Vo
- * @author: gonght
- * @date:2017年1月16日 下午7:56:32
- * @version:v1.0
- */
+ * @Title: CreditVo.java 
+ * @ClassName: CreditVo 
+ * @Description: 征信信息vo
+ * @author liuhuan 
+ * @date 2017年2月23日 下午2:31:40 
+ * @version V1.0 
+ */ 
 public class CreditVo extends BaseVo<Credit> {
-
     private static final long serialVersionUID = 3056294437627001885L;
-
-    /**
-     * 客户id
-     */
-    private String customerId;
 
     /**
      * 案件id
@@ -29,209 +23,92 @@ public class CreditVo extends BaseVo<Credit> {
     private String caseApplyId;
 
     /**
-     * 附件类型
+     * 客户ID
      */
-    private String attaType;
+    private String customerId;
 
     /**
-     * 附件类型名称
-     */
-    private String attaTypeNm;
-
-    /**
-     * 附件Id,多个以,号分隔开
-     */
-    private String attachmentIds;
-
-    /**
-     * 附件名称,多个以,号分隔开
-     */
-    private String attachmentLabels;
-
-    /**
-     * 客户名称(冗余,由于客户逻辑问题)
+     * 客户名称
      */
     private String customerName;
 
+    /**   
+     * 征信环节code   
+     */ 
+    private String creditLinkCode;
+    
     /**
-     * 客户证件类型code(冗余,由于客户逻辑问题)
+     * 征信环节name (营销录入,资调录入,贷后录入)
      */
-    private String credentialType;
-
+    private String creditLinkCodeName;
+    
     /**
-     * 客户证件类型名称(冗余,由于客户逻辑问题)
+     * 环节状态code 
      */
-    private String credentialTypeName;
-
+    private String linkStatusCode;
+    
     /**
-     * 证件号码(冗余,由于客户逻辑问题)
+     * 环节状态name (未获取征信,已在线授权书,已上传征信授权书,已上传征信,已获取征信)
      */
-    private String credentialNo;
-
+    private String linkStatusCodeName;
+    
     /**
-     * 参与类型code(冗余,由于客户逻辑问题)
+     * 上传附件时间
+     */
+    private Long uploadDate;
+    
+    /**
+     * 录入状态
+     */
+    private String inputStatus;
+    
+    /**
+     * 录入时间
+     */
+    private Long inputDate;
+    
+    /**
+     * 录入人code
+     */
+    private String inputManCode;
+    
+    /**
+     * 录入人name
+     */
+    private String inputManName;
+    
+    /**
+	 * 证件类型
+	 */
+	private String credentialType;
+	private String credentialTypeName;
+    
+	/**
+	 * 证件号码
+	 */
+	private String credentialNo;
+	
+	 /**
+     * 参与类型 共借人、担保人
      */
     private String joinType;
-
     /**
-     * 参与类型名字(冗余,由于客户逻辑问题)
+     * 参与类型 共借人、担保人
      */
     private String joinTypeName;
 
     /**
-     * 是否实际用款人code(冗余,由于客户逻辑问题)
+     * 是否是实际用款人
      */
     private String actualUsePerson;
-
-    /**
-     * 是否实际用款人中文(冗余,由于客户逻辑问题)
-     */
     private String actualUsePersonName;
-
-    /**
-     * 征信状态
-     */
-    private String creditStatus;
-
-    /**
-     * 征信录入时间
-     */
-    private Long recordDate;
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getCaseApplyId() {
-        return caseApplyId;
-    }
-
-    public void setCaseApplyId(String caseApplyId) {
-        this.caseApplyId = caseApplyId;
-    }
-
-    public String getAttaType() {
-        return attaType;
-    }
-
-    public void setAttaType(String attaType) {
-        this.attaType = attaType;
-    }
-
-    public String getAttaTypeNm() {
-        return attaTypeNm;
-    }
-
-    public void setAttaTypeNm(String attaTypeNm) {
-        this.attaTypeNm = attaTypeNm;
-    }
-
-    public String getAttachmentIds() {
-        return attachmentIds;
-    }
-
-    public void setAttachmentIds(String attachmentIds) {
-        this.attachmentIds = attachmentIds;
-    }
-
-    public String getAttachmentLabels() {
-        return attachmentLabels;
-    }
-
-    public void setAttachmentLabels(String attachmentLabels) {
-        this.attachmentLabels = attachmentLabels;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCredentialType() {
-        return credentialType;
-    }
-
-    public void setCredentialType(String credentialType) {
-        this.credentialType = credentialType;
-    }
-
-    public String getCredentialTypeName() {
-        return credentialTypeName;
-    }
-
-    public void setCredentialTypeName(String credentialTypeName) {
-        this.credentialTypeName = credentialTypeName;
-    }
-
-    public String getCredentialNo() {
-        return credentialNo;
-    }
-
-    public void setCredentialNo(String credentialNo) {
-        this.credentialNo = credentialNo;
-    }
-
-    public String getJoinType() {
-        return joinType;
-    }
-
-    public void setJoinType(String joinType) {
-        this.joinType = joinType;
-    }
-
-    public String getJoinTypeName() {
-        return joinTypeName;
-    }
-
-    public void setJoinTypeName(String joinTypeName) {
-        this.joinTypeName = joinTypeName;
-    }
-
-    public String getActualUsePerson() {
-        return actualUsePerson;
-    }
-
-    public void setActualUsePerson(String actualUsePerson) {
-        this.actualUsePerson = actualUsePerson;
-    }
-
-    public String getActualUsePersonName() {
-        return actualUsePersonName;
-    }
-
-    public void setActualUsePersonName(String actualUsePersonName) {
-        this.actualUsePersonName = actualUsePersonName;
-    }
-
-    public String getCreditStatus() {
-        return creditStatus;
-    }
-
-    public void setCreditStatus(String creditStatus) {
-        this.creditStatus = creditStatus;
-    }
-
-    public Long getRecordDate() {
-        return recordDate;
-    }
-
-    public void setRecordDate(Long recordDate) {
-        this.recordDate = recordDate;
-    }
-
+    
     public CreditVo() {
-
+    	super();
     }
-
+    
     public CreditVo(Credit credit) throws Exception {
-        VoUtil.copyPoperties(credit, this, false);
+        super(credit,new String[]{"createTime","updateTime","deleteTime"}, new String[]{"linkStatusCode","creditLinkCode"});
     }
 
     public CreditVo(Credit credit, String[] args, String[] simpleArgs) throws Exception {
@@ -240,7 +117,160 @@ public class CreditVo extends BaseVo<Credit> {
 
     public Credit toPo() throws Exception {
         Credit t = new Credit();
-        VoUtil.copyPoperties(this, t, true);
+        VoUtil.copyPoperties(this, t, true, new String[]{"createTime","updateTime","deleteTime"});
         return t;
     }
+    
+    public String getJoinTypeName() {
+		return joinTypeName;
+	}
+
+	public void setJoinTypeName(String joinTypeName) {
+		this.joinTypeName = joinTypeName;
+	}
+
+	public String getActualUsePersonName() {
+		return actualUsePersonName;
+	}
+
+	public void setActualUsePersonName(String actualUsePersonName) {
+		this.actualUsePersonName = actualUsePersonName;
+	}
+
+	public String getCredentialTypeName() {
+		return credentialTypeName;
+	}
+
+	public void setCredentialTypeName(String credentialTypeName) {
+		this.credentialTypeName = credentialTypeName;
+	}
+
+	public String getCredentialType() {
+		return credentialType;
+	}
+
+	public void setCredentialType(String credentialType) {
+		this.credentialType = credentialType;
+	}
+
+	public String getCredentialNo() {
+		return credentialNo;
+	}
+
+	public void setCredentialNo(String credentialNo) {
+		this.credentialNo = credentialNo;
+	}
+
+	public String getJoinType() {
+		return joinType;
+	}
+
+	public void setJoinType(String joinType) {
+		this.joinType = joinType;
+	}
+
+	public String getActualUsePerson() {
+		return actualUsePerson;
+	}
+
+	public void setActualUsePerson(String actualUsePerson) {
+		this.actualUsePerson = actualUsePerson;
+	}
+
+	public String getCaseApplyId() {
+		return caseApplyId;
+	}
+
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCreditLinkCode() {
+		return creditLinkCode;
+	}
+
+	public void setCreditLinkCode(String creditLinkCode) {
+		this.creditLinkCode = creditLinkCode;
+	}
+
+	public String getCreditLinkCodeName() {
+		return creditLinkCodeName;
+	}
+
+	public void setCreditLinkCodeName(String creditLinkCodeName) {
+		this.creditLinkCodeName = creditLinkCodeName;
+	}
+
+	public String getLinkStatusCode() {
+		return linkStatusCode;
+	}
+
+	public void setLinkStatusCode(String linkStatusCode) {
+		this.linkStatusCode = linkStatusCode;
+	}
+
+	public String getLinkStatusCodeName() {
+		return linkStatusCodeName;
+	}
+
+	public void setLinkStatusCodeName(String linkStatusCodeName) {
+		this.linkStatusCodeName = linkStatusCodeName;
+	}
+
+	public Long getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(Long uploadDate) {
+		this.uploadDate = uploadDate;
+	}
+
+	public String getInputStatus() {
+		return inputStatus;
+	}
+
+	public void setInputStatus(String inputStatus) {
+		this.inputStatus = inputStatus;
+	}
+
+	public Long getInputDate() {
+		return inputDate;
+	}
+
+	public void setInputDate(Long inputDate) {
+		this.inputDate = inputDate;
+	}
+
+	public String getInputManCode() {
+		return inputManCode;
+	}
+
+	public void setInputManCode(String inputManCode) {
+		this.inputManCode = inputManCode;
+	}
+
+	public String getInputManName() {
+		return inputManName;
+	}
+
+	public void setInputManName(String inputManName) {
+		this.inputManName = inputManName;
+	}
+
 }

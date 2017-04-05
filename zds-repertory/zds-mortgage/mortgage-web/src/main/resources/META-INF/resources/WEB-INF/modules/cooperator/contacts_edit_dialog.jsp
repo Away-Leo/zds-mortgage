@@ -4,12 +4,12 @@
 	    <div id="InfoDialog" >
 	        <form id="contactForm" class="zui-form mt15" >
 	        	<input type="hidden" name="id"  id="id" value="${infoVo.id}" >
-	            <input type="hidden" id="terminalId" name="terminalId" value="${terminalId}">
+	            <input type="hidden" id="partnerId" name="partnerId" value="${terminalId}">
 	            <dl class="form-item">
 	                <dt class="title"><b class="c-red mr5">*</b>联系人名称:</dt>
 	                <dd class="detail">
 	                    <label>
-	                    	<input class="zui-input  zui-validatebox" validate-type="Require,Length[0-32]" name="contactName"  id="contactName" value="${infoVo.contactName}" >
+	                    	<input class="zui-input  zui-validatebox" validate-type="Require,Length[0-32]" name="linkman"  id="linkman" value="${infoVo.linkman}" >
 	                    </label>
 	                </dd>
 	            </dl>
@@ -17,7 +17,7 @@
 	                <dt class="title"><b class="c-red mr5">*</b>办公固话/手机:</dt>
 	               <dd class="detail">
 	                	 <label>
-	                    	<input class="zui-input  zui-validatebox" validate-type="Require,Number,Length[0-11]" name="contactTelNumber"  id="contactTelNumber" value="${infoVo.contactTelNumber}" >
+	                    	<input class="zui-input  zui-validatebox" validate-type="Require,PhoneOrMobile" name="contactNumber"  id="contactNumber" value="${infoVo.contactNumber}" >
 	                    </label>
 	                </dd>
 	            </dl>
@@ -25,7 +25,7 @@
 	                <dt class="title">职务:</dt>
 	                <dd class="detail">
 	                	 <label>
-	                    	<input class="zui-input" name="role"  id="role" value="${infoVo.role}" >
+	                    	<input class="zui-input" name="duty"  id="duty" value="${infoVo.duty}" >
 	                    </label>
 	                </dd>
 	            </dl>
@@ -85,9 +85,9 @@
     	$(document).ready(function(){
     		var type = "${operationType}";
         	if(type == 'view'){
-        		$('#contactName').attr("disabled","disabled");
-        		$('#contactTelNumber').attr("disabled","disabled");
-        		$('#role').attr("disabled","disabled");
+        		$('#linkman').attr("disabled","disabled");
+        		$('#contactNumber').attr("disabled","disabled");
+        		$('#duty').attr("disabled","disabled");
         		$("#zds_btn_message-btn").hide();
         	}
     	});

@@ -16,14 +16,17 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 专户贷方资金跟踪
  * 
- * @createTime:2017年1月10日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: LoanCapital.java 
+ * @ClassName: LoanCapital 
+ * @Description: 专户贷方资金跟踪
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:24:51 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_loan_capital")
+@Table(name = "cptl_credit_loan_capital")
 public class LoanCapital extends BaseEntity {
 
 	/**
@@ -46,8 +49,8 @@ public class LoanCapital extends BaseEntity {
 	/**
 	 * 发生总金额
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal totalAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal totalAmount = BigDecimal.ZERO;
 
 	/**
 	 * 实际发生日期
@@ -76,14 +79,20 @@ public class LoanCapital extends BaseEntity {
 	/**
 	 * 备注
 	 */
-	@Column(length = 256)
+	@Column(length = 500)
 	private String remark;
 
+	/**
+	 * 提交人
+	 */
 	@Column(length = 32)
 	private String completeEmpCd;
 	@Column(length = 64)
 	private String completeEmpName;
 
+	/**
+	 * 所属信托计划
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	@JoinColumn(name = "creditEntrustId")

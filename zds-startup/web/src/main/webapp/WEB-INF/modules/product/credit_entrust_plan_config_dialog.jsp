@@ -10,24 +10,24 @@
             <input type="hidden" id="productId" name="productVo.id" value="${productId }">
             <input type="hidden" id="creditEntrustPlanConfigId" name="id" value="${creditEntrustPlanConfig.id }">
             <dl class="form-item">
-	             <dt class="title"><b class="c-red mr5">*</b>资方:</dt>
-	             <dd class="detail">
-				     <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" id="capitalistId"  name="capitalistId" value="${creditEntrustPlanConfig.capitalistId }">
-				     <input class="zui-input zui-validatebox" type="hidden" validate-type="" id="capitalistName"  name="capitalistName" value="${creditEntrustPlanConfig.capitalistName }">
-	             </dd>
+	        	<dt class="title">资方:</dt>
+	            <dd class="detail">
+	           		<input type="hidden" name="capitalistId" value="${product.capitalistId}"/>
+	           		<input class="zui-input" name="capitalistName" value="${product.capitalistName}" readonly="readonly"/>
+	            </dd>
 	        </dl>
             <dl class="form-item">
 	             <dt class="title"><b class="c-red mr5">*</b>资金计划:</dt>
 	             <dd class="detail">
-					 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" id="creditEntrustId"  name="creditEntrustId" value="${creditEntrustPlanConfig.creditEntrustId }">
-				     <input class="zui-input zui-validatebox" type="hidden" validate-type="" id="creditEntrustName"  name="creditEntrustName" value="${creditEntrustPlanConfig.creditEntrustName }">
+					 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" id="capitalPlanId"  name="capitalPlanId" value="${creditEntrustPlanConfig.capitalPlanId}">
+				     <input class="zui-input zui-validatebox" type="hidden" validate-type="" id="capitalPlanName"  name="capitalPlanName" value="${creditEntrustPlanConfig.capitalPlanName }">
 	             </dd>
 	         </dl>
             <dl class="form-item">
 	             <dt class="title sptitle"><b class="c-red mr5">*</b>最低评估成数(包含):</dt>
 	             <dd class="detail">
 					 <label> 
-						<input class="zui-input zui-validatebox" validate-type="Require,Digital[0-2]" validate-false="|请输入正确数字" id="minEvaluateNum" name="minEvaluateNum" value="${creditEntrustPlanConfig.minEvaluateNum }">
+						<input class="zui-input zui-validatebox" validate-type="Require,Digital[1-2],CompareAmount[<-maxPercentage]" validate-false="|请输入正确数字|最低评估成数不能大于等于最高评估成数" id="minPercentage" name="minPercentage" value="${creditEntrustPlanConfig.minPercentage }">
 					 </label>
 	             </dd>
 	         </dl>
@@ -35,7 +35,7 @@
 	             <dt class="title sptitle"><b class="c-red mr5">*</b>最高评估成数(不包含):</dt>
 	             <dd class="detail">
 					 <label> 
-						<input class="zui-input zui-validatebox" validate-type="Require,Digital[0-2]" validate-false="|请输入正确数字" id="maxEvaluateNum" name="maxEvaluateNum" value="${creditEntrustPlanConfig.maxEvaluateNum }">
+						<input class="zui-input zui-validatebox" validate-type="Require,Digital[1-2],CompareAmount[>-minPercentage]" validate-false="|请输入正确数字|最高评估成数不能小于等于最低评估成数" id="maxPercentage" name="maxPercentage" value="${creditEntrustPlanConfig.maxPercentage }">
 					 </label>
 	             </dd>
 	         </dl>
@@ -65,7 +65,7 @@
                     handler: function () {
                    	var flag=$.ZUI.validateForm($('#addCreditEntrustPlanConfigForm'));
                     	if(flag){
-                    		var addCreditEntrustPlanConfigForm = $('#addCreditEntrustPlanConfigForm').serialize();
+                    		var addCreditEntrustPlanConfigForm = $('#addCreditEntrustPlanConfigForm').serializeArray();
                             $.ajax({
                                 type: 'post',
                                 url: '<z:ukey key="com.zdsoft.finance.creditEntrustPlanConfig.saveOrUpdate" context="admin"/>',
@@ -76,7 +76,7 @@
                                     	$.ZMessage.success("提示", "保存成功", function () {
                     	                    $(".zd-message").ZWindow("close");
                     	                });
-                                    	$('#tb-creditEntrustPlanConfig').ZTable("reload", {});
+                                    	$('#tb-creditEntrustPlanConfig').ZTable("reload",{});
                                     	$("#creditEntrustPlanConfigDialog").Zdialog("close");
                                     }else{
                                     	$.ZMessage.error("错误", data.msg, function () {
@@ -105,25 +105,40 @@
             ]
         });
     	
-    	$("#capitalistId").ZCombobox({
+    	/* $("#capitalistId").ZCombobox({
             valueField: "id",
-            textField: "cooperatorName",
+            textField: "capitalName",
             url:'<z:ukey key="com.zdsoft.finance.cooperator.capitalist.capitalistSimpleCode" context="admin"/>&jsoncallback=?',
+            value:'${creditEntrustPlanConfig.capitalistId}',
             onSelect:function(value,text,index){
                 $('#capitalistId').val(value);
                 $('#capitalistName').val(text);
+                if(value == ""){
+                	value = "gufeng";
+                }
             }
-        });
-    	
-    	$("#creditEntrustId").ZCombobox({
+        }); */
+        $("#capitalPlanId").ZCombobox({
             valueField: "id",
             textField: "creditEntrustName",
-            url:'<z:ukey key="com.zdsoft.finance.capital.getCreditEntrustList" context="admin"/>&jsoncallback=?',
+            url:'<z:ukey key="com.zdsoft.finance.capital.getCreditEntrustListByCapitalistId" context="admin"/>&capitalistId=${product.capitalistId}&jsoncallback=?',
             onSelect:function(value,text,index){
-                $('#creditEntrustId').val(value);
-                $('#creditEntrustName').val(text);
+                $('#capitalPlanId').val(value);
+                $('#capitalPlanName').val(text);
             }
         });
+    	if("${creditEntrustPlanConfig.capitalPlanId}" != "" && "${creditEntrustPlanConfig.capitalPlanId}" != "null"){
+	    	$("#capitalPlanId").ZCombobox({
+	            valueField: "id",
+	            textField: "creditEntrustName",
+	            url:'<z:ukey key="com.zdsoft.finance.capital.getCreditEntrustListByCapitalistId" context="admin"/>&capitalistId=${creditEntrustPlanConfig.capitalistId}&jsoncallback=?',
+	            value:'${creditEntrustPlanConfig.capitalPlanId}',
+           		onSelect:function(value,text,index){
+	                $('#capitalPlanId').val(value);
+	                $('#capitalPlanName').val(text);
+	            }
+	        });
+    	}
     	
     	//初始化
         $.ZUI.initForms("#entrustPlanConfigDialog");

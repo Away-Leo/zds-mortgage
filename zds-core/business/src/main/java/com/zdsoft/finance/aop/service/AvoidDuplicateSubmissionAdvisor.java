@@ -17,10 +17,13 @@ import com.zdsoft.framework.core.common.dto.ResponseMsg;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 防重复提交封装返回responseMsg参数
- * @author longwei
- * @date 2016/12/09
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: AvoidDuplicateSubmissionAdvisor.java 
+ * @ClassName: AvoidDuplicateSubmissionAdvisor 
+ * @Description: 防重复提交封装返回responseMsg参数
+ * @author longwei 
+ * @date 2017年2月6日 上午11:13:13 
+ * @version V1.0
  */
 @Component
 @Aspect

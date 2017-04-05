@@ -24,10 +24,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 还款计划配置接口实现
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RepayPlanConfigServiceImpl.java 
+ * @ClassName: RepayPlanConfigServiceImpl 
+ * @Description: 还款计划配置接口实现
+ * @author gufeng 
+ * @date 2017年3月6日 下午5:00:39 
+ * @version V1.0
  */
 @Service("repayPlanConfigService")
 public class RepayPlanConfigServiceImpl extends BaseServiceImpl<RepayPlanConfig, CustomRepository<RepayPlanConfig,String>> implements RepayPlanConfigService{
@@ -57,7 +60,8 @@ public class RepayPlanConfigServiceImpl extends BaseServiceImpl<RepayPlanConfig,
 			logger.error("参数为空");
 			throw new BusinessException("参数为空");
 		}
-		
+		//验证
+		this.verify(repayPlanConfig);;
 		if(ObjectHelper.isEmpty(repayPlanConfig.getId())){
 			Product product=productService.findOne(repayPlanConfig.getProduct().getId());
 			if(ObjectHelper.isEmpty(product)){
@@ -79,6 +83,35 @@ public class RepayPlanConfigServiceImpl extends BaseServiceImpl<RepayPlanConfig,
 		return repayPlanConfig;
 	}
 	
+	/**
+	 * @Title: verify 
+	 * @Description: 验证
+	 * @author gufeng 
+	 * @param bean 还款计划
+	 * @throws BusinessException 异常
+	 */
+	public void verify(RepayPlanConfig bean) throws BusinessException{
+		Product product = bean.getProduct();
+		String feeCode = bean.getFeeCode();
+		String id = bean.getId();
+		
+		if(ObjectHelper.isEmpty(product)){
+			throw new BusinessException("1000000001","产品不存在");
+		}
+		if(ObjectHelper.isEmpty(feeCode)){
+			throw new BusinessException("1000000002","费用项目为空");
+		}
+		List<RepayPlanConfig> list = null;
+		if(ObjectHelper.isEmpty(id)){
+			list = repayPlanConfigRepository.findByProductIdAndFeeCodeAndIsDeleted(product.getId(),feeCode,false);
+		}else{
+			list = repayPlanConfigRepository.findByProductIdAndFeeCodeAndIdNotAndIsDeleted(product.getId(),feeCode,id,false);
+		}
+		if(ObjectHelper.isNotEmpty(list) || list.size() > 0){
+			throw new BusinessException("100000003","已存在相同费用项");
+		}
+	}
+	
 	@Override
 	public List<RepayPlanConfig> findByProductId(String productId) throws BusinessException {
 		if(ObjectHelper.isEmpty(productId)){
@@ -95,7 +128,6 @@ public class RepayPlanConfigServiceImpl extends BaseServiceImpl<RepayPlanConfig,
 			logger.error("参数不合法");
 			throw new BusinessException("参数不合法");
 		}
-		
 		List<RepayPlanConfig> list=this.findByProductId(oldProduct.getId());
 		if(ObjectHelper.isNotEmpty(list)){
 			for(RepayPlanConfig repayPlanConfig:list){

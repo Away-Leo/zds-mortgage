@@ -11,38 +11,43 @@ import org.hibernate.annotations.Type;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 产品审批意见配置
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ApprovalOpinion.java 
+ * @ClassName: ApprovalOpinion 
+ * @Description: 产品审批意见配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午7:20:59 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_approval_opinion")
+@Table(name="prd_approval_opinion")
 public class ApprovalOpinion extends BaseEntity{
+
+	private static final long serialVersionUID = 10002835878298545L;
 
 	/**
 	 * 审批类型
 	 */
-	@Column(length=32)
-	private String approvalTypeCd;
+	@Column(length=20)
+	private String approvalType;
 	
 	/**
 	 * 审批类型
 	 */
-	@Column(length=255)
-	private String approvalTypeNm;
+	@Column(length=64)
+	private String approvalTypeName;
 	
 	/**
 	 * 抵押顺序
 	 */
-	@Column(length=32)
-	private String mortgageOrderCd;
+	@Column(length=20)
+	private String mortgageOrder;
 	
 	/**
 	 * 抵押顺序
 	 */
-	@Column(length=32)
-	private String mortgageOrderNm;
+	@Column(length=64)
+	private String mortgageOrderName;
 	
 	/**
 	 * 是否启用
@@ -64,36 +69,36 @@ public class ApprovalOpinion extends BaseEntity{
 	@JoinColumn(name="product_id")
 	private Product product;
 
-	public String getApprovalTypeCd() {
-		return approvalTypeCd;
+	public String getApprovalType() {
+		return approvalType;
 	}
 
-	public void setApprovalTypeCd(String approvalTypeCd) {
-		this.approvalTypeCd = approvalTypeCd;
+	public void setApprovalType(String approvalType) {
+		this.approvalType = approvalType;
 	}
 
-	public String getApprovalTypeNm() {
-		return approvalTypeNm;
+	public String getApprovalTypeName() {
+		return approvalTypeName;
 	}
 
-	public void setApprovalTypeNm(String approvalTypeNm) {
-		this.approvalTypeNm = approvalTypeNm;
+	public void setApprovalTypeName(String approvalTypeName) {
+		this.approvalTypeName = approvalTypeName;
 	}
 
-	public String getMortgageOrderCd() {
-		return mortgageOrderCd;
+	public String getMortgageOrder() {
+		return mortgageOrder;
 	}
 
-	public void setMortgageOrderCd(String mortgageOrderCd) {
-		this.mortgageOrderCd = mortgageOrderCd;
+	public void setMortgageOrder(String mortgageOrder) {
+		this.mortgageOrder = mortgageOrder;
 	}
 
-	public String getMortgageOrderNm() {
-		return mortgageOrderNm;
+	public String getMortgageOrderName() {
+		return mortgageOrderName;
 	}
 
-	public void setMortgageOrderNm(String mortgageOrderNm) {
-		this.mortgageOrderNm = mortgageOrderNm;
+	public void setMortgageOrderName(String mortgageOrderName) {
+		this.mortgageOrderName = mortgageOrderName;
 	}
 
 	public Boolean getIsEnable() {

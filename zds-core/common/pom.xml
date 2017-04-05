@@ -13,6 +13,18 @@
     <description>ZDS Finance Common Project</description>
 
     <dependencies>
+    	<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf 生成pdf-->
+		<dependency>
+		  <groupId>com.itextpdf</groupId>
+		  <artifactId>itextpdf</artifactId>
+		  <version>5.5.3</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.itextpdf</groupId>
+		  <artifactId>itext-asian</artifactId>
+		  <version>5.2.0</version>
+		</dependency>
         <!--二维码-->
         <dependency>
             <groupId>com.google.zxing</groupId>
@@ -138,7 +150,10 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>test</scope>
         </dependency>
-
+		<dependency>
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+		</dependency>
 
 
 

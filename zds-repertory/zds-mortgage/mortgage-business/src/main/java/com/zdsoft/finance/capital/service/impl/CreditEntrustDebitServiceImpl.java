@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
+import com.zdsoft.finance.capital.entity.CreditEntrust;
 import com.zdsoft.finance.capital.entity.CreditEntrustDebit;
 import com.zdsoft.finance.capital.entity.CreditEntrustFeeItem;
 import com.zdsoft.finance.capital.entity.CreditEntrustOperationLog;
@@ -17,12 +18,25 @@ import com.zdsoft.finance.capital.repository.CreditEntrustDebitRepository;
 import com.zdsoft.finance.capital.service.CreditEntrustDebitService;
 import com.zdsoft.finance.capital.service.CreditEntrustFeeItemService;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
+import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.spi.common.dto.OperationTypeNm;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustDebitServiceImpl.java
+ * @ClassName: CreditEntrustDebitServiceImpl
+ * @Description: 信托计划借方资金ServiceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:38:43
+ * @version V1.0
+ */
 @Service("creditEntrustDebitService")
 public class CreditEntrustDebitServiceImpl
 		extends BaseServiceImpl<CreditEntrustDebit, CustomRepository<CreditEntrustDebit, String>>
@@ -36,9 +50,15 @@ public class CreditEntrustDebitServiceImpl
 
 	@Autowired
 	CreditEntrustFeeItemService creditEntrustFeeItemService;
-	
+
 	@Autowired
 	CreditEntrustOperationLogService creditEntrustOperationLogService;
+
+	@Autowired
+	CreditEntrustService creditEntrustService;
+
+	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
 
 	@Override
 	@Transactional
@@ -66,12 +86,13 @@ public class CreditEntrustDebitServiceImpl
 
 			// 将原有费用逻辑删除
 			List<CreditEntrustFeeItem> oldFeeItems = creditEntrustFeeItemService.findByBusinessId(oldDebit.getId());
-			for (CreditEntrustFeeItem creditEntrustFeeItem : oldFeeItems) {
-				creditEntrustFeeItemService.logicDelete(creditEntrustFeeItem);
+			for (int i = 0; i < oldFeeItems.size(); i++) {
+				creditEntrustFeeItemService.logicDelete(oldFeeItems.get(i));
 			}
 
 			// 持久最新的费用
-			for (CreditEntrustFeeItem creditEntrustFeeItem : feeItems) {
+			for (int i = 0; i < feeItems.size(); i++) {
+				CreditEntrustFeeItem creditEntrustFeeItem = feeItems.get(i);
 				creditEntrustFeeItem.setBusinessId(oldDebit.getId());
 				creditEntrustFeeItemService.saveEntity(creditEntrustFeeItem);
 			}
@@ -90,31 +111,35 @@ public class CreditEntrustDebitServiceImpl
 			// 提交人/提交时间
 			creditEntrustDebit.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			creditEntrustDebit.setCompleteEmpName(CED.getLoginUser().getEmpNm());
-			creditEntrustDebit
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			creditEntrustDebit.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 保存应付费用信息
 			creditEntrustDebit = creditEntrustDebitRepository.saveEntity(creditEntrustDebit);
 
 			// 保存特有费用
 			List<CreditEntrustFeeItem> feeItems = creditEntrustDebit.getCreditEntrustFeeItems();
-			for (CreditEntrustFeeItem creditEntrustFeeItem : feeItems) {
+			for (int i = 0; i < feeItems.size(); i++) {
+				CreditEntrustFeeItem creditEntrustFeeItem = feeItems.get(i);
 				creditEntrustFeeItem.setBusinessId(creditEntrustDebit.getId());
 				creditEntrustFeeItemService.saveEntity(creditEntrustFeeItem);
 			}
-			
+
 			CreditEntrustOperationLog operationLog = new CreditEntrustOperationLog();
 			operationLog.setOperationType(OperationTypeNm.SUBMIT.value);
 			operationLog.setOperationContent("信托计划借方资金");
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+			operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(creditEntrustDebit.getId());
 			creditEntrustOperationLogService.saveEntity(operationLog);
+		}
+
+		// 重新填充列表信息
+		if (ObjectHelper.isNotEmpty(creditEntrustDebit.getCreditEntrust())) {
+			CreditEntrust creditEntrust = creditEntrustToolService.listFill(creditEntrustDebit.getCreditEntrust());
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
 		}
 
 		return creditEntrustDebit;

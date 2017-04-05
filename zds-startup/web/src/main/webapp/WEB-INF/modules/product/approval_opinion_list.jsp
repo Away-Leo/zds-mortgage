@@ -19,7 +19,7 @@
 					<dt class="title">审批类型:</dt>
 					<dd class="detail">
 						<label> 
-							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="approvalTypeNm" name="approvalTypeNm">
+							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="approvalTypeName" name="approvalTypeName">
 						</label>
 					</dd>
 				</dl>
@@ -45,11 +45,11 @@
 			<div id="tb-approvalOpinion" class="zui-datagrid" zdata-options='{"url":"<z:ukey key='com.zdsoft.finance.approvalOpinion.getList' context='admin'/>&productVo.id=${product.id }","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#approvalOpinion_toolbar"}'>
 				<table>
         			<tr>
-            			<th data-options="field:approvalTypeNm,width:15%">审批类型</th>
-            			<th data-options="field:mortgageOrderNm,width:15%">抵押顺位</th>
+            			<th data-options="field:approvalTypeName,width:15%">审批类型</th>
+            			<th data-options="field:mortgageOrderName,width:15%" formatter="formatMortgageOrder">抵押顺位</th>
             			<th data-options="field:remark,width:40%">审批用语</th>
             			<th data-options="field:isEnable,width:10%" formatter="formatIsEnable">是否启用</th>
-            			<th data-options="field:id,width:20%" formatter="formatId">操作</th>
+            			<th data-options="field:id,width:20%" formatter="approvalFunction">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -67,6 +67,13 @@
 <script type="text/javascript">
 seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], function($, CALLBACK) {
 	
+	CALLBACK.formatMortgageOrder = function(rowData,value){
+		if(value == null){
+			value = "";
+		}
+		return value;
+	};
+	
 	CALLBACK.addApprovalOpinion=function(){
 		var	url = '<z:ukey key="com.zdsoft.finance.approvalOpinion.dialog" context="admin"/>&productId=${product.id}';
 		$('#editApprovalOpinionDialog').load(url,function(){
@@ -75,18 +82,13 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	}
 
 	$('#searchApprovalOpinion').on('click',function(){
-		var flag=$.ZUI.validateForm($('#queryApprovalOpinion'));
-    	if(flag){
-        	var formArray=$("#queryApprovalOpinion").serialize();
-        	formArray=decodeURIComponent(formArray, true);
-        	$('#tb-approvalOpinion').ZTable("reload", formArray);
-    	}
+       	var formArray=$("#queryApprovalOpinion").serializeArray();
+       	$('#tb-approvalOpinion').ZTable("reload", formArray);
 	});
 	
 	$('#resetApprovalOpinion').on('click',function(){
-    	$('#approvalTypeNm').val('');
+    	$('#approvalTypeName').val('');
     	$('#approvalOpinionIsEnable').ZCombobox('setValue',true);
-		$('#tb-approvalOpinion').ZTable("reload", {isEnable:true});
     });
 	
 	CALLBACK.formatIsEnable=function(rowData,index){
@@ -97,7 +99,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		}
 	}
 	
-	CALLBACK.formatId=function(rowData,index){
+	CALLBACK.approvalFunction=function(rowData,index){
 		var id=rowData.id;
 		if(!id){
 			$.ZMessage.error("错误", "未获取到主键", function () {
@@ -105,10 +107,9 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
             });
 			return ;
 		}
-		
-		return '<a href="javaScript:void(0)" onclick="editApprovalOpinion"><button class="btn-blue">编辑</button></a>'
-    	+
-    	'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="deleteApprovalOpinion"><button class="btn-blue">删除</button></a>';
+		var str = "<a title='修改' class='btn-blue' onclick='editApprovalOpinion'>修改</a>" +
+    	"&nbsp;&nbsp;<a title='删除' class='btn-blue' onclick='deleteApprovalOpinion'>删除</a>";
+		return str;
 	}
 	
 	CALLBACK.editApprovalOpinion=function(index,rowData){

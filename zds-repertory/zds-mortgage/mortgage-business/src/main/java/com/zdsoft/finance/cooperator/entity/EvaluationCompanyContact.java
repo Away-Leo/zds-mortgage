@@ -9,13 +9,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 评估公司联系方式表
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: EvaluationCompanyContact.java 
+ * @ClassName: EvaluationCompanyContact 
+ * @Description: 评估公司联系方式表
+ * @author liuwei
+ * @date 2017年3月8日 上午9:56:27 
+ * @version V1.0
  */
 @Entity
-@Table(name = "zf_evaluation_company_contact")
+@Table(name = "cpt_evaluation_company_contact")
 public class EvaluationCompanyContact extends BaseEntity {
 
 	/**
@@ -30,6 +34,7 @@ public class EvaluationCompanyContact extends BaseEntity {
 	/**
 	 * 联系类型
 	 */
+	@Column(length = 20)
 	private String contactType;
 	/**
 	 * 电话号码

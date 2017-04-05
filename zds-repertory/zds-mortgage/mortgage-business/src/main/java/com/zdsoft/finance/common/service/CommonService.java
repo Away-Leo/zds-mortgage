@@ -6,7 +6,6 @@ import java.util.Map;
 import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.common.base.QueryObj;
 import com.zdsoft.finance.common.entity.CommonEntity;
-import com.zdsoft.finance.contract.entity.CoactCaseContract;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.PageRequest;
 

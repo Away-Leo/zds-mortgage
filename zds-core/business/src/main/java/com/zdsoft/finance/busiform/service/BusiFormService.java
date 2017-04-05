@@ -6,6 +6,7 @@ import java.util.Map;
 import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.busiform.entity.BusiForm;
 import com.zdsoft.finance.busiform.entity.MyDraft;
+import com.zdsoft.finance.common.base.QueryObj;
 import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.Pageable;
@@ -50,13 +51,6 @@ public interface BusiFormService extends BaseService<BusiForm>{
 	 * @return 审批单
 	 */
 	BusiForm findByBusinessEntityIdAndBusinessEntityNm(String businessEntityId, String businessEntityNm);
-
-	/**
-	 * 申请业务编号
-	 *
-	 * @return 业务编号
-	 */
-	String applyBusiFormNo();
 
 	/**
 	 * 保存审批单
@@ -124,4 +118,59 @@ public interface BusiFormService extends BaseService<BusiForm>{
 	 * @throws BusinessException
 	 */
 	public Page<MyDraft> findByPage(MyDraft myDraft,Pageable pageable) throws BusinessException;
+	
+	/**
+	 * 
+	 * @Title: startProcess 
+	 * @Description: 启动流程
+	 * @author jingyh 
+	 * @date 2017年02月16日 下午5:51:01
+	 * @param busiForm
+	 * 		流程表单信息
+	 * 			businessEntityId,businessEntityNm,componentsEntityId,componentsEntityNm:不可为空
+	 * 			businessCode,modelType,applyTitle:不可为空
+	 * 			默认以processKey启动流程，若为空，则根据functionCode和productId查询配置产品配置
+	 * @param businessVarible
+	 * 		业务变量
+	 * @param engineVars
+	 * 		引擎变量
+	 * @return
+	 * @throws Exception 
+	 * BusiForm 
+	 * @throws
+	 */
+	public BusiForm startProcess(BusiForm busiForm, Map<String, String> businessVarible, Map<String, String> engineVars)
+			throws Exception;
+
+	/**
+	 * @Title: findMyApplyInfos 
+	 * @Description: 分页查询我的申请信息
+	 * @author jingyh 
+	 * @param pageable
+	 * @param queryObj
+	 * @return
+	 * @throws Exception
+	 */
+	public Page<BusiForm> findMyApplyInfos(Pageable pageable, List<QueryObj> queryObj) throws Exception;
+	
+	/**
+	 * @Title: wasteApplyInfo 
+	 * @Description: 废弃申请
+	 * @author jingyh 
+	 * @param id
+	 * @throws BusinessException
+	 */
+	public void wasteApplyInfo(String id) throws BusinessException;
+	
+	/**
+	 * 
+	 * @Title: findBusiFormByHql 
+	 * @Description: 多条件查询业务表单
+	 * @author yangjia 
+	 * @param componentsEntityId
+	 * @param businessEntityId
+	 * @param processInstanceKey
+	 * @return
+	 */
+	public List<BusiForm> findBusiFormByHql(String componentsEntityId,String businessEntityId,String processInstanceKey);
 }

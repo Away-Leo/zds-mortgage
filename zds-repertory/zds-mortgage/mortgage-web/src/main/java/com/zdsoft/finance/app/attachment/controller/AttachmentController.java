@@ -26,9 +26,14 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.common.util.StringHelper;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 /**
- * app附件上传（支持批量上传）
- * @author xj
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: AttachmentController.java 
+ * @ClassName: AttachmentController 
+ * @Description: app附件上传（支持批量上传）
+ * @author xj 
+ * @date 2017年3月6日 下午6:21:28 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/server/attachment")
@@ -37,16 +42,20 @@ public class AttachmentController extends BaseController {
 	private AppAttachmentService appAttachmentService;
 	@Autowired
 	private CED attachmentService;
+	
 	/**
-	 * 批量上传文件
-	 * @param request
+	 * 
+	 * @Title: upload 
+	 * @Description: 批量上传文件
+	 * @author xj 
+	 * @param files 文件集合
+	 * @param token 登录标示
 	 * @return
 	 */
 	@RequestMapping(value = "/upload",produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String upload(@RequestParam("fileDatas") CommonsMultipartFile[] files,String token){
 		try {
-			//MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			List<AttachmentDto> attachmentDtos = null;
 			if(ObjectHelper.isEmpty(files) || files.length==0 || ObjectHelper.isEmpty(token)){
 				logger.error("app参数错误或不完整");
@@ -61,9 +70,13 @@ public class AttachmentController extends BaseController {
 			return AppServerUtil.buildJsonMessage(AppStatus.ArgsError,"上传附件异常！"); 
 		}
 	}
+	
 	/**
-	 * 下载
-	 * @param id
+	 * 
+	 * @Title: download 
+	 * @Description: 附件下载
+	 * @author xj 
+	 * @param id 附件id
 	 * @param response
 	 * @param request
 	 * @throws Exception
@@ -89,8 +102,6 @@ public class AttachmentController extends BaseController {
 		response.reset();
 		response.addHeader("Content-Disposition",
 				"attachment;filename=" + new String(fileName.getBytes("utf-8"), "utf-8")); // 转码之后下载的文件不会出现中文乱码
-		// response.setHeader("Content-Disposition", "attachment;filename=\"" +
-		// fileName + "\"");
 		response.addHeader("Content-Length", "" + data.length);
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IOUtils.write(data, response.getOutputStream());

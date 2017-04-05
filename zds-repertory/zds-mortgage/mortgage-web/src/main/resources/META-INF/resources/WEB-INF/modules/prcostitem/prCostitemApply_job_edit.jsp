@@ -39,7 +39,7 @@
 	           		</tbody>
 	            </table>
 			</div>
-			<h1 class="page-title">收费支拥</h1>
+			<h1 class="page-title">收费支佣</h1>
 			<div class="p5">
 				<div id="ztoolbar">
 					<a class="zui-toolbar" iconCls="icon-btn08" text="新增" buttonCls="btn-blue" handler="add"></a>
@@ -100,7 +100,7 @@
 		                            <input class="zui-combobox zui-validatebox" type="hidden" id="productParentId"
 		                                   data-width="94"
 		                                   name="productParentId"
-		                                   data-url="<z:ukey key='com.zdsoft.finance.getParentProduct' context='admin'/>&jsoncallback=?"
+		                                   data-url="<z:ukey key='com.zdsoft.finance.authGrade.getParentProduct' context='admin'/>&jsoncallback=?"
 		                                   data-callback="productParentIdChange"
 		                                   data-height="300"
 		                                   data-defaultvalue=""
@@ -109,7 +109,7 @@
 								<dd class="detail">
 		                            <input class="zui-combobox zui-validatebox" type="hidden" id="productId"
 		                                   name="productId" data-width="94"
-		                                   data-url="<z:ukey key='com.zdsoft.finance.getProductByParentId' context='admin'/>&jsoncallback=?"
+		                                   data-url="<z:ukey key='com.zdsoft.finance.authGrade.getProductByParentId' context='admin'/>&jsoncallback=?"
 		                                   data-callback=""
 		                                   data-height="300"
 		                                   data-defaultvalue=""
@@ -642,10 +642,9 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	
 	//保存
     ZDS_WORKFLOW_CLIENT.saveFunction = function (datas) {
-		 var WORKFLOW_FLAG=ZDS_WORKFLOW_PARAM._STATUS_VALIDATE_ERROR;//1、提交，需要，默认提交失败！
 		//---------start------流程中有修改页面，需要提交业务数据操作------------------
 		//流程参数
-		var args = JSON.parse(datas);
+		var args = JSON.parse(datas.args);
 		var params = $('#addForm').serialize();
         params += '&processInstanceId=' + args.processInstanceId;
         params += '&taskInstanceId=' + args.taskInstanceId;
@@ -656,22 +655,19 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 			url:'<z:ukey key="com.zdsoft.finance.prCostitemApply.editJobSave" context="admin"/>',
 			data:params,
 			type:"post",
-			async: false,
 			dataType:"json",
 			traditional:true,
 			success:function(rdata){
 				if(rdata.resultStatus == 0){
-					WORKFLOW_FLAG=ZDS_WORKFLOW_PARAM._STATUS_SUCCESS;
+					ZDS_WORKFLOW_CLIENT.callBackFuntion(datas,ZDS_WORKFLOW_PARAM._STATUS_SUCCESS,rdata.msg);
 				}else{
 					$.ZMessage.error("错误", rdata.msg, function () {
+						//执行回调函数
+						ZDS_WORKFLOW_CLIENT.callBackFuntion(datas,ZDS_WORKFLOW_PARAM._STATUS_ERROR,rdata.msg);
 	                });
 				}
 			}
 		});
-    	//---------end------流程中有修改页面，需要提交业务数据操作------------------
-    	
-    	//4、返回流程状态
-    	return WORKFLOW_FLAG;
     };
     
     //提交方法

@@ -12,91 +12,89 @@
 <title>公证</title>
 
 <%@ include file="../../common/common_js.jsp" %>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- <link rel="stylesheet" type="text/css" href="http://192.168.18.253:8080/dev/static/assets/css/style.css"> -->
 </head>
 <body>
 <!-- 搜索框 -->
 <div class="page-box">
-	<div class="page-title">查询信息</div>
+	<div class="page-title">查询信息</div> 
 	<div id="search" class="p5">
 		<form id="Form" class="zui-form mt15">
-			<dl class="form-item">
-				<dt class="title">案件号:</dt>
+			<dl class="form-item">  
+				<dt class="title">案件号</dt>
 				<dd class="detail">
 					<label> <input class="zui-input zui-validatebox"
 						validate-type="Length[0-64]" type="text" id="caseApplyCode"
-						name="ca|caseApplyCode|LK|S" value="">
+						name="ma|caseApplyCode|LK|S">
 					</label>
 				</dd>
 			</dl>
 
 			<dl class="form-item">
-				<dt class="title">主借人:</dt>
+				<dt class="title">主借人</dt>
 				<dd class="detail">
 					<input class="zui-input zui-validatebox"
 						validate-type="Length[0-64]" type="text" id="customerName"
-						name="cu|customerName|LK|S" value="">
+						name="bcust|customerName|LK|S">
 				</dd>
 			</dl>
 			<dl class="form-item">
-				<dt class="title">主借人证件号:</dt>
+				<dt class="title">主借人证件号</dt>
 				<dd class="detail">
 					<label> <input class="zui-input zui-validatebox"
 						validate-type="Length[0-64]" type="text" id="credentialNo"
-						name="cu|credentialNo|EQ|S" value="">
+						name="bcust|credentialNo|LK|S"> 
 					</label>
 				</dd>
 			</dl>
 
 
-			<dl class="form-item">
-				<dt class="title">当前处理人:</dt>
+			<!-- <dl class="form-item">
+				<dt class="title">当前处理人</dt>
 				<dd class="detail">
 					<label> <input class="zui-input zui-validatebox"
 						validate-type="Length[0-64]" type="text" id="operatorName"
 						name="rec|operatorName|LK|S" value="">
 					</label>
 				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title">资信员:</dt>
+			</dl> -->        
+			<dl class="form-item">  
+				<dt class="title">资信员</dt>  
 				<dd class="detail">
 					<label> <input class="zui-input zui-validatebox"
 						validate-type="Length[0-64]" type="text" id="creditMember"
-						name="ca|riskManager|LK|S" value="">
-					</label>
+						name="ma|creditMember|LK|S">
+					</label> 
 				</dd>
 			</dl>
 			<dl class="form-item">
-				<dt class="title">产品分类：</dt>
+				<dt class="title">产品分类</dt>
 				<dd class="detail">
 					<input class="zui-combobox zui-validatebox" type="hidden"
-						id="productParentId" data-width="94" name="prc|id|EQ|S"
-						data-url="<z:ukey key='com.zdsoft.finance.getParentProduct' context='admin'/>&jsoncallback=?"
+						id="productType" data-width="94" name="ma|productTypeId|LK|S"   
+						data-url="<z:ukey key='com.zdsoft.finance.authGrade.getParentProduct' context='admin'/>&jsoncallback=?"
 						data-callback="productParentIdChange" data-height="300"
 						data-defaultvalue="" data-valuefield="id" data-textfield="text">
 				</dd>
-				<dd class="detail">
+				<dd class="detail">   
 					<input class="zui-combobox zui-validatebox" type="hidden"
-						id="productChildId" name="prp|id|EQ|S"" data-width="94"
-						data-url="<z:ukey key='com.zdsoft.finance.getProductByParentId' context='admin'/>&jsoncallback=?"
+						id="productSubtype" name="ma|productSubtypeId|E|S"" data-width="94"
+						data-url="<z:ukey key='com.zdsoft.finance.authGrade.getProductByParentId' context='admin'/>&jsoncallback=?"
 						data-callback="" data-height="300" data-defaultvalue=""
 						data-valuefield="id" data-textfield="text">
 				</dd>
 
-			</dl>
-
-<!-- 			<dl class="form-item"> -->
-<!-- 				<dt class="title">案件状态:</dt> -->
-<!-- 				<dd class="detail"> -->
-<!-- 					<input class="zui-combobox zui-validatebox" type="hidden" -->
-<!-- 						id="institutionCode" name="institutionCode" -->
-<%-- 						data-url="<z:ukey key="com.zdsoft.finance.findAllOrgSimpleCode" context="admin"/>&jsoncallback=?" --%>
-<!-- 						data-callback="" data-height="300" data-defaultvalue="" -->
-<!-- 						data-valuefield="id" data-textfield="text"> -->
-<!-- 				</dd> -->
-<!-- 			</dl> -->
+			</dl>             
+     
+ 			<dl class="form-item">  
+ 				<dt class="title">案件状态</dt>    
+ 				<dd class="detail"> 
+ 					<input class="zui-combobox zui-validatebox" type="hidden"           
+ 						id="caseApplyStage" name="ma|stage|E|S" 
+ 						data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0092"
+ 						data-callback="" data-height="300" data-defaultvalue="" 
+ 						data-valuefield="fullcode" data-textfield="name"> 
+ 				</dd>
+ 			</dl>  
 
 		</form>
 		<div class="form-btn">
@@ -105,84 +103,81 @@
 		</div>
 	</div>
 </div>
-<div class="page-box">
-	<div class="page-title">案件跟踪表</div>
-	<div class="p10">
-		<div id="tb-product" class="zui-datagrid"
-			zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.casemanage.casetracking.getCaseTracking" context="admin"/>","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index"}'>
-			<table>
-				<thead>
-					<tr>
-						<th data-options="field:caseApplyCode,width:5%">案件号</th>
-						<th data-options="field:customerName,width:5%">主借人</th>
-						<th data-options="field:credentialNo,width:10%">证件号码</th>
-						<th data-options="field:categoryName,width:10%">产品分类</th>
-						<th data-options="field:childName,width:10%">子产品</th>
-						<th data-options="field:applyAmount,width:15%">申请金额(元)</th>
-						<th data-options="field:creditMember,width:5%">资信员</th>
-						<th data-options="field:nodeName,width:5%">当前处理人</th>
-						<th data-options="field:operatorName,width:5%">当前节点</th>
-						<th data-options="field:caseApplyStatus,width:5%">案件状态</th>
-						<th data-options="field:developmentManagerName,width:5%">拓展经理</th>
-						<th data-options="field:applyDate,width:10%"
-							formatter="formatterDate">申请时间</th>
-						<th data-options="field:id,width:5%" formatter="operate">操作</th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-		<!-- 日后做导出列表 -->
-		<!-- 		<div id="btn-function">
-	    <a class="zui-toolbar" id="btn-add" text="新增" buttonCls="btn-blue" handler="addCustomer"></a>
-	    <a class="zui-toolbar" id="exports" text="导出" buttonCls="btn-blue" handler="exports"></a>
-    </div> -->
+<div class="page-box">  
+	<div class="p10">    
+	<div id="caseList"></div> 
 	</div>
 </div>
 <script type="text/javascript">
 seajs.use([ 'jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.combobox','zd/jquery.zds.button', 'zd/jquery.zds.table',
 			'zd/jquery.zds.form', 'zd/jquery.zds.message'],function($, CALLBACK,ZTOOlS) {
-
-	//格式化时间
-	CALLBACK.formatterDate = function(row, value) {
-		return ZTOOlS.strToTime(value);
-	};
-	
-    //下拉框初始化
-//     $("#productParentId").ZCombobox();
-//     $("#productChildId").ZCombobox();
-
+	//案件列表 begin 
+	$('#caseList').ZTable({  
+       url : "<z:ukey key='com.cnfh.rms.casemanage.casetracking.getCaseTracking' context='admin'/>",
+       isRowNum : false,
+       currentPage : 1,    
+       rows:10,
+       singleSelect: true,  
+       pagination:true,  
+       idField: "id",
+       tableCls : 'table-index',//table的样式
+       columns:[[
+    	  	{field : 'caseApplyCode',title : '案件号',align : 'center'},
+			{field : 'customerName',title : '主借人',align : 'center'},  
+			{field : 'credentialNo',title : '证件号码', align : 'center'},
+			{field : 'productTypeName',title : '产品分类', align : 'center'},
+			{field : 'productSubtypeName',title : '子产品', align : 'center'},
+			{field : 'applyAmount',title : '申请金额(元)', align : 'center',formatter:function(r,v){
+			
+			    return  fmoney(v, 2);
+		}},
+			{field : 'creditMember',title : '资信员', align : 'center'},
+			{field : 'currentHandler',title : '当前处理人', align : 'center'},
+			{field : 'currentNode',title : '当前节点', align : 'center'},
+			{field : 'stageName',title : '案件状态', align : 'center'}, 
+			{field : 'developmentManagerName',title : '拓展经理', align : 'center'},
+			{field : 'applyDate',title : '申请时间', align : 'center',formatter:function(r,v){
+				return window.formatDate(r,v);
+			}},    
+			{field : 'id',title : '操作', align : 'center',width:'10%',formatter:function(r,v){
+				return '<a href="javaScript:void(0)" class="btn-blue" onclick="detail">详情</a>';
+			}}
+	] ],
+	onDelete:function(index, rowData) {
+		//  添加判断
+		return true;
+	},
+	onLoadSuccess:function() {  
+		$("td").each(function(){
+			if($(this).text().trim()=='null'){
+				$(this).text('');
+			}
+		})
+	}
+	});
+	//案件列表 end  
 	//搜索回调
-	$('#searchCaseTracking').on('click',function() {
-		var flag = $.ZUI.validateForm($('#Form'));
-		if (flag) {
+	$('#searchCaseTracking').on('click',function() { 
 			var formArray = $("#Form").serializeArray();
-			$('#tb-product').ZTable("reload",formArray);
-		}
+			$('#caseList').ZTable("reload",formArray);
 	});
 
 	//重置回调
-	$('#resetCaseTracking').on('click', function() {
-		$('#gender').ZCombobox('setValue', '');
-		$('#degree').ZCombobox('setValue', '');
-		$('#clientNm').val('');
-		var flag = $.ZUI.validateForm($('#Form'));
-		if (flag) {
-			var formArray = $("#Form").serializeArray();
-			$('#tb-product').ZTable("reload",formArray);
-		}
+	$('#resetCaseTracking').click(function(){  
+		$("#Form")[0].reset();  
+		$("#productType").val("");   
+		$("#productSubtype").val("");   
+		$("#caseApplyStage").val(""); 
+		$("#caseApplyStage").ZCombobox("setValue","");
+		$("#productType").ZCombobox("setValue","");
+		$("#productSubtype").ZCombobox("setValue","");
 	});
 
-	//操作格式化
-	CALLBACK.operate = function(rowData, index) {
-		var data = '<a href="javaScript:void(0)" onclick="detail"><button class="btn-blue">详情</button></a>'
-		return data;
-	};
-
 	//详情页面
-	CALLBACK.detail = function(index, row) {
-		var editClientUrl = '<z:ukey key="com.zdsoft.finance.customer.editCustomer" context="admin"/>&jsoncallback=?&id='
+	CALLBACK.detail = function(index, row) {  
+		var editClientUrl = '<z:ukey key="com.zdsoft.finance.casemanage.riskAuditView" context="admin"/>&jsoncallback=?&projectId='
 				+ row.id;
-		ZDS_MESSAGE_CLIENT.openMenuLink('编辑客户', '编辑客户',
+		ZDS_MESSAGE_CLIENT.openMenuLink('案件详情', '案件详情',
 				editClientUrl + "&openMethod=tabs");
 
 	};
@@ -192,7 +187,6 @@ seajs.use([ 'jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.com
      * */
     CALLBACK.productParentIdChange = function (index, rowData, row, thisobj) {
         var parentId = index;
-       // debugger;
         loadProductChildId(parentId);
     };
    
@@ -200,15 +194,24 @@ seajs.use([ 'jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.com
      * 下拉数据
      * @param cataId
      */
-    function loadProductChildId(pId) {
-    	//debugger;
-        var productChildId = $("#productChildId");
+    function loadProductChildId(pId) { 
+        var productChildId = $("#productSubtype");
         productChildId.ZCombobox({queryParams: {"parentId": pId}});
     }
-  //初始化
+  //初始化   
 	$.ZUI.init();
     
 });
+function fmoney(s, n) {  
+    n = n > 0 && n <= 20 ? n : 2;  
+    s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";  
+    var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];  
+    t = "";  
+    for (i = 0; i < l.length; i++) {  
+        t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");  
+    }  
+    return t.split("").reverse().join("") + "." + r;  
+}  
 </script>
 </body>
 

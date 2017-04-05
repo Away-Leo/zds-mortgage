@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>收费支拥管理</title>
+<title>收费支佣管理</title>
 </head>
 <body>
 <div class="frm-content frm-bottom">
@@ -44,7 +44,7 @@
 	           		</tbody>
 	            </table>
 			</div>
-			<h1 class="page-title">收费支拥</h1>
+			<h1 class="page-title">收费支佣</h1>
 			<div class="p5">
 				<div id="ztoolbar">
 					<a class="zui-toolbar" iconCls="icon-btn08" text="新增" buttonCls="btn-blue" handler="add"></a>
@@ -52,16 +52,16 @@
 				<div id="costitemTable" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.prCostItem.listData" context="admin"/>&jsoncallback=?","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#ztoolbar"}'>
 					<table>
 	        			<tr>
-	            			<th data-options="field:productId" formatter="productFormat">产品</th>
-	            			<th data-options="field:period">期数</th>
-	            			<th data-options="field:amount">贷款金额</th>
-	            			<th data-options="field:pledgePick">抵押顺位</th>
-	            			<th data-options="field:detailNames">费用项</th>
-	            			<th data-options="field:detailCollectionTypes">收款方式</th>
-	            			<th data-options="field:detailStocks">财务确认营收(标准)</th>
-	            			<th data-options="field:detailCostMonths">支佣(标准)</th>
-	            			<th data-options="field:detailReceipts">净收入(标准)</th>
-	            			<th data-options="field:id" formatter="operate">操作</th>
+	            			<th data-options="field:productId,width:10%" formatter="productFormat">产品</th>
+	            			<th data-options="field:period,width:10%">期数</th>
+	            			<th data-options="field:amount,width:10%">贷款金额</th>
+	            			<th data-options="field:pledgePick,width:10%">抵押顺位</th>
+	            			<th data-options="field:detailNames,width:10%">费用项</th>
+	            			<th data-options="field:detailCollectionTypes,width:10%">收款方式</th>
+	            			<th data-options="field:detailStocks,width:10%">财务确认营收(标准)</th>
+	            			<th data-options="field:detailCostMonths,width:10%">支佣(标准)</th>
+	            			<th data-options="field:detailReceipts,width:10%">净收入(标准)</th>
+	            			<th data-options="field:id,width:10%" formatter="operate">操作</th>
 				        </tr>
 					</table>
 				</div>
@@ -90,7 +90,7 @@
 </div>
 <!-- 编辑 -->
 <div id="dialog_edit" style="display: none;">
-	<div id="costitem_add_form">
+	<div id="costitem_add_form" style="margin-top: 15px">
 		<form class="zui-form" id="addFormDialog">
 			<input type="hidden" name="id" />
 			<table class="table-detail" style="width: 900px;">
@@ -105,19 +105,21 @@
 		                            <input class="zui-combobox zui-validatebox" type="hidden" id="productParentId"
 		                                   data-width="94"
 		                                   name="productParentId"
-		                                   data-url="<z:ukey key='com.zdsoft.finance.getParentProduct' context='admin'/>&jsoncallback=?"
+		                                   data-url="<z:ukey key='com.zdsoft.finance.authGrade.getParentProduct' context='admin'/>&jsoncallback=?"
 		                                   data-callback="productParentIdChange"
 		                                   data-height="300"
 		                                   data-defaultvalue=""
+										   validate-type="Require"
 		                                   data-valuefield="id" data-textfield="text">
 	                        	</dd>
 								<dd class="detail">
 		                            <input class="zui-combobox zui-validatebox" type="hidden" id="productId"
 		                                   name="productId" data-width="94"
-		                                   data-url="<z:ukey key='com.zdsoft.finance.getProductByParentId' context='admin'/>&jsoncallback=?"
+		                                   data-url="<z:ukey key='com.zdsoft.finance.authGrade.getProductByParentId' context='admin'/>&jsoncallback=?"
 		                                   data-callback=""
 		                                   data-height="300"
 		                                   data-defaultvalue=""
+										   validate-type="Require"
 		                                   data-valuefield="id" data-textfield="text">
 								</dd>
 							</dl>
@@ -128,7 +130,9 @@
 						<td class="pct20">
 							<dl class="form-item form-auto">
 								<dd class="detail">
-									<input class="zui-input zui-validatebox" style="width: 40px;float: left;" validate-type="Require" name="periodStart" />
+									<label>
+										<input class="zui-input zui-validatebox" style="width: 40px;float: left;" validate-type="Require,Integer" name="periodStart" />
+									</label>
 								</dd>
 								<dd class="detail">
 									<input class="zui-combobox zui-validatebox" data-width="70" validate-type="Require" type="hidden" name="periodStartUnit"
@@ -137,7 +141,9 @@
 										<span class="word" style="float: left;">至</span>
 								</dd>
 								<dd class="detail">
-									<input class="zui-input zui-validatebox" style="width: 40px;float: left;" validate-type="Require" name="periodEnd" />
+									<label>
+										<input class="zui-input zui-validatebox" style="width: 40px;float: left;" validate-type="Require,Integer" name="periodEnd" />
+									</label>
 								</dd>
 								<dd class="detail">
 									<input class="zui-combobox zui-validatebox" data-width="70" validate-type="Require" type="hidden" name="periodEndUnit"
@@ -154,9 +160,16 @@
 						<td class="pct20">
 							<dl class="form-item">
 								<dd class="detail">
-									<input class="zui-input width2-1 zui-validatebox" validate-type="Require" name="amountStart">
+									<label>
+										<input class="zui-input width2-1 zui-validatebox" validate-type="Require,Digital[18-6]" id="amountStart" name="amountStart">
+									</label>
 									<span class="word">至</span>
-									<input class="zui-input width2-1 zui-validatebox" validate-type="Require" name="amountEnd">
+
+								</dd>
+								<dd class="detail">
+									<label>
+										<input class="zui-input width2-1 zui-validatebox" validate-type="Require,Digital[18-6],CompareAmount[>-amountStart]" validate-false="填入数据需为金额，且必须大于起始金额" id="amountEnd" name="amountEnd">
+									</label>
 								</dd>
 							</dl>
 						</td>
@@ -181,20 +194,38 @@
 	                </tr>
 	                <tr>
 	                	<td class="td-title pct15">
-	                		<b class="c-red mr5">*</b>逾期收费(%/天)：
+	                		<b class="c-red mr5">*</b>逾期收费(%)：
 						</td>
 						<td class="pct20">
-							<label>
-								<input class="zui-input zui-validatebox" validate-type="Require" name="overdueFee">
-							</label>
+							<dl class="form-item">
+								<dd class="detail">
+									<label>
+										<input type="text" class="zui-input nwidth2 zui-validatebox" name="overdueFee"
+											   validate-type="Require,IsDecimal"
+											   validate-place="true">
+									</label>
+								</dd>
+								<dd class="detail">
+									<input class="zui-combobox zui-validatebox" type="hidden" data-width="94" name="overdueFeeUnit"
+										   data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=0931"
+										   data-callback="change" data-id="isAgriculture" data-valuefield="fullcode" data-textfield="name"
+										   validate-type="Require"
+										   validate-place="true">
+								</dd>
+							</dl>
+
 						</td>
 						<td class="td-title pct15">
 	                		<b class="c-red mr5">*</b>展期收费(%/天)：
 						</td>
 						<td class="pct20">
-							<label>
-								<input class="zui-input zui-validatebox" validate-type="Require" name="renewalFee">
-							</label>
+							<dl class="form-item">
+								<dd class="detail">
+									<label>
+										<input class="zui-input zui-validatebox" validate-type="Require,IsDecimal" name="renewalFee">
+									</label>
+								</dd>
+							</dl>
 						</td>
 	                </tr>
 	                <tr>
@@ -263,14 +294,42 @@
 		                        </dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailStock">%/笔
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailMonth">%/月
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" id="detailStock01" name="detailStock">
+										</label>
+										<span class="word">%/笔</span>
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" id="detailMonth01" name="detailMonth">
+										</label>
+										<span class="word">%/月</span>
+									</dd>
+								</dl>
+								<dl class="form-item form-auto">
+									<dd class="detail">
+									</dd>
+								</dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailCostMonth">%/月
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" name="detailCostMonth">
+										</label>
+										<span class="word">%/月</span>
+									</dd>
+								</dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailReceipt">%
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" name="detailReceipt">
+										</label>
+										<span class="word">%</span>
+									</dd>
+								</dl>
                             </td>
 		                </tr>
 		                <tr>
@@ -285,14 +344,38 @@
 		                        </dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailStock">%/笔
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailMonth">%/月
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" id="detailStock02" name="detailStock">
+										</label>
+										<span class="word">%/笔</span>
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" id="detailMonth02" name="detailMonth">
+										</label>
+										<span class="word">%/月</span>
+									</dd>
+								</dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailCostMonth">%/月
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" name="detailCostMonth">
+										</label>
+										<span class="word">%/月</span>
+									</dd>
+								</dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailReceipt">%
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" name="detailReceipt">
+										</label>
+										<span class="word">%</span>
+									</dd>
+								</dl>
                             </td>
 		                </tr>
 		                <tr>
@@ -307,14 +390,38 @@
 		                        </dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailStock">%/笔
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailMonth">%/月
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" id="detailStock03" name="detailStock">
+										</label>
+										<span class="word">%/笔</span>
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" id="detailMonth03" name="detailMonth">
+										</label>
+										<span class="word">%/月</span>
+									</dd>
+								</dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailCostMonth">%/月
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" name="detailCostMonth">
+										</label>
+										<span class="word">%/月</span>
+									</dd>
+								</dl>
                             </td>
 		                    <td>
-		                    	<input class="zui-input zui-validatebox nwidth2" name="detailReceipt">%
+								<dl class="form-item form-auto">
+									<dd class="detail">
+										<label>
+											<input class="zui-input zui-validatebox nwidth2" validate-type="IsDecimal" name="detailReceipt">
+										</label>
+										<span class="word">%</span>
+									</dd>
+								</dl>
                             </td>
 		                </tr>
 	           		</tbody>
@@ -470,7 +577,7 @@
 seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], function($, CALLBACK) {
 	//编辑dialog
 	$("#dialog_edit").Zdialog({
-        width: 950, height: 400, closed: true, title: "新增",
+        width: 950, height: 450, closed: true, title: "新增",
         buttons: [
             {
                 id: 'message-btn',
@@ -492,7 +599,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
     });
 	//查看dialog
 	$("#dialog_view").Zdialog({
-        width: 950, height: 400, closed: true, title: "查看",
+        width: 950, height: 450, closed: true, title: "查看",
         buttons: [
             {
                 id: 'message-btn',
@@ -508,7 +615,6 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	//添加
 	CALLBACK.add = function(){
 		$("#addFormDialog input[name='id']").val("");
-		$("#productId").ZCombobox("setValue","");
 		$("#dialog_edit").Zdialog("open");
 	};
 	CALLBACK.productFormat = function(row,value){
@@ -527,24 +633,24 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		$("span[lang='period']").text(row.period);
 		$("span[lang='amount']").text(row.amount);
 		$("span[lang='pledgePick']").text(row.pledgePick);
-		$("span[lang='overdueFee']").text(row.overdueFee + "(%/天)");
+		$("span[lang='overdueFee']").text(row.overdueFee + "(%/"+row.overdueFeeUnitName+")");
 		$("span[lang='renewalFee']").text(row.renewalFee + "(%/天)");
 		$("span[lang='terminal']").text(row.terminal);
 		$("span[lang='repaymentType']").text(row.repaymentType);
 		$("span[lang='prepayment']").text(row.prepayment);
-		$("span[lang='detailCollectionType0']").text(row.detailCollectionType[0]);
+		$("span[lang='detailCollectionType0']").text(row.detailCollectionType[0]==null?"":row.detailCollectionType[0]);
 		$("span[lang='detailStock0']").text(row.detailStock[0]==null?"":row.detailStock[0]+"%/笔");
 		$("span[lang='detailMonth0']").text(row.detailMonth[0]==null?"":row.detailMonth[0]+"%/月");
 		$("span[lang='detailCostMonth0']").text(row.detailCostMonth[0]==null?"":row.detailCostMonth[0]+"%/月");
 		$("span[lang='detailReceipt0']").text(row.detailReceipt[0]==null?"":row.detailReceipt[0]+"%");
 		
-		$("span[lang='detailCollectionType1']").text(row.detailCollectionType[1]);
+		$("span[lang='detailCollectionType1']").text(row.detailCollectionType[1]==null?"":row.detailCollectionType[1]);
 		$("span[lang='detailStock1']").text(row.detailStock[1]==null?"":row.detailStock[1]+"%/笔");
 		$("span[lang='detailMonth1']").text(row.detailMonth[1]==null?"":row.detailMonth[1]+"%/月");
 		$("span[lang='detailCostMonth1']").text(row.detailCostMonth[1]==null?"":row.detailCostMonth[1]+"%/月");
 		$("span[lang='detailReceipt1']").text(row.detailReceipt[1]==null?"":row.detailReceipt[1]+"%");
 		
-		$("span[lang='detailCollectionType2']").text(row.detailCollectionType[2]);
+		$("span[lang='detailCollectionType2']").text(row.detailCollectionType[2]==null?"":row.detailCollectionType[2]);
 		$("span[lang='detailStock2']").text(row.detailStock[2]==null?"":row.detailStock[2]+"%/笔");
 		$("span[lang='detailMonth2']").text(row.detailMonth[2]==null?"":row.detailMonth[2]+"%/月");
 		$("span[lang='detailCostMonth2']").text(row.detailCostMonth[2]==null?"":row.detailCostMonth[2]+"%/月");
@@ -565,6 +671,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		$("#addFormDialog input[name='pledgePickStart']").ZCombobox("setValue",row.pledgePickStart);
 		$("#addFormDialog input[name='pledgePickEnd']").ZCombobox("setValue",row.pledgePickEnd);
 		$("#addFormDialog input[name='overdueFee']").val(row.overdueFee);
+		$("#addFormDialog input[name='overdueFeeUnit']").ZCombobox("setValue",row.overdueFeeUnit);
 		$("#addFormDialog input[name='renewalFee']").val(row.renewalFee);
 		$("#addFormDialog input[name='terminal']").ZCombobox("setValue",row.terminal);
 		$("#addFormDialog input[name='repaymentType']").ZCombobox("setValue",row.repaymentType);
@@ -624,7 +731,10 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
      * 下拉数据
      */
     function loadProductChildId(pId) {
-       	$("#productId").ZCombobox({queryParams: {"parentId": pId}});
+       	$("#productId").ZCombobox({
+			queryParams: {"parentId": pId},
+			value:''
+		});
     }
 	
 	$.ZUI.init();
@@ -639,6 +749,45 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
             });
             return false;
         }
+    	
+		if($("#detailStock01").val()!='' && $("#detailMonth01").val()!=''){
+    		$.ZMessage.error("错误", "利息不能同时有两种财务确认营收(标准)", function () {
+            });
+            return false;
+        }
+		
+		if($("#detailStock02").val()!='' && $("#detailMonth02").val()!=''){
+    		$.ZMessage.error("错误", "服务费不能同时有两种财务确认营收(标准)", function () {
+            });
+            return false;
+        }
+		
+		if($("#detailStock03").val()!='' && $("#detailMonth03").val()!=''){
+    		$.ZMessage.error("错误", "保证金不能同时有两种财务确认营收(标准)", function () {
+            });
+            return false;
+        }
+		
+		
+    	
+    	if($("#periodStartUnit").val()!=$("#periodEndUnit").val()){
+    		$.ZMessage.error("错误", "期数单位不一致", function () {
+            });
+            return false;
+    	}
+    	
+    	if(Number($("#periodStart").val())>Number($("#periodEnd").val())){
+    		$.ZMessage.error("错误", "前后期数输入有误", function () {
+            });
+            return false;
+    	}
+    	
+    	 
+    	if(Number($("#amountStart").val())>Number($("#amountEnd").val())){
+    		$.ZMessage.error("错误", "前后金额输入有误", function () {
+            });
+            return false;
+    	}
     	var formData = $("#addFormDialog").serializeArray();
     	$.ajax({
 			url:'<z:ukey key="com.zdsoft.finance.prCostItem.save" context="admin"/>&jsoncallBack=?',

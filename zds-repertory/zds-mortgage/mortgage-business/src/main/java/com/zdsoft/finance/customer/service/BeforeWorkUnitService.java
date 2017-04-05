@@ -7,49 +7,56 @@ import com.zdsoft.finance.customer.entity.BeforeWorkUnit;
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:BeforeWorkUnitService.java
- * @Package:com.zdsoft.finance.customer.service
- * @Description:工作单位
- * @author: xj
- * @date:2017年1月12日 上午10:10:08
- * @version:v1.0
+ * @Title: BeforeWorkUnitService.java 
+ * @ClassName: BeforeWorkUnitService 
+ * @Description: 工作单位
+ * @author xj 
+ * @date 2017年3月9日 上午10:04:42 
+ * @version V1.0
  */
 public interface BeforeWorkUnitService extends BaseService<BeforeWorkUnit> {
 
 	/**
 	 * 
-	 *  单个保存工作单位
-	 *
-	 * @author xj
-	 * @param beforeWorkUnit
+	 * @Title: saveOrUpdateWorkUnit 
+	 * @Description: 单个保存工作单位
+	 * @author xj 
+	 * @param beforeWorkUnit 地址
+	 * @param customerId 客户id
 	 * @return
 	 * @throws Exception
 	 */
 	public BeforeWorkUnit saveOrUpdateWorkUnit(BeforeWorkUnit beforeWorkUnit,String customerId) throws Exception;
+	
 	/**
 	 * 
-	 * 多个保存工作单位
-	 *
-	 * @author xj
-	 * @param beforeWorkUnits
+	 * @Title: saveOrUpdateWorkUnit 
+	 * @Description: 多个保存工作单位
+	 * @author xj 
+	 * @param beforeWorkUnits  工作单位
+	 * @param customerId 客户id
+	 * @param token
 	 * @return
 	 * @throws Exception
 	 */
 	public List<BeforeWorkUnit> saveOrUpdateWorkUnit(List<BeforeWorkUnit> beforeWorkUnits,String customerId,String token) throws Exception;
+	
 	/**
 	 * 
-	 * 通过id删除
-	 *
-	 * @author xj
-	 * @param id
+	 * @Title: deleteById 
+	 * @Description: 通过id删除
+	 * @author xj 
+	 * @param id id
+	 * @throws Exception
 	 */
 	public void deleteById(String id) throws Exception;;
+	
 	/**
 	 * 
-	 * 通过案件id查询贷前工作单位
-	 *
-	 * @author xj
-	 * @param customerId
+	 * @Title: queryByCustomerId 
+	 * @Description: 通过案件id查询贷前工作单位
+	 * @author xj 
+	 * @param customerId 客户id
 	 * @return
 	 */
 	public List<BeforeWorkUnit> queryByCustomerId(String customerId);

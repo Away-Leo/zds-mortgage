@@ -21,14 +21,14 @@
 					<dt class="title"><b class="c-red mr5">*</b>受让方类型：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="acceptType" name="acceptType" type="hidden" value="${creditEntrustAttomVo.acceptType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=tftp"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00138"
                               data-valuefield="fullcode" data-callback="acceptTypeChange" data-textfield="name" validate-type="Require">
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>受让方名称：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustAttomVo.acceptName }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]" value="${creditEntrustAttomVo.acceptName }"
 							 id="acceptName" name="acceptName">
 						</label>
 					</dd>
@@ -37,7 +37,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>转让状态：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="attomState" name="attomState" type="hidden" value="${creditEntrustAttomVo.attomState }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=tsst"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00135"
                               data-valuefield="fullcode" validate-type="Require">
 					</dd>
 				</dl>
@@ -69,7 +69,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>联系地址：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustAttomVo.address }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-256]" value="${creditEntrustAttomVo.address }"
 							 id="address" name="address">
 						</label>
 					</dd>
@@ -102,7 +102,7 @@
 					</dd>
 				</dl>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>合同收益率：</dt>
+					<dt class="title  sptitle"><b class="c-red mr5">*</b>合同收益率(%)：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]" value="${creditEntrustAttomVo.contractProfitRate }"
 							 id="contractProfitRate" name="contractProfitRate">
@@ -121,7 +121,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>单一合同编号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustAttomVo.contractNo }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]" value="${creditEntrustAttomVo.contractNo }"
 							 id="contractNo" name="contractNo">
 						</label>
 					</dd>
@@ -129,7 +129,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>转让合同编号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustAttomVo.attomContractNo }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]" value="${creditEntrustAttomVo.attomContractNo }"
 							 id="attomContractNo" name="attomContractNo">
 						</label>
 					</dd>
@@ -147,9 +147,9 @@
 			<div class="page-box">
 				<div class="page-title">其他信息</div>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>受让人开户银行：</dt>
+					<dt class="title sptitle"><b class="c-red mr5">*</b>受让人开户银行：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustAttomVo.assigneeAccBank }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]" value="${creditEntrustAttomVo.assigneeAccBank }"
 							 id="assigneeAccBank" name="assigneeAccBank">
 						</label>
 					</dd>
@@ -157,7 +157,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>受让人账户名：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require" value="${creditEntrustAttomVo.assigneeAccName }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]" value="${creditEntrustAttomVo.assigneeAccName }"
 							 id="assigneeAccName" name="assigneeAccName">
 						</label>
 					</dd>
@@ -174,14 +174,14 @@
 					<dt class="title"><b class="c-red mr5">*</b>派息周期：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="payoutPeriod" name="payoutPeriod" type="hidden" value="${creditEntrustAttomVo.payoutPeriod }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=popd"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00136"
                               data-valuefield="fullcode" validate-type="Require">
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>付息日：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"  value="${creditEntrustAttomVo.termDay }"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Size[1-31]"  value="${creditEntrustAttomVo.termDay }"
 							 id="termDay" name="termDay">
 						</label>
 					</dd>
@@ -206,7 +206,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>

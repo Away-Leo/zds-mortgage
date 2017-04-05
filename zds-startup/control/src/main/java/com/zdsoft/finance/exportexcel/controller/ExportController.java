@@ -213,8 +213,7 @@ public class ExportController extends BaseController {
 
             int b = 0;
             byte[] buffer = new byte[512];
-            while (b != -1) {
-                b = inputStream.read(buffer);
+            while ((b = inputStream.read(buffer)) != -1) {
                 //4.写到输出流(out)中
                 out.write(buffer, 0, b);
             }

@@ -20,34 +20,15 @@ import com.zdsoft.framework.core.common.page.Pageable;
 public interface MyBusiService {
 	
 	/**
-	 * 草稿
-	 */
-	public static final String BUSI_TYPE_DRAFT = "00";
-	
-	/**
-	 * 待办
-	 */
-	public static final String BUSI_TYPE_DOING = "01";
-	
-	/**
-	 * 已办
-	 */
-	public static final String BUSI_TYPE_DONE = "02";
-	
-	
-
-	/**
-	 * 
-	 * 分页查询我的业务信息
-	 *
-	 * @author jingyh
-	 * @param busiTypes
+	 * @Title: findMyBusiPageInfo 
+	 * @Description: 分页查询我的申请业务信息
+	 * @author jingyh 
 	 * @param params
 	 * @param pageInfo
 	 * @return
 	 * @throws Exception
 	 */
-	public List<MyBusiInfoDto> findMyBusiPageInfo(String[] busiTypes,Map<String,Object> params, Pageable pageInfo) throws Exception;
+	public List<MyBusiInfoDto> findMyBusiPageInfo(Map<String,Object> params, Pageable pageInfo) throws Exception;
 	
 	/**
 	 * 

@@ -18,13 +18,17 @@ import com.zdsoft.finance.product.repository.ProductArchivesBillRepository;
 import com.zdsoft.finance.product.service.ProductArchivesBillService;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 档案清单
- * @createTime 2017年1月10日 上午11:47:44
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductArchivesBillServiceImpl.java 
+ * @ClassName: ProductArchivesBillServiceImpl 
+ * @Description: 档案清单
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:44:28 
+ * @version V1.0
  */
-@Service
+@Service("productArchivesBillService")
 public class ProductArchivesBillServiceImpl extends BaseServiceImpl<ProductArchivesBill, CustomRepository<ProductArchivesBill,String>> 
 	implements ProductArchivesBillService{
 	

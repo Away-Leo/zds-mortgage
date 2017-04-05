@@ -6,28 +6,31 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.marketing.entity.PledgeInfo;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:PledgeInfoVo.java
- * @Package:com.zdsoft.finance.marketing.vo
- * @Description:抵押Vo
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:15:19
- * @version:v1.0
+ * @Title: PledgeInfoVo.java 
+ * @ClassName: PledgeInfoVo 
+ * @Description: 房产抵押Vo
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:49:53 
+ * @version V1.0
  */
 public class PledgeInfoVo extends BaseVo<PledgeInfo>{
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 房产
+	 * 房产Id
 	 */
 	private String housePropertyId;
-	
 	/**
-	 * 抵押类型
+	 * 抵押类型Code
 	 */
 	private String pledgeType;
-	private String pledgeTypeName;//modify by liuhuan 2017-1-21
+	/**
+	 * 抵押类型名称
+	 */
+	private String pledgeTypeName;
 	/**
 	 * 贷款银行
 	 */
@@ -41,9 +44,12 @@ public class PledgeInfoVo extends BaseVo<PledgeInfo>{
      */
     private String deadlineUnit;
 	/**
-	 * 类型
+	 * 类型Code
 	 */
 	private String type;
+	/**
+	 * 类型名称
+	 */
 	private String typeName;
 	/**
 	 * 贷款余额
@@ -122,9 +128,6 @@ public class PledgeInfoVo extends BaseVo<PledgeInfo>{
 	public void setFrontLoanBalance(BigDecimal frontLoanBalance) {
 		this.frontLoanBalance = frontLoanBalance;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	public String getPledgeTypeName() {
 		return pledgeTypeName;
 	}
@@ -144,7 +147,7 @@ public class PledgeInfoVo extends BaseVo<PledgeInfo>{
 	public PledgeInfoVo(PledgeInfo po){
 		super(po,null,new String[]{"pledgeType","type"});
 	}
-	public PledgeInfo toPO(){
+	public PledgeInfo toPo(){
 		PledgeInfo po = new PledgeInfo();
 		return super.toPo(this, po);
 	}

@@ -19,7 +19,7 @@
 						<input class="zui-combobox zui-validatebox" id="expenditureType"
 							name="expenditureType" type="hidden"
 							value=""
-							data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=edtp"
+							data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00133"
 							data-valuefield="fullcode" data-callback="getFeeItems"
 							data-textfield="name" validate-type="Require">
 					</dd>
@@ -38,7 +38,7 @@
 						<input class="zui-combobox zui-validatebox" id="expenditureType"
 							name="expenditureType" type="hidden"
 							value=""
-							data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=edtp"
+							data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00133"
 							data-valuefield="fullcode" data-callback="getFeeItems"
 							data-textfield="name" validate-type="Require">
 					</dd>
@@ -66,7 +66,7 @@
 						<input class="zui-combobox zui-validatebox" id="expenditureType"
 							name="expenditureType" type="hidden"
 							value=""
-							data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=edtp"
+							data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00133"
 							data-valuefield="fullcode" data-callback="getFeeItems"
 							data-textfield="name" validate-type="Require">
 					</dd>

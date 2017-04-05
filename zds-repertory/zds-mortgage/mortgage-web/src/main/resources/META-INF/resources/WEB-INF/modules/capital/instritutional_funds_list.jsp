@@ -16,7 +16,7 @@
     <div class="p5">
         <form id="searchInstitutionForm" class="zui-form mt15">
             <dl class="form-item">
-                <dt class="title">机构:</dt>
+                <dt class="title">机构：</dt>
                 <dd class="detail">
                     <label>
                         <input class="zui-input zui-validatebox" validate-type="Length[0-64]" type="text" id="orgName" name="orgName|LK|S" value="">
@@ -24,7 +24,7 @@
                 </dd>
             </dl>
             <dl class="form-item">
-                <dt class="title">资方:</dt>
+                <dt class="title">资方：</dt>
                 <dd class="detail">
                     <label>
                         <input class="zui-input zui-validatebox" validate-type="Length[0-64]" type="text" id="cooperatorName" name="capitalists.cooperatorName|LK|S" value="">

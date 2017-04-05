@@ -7,11 +7,15 @@ import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 信托计划操作日志Vo
  * 
- * @createTime:2017年1月12日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustOperationLogVo.java
+ * @ClassName: CreditEntrustOperationLogVo
+ * @Description: 信托计划操作日志Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:19:45
+ * @version V1.0
  */
 public class CreditEntrustOperationLogVo extends BaseVo<CreditEntrustOperationLog> {
 
@@ -46,6 +50,11 @@ public class CreditEntrustOperationLogVo extends BaseVo<CreditEntrustOperationLo
 	 * 操作时间
 	 */
 	private Long operationDate;
+
+	/**
+	 * 操作时间name
+	 */
+	private String operationDateName;
 
 	/**
 	 * 实际时间
@@ -141,6 +150,14 @@ public class CreditEntrustOperationLogVo extends BaseVo<CreditEntrustOperationLo
 
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
+	}
+
+	public String getOperationDateName() {
+		return operationDateName;
+	}
+
+	public void setOperationDateName(String operationDateName) {
+		this.operationDateName = operationDateName;
 	}
 
 	public CreditEntrustOperationLogVo() {

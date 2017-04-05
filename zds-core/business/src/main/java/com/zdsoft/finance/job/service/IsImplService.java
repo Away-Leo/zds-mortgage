@@ -22,15 +22,13 @@ import com.zdsoft.framework.core.server.RPCAbstractService;
 import com.zdsoft.framework.cra.annotation.InterfaceService;
 
 /**
- * 
  * 版权所有：重庆正大华日软件有限公司
  * @Title: IsImplService.java 
  * @ClassName: IsImplService 
  * @Description: 判断接口类型
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a> 
- * @version V1.0 
- * @date 2017-01-05
- *
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:44:01 
+ * @version V1.0
  */
 @Service
 @InterfaceService(resource = "zds.workflow.job.isImplService", label = "判断接口类型服务")

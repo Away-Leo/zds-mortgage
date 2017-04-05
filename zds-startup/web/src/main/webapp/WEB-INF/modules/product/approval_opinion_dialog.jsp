@@ -12,17 +12,17 @@
             <dl class="form-item">
 	             <dt class="title"><b class="c-red mr5">*</b>审批类型:</dt>
 	             <dd class="detail">
-	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${approvalOpinion.approvalTypeCd }"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=opprovalOpinionType"
-	                        data-valuefield="fullcode" data-textfield="name" name="approvalTypeCd">
+	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${approvalOpinion.approvalType }"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00124"
+	                        data-valuefield="fullcode" data-textfield="name" data-callback="approvalType" name="approvalType">
 	             </dd>
 	        </dl>
-            <dl class="form-item">
+            <dl class="form-item" id="mortgageOrderDl">
 	             <dt class="title"><b class="c-red mr5">*</b>抵押顺位:</dt>
 	             <dd class="detail">
-	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${approvalOpinion.mortgageOrderCd }"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=mortgageOrder"
-	                        data-valuefield="fullcode" data-textfield="name" name="mortgageOrderCd">
+	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${approvalOpinion.mortgageOrder }"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0052"
+	                        data-valuefield="fullcode" data-textfield="name" name="mortgageOrder">
 	             </dd>
 	         </dl>
             <dl class="form-item">
@@ -50,7 +50,17 @@
 </div>
 
 <script type="text/javascript">
-    seajs.use(['jquery','zd/jquery.zds.form','zd/jquery.zds.table'], function ($) {
+    seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.table'], function ($,CALLBACK) {
+    	
+    	CALLBACK.approvalType = function(value,text){
+    		if(value == "YWDM0012402"){
+    			$("#mortgageOrderDl").hide();
+    			$("#addApprovalOptionForm input[name='mortgageOrder']").attr("validate-type","");
+    		}else{
+    			$("#mortgageOrderDl").show();
+    			$("#addApprovalOptionForm input[name='mortgageOrder']").attr("validate-type","Require");
+    		}
+    	};
     	
     	$("#approvalOptionDialog").Zdialog({
             width: 700, height: 340, closed: false, title: "审批意见配置",isDestroy:true,
@@ -63,7 +73,7 @@
                     handler: function () {
                    	var flag=$.ZUI.validateForm($('#addApprovalOptionForm'));
                     	if(flag){
-                    		var addApprovalOptionForm = $('#addApprovalOptionForm').serialize();
+                    		var addApprovalOptionForm = $('#addApprovalOptionForm').serializeArray();
                             $.ajax({
                                 type: 'post',
                                 url: '<z:ukey key="com.zdsoft.finance.approvalOpinion.saveOrUpdate" context="admin"/>',
@@ -74,9 +84,7 @@
                                     	$.ZMessage.success("提示", "保存成功", function () {
                     	                    $(".zd-message").ZWindow("close");
                     	                });
-                                    	var formArray=$("#queryApprovalOpinion").serialize();
-                                    	formArray=decodeURIComponent(formArray, true);
-                                    	$('#tb-approvalOpinion').ZTable("reload", formArray);
+                                    	$('#tb-approvalOpinion').ZTable("reload",{});
                                     	$("#approvalOptionDialog").Zdialog("close");
                                     }else{
                                     	$.ZMessage.error("错误", data.msg, function () {
@@ -104,7 +112,6 @@
                 }
             ]
         });
-    	
     	//初始化
         $.ZUI.initForms("#optionDialog");
     });

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.common.base.QueryObj;
+import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.PartRepayment;
 import com.zdsoft.finance.product.service.PartRepaymentService;
 import com.zdsoft.finance.product.vo.PartRepaymentVo;
@@ -27,11 +28,15 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
+
 /**
- * 分段还款
- * @createTime 2017年1月10日 下午2:51:37
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PartRepaymentController.java 
+ * @ClassName: PartRepaymentController 
+ * @Description: 分段还款
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:45:22 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("partRepayment")
@@ -45,26 +50,27 @@ public class PartRepaymentController extends BaseController {
 	private HttpServletRequest request;
 	
 	/**
-	 * 档案清单入口
+	 * @Title: init 
+	 * @Description: 档案清单入口
+	 * @author gufeng 
+	 * @param productId 产品id
 	 * @return 档案清单页面
 	 */
 	@RequestMapping("/init")
 	@UriKey(key = "com.zdsoft.finance.partRepayment.init")
 	public ModelAndView init(String productId) {
 		ModelMap map = new ModelMap();
-		//TODO 自测
-//		if(ObjectHelper.isEmpty(productId)){
-//			productId = "TODO1";
-//		}
 		map.put("productId", productId);
 		return new ModelAndView("/product/part_repayment_list",map);
 	}
 	
 	/**
-	 * 档案清单查询
-	 * @param pageable
-	 * @param jsoncallback
-	 * @return
+	 * @Title: list 
+	 * @Description: 档案清单查询
+	 * @author gufeng 
+	 * @param pageable 分页
+	 * @param jsoncallback 跨域
+	 * @return 分页数据
 	 */
 	@RequestMapping("/list")
 	@UriKey(key = "com.zdsoft.finance.partRepayment.list")
@@ -90,10 +96,12 @@ public class PartRepaymentController extends BaseController {
 	}
 	
 	/**
-	 * 保存
-	 * @param vo
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: save 
+	 * @Description: 保存
+	 * @author gufeng 
+	 * @param vo 数据
+	 * @param jsoncallBack 跨域
+	 * @return 保存结果
 	 */
 	@RequestMapping("/save")
     @UriKey(key = "com.zdsoft.finance.partRepayment.save")
@@ -114,20 +122,26 @@ public class PartRepaymentController extends BaseController {
             map.put("status", 1);
             map.put("msg", "保存成功！");
             map.put("id", po.getId());
-        } catch (Exception e) {
+        } catch (BusinessException e) {
             e.printStackTrace();
             logger.error("保存出错", e);
             map.put("status", 0);
-            map.put("msg", "保存出错");
+            map.put("msg", e.getExceptionMessage());
+        }catch(Exception e){
+        	logger.error("保存出错", e);
+            map.put("status", 0);
+            map.put("msg", "当前登录人未获取到");
         }
         return ObjectHelper.objectToJson(map, jsoncallBack);
 	}
 	
 	/**
-	 * 删除
-	 * @param id
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: deleted  
+	 * @Description: 删除
+	 * @author gufeng 
+	 * @param id 主键
+	 * @param jsoncallBack 跨域
+	 * @return 删除结果
 	 */
 	@RequestMapping("/deleted")
 	@UriKey(key = "com.zdsoft.finance.partRepayment.deleted")

@@ -11,37 +11,36 @@ import org.hibernate.annotations.Type;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 产品流程配置
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProcessConfig.java 
+ * @ClassName: ProcessConfig 
+ * @Description: 产品流程配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午5:40:23 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_process_config")
+@Table(name="prd_process_config")
 public class ProcessConfig extends BaseEntity{
+
+	private static final long serialVersionUID = -4223611313203662805L;
 
 	/**
 	 * 流程名称
 	 */
-	@Column(length=255)
+	@Column(length=64)
 	private String processName;
 	
 	/**
 	 * 代码
 	 */
-	@Column(length=32)
-	private String processFormCd;
-	
-	/**
-	 * 代码
-	 */
-	@Column(length=255)
-	private String processFormNm;
+	@Column(length=20)
+	private String processCode;
 	
 	/**
 	 * 流程key
 	 */
-	@Column(length=255)
+	@Column(length=64)
 	private String processKey;
 	
 	/**
@@ -70,22 +69,6 @@ public class ProcessConfig extends BaseEntity{
 
 	public void setProcessName(String processName) {
 		this.processName = processName;
-	}
-
-	public String getProcessFormCd() {
-		return processFormCd;
-	}
-
-	public void setProcessFormCd(String processFormCd) {
-		this.processFormCd = processFormCd;
-	}
-
-	public String getProcessFormNm() {
-		return processFormNm;
-	}
-
-	public void setProcessFormNm(String processFormNm) {
-		this.processFormNm = processFormNm;
 	}
 
 	public String getProcessKey() {
@@ -118,6 +101,14 @@ public class ProcessConfig extends BaseEntity{
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getProcessCode() {
+		return processCode;
+	}
+
+	public void setProcessCode(String processCode) {
+		this.processCode = processCode;
 	}
 	
 }

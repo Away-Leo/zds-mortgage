@@ -11,11 +11,15 @@ import com.zdsoft.finance.capital.entity.CreditEntrustAttom;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 信托计划转让RepositoryImpl
  * 
- * @createTime:2017年1月13日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustAttomRepositoryImpl.java
+ * @ClassName: CreditEntrustAttomRepositoryImpl
+ * @Description: 信托计划转让RepositoryImpl
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:25:59
+ * @version V1.0
  */
 public class CreditEntrustAttomRepositoryImpl {
 
@@ -23,14 +27,18 @@ public class CreditEntrustAttomRepositoryImpl {
 	EntityManager em;
 
 	/**
-	 * 根据查询条件查询信托计划转让列表
 	 * 
+	 * @Title: findByConditions
+	 * @Description: 根据查询条件查询信托计划转让列表
+	 * @author liuwei
 	 * @param conditions
 	 *            查询条件
 	 * @return 信托计划转让列表
 	 */
 	@SuppressWarnings("unchecked")
 	public List<CreditEntrustAttom> findByConditions(Map<String, Object> conditions) {
+
+		// 组装hql以及查询条件
 		StringBuffer hql = new StringBuffer(
 				"select t from CreditEntrustAttom t where t.isDeleted = false and t.creditEntrust is not null ");
 		if (ObjectHelper.isNotEmpty(conditions)) {
@@ -40,7 +48,12 @@ public class CreditEntrustAttomRepositoryImpl {
 			if (ObjectHelper.isNotEmpty(conditions.get("creditEntrustName"))) {
 				hql.append(" and t.creditEntrust.creditEntrustName like :creditEntrustName ");
 			}
+			if (ObjectHelper.isNotEmpty(conditions.get("creditEntrustId"))) {
+				hql.append(" and t.creditEntrust.id = :creditEntrustId ");
+			}
 		}
+
+		hql.append(" order by t.createTime desc ");
 		Query query = em.createQuery(hql.toString());
 
 		if (ObjectHelper.isNotEmpty(conditions)) {
@@ -49,6 +62,9 @@ public class CreditEntrustAttomRepositoryImpl {
 			}
 			if (ObjectHelper.isNotEmpty(conditions.get("creditEntrustName"))) {
 				query.setParameter("creditEntrustName", "%" + conditions.get("creditEntrustName") + "%");
+			}
+			if (ObjectHelper.isNotEmpty(conditions.get("creditEntrustId"))) {
+				query.setParameter("creditEntrustId", conditions.get("creditEntrustId"));
 			}
 		}
 		List<CreditEntrustAttom> costTrackings = query.getResultList();

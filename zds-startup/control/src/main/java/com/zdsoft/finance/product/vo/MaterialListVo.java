@@ -1,22 +1,32 @@
 package com.zdsoft.finance.product.vo;
 
 import com.zdsoft.finance.common.base.BaseVo;
-import com.zdsoft.finance.product.entity.MateriaListAuth;
+import com.zdsoft.finance.product.entity.MateriaListLimits;
 import com.zdsoft.finance.product.entity.MaterialList;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
+
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 资料清单VO
- * @author LiaoGuoWei
- * @create 2016-12-26 16:01
- **/
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MaterialListVo.java 
+ * @ClassName: MaterialListVo 
+ * @Description: gufeng
+ * @author gufeng 
+ * @date 2017年3月2日 下午4:23:38 
+ * @version V1.0
+ */
 public class MaterialListVo extends BaseVo<MaterialList> {
 
-    /**
+	private static final long serialVersionUID = 1171583473020803037L;
+
+	/**
+     * 所属产品id
+     */
+    private String productId;
+	/**
      * 资料类型编号-客户资料，担保人资料，押品资料 等的代码
      */
     private String materiaTypeCode;
@@ -26,10 +36,6 @@ public class MaterialListVo extends BaseVo<MaterialList> {
      */
     private String materiaTypeName;
 
-    /**
-     * 所属产品编号
-     */
-    private String productCode;
     /**
      * 所属产品名称
      */
@@ -69,12 +75,29 @@ public class MaterialListVo extends BaseVo<MaterialList> {
     private String materiaIdentifyName;
 
     /**
-     * 拥有的流程权限节点
+     * 权限
      */
-    private List<MateriaListAuthVo> materiaListAuth;
+    private String materiaListLimits;
+    
+    private String materiaListLimitsName;
+    
+    public String getMateriaListLimitsName() {
+		return materiaListLimitsName;
+	}
 
+	public void setMateriaListLimitsName(String materiaListLimitsName) {
+		this.materiaListLimitsName = materiaListLimitsName;
+	}
 
-    public String getProductName() {
+	public String getMateriaListLimits() {
+		return materiaListLimits;
+	}
+
+	public void setMateriaListLimits(String materiaListLimits) {
+		this.materiaListLimits = materiaListLimits;
+	}
+
+	public String getProductName() {
         return productName;
     }
 
@@ -98,12 +121,12 @@ public class MaterialListVo extends BaseVo<MaterialList> {
         this.materiaTypeName = materiaTypeName;
     }
 
-    public String getProductCode() {
-        return productCode;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public Integer getShowOrder() {
@@ -162,25 +185,30 @@ public class MaterialListVo extends BaseVo<MaterialList> {
         this.materiaIdentifyName = materiaIdentifyName;
     }
 
-    public List<MateriaListAuthVo> getMateriaListAuth() {
-        return materiaListAuth;
-    }
-
-    public void setMateriaListAuth(List<MateriaListAuthVo> materiaListAuth) {
-        this.materiaListAuth = materiaListAuth;
-    }
 
     public MaterialListVo(){}
+    
     public MaterialListVo(MaterialList materialList){
-        super(materialList,new String[]{"materiaListAuth"});
-        if(ObjectHelper.isNotEmpty(materialList.getMateriaListAuth())&&materialList.getMateriaListAuth().size()>0){
-            List<MateriaListAuthVo> listAuthVoList=new ArrayList<MateriaListAuthVo>();
-            for(MateriaListAuth temp:materialList.getMateriaListAuth()){
-                MateriaListAuthVo authVo=new MateriaListAuthVo(temp);
-                listAuthVoList.add(authVo);
-            }
-            this.setMateriaListAuth(listAuthVoList);
+        super(materialList);
+    }
+    
+    public MaterialListVo(MaterialList materialList,List<MateriaListLimits> limits){
+        super(materialList);
+        String limitNames = "";
+        String limitCd = "";
+        if(ObjectHelper.isNotEmpty(limits)){
+        	for (MateriaListLimits materiaListLimits : limits) {
+        		MateriaListLimitsVo limitVo = new MateriaListLimitsVo(materiaListLimits);
+        		limitCd += limitVo.getMateriaLimit() + ",";
+        		limitNames += limitVo.getMateriaLimitName() + "," ;
+			}
         }
+        if(ObjectHelper.isNotEmpty(limitNames)){
+        	limitCd = limitCd.substring(0,limitCd.length() - 1);
+        	limitNames = limitNames.substring(0,limitNames.length() - 1);
+        }
+        this.setMateriaListLimitsName(limitNames);
+        this.setMateriaListLimits(limitCd);
     }
 
     public MaterialList toPo(){

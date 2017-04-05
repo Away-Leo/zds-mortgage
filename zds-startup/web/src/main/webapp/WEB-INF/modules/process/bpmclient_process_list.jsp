@@ -12,7 +12,7 @@
 <div id="bpmDiv" data-spy="scroll" data-target="#nav" data-offset="0">
 <div class="save">
 	<button id="saveBt" class="btn-blue mr10" onclick="saveTaskOpinion();">保存</button>
-	<button id="completeTaskBtn" class="btn-gray mr10" onclick="completeTask();">提交</button>
+	<button id="completeTaskBtn" class="btn-blue mr10" onclick="completeTask();">提交</button>
 	<button id="printBtn" class="btn-blue mr10" style="display: none;" onclick="printPaper();">打印</button>
 </div>
 <div class="frm-content frm-bottom">
@@ -82,8 +82,7 @@
 										<td colspan="5" class="tl">
 											<dl class="form-item">
 												<dd class="detail" >
-													<input id="opinion" name="opinion" class="zui-validatebox"  type="hidden"
-														   validate-type="Require">
+													<input id="opinion" name="opinion"  type="hidden">
 												</dd>
 											</dl>
 										</td>
@@ -162,18 +161,8 @@
 </div>
 
 <script type="text/javascript" src="<%=resServer%>/assets/js/vendor-modules/process/zds-process-constant.js"></script>
-<script type="text/javascript" src="<%=resServer%>/assets/js/vendor-modules/process/bpmclient_process_list.js"></script>
 <script>
-	seajs.use(['jquery','zd/jquery.zds.page.callback', 'zd/iframe', 'zd/tools', 'zd/jquery.zds.form', 'zd/jquery.zds.button', 'zd/jquery.zds.message'], function ($,CALLBACK, IFRAME, ZTOOlS) {
-		//<ul class="sdu-nav" id="schedule"> 注意：id="schedule" 是必须的
-		//============================================================
-		//optionChange
-		ZTOOlS.treeUpOrDown('#schedule');
-		ZTOOlS.layoutResize('#ztree-sidebar', 60);
-		ZTOOlS.layoutResize('#ztree-content', 60);
-		
-		$.ZUI.initForms('#opinionForm');
-	});
+	
 	var uri_get_all_post = '<z:res resource="ess.post.find-all-page" isDefault="true"/>' + "&jsonCallBack=?";
     var uri_get_all_emp = '<z:res resource="essential.comm.employees.select" isDefault="true"/>' + "&jsoncallback=?";
     var uri_get_all_post_select = '<z:res resource="ess.post.find-all-select" isDefault="true"/>' + "&jsonCallBack=?";
@@ -314,7 +303,32 @@
 		var printSrc="<z:ukey key='zf.projectfolder.projectInfoPrint' context='admin'/>&folderId="+folderId+"&groupNm="+folderGroupNm+"&projectCd="+showProjectCd+"&srcType=print";
 		window.open(printSrc);
 	}
+	seajs.use(['jquery','zd/jquery.zds.page.callback', 'zd/iframe', 'zd/tools', 'zd/jquery.zds.form', 'zd/jquery.zds.button', 'zd/jquery.zds.message'], function ($,CALLBACK, IFRAME, ZTOOlS) {
+		//<ul class="sdu-nav" id="schedule"> 注意：id="schedule" 是必须的
+		//============================================================
+		//optionChange
+		ZTOOlS.treeUpOrDown('#schedule');
+		ZTOOlS.layoutResize('#ztree-sidebar', 60);
+		ZTOOlS.layoutResize('#ztree-content', 60);
+		$(window).resize(function () {
+			ZTOOlS.layoutResize('#ztree-sidebar', 60);
+			ZTOOlS.layoutResize('#ztree-content', 60);
+		});
+		$.ZUI.initForms('#opinionForm');
+	});
 </script>
-	
+<script type="text/javascript" src="<%=resServer%>/assets/js/vendor-modules/process/bpmclient_process_list.js"></script>
+<script type="text/javascript">
+	seajs.use(['jquery','zd/jquery.zds.message'],function($){
+		if("${resultStatus}"=="-1"){
+			setTimeout(function(){$.ZMessage.info("提示","${errorMsg}",function(){
+				$("#saveBt").attr("disabled","disabled");
+				$("#completeTaskBtn").attr("disabled","disabled");
+				$("#saveBt").addClass("btn-gray").removeClass("btn-blue");
+				$("#completeTaskBtn").addClass("btn-gray").removeClass("btn-blue");
+			});},300);
+	    }
+	})
+</script>	
 </body>
 </html>

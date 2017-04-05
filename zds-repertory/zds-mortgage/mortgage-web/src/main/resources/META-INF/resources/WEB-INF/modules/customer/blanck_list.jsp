@@ -1,12 +1,15 @@
+<%@ taglib prefix="z" uri="http://www.zdsoft.cn/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%@ include file="../common/common_js.jsp" %>
-<%@ include file="../common/common_upload.jsp"%> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@ include file="../common/common_js.jsp" %>
+<%@ include file="../common/common_upload.jsp"%> 
+
+
 <title>客户黑名单信息管理</title>
 </head>
 <body id="body">
@@ -34,7 +37,7 @@
 <div class="page-box">
     <div class="page-title">黑名单列表</div>
     <div class="p10">
-        <div id="tb-product" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.blanckList.getBlanckList" context="admin"/>&jsoncallback=?&createBy|E|S=${EmpCd }","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#btn-function"}'>
+        <div id="tb-blanckList" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.blanckList.getBlanckList" context="admin"/>&jsoncallback=?&createBy|E|S=${EmpCd }","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#btn-function"}'>
 		    <table>
 		        <thead>
 		        <tr>
@@ -51,112 +54,25 @@
 		    </table>
 		</div>
 		<div id="btn-function">
-			<a class="zui-toolbar" id="btn-into" text="导入" buttonCls="btn-blue" handler="intoCustomer"></a>
+			<a class="zui-toolbar" id="btn-into" text="导入" buttonCls="btn-blue" handler="intoCustomer"></a> 
 		    <a class="zui-toolbar" id="btn-add" text="新增" buttonCls="btn-blue" handler="addCustomer"></a>
 		    <a class="zui-toolbar" id="exports" text="导出" buttonCls="btn-blue" handler="exports"></a>
 	    </div>
 	</div>
 </div>
 
-<!-- 导入黑名单 -->
-<div class="page-box" id="blanckListIntoDialog" style = "display: none">
-	<div class="p10">
-		<form id="into_form" class="zui-form " method="post" enctype="multipart/form-data">
-		    <dl class="form-item">
-					<dt class="title">
-						附件信息:
-					</dt>
-					<dd class="detail">
-						<input id="file_upload" name="file" type="file" />
-						<div>
-							<span id="importProcessUploadStatus" class="f12">
-								<c:if test="${condition.attachments eq null || condition.attachments == ''}">
-									<span id="attrRemark">备注：未上传附件</span>
-								</c:if>
-								<c:if test="${!(condition.attachments eq null || condition.attachments == '')}">
-									<c:forEach items="${attrs}" var="attr">
-										<span>${attr.fileLabel} &nbsp;
-										<a onclick="attrDel(this,'${attr.id}')" style="color:#4692f0;">删除</a>&nbsp;
-										<a onclick="attrDown('${attr.id}')" style="color:#4692f0;">下载</a>
-										<br>
-										</span>
-									</c:forEach>
-								</c:if>
-							</span>
-						</div>
-					</dd>
-				</dl>
-        </form>
-    </div>
+<!-- 新增黑名单信息 -->
+<div id="blanckListDialog" style="display: none">
+	
 </div>
 
-<!-- 新增黑名单信息 -->
-<div class="page-box" id="blanckListDialog" style = "display: none">
-	<div class="p10">
-        <form id="blanckList_form" class="zui-form " method="post" enctype="multipart/form-data">
-        	<dl class="form-item">
-				<dt class="title"><b class="c-red mr5">*</b>姓名：</dt>
-				<dd class="detail">
-				<label>
-						<input class="zui-input zui-validatebox" validate-type="Require,Length[0-64]" id="blackName" name="blackName">
-       			</label>
-				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title"><b class="c-red mr5">*</b>证件类型：</dt>
-				<dd class="detail">
-				<label>
-						<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="credentiaType" type="hidden" name="credentiaType" value=""
-                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=060600"
-                           data-valuefield="fullcode" data-textfield="name"  data-callback="setattr">
-       			</label>
-				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title"><b class="c-red mr5">*</b>证件号码：</dt>
-				<dd class="detail">
-				<label>
-						<input class="zui-input zui-validatebox" validate-type="Require" 
-						value="" id="credentialNo" name="credentialNo" >
-       			</label>
-				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title"><b class="c-red mr5">*</b>原因：</dt>
-				<dd class="detail">
-				<label>
-						<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="reasonType" type="hidden" name="reasonType" value=""
-                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=r0118"
-                           data-valuefield="fullcode" data-textfield="name" >
-       			</label>
-				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title"><b class="c-red mr5">*</b>来源：</dt>
-				<dd class="detail">
-				<label>
-						<input class="zui-combobox zui-validatebox" validate-type="Require,Length[0-15]" id="source" type="hidden" name="source" value=""
-                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=s0140"
-                           data-valuefield="fullcode" data-textfield="name" >
-       			</label>
-				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title">开始日期：</dt>
-				<dd class="detail">
-						<input type="text" class="zui-date zui-validatebox" id="startDate" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'changeStartDate'})">
-		                <input type="hidden" id="changeStartDate" name="startDate" />
-				</dd>
-			</dl>
-			<dl class="form-item">
-				<dt class="title">结束日期：</dt>
-				<dd class="detail">
-						<input type="text" class="zui-date zui-validatebox" id="endDate" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'changeEndDate'})">
-		                <input type="hidden" id="changeEndDate" name="endDate" />
-				</dd>
-			</dl>
-        </form>
-	</div>
+<!-- 黑名单导入 -->
+<div id="blanckListIntoDialog" style="display: none">
+<input id="sessionId" type="hidden" value="${pageContext.session.id}"/> 
+	<input type="file" name="fileUpload" id="fileUpload" validate-type="Require"  />
+	 <div class="uploadify-queue" id="queue-item" style="margin-left: 105px">
+        </div>
+
 </div>
 
 <script type="text/javascript">
@@ -164,13 +80,13 @@
             ]
             , function ($, ZTOOL, CALLBACK, Loading, Switch, Zdialog, ZUI_MESSAGE_CLIENT) {
     	
-		    	CALLBACK.setattr = function(index,value){
+		    	/* CALLBACK.setattr = function(index,value){
 					if(value == '身份证'){
 						$("#credentialNo").attr('validate-type',"Require,Length[1-64],IDCard");
 					}else{
 						$("#credentialNo").attr('validate-type',"Require,Length[1-64]");
 					}
-				}
+				} */
     			
 		    	//查询回调
 		        $('#searchProduct').on('click',function(){
@@ -178,7 +94,7 @@
 		        	if(flag){
 		            	var formArray=$("#searchProductForm").serialize();
 		            	formArray=decodeURIComponent(formArray, true);
-		            	$('#tb-product').ZTable("reload", formArray);
+		            	$('#tb-blanckList').ZTable("reload", formArray);
 		        	}
 		        });
 		        
@@ -189,18 +105,22 @@
 		        	if(flag){
 		            	var formArray=$("#searchProductForm").serialize();
 		            	formArray=decodeURIComponent(formArray, true);
-		            	$('#tb-product').ZTable("reload", formArray);
+		            	$('#tb-blanckList').ZTable("reload", formArray);
 		        	}
 		        });
     			
 		        //新增黑名单
 		        CALLBACK.addCustomer=function(){
-		        	$("#changeStartDate").val('');
+		        	/* $("#changeStartDate").val('');
 		        	$("#changeEndDate").val('');
-		        	$("#blanckListDialog").Zdialog("open");
+		        	$("#blanckListDialog").Zdialog("open"); */
+		        	var	url = '<z:ukey key="com.zdsoft.finance.blanckList.dialog" context="admin"/>';
+		    		$('#blanckListDialog').load(url,function(){
+		    			//$("#blanckListDialogs").Zdialog("open");
+		    		});
                 }
 		        //新增黑名单弹出框打开
-		        $("#blanckListDialog").Zdialog({
+		        /* $("#blanckListDialog").Zdialog({
 					width : 430,
 					height : 350,
 					closed : true,
@@ -224,7 +144,7 @@
 	                                     if (data.resultStatus == 0) {
 	                                     	 $.ZMessage.success("提示", "保存成功", function () {
 	                                     		$("#blanckListDialog").Zdialog("close");
-	                                     		$("#tb-product").ZTable("reload",{});
+	                                     		$("#tb-blanckList").ZTable("reload",{});
 	                                       	 });
 	                                     }else{
 	                                       	$.ZMessage.error("错误", data.msg, function () {
@@ -246,16 +166,22 @@
 							$("#blanckListDialog").Zdialog("close");
 						}
 					} ]
-				});
+				}); */
 		        
 		        //黑名单导入
-		        CALLBACK.intoCustomer=function(){
-		        	$("#blanckListIntoDialog").Zdialog("open");
-                }
+		         CALLBACK.intoCustomer=function(){
+		        	
+		        	/*var	url = '<z:ukey key="com.zdsoft.finance.blanckList.intoDialog" context="admin"/>';
+		    		$('#blanckListIntoDialog').load(url,function(){
+		    			
+		    		}); */
+		    	
+		        	 $("#blanckListIntoDialog").Zdialog("open");
+                } 
 		        //导入黑名单弹出框打开
 		        $("#blanckListIntoDialog").Zdialog({
 					width : 475,
-					height : 350,
+					height : 220,
 					closed : true,
 					title:"导入黑名单",
 					buttons : [{
@@ -264,14 +190,23 @@
 						buttonCls: 'btn-blue',
 						handler : function() {
 							$("#blanckListIntoDialog").Zdialog("close");
-							$("#tb-product").ZTable("reload",{});
+							$("#tb-blanckList").ZTable("reload",{});
+
+						}
+					},{
+						id : 'message-btn',
+						text : '取消',
+						buttonCls : 'btn-gray',
+						handler : function() {
+							$("#blanckListIntoDialog").Zdialog("close");
 						}
 					}]
-				});
+				}); 
+				
 		        
 		    	//操作格式化
 		        CALLBACK.formatId=function(rowData,index){
-		        	var data='<a class="icon-btn12 handler-icon c-gray" title="删除" onclick="delBlanck"></a>';
+		        	var data='<a onclick="delBlanck"><button class="btn-blue">删除</button></a>';
 		        	return data;
 		        }
 		    	//删除黑名单弹出框打开
@@ -285,7 +220,7 @@
 			                    success: function (data) {
 			                        if (data.resultStatus == 0) {
 			                        	 $.ZMessage.success("提示", "删除成功", function () {
-			                        		$("#tb-product").ZTable("reload",{});
+			                        		$("#tb-blanckList").ZTable("reload",{});
 			                          	 });
 			                        }else{
 			                          	$.ZMessage.error("错误", data.msg, function () {
@@ -293,7 +228,7 @@
 			                        }
 			                    },
 			                    error: function () {
-			                      	$.ZMessage.error("错误", "保存联系方式系统异常，请联系管理员", function () {
+			                      	$.ZMessage.error("错误", "删除黑名单系统异常，请联系管理员", function () {
 				                    });
 			                    }
 			                });
@@ -307,7 +242,7 @@
 		                    success: function (data) {
 		                        if (data.resultStatus == 0) {
 		                        	 $.ZMessage.info("提示", "删除成功", function () {
-		                        		$("#tb-product").ZTable("reload",{});
+		                        		$("#tb-blanckList").ZTable("reload",{});
 		                          	 });
 		                        }else{
 		                          	$.ZMessage.error("错误", data.msg, function () {
@@ -324,6 +259,12 @@
 		        
 		    	//黑名单列表导出
 		        CALLBACK.exports=function(){
+		        	var rows=$('#tb-blanckList').ZTable("getRows");
+		    		if(rows.length==0){
+		    			$.ZMessage.warning("警告", "查询列表为空，无法导出", function () {
+	                    });
+		    			return ;
+		    		}
 		        	var url="<z:ukey key="com.zdsoft.finance.toExcel" context="admin"/>&jsoncallback=?&fileName=黑名单列表导出文档";
                     var param=$("table").html();
 					$("form").remove("#exportFrom");
@@ -367,47 +308,52 @@
    				window.downLoadFile(essdownUrl+"&attachmentId="+_id);
    			};
    			//上传附件初始化
-            $(function(){
+             $(function(){
         		 window.initUpload();
-        	});
+        	}); 
+        	
+        	window.uploadSuccess=function(){
+        		$.ZMessage.success("提示", "保存成功", function () {
+         		$("#blanckListIntoDialog").Zdialog("close");
+         		$("#tb-blanckList").ZTable("reload",{});
+        		 });
+        	};
+        	
+        	window.uploadFail=function(msg){
+    
+        		$.ZMessage.error("错误", msg, function () {
+                 });
+       	};
     });
     
-  //附件上传方法
-    function initUpload() {
+    
+    //附件上传方法
+ function initUpload() {
     	// 上传相关js
-    	var upload_url = '<z:ukey key="com.zdsoft.finance.blanckList.intoBlanckList" context="admin"/>';
-    	//模拟环境
-    	var i = 1;
-    	$('#file_upload').uploadify({
-    		'multi': true,
-    		'swf': '<%=resServerUpload %>/assets/js/zd/uploadify.swf',
-    		'uploader' : upload_url,
-    		'buttonText':'上传资料',
-    		'width':'80',
-    		'debug':false,
-    		'uploadLimit':'3',
+    	//var upload_url = '<z:ukey key="com.zdsoft.finance.blanckList.impBlanckList" context="admin"/>;jsessionid=' + $("#sessionId").val();
+    	var upload_url = 'impBlanckList;jsessionid='+ $("#sessionId").val();
+ 
+    	$('#fileUpload').uploadify({
+    		'multi': false,
+            'swf': '<%=resServerUpload %>/assets/js/zd/uploadify.swf',
+            'uploader': upload_url,
+            'buttonText': '导入黑名单',
+            'width': '80',
+            'height': '22',
+            'queueID': 'queue-item',
+            'debug': false,
     		'onUploadSuccess' : function(file, data, response) {
-    			var attachements = JSON.parse(data.toString());
-    			result = attachements[0].success;
-    			attachements = attachements[0].attachements;
-    			var fileLabel = attachements.fileLabel;
-    			var fileType = attachements.fileType;
-    			var attachementsId = attachements.id;
-    			$("#attrRemark").remove();
-    			var html = "<span>"+fileLabel+"&nbsp;" + 
-    						"<a onclick=attrDel(this,'"+attachementsId+"') style='color:#4692f0;'>删除</a>&nbsp;" +
-    						"<a onclick=attrDown('"+attachementsId+"') style='color:#4692f0;'>下载</a>" +
-    						"<br>" +
-    						"</span>";
-    			$("#importProcessUploadStatus").append(html);
-    			var attachments = $("#attachments").val() + "," + attachementsId;
-    			if(attachments.indexOf(",") == 0){
-    				attachments = attachments.substring(1,attachments.length);
-    			}
-    			$("#attachments").val(attachments);
+    			var allData = JSON.parse(data);
+    			if (allData[0].resultStatus == 0) {
+                	uploadSuccess();
+                }else{
+                	var msg = allData[0].msg
+                	uploadFail(msg);
+                }
     		}
     	});
-    }
+    } 
+  
 </script>
 </body>
 </html>

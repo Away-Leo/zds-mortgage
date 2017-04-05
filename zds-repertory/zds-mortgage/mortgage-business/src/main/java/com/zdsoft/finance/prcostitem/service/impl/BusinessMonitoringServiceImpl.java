@@ -15,11 +15,15 @@ import com.zdsoft.finance.prcostitem.service.BusinessMonitoringService;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 业务监控
- * @createTime 2017-01-11
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BusinessMonitoringServiceImpl.java 
+ * @ClassName: BusinessMonitoringServiceImpl 
+ * @Description: 业务监控
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:03:49 
+ * @version V1.0
  */
 @Service
 public class BusinessMonitoringServiceImpl extends BaseServiceImpl<BusinessMonitoring, CustomRepository<BusinessMonitoring, String>> 

@@ -5,40 +5,42 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="../common/common_js.jsp" %>
-<title>营销登记</title>
+<title>营销登记详情</title>
 </head>
 <body>
-	<div  class="frm-content frm-bottom">
-		<div class="page-box">
-			<div class="p10">
-				<!-- 基本信息 -->		
-				<%@ include file="beforehandapply/basic_info_view.jsp"%>
-				<div class="page-box">
-					<!-- 客户信息 -->
-					<%@ include file="beforehandapply/client_info_view.jsp"%>
-					<!-- 客户信息》联系方式 -->
-					<%@ include file="beforehandapply/client_contact_way_view.jsp"%>
-					<!-- 客户信息》工作单位信息 -->
-					<%@ include file="beforehandapply/client_work_unit_view.jsp"%>
-				</div>
-				
-				<!-- 押品信息 -->		
-				<%@ include file="beforehandapply/collateral_info_view.jsp"%>
-				<!--  编辑抵押情况 -->   
-				<%@ include file="beforehandapply/pledge_info_view.jsp"%>
-				<!--  产权人信息 -->
-				<%@ include file="beforehandapply/property_owner_view.jsp"%>	
-				<!-- 上传征信 -->		
-				<%@ include file="beforehandapply/upload_credit_file_view.jsp"%>
+<div class="save">
+    <button id="back" class="btn-blue mr10">返回</button>
+</div>
+<div  class="frm-content frm-bottom">
+	<div class="page-box">
+		<div class="p10">
+			<!-- 营销申请基本信息 -->		
+			<%@ include file="beforehandapply/basic_info_view.jsp"%>
+			<div class="page-box">
+				<!-- 客户信息 -->
+				<%@ include file="beforehandapply/client_info_view.jsp"%>
+				<!-- 客户信息》联系方式 -->
+				<%@ include file="beforehandapply/client_contact_way_view.jsp"%>
+				<!-- 客户信息》工作单位信息 -->
+				<%@ include file="beforehandapply/client_work_unit_view.jsp"%>
 			</div>
+			
+			<!-- 押品信息 -->		
+			<%@ include file="beforehandapply/collateral_info_view.jsp"%>
+			<!--  编辑抵押情况 -->   
+			<%@ include file="beforehandapply/pledge_info_view.jsp"%>
+			<!--  产权人信息 -->
+			<%@ include file="beforehandapply/property_owner_view.jsp"%>	
+			<!-- 上传征信 -->		
+			<%@ include file="beforehandapply/upload_credit_file_view.jsp"%>
 		</div>
 	</div>
-	<script type="text/javascript">
-		seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], 
-			function($, CALLBACK) {
-			$.ZUI.init();
-			 
-		});
-	</script>
+</div>
+<script type="text/javascript">
+	//返回页面
+	$('#back').click(function(){
+     	ZDS_MESSAGE_CLIENT.closeSelf();
+	});
+</script>
 </body>
 </html>

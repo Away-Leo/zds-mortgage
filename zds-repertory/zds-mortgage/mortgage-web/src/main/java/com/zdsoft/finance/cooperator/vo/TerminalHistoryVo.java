@@ -4,10 +4,15 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.TerminalHistory;
 
 /**
- * 合作方维护表
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: TerminalHistoryVo.java
+ * @ClassName: TerminalHistoryVo
+ * @Description: 合作方维护Vo
+ * @author liuwei
+ * @date 2017年3月9日 上午11:28:03
+ * @version V1.0
  */
 public class TerminalHistoryVo extends BaseVo<TerminalHistory> {
 
@@ -20,9 +25,13 @@ public class TerminalHistoryVo extends BaseVo<TerminalHistory> {
 	 */
 	private String planTimeFrame;
 	/**
-	 * 维护人
+	 * 维护人Code
 	 */
-	private String maintainer;
+	private String maintainerCd;
+	/**
+	 * 维护人姓名
+	 */
+	private String maintainerName;
 	/**
 	 * 审批人
 	 */
@@ -51,16 +60,19 @@ public class TerminalHistoryVo extends BaseVo<TerminalHistory> {
 	 * 关联的终端
 	 */
 	private String terminalId;
-	
-	
+
+	/**
+	 * 创建时间long
+	 */
+	private String createDateLong;
 
 	public String getIsDoneName() {
-		if(isDone != null  && isDone){
+		if (isDone != null && isDone) {
 			return "完成";
-		}else{
+		} else {
 			return "未完成";
 		}
-		
+
 	}
 
 	public String getPlanTimeFrame() {
@@ -71,12 +83,20 @@ public class TerminalHistoryVo extends BaseVo<TerminalHistory> {
 		this.planTimeFrame = planTimeFrame;
 	}
 
-	public String getMaintainer() {
-		return maintainer;
+	public String getMaintainerCd() {
+		return maintainerCd;
 	}
 
-	public void setMaintainer(String maintainer) {
-		this.maintainer = maintainer;
+	public void setMaintainerCd(String maintainerCd) {
+		this.maintainerCd = maintainerCd;
+	}
+
+	public String getMaintainerName() {
+		return maintainerName;
+	}
+
+	public void setMaintainerName(String maintainerName) {
+		this.maintainerName = maintainerName;
 	}
 
 	public String getApprover() {
@@ -133,6 +153,14 @@ public class TerminalHistoryVo extends BaseVo<TerminalHistory> {
 
 	public void setTerminalId(String terminalId) {
 		this.terminalId = terminalId;
+	}
+
+	public String getCreateDateLong() {
+		return createDateLong;
+	}
+
+	public void setCreateDateLong(String createDateLong) {
+		this.createDateLong = createDateLong;
 	}
 
 	public TerminalHistoryVo() {

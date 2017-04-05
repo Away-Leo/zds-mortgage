@@ -12,17 +12,17 @@
             <dl class="form-item">
 	             <dt class="title"><b class="c-red mr5">*</b>费用项:</dt>
 	             <dd class="detail">
-	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${repayPlanConfig.feeCd }"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=feeCd"
-	                        data-valuefield="fullcode" data-textfield="name" name="feeCd">
+	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${repayPlanConfig.feeCode }"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00130"
+	                        data-valuefield="fullcode" data-textfield="name" name="feeCode">
 	             </dd>
 	        </dl>
             <dl class="form-item">
 	             <dt class="title"><b class="c-red mr5">*</b>收款方:</dt>
 	             <dd class="detail">
-	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${repayPlanConfig.receiverCd }"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=receiverCd"
-	                        data-valuefield="fullcode" data-textfield="name" name="receiverCd">
+	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${repayPlanConfig.receiverId }"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00131"
+	                        data-valuefield="fullcode" data-textfield="name" name="receiverId">
 	             </dd>
 	         </dl>
             <dl class="form-item">
@@ -51,7 +51,7 @@
                     handler: function () {
                    	var flag=$.ZUI.validateForm($('#addRepayPlanConfigForm'));
                     	if(flag){
-                    		var addRepayPlanConfigForm = $('#addRepayPlanConfigForm').serialize();
+                    		var addRepayPlanConfigForm = $('#addRepayPlanConfigForm').serializeArray();
                             $.ajax({
                                 type: 'post',
                                 url: '<z:ukey key="com.zdsoft.finance.repayPlanConfig.saveOrUpdate" context="admin"/>',
@@ -62,9 +62,7 @@
                                     	$.ZMessage.success("提示", "保存成功", function () {
                     	                    $(".zd-message").ZWindow("close");
                     	                });
-                                    	var formArray=$("#queryRepayPlanConfig").serialize();
-                                    	formArray=decodeURIComponent(formArray, true);
-                                    	$('#tb-repayPlanConfig').ZTable("reload", formArray);
+                                    	$('#tb-repayPlanConfig').ZTable("reload",{});
                                     	$("#repayPlanConfigDialog").Zdialog("close");
                                     }else{
                                     	$.ZMessage.error("错误", data.msg, function () {

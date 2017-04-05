@@ -41,10 +41,10 @@ public class CommonController extends BaseController {
     
     /**
      * 
-     * 获取所以的地址信息 包含信息 省市区
-     *
-     * @author dengyy
-     * @param request 
+     * @Title: region 
+     * @Description: 获取所有的地址信息 包含信息 省市区
+     * @author dengyy 
+     * @param request
      * @param response
      * @return
      */
@@ -94,14 +94,13 @@ public class CommonController extends BaseController {
             e.printStackTrace();
             return AppServerUtil.buildError(AppStatus.SystemError);
         }
-        
     }
     
     /**
      * 
-     * app获取下拉数据信息
-     *
-     * @author dengyy
+     * @Title: checkbox 
+     * @Description: app获取下拉数据信息
+     * @author dengyy 
      * @param request
      * @param response
      * @param checkboxName 下拉框 CategoryId
@@ -145,9 +144,9 @@ public class CommonController extends BaseController {
     
     /**
      * 
-     * app获取下拉tree数据信息
-     *
-     * @author dengyy
+     * @Title: comboTree 
+     * @Description:  app获取下拉tree数据信息
+     * @author dengyy 
      * @param request
      * @param response
      * @param comboTreeName 下拉框 CategoryId
@@ -166,20 +165,24 @@ public class CommonController extends BaseController {
             List<Map<String, Object>> listRt = new ArrayList<Map<String, Object>>();
             for (String  string: split) {
                 List<SimpleCodeDto> codeByCategoryId = CED.querySimpleCodeByCategoryId(string);
+                List<Map<String, String>> list = new ArrayList<Map<String, String>>();
                 if(ObjectHelper.isNotEmpty(codeByCategoryId)){
                 	for (SimpleCodeDto simpleCodeDto : codeByCategoryId) {
 						 if(ObjectHelper.isEmpty(simpleCodeDto.getPid())){
-							 Map<String, Object> map = new HashMap<>();
+							 Map<String, String> map = new HashMap<>();
 							 map.put("optionCode", simpleCodeDto.getFullCode());
 				             map.put("optionVal", simpleCodeDto.getName());
-				            listRt.add(map);
+				             list.add(map);
 						 }
 					}
+                	Map<String,Object> hashMap = new HashMap<>();
+                    hashMap.put("code", list);
+                    listRt.add(hashMap);
                 }
             }
             Map<String, Object> mapRt = new HashMap<String, Object>();
             //数据封装
-            mapRt.put("comboTree", listRt);
+            mapRt.put("checkbox", listRt);
             //返回数据
             return  AppServerUtil.buildJsonObject(AppStatus.Succeed, mapRt);
         } catch (Exception e) {
@@ -190,12 +193,12 @@ public class CommonController extends BaseController {
     
     /**
      * 
-     * app获取下拉ztree 子节点信息
-     *
-     * @author dengyy
+     * @Title: comboTreeChildren 
+     * @Description: app获取下拉ztree 子节点信息
+     * @author dengyy 
      * @param request
      * @param response
-     * @param fullcode 下拉框 值
+     * @param fullCode 下拉框 值
      * @return
      */
     @RequestMapping(value = "/comboTreeChildren",produces = "text/plain;charset=UTF-8")
@@ -211,16 +214,20 @@ public class CommonController extends BaseController {
             List<Map<String, Object>> listRt = new ArrayList<Map<String, Object>>();
             for (String  string: split) {
                 List<CodeDto> list = CED.queryCodeByParentId(string);
+                List<Map<String, String>> list1 = new ArrayList<Map<String, String>>();
                 for (CodeDto codeDto : list) {
-                	 Map<String, Object> map = new HashMap<>();
+                	 Map<String, String> map = new HashMap<>();
 					 map.put("optionCode", codeDto.getFullCode());
 		             map.put("optionVal", codeDto.getName());
-		            listRt.add(map);
+		             list1.add(map);
 				}
+                Map<String,Object> hashMap = new HashMap<>();
+                hashMap.put("code", list1);
+                listRt.add(hashMap);
             }
             Map<String, Object> mapRt = new HashMap<String, Object>();
             //数据封装
-            mapRt.put("comboTreeChildren", listRt);
+            mapRt.put("checkbox", listRt);
             //返回数据
             return  AppServerUtil.buildJsonObject(AppStatus.Succeed, mapRt);
         } catch (Exception e) {

@@ -8,15 +8,16 @@ import org.springframework.data.repository.query.Param;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.marketing.entity.Collateral;
 
-/** 	
-* 版权所有：重庆正大华日软件有限公司	
-* @Title: CollateralRepository.java 	
-* @Package com.zdsoft.finance.marketing.repository 	
-* @Description: 押品	
-* @author Administrator 	
-* @date 2017年1月14日 下午4:52:10 	
-* @version V1.0 	
-*/
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CollateralRepository.java 
+ * @ClassName: CollateralRepository 
+ * @Description: 押品Repository
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午6:02:09 
+ * @version V1.0
+ */
 public interface CollateralRepository extends CustomRepository<Collateral, String>{
 	
     /**

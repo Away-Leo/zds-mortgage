@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zdsoft.essential.client.service.CED;
+import com.zdsoft.finance.businesssetting.entity.Bank;
+import com.zdsoft.finance.businesssetting.service.BankService;
 import com.zdsoft.finance.capital.entity.CreditCostTracking;
 import com.zdsoft.finance.capital.entity.CreditEntrust;
 import com.zdsoft.finance.capital.entity.CreditEntrustAttom;
@@ -35,6 +37,7 @@ import com.zdsoft.finance.capital.service.CreditEntrustFeeItemService;
 import com.zdsoft.finance.capital.service.CreditEntrustPrincipalService;
 import com.zdsoft.finance.capital.service.CreditEntrustRedemPrinciService;
 import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.capital.service.FeeItemService;
 import com.zdsoft.finance.capital.service.LoanCapitalService;
 import com.zdsoft.finance.capital.service.SpareCapitalService;
@@ -48,6 +51,8 @@ import com.zdsoft.finance.capital.vo.CreditEntrustVo;
 import com.zdsoft.finance.capital.vo.FeeItemVo;
 import com.zdsoft.finance.capital.vo.LoanCapitalVo;
 import com.zdsoft.finance.capital.vo.SpareCapitalVo;
+import com.zdsoft.finance.casemanage.limitApply.entity.CaseLimitApply;
+import com.zdsoft.finance.casemanage.limitApply.service.CaseLimitApplyService;
 import com.zdsoft.finance.common.base.QueryObj;
 import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.cooperator.entity.Capitalist;
@@ -64,11 +69,15 @@ import com.zdsoft.framework.cra.annotation.Menu;
 import com.zdsoft.framework.cra.annotation.Reference;
 
 /**
- * 信托计划管理controller
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustController.java
+ * @ClassName: CreditEntrustController
+ * @Description: 信托计划主Controller
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月6日 上午9:41:38
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/creditEntrust")
@@ -108,12 +117,23 @@ public class CreditEntrustController extends BaseController {
 	CreditEntrustRedemPrinciService creditEntrustRedemPrinciService;
 
 	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
+
+	@Autowired
 	CED CED;
 
+	@Autowired
+	CaseLimitApplyService caseLimitApplyService;
+
+	@Autowired
+	BankService bankService;
+
 	/**
-	 * 资金管理页面
 	 * 
-	 * @return 资金管理页面
+	 * @Title: initFundsManagement
+	 * @Description: 资金管理界面入口
+	 * @author liuwei
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initFundsManagement")
 	@UriKey(key = "com.zdsoft.finance.capital.initFundsManagement")
@@ -123,9 +143,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划管理初始化
 	 * 
-	 * @return 信托计划管理页面
+	 * @Title: initCreditEntrust
+	 * @Description: 进入资金计划列表页面
+	 * @author liuwei
+	 * @param capitalistId
+	 *            资方id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCreditEntrust")
 	@UriKey(key = "com.zdsoft.finance.capital.initCreditEntrust")
@@ -137,23 +161,28 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 查询列表
 	 * 
+	 * @Title: getCreditEntrustsBySql
+	 * @Description: 信托计划列表查询(sql)
+	 * @author liuwei
 	 * @param request
 	 *            请求
 	 * @param jsoncallback
+	 *            回调
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 列表json
 	 */
-	@RequestMapping("/getCreditEntrusts")
-	@UriKey(key = "com.zdsoft.finance.capital.getCreditEntrusts")
+	@RequestMapping("/getCreditEntrustsBySql")
+	@UriKey(key = "com.zdsoft.finance.capital.getCreditEntrustsBySql")
 	@ResponseBody
-	public String getCreditEntrusts(HttpServletRequest request, String jsoncallback, PageRequest pageable) {
+	public String getCreditEntrustsBySql(HttpServletRequest request, String jsoncallback, PageRequest pageable) {
 
 		String capitallist_id = request.getParameter("capitallist_id");
 		String creditEntrustName = request.getParameter("creditEntrustName");
 		String state = request.getParameter("state");
 
+		// 组装查询参数
 		Map<String, Object> conditions = new HashMap<String, Object>();
 		conditions.put("capitallist_id", capitallist_id);
 		conditions.put("creditEntrustName", creditEntrustName);
@@ -174,6 +203,94 @@ public class CreditEntrustController extends BaseController {
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
 
+	/**
+	 * 
+	 * @Title: getCreditEntrustsByHql
+	 * @Description: 信托计划列表查询(hql)
+	 * @author liuwei
+	 * @param request
+	 *            请求
+	 * @param jsoncallback
+	 *            回调
+	 * @param pageable
+	 *            分页信息
+	 * @return 列表json
+	 */
+	@RequestMapping("/getCreditEntrustsByHql")
+	@UriKey(key = "com.zdsoft.finance.capital.getCreditEntrustsByHql")
+	@ResponseBody
+	public String getCreditEntrustsByHql(HttpServletRequest request, String jsoncallback, PageRequest pageable) {
+
+		// 获取页面封装的查询参数
+		@SuppressWarnings("unchecked")
+		List<QueryObj> queryObjs = (List<QueryObj>) request.getAttribute("listObj");
+
+		// 分页查询
+		Page<CreditEntrust> creditValue = creditEntrustService.findByHqlConditions(pageable, queryObjs);
+
+		// 组装Vo
+		List<CreditEntrustVo> creditEntrustVos = new ArrayList<CreditEntrustVo>();
+		if (ObjectHelper.isNotEmpty(creditValue) && ObjectHelper.isNotEmpty(creditValue.getRecords())) {
+			for (int i = 0; i < creditValue.getRecords().size(); i++) {
+				CreditEntrustVo creditEntrustVo = new CreditEntrustVo(creditValue.getRecords().get(i), new String[] {},
+						new String[] { "capitalStatus" });
+
+				List<CaseLimitApply> caseLimitApplies = caseLimitApplyService
+						.findByCreditEntrustId(creditEntrustVo.getId(), CaseLimitApply.FILED_WITHOUT_MONEY);
+				List<CaseLimitApply> caseLimitApplies2 = caseLimitApplyService
+						.findByCreditEntrustId(creditEntrustVo.getId(), CaseLimitApply.ALLOCATED_FUNDS);
+
+				caseLimitApplies.addAll(caseLimitApplies2);
+
+				BigDecimal tempAmount = BigDecimal.ZERO;
+				if (ObjectHelper.isNotEmpty(caseLimitApplies) && caseLimitApplies.size() != 0) {
+					for (int j = 0; j < caseLimitApplies.size(); j++) {
+						tempAmount = tempAmount.add(caseLimitApplies.get(j).getApplyLimitAmount());
+					}
+				}
+
+				creditEntrustVo.setResidualDistribution(creditEntrustVo.getResidualDistribution().subtract(tempAmount));
+
+				// TODO ... liuwei 暂定为调用方法，如果效率低，则修改为存储过程
+				Map<String, BigDecimal> sprecialFields = creditEntrustToolService
+						.calculateSpecialFields(creditValue.getRecords().get(i), new Date());
+				BigDecimal notEquippedPay = sprecialFields.get("notEquippedPay");
+				BigDecimal bookBalance = sprecialFields.get("bookBalance");
+				BigDecimal cumulativeRecoveryPrincipal = sprecialFields.get("cumulativeRecoveryPrincipal");
+				BigDecimal cumulativeRecoveryInterest = sprecialFields.get("cumulativeRecoveryInterest");
+				BigDecimal cumulativeRecoveryPenalty = sprecialFields.get("cumulativeRecoveryPenalty");
+				BigDecimal cumulativeRecoveryLiqDamages = sprecialFields.get("cumulativeRecoveryLiqDamages");
+				BigDecimal allocatedLoan = sprecialFields.get("allocatedLoan");
+				creditEntrustVo.setNotEquippedPay(notEquippedPay);
+				creditEntrustVo.setBookBalance(bookBalance);
+				creditEntrustVo.setCumulativeRecoveryPrincipal(cumulativeRecoveryPrincipal);
+				creditEntrustVo.setCumulativeRecoveryInterest(cumulativeRecoveryInterest);
+				creditEntrustVo.setCumulativeRecoveryPenalty(cumulativeRecoveryPenalty);
+				creditEntrustVo.setCumulativeRecoveryLiqDamages(cumulativeRecoveryLiqDamages);
+				creditEntrustVo.setAllocatedLoan(allocatedLoan);
+				creditEntrustVos.add(creditEntrustVo);
+			}
+		}
+
+		// 构建返回信息
+		ResponseMsg msg = new ResponseMsg();
+		msg.setMsg("列表查询成功");
+		msg.setResultStatus(ResponseMsg.SUCCESS);
+		msg.setTotal(creditValue.getTotalRows());
+		msg.setRows(creditEntrustVos);
+
+		return ObjectHelper.objectToJson(msg, jsoncallback);
+	}
+
+	/**
+	 * 
+	 * @Title: changeCreditValueRecord
+	 * @Description: 私有方法组装返回数据
+	 * @author liuwei
+	 * @param oldValues
+	 *            原来查询出来的数据
+	 * @return 组装好的数据
+	 */
 	private List<Map<String, Object>> changeCreditValueRecord(List<Map<String, Object>> oldValues) {
 		for (Map<String, Object> map : oldValues) {
 			// 流入小计
@@ -227,26 +344,32 @@ public class CreditEntrustController extends BaseController {
 			map.put("amount29", outflowsubtotal);
 
 			// 剩余可分配
-			BigDecimal residualDistribution = inflowsubtotal.subtract(outflowsubtotal)
-					.subtract(new BigDecimal(map.get("amount31").toString()));
+			BigDecimal residualDistribution = (inflowsubtotal == null ? BigDecimal.ZERO : inflowsubtotal)
+					.subtract(outflowsubtotal == null ? BigDecimal.ZERO : outflowsubtotal)
+					.subtract(new BigDecimal(map.get("amount31").toString()) == null ? BigDecimal.ZERO
+							: new BigDecimal(map.get("amount31").toString()));
 
 			map.put("amount31", residualDistribution);
 
+			// 时间格式转换
 			Date amount44 = (Date) map.get("amount44");
-			map.put("amount44", DateHelper.dateToString(amount44, DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			map.put("amount44", DateHelper.dateToString(amount44, DateHelper.DATE_LONG_SIMPLE_FORMAT));
 		}
 
 		return oldValues;
 	}
 
 	/**
-	 * 查询列表
 	 * 
+	 * @Title: getCreditEntrustList
+	 * @Description: 获取信托计划列表
+	 * @author liuwei
 	 * @param request
-	 *            请求
+	 *            请求参数
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 列表信息json
 	 */
 	@RequestMapping("/getCreditEntrustList")
 	@UriKey(key = "com.zdsoft.finance.capital.getCreditEntrustList")
@@ -256,8 +379,8 @@ public class CreditEntrustController extends BaseController {
 		Map<String, Object> conditions = new HashMap<String, Object>();
 		List<CreditEntrust> creditEntrustList = creditEntrustService.findByConditions(conditions);
 		List<CreditEntrustVo> creditEntrustVos = new ArrayList<CreditEntrustVo>();
-
-		for (CreditEntrust creditEntrust : creditEntrustList) {
+		for (int i = 0; i < creditEntrustList.size(); i++) {
+			CreditEntrust creditEntrust = creditEntrustList.get(i);
 			CreditEntrustVo vo = new CreditEntrustVo(creditEntrust);
 			creditEntrustVos.add(vo);
 		}
@@ -265,15 +388,69 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划详情页面
 	 * 
-	 * @return
+	 * @Title: getCreditEntrustList
+	 * @Description: 获取信托计划列表
+	 * @author liuwei
+	 * @param request
+	 *            请求参数
+	 * @param jsoncallback
+	 * @param pageable
+	 *            分页信息
+	 * @return 列表信息json
+	 */
+	@RequestMapping("/getCreditEntrustListByCapitalistId")
+	@UriKey(key = "com.zdsoft.finance.capital.getCreditEntrustListByCapitalistId")
+	@ResponseBody
+	public String getCreditEntrustListByCapitalistId(String capitalistId, HttpServletRequest request,
+			String jsoncallback, PageRequest pageable) {
+
+		Map<String, Object> conditions = new HashMap<String, Object>();
+		conditions.put("capitalistId", capitalistId);
+		List<CreditEntrust> creditEntrustList = creditEntrustService.findByConditions(conditions);
+		List<CreditEntrustVo> creditEntrustVos = new ArrayList<CreditEntrustVo>();
+		for (int i = 0; i < creditEntrustList.size(); i++) {
+			CreditEntrust creditEntrust = creditEntrustList.get(i);
+			CreditEntrustVo vo = new CreditEntrustVo(creditEntrust);
+			creditEntrustVos.add(vo);
+		}
+		return ObjectHelper.objectToJson(creditEntrustVos, jsoncallback);
+	}
+
+	/**
+	 * 
+	 * @Title: initCreditEntrustAdd
+	 * @Description: 信托计划详情页面
+	 * @author liuwei
+	 * @param capitalistId
+	 *            资方id
+	 * @param id
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCreditEntrustAdd")
 	@UriKey(key = "com.zdsoft.finance.capital.initCreditEntrustAdd")
 	@Reference(resource = "com.zdsoft.finance.capital.initCreditEntrustAdd", label = "信托计划详情")
 	public ModelAndView initCreditEntrustAdd(String capitalistId, String id) {
 		ModelMap modelMap = new ModelMap();
+
+		// 获取银行信息
+		List<Bank> banks = bankService.findAllBank();
+		List<Map<String, Object>> bankMap = new ArrayList<Map<String, Object>>();
+		if (ObjectHelper.isNotEmpty(banks)) {
+			for (int i = 0; i < banks.size(); i++) {
+				Map<String, Object> objMap = new HashMap<String, Object>();
+				objMap.put("py", banks.get(i).getBankName());
+				objMap.put("name", banks.get(i).getBankName());
+				objMap.put("code", banks.get(i).getBankCode());
+
+				bankMap.add(objMap);
+			}
+		}
+		modelMap.put("data", ObjectHelper.objectToJson(bankMap));
+
+		modelMap.put("maxDate", DateHelper.dateToString(new Date(), DateHelper.DATE_SHORT_FORMAT));
+
 		if (ObjectHelper.isEmpty(id)) { // 判断是新增还是修改,为了方便,分为新增页面和修改页面
 			// 生成临时uuid
 			String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
@@ -290,15 +467,15 @@ public class CreditEntrustController extends BaseController {
 				e.printStackTrace();
 				logger.error("获取资方信息失败", e);
 			}
-			modelMap.put("cooperatorName", capitalist.getCooperatorName());
+			modelMap.put("cooperatorName", capitalist.getCapitalName());
 
 			return new ModelAndView("/capital/credit_entrust_add", modelMap);
-		} else {
+		} else { // 如果id存在，则根据id查询出信托计划
+
 			try {
 				CreditEntrust creditEntrust = creditEntrustService.findOne(id);
 				CreditEntrustVo creditEntrustVo = new CreditEntrustVo(creditEntrust);
 				modelMap.put("creditEntrustVo", creditEntrustVo);
-
 			} catch (BusinessException e) {
 				e.printStackTrace();
 				logger.error("信托计划详情查询失败", e);
@@ -310,13 +487,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 出资信息
 	 * 
+	 * @Title: investmentList
+	 * @Description: 出资信息列表
+	 * @author liuwei
 	 * @param pageable
 	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 出资信息列表json
 	 */
 	@RequestMapping("/investmentList")
 	@UriKey(key = "com.zdsoft.finance.capital.investmentList")
@@ -341,8 +521,8 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<CreditEntrustPrincipalVo> principalVos = new ArrayList<CreditEntrustPrincipalVo>();
 
-		for (CreditEntrustPrincipal principal : principalPage.getRecords()) {
-			CreditEntrustPrincipalVo principalVo = new CreditEntrustPrincipalVo(principal);
+		for (int i = 0; i < principalPage.getRecords().size(); i++) {
+			CreditEntrustPrincipalVo principalVo = new CreditEntrustPrincipalVo(principalPage.getRecords().get(i));
 			principalVos.add(principalVo);
 		}
 
@@ -350,6 +530,7 @@ public class CreditEntrustController extends BaseController {
 		String tempType = "";
 		if (pageable.getPage() == 1) { // 第一页才进行处理
 			for (int i = 0; i < principalVos.size(); i++) {
+				// 需要特殊处理的是，每种类型的第一条数据
 				if (principalVos.size() != 0 && i == 0) {
 					principalVos.get(i).setInitialPrincipal(principalVos.get(i).getPrincipalAmount());
 					principalVos.get(i).setPrincipalAmount(BigDecimal.ZERO);
@@ -373,12 +554,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划本金投入
 	 * 
+	 * @Title: principalInputList
+	 * @Description: 信托计划本金投入列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 信托计划本金投入列表json
 	 */
 	@RequestMapping("/principalInputList")
 	@UriKey(key = "com.zdsoft.finance.capital.principalInputList")
@@ -394,9 +579,9 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<CreditEntrustPrincipalVo> principalVos = new ArrayList<CreditEntrustPrincipalVo>();
 
-		for (CreditEntrustPrincipal principal : principalPage.getRecords()) {
-			CreditEntrustPrincipalVo principalVo = new CreditEntrustPrincipalVo(principal, new String[] {},
-					new String[] { "contributionType" });
+		for (int i = 0; i < principalPage.getRecords().size(); i++) {
+			CreditEntrustPrincipalVo principalVo = new CreditEntrustPrincipalVo(principalPage.getRecords().get(i),
+					new String[] {}, new String[] { "contributionType" });
 			principalVos.add(principalVo);
 		}
 
@@ -411,12 +596,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托专户贷方资金（非本金）跟踪
 	 * 
+	 * @Title: loanCapitalList
+	 * @Description: 信托专户贷方资金（非本金）跟踪列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 信托专户贷方资金（非本金）跟踪列表json
 	 */
 	@RequestMapping("/loanCapitalList")
 	@UriKey(key = "com.zdsoft.finance.capital.loanCapitalList")
@@ -431,8 +620,8 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<LoanCapitalVo> loanCapitalVos = new ArrayList<LoanCapitalVo>();
 
-		for (LoanCapital loanCapital : loanCapitalPage.getRecords()) {
-			LoanCapitalVo loanCapitalVo = new LoanCapitalVo(loanCapital, new String[] {},
+		for (int i = 0; i < loanCapitalPage.getRecords().size(); i++) {
+			LoanCapitalVo loanCapitalVo = new LoanCapitalVo(loanCapitalPage.getRecords().get(i), new String[] {},
 					new String[] { "lenderType", "capitalState" });
 			loanCapitalVos.add(loanCapitalVo);
 		}
@@ -448,12 +637,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 应付费用跟踪
 	 * 
+	 * @Title: costTrackingList
+	 * @Description: 应付费用跟踪列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 应付费用跟踪列表Json
 	 */
 	@RequestMapping("/costTrackingList")
 	@UriKey(key = "com.zdsoft.finance.capital.costTrackingList")
@@ -468,9 +661,9 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<CreditCostTrackingVo> costTrackingVos = new ArrayList<CreditCostTrackingVo>();
 
-		for (CreditCostTracking costTracking : costTrackingPage.getRecords()) {
-			CreditCostTrackingVo loanCapitalVo = new CreditCostTrackingVo(costTracking, new String[] {},
-					new String[] { "expenditureType" });
+		for (int i = 0; i < costTrackingPage.getRecords().size(); i++) {
+			CreditCostTrackingVo loanCapitalVo = new CreditCostTrackingVo(costTrackingPage.getRecords().get(i),
+					new String[] {}, new String[] { "expenditureType" });
 			costTrackingVos.add(loanCapitalVo);
 		}
 
@@ -485,12 +678,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 借方资金跟踪
 	 * 
+	 * @Title: debitTrackingList
+	 * @Description: 借方资金跟踪列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 借方资金跟踪列表json
 	 */
 	@RequestMapping("/debitTrackingList")
 	@UriKey(key = "com.zdsoft.finance.capital.debitTrackingList")
@@ -505,9 +702,9 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<CreditEntrustDebitVo> debitTrackingVos = new ArrayList<CreditEntrustDebitVo>();
 
-		for (CreditEntrustDebit debit : debitTrackingPage.getRecords()) {
-			CreditEntrustDebitVo debitVo = new CreditEntrustDebitVo(debit, new String[] {},
-					new String[] { "debitType", "debtorType", "capitalState" });
+		for (int i = 0; i < debitTrackingPage.getRecords().size(); i++) {
+			CreditEntrustDebitVo debitVo = new CreditEntrustDebitVo(debitTrackingPage.getRecords().get(i),
+					new String[] {}, new String[] { "debitType", "debtorType", "capitalState" });
 			debitTrackingVos.add(debitVo);
 		}
 
@@ -522,12 +719,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 备付资金跟踪
 	 * 
+	 * @Title: spareCapitalList
+	 * @Description: 备付资金跟踪列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求信息
 	 * @param jsoncallback
-	 * @return
+	 * @return 备付资金跟踪列表json
 	 */
 	@RequestMapping("/spareCapitalList")
 	@UriKey(key = "com.zdsoft.finance.capital.spareCapitalList")
@@ -542,8 +743,8 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<SpareCapitalVo> spareCapitalVos = new ArrayList<SpareCapitalVo>();
 
-		for (SpareCapital spareCapital : spareCapitalPage.getRecords()) {
-			SpareCapitalVo spareCapitalVo = new SpareCapitalVo(spareCapital, new String[] {},
+		for (int i = 0; i < spareCapitalPage.getRecords().size(); i++) {
+			SpareCapitalVo spareCapitalVo = new SpareCapitalVo(spareCapitalPage.getRecords().get(i), new String[] {},
 					new String[] { "operationType" });
 			spareCapitalVos.add(spareCapitalVo);
 		}
@@ -559,12 +760,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 备付资金跟踪
 	 * 
+	 * @Title: attomCapitalList
+	 * @Description: 信托计划转让列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 信托计划转让列表json
 	 */
 	@RequestMapping("/attomCapitalList")
 	@UriKey(key = "com.zdsoft.finance.capital.attomCapitalList")
@@ -579,8 +784,8 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<CreditEntrustAttomVo> attomVos = new ArrayList<CreditEntrustAttomVo>();
 
-		for (CreditEntrustAttom creditEntrustAttom : attomPage.getRecords()) {
-			CreditEntrustAttomVo attomVo = new CreditEntrustAttomVo(creditEntrustAttom, new String[] {},
+		for (int i = 0; i < attomPage.getRecords().size(); i++) {
+			CreditEntrustAttomVo attomVo = new CreditEntrustAttomVo(attomPage.getRecords().get(i), new String[] {},
 					new String[] { "acceptType", "attomState" });
 			attomVos.add(attomVo);
 		}
@@ -596,12 +801,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 本金赎回list
 	 * 
+	 * @Title: redemePrinciList
+	 * @Description: 本金赎回列表
+	 * @author liuwei
 	 * @param pageable
+	 *            分页信息
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
-	 * @return
+	 * @return 本金赎回列表json
 	 */
 	@RequestMapping("/redemePrinciList")
 	@UriKey(key = "com.zdsoft.finance.capital.redemePrinciList")
@@ -617,8 +826,8 @@ public class CreditEntrustController extends BaseController {
 		// 组装返回vo
 		List<CreditEntrustRedemPrinciVo> attomVos = new ArrayList<CreditEntrustRedemPrinciVo>();
 
-		for (CreditEntrustRedemPrinci creditEntrustRedemPrinci : attomPage.getRecords()) {
-			CreditEntrustRedemPrinciVo attomVo = new CreditEntrustRedemPrinciVo(creditEntrustRedemPrinci,
+		for (int i = 0; i < attomPage.getRecords().size(); i++) {
+			CreditEntrustRedemPrinciVo attomVo = new CreditEntrustRedemPrinciVo(attomPage.getRecords().get(i),
 					new String[] {}, new String[] { "contributionType" });
 			attomVos.add(attomVo);
 		}
@@ -634,12 +843,16 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 计算本金规模
 	 * 
+	 * @Title: countPrincipaScale
+	 * @Description: 页面动态计划本金规模
+	 * @author liuwei
 	 * @param tempUuid
 	 *            临时id
+	 * @param creditEntrustId
+	 *            信托计划id
 	 * @param jsoncallback
-	 * @return
+	 * @return 计算后的本金规模
 	 */
 	@RequestMapping("/countPrincipaScale")
 	@UriKey(key = "com.zdsoft.finance.capital.countPrincipaScale")
@@ -647,13 +860,15 @@ public class CreditEntrustController extends BaseController {
 	public String countPrincipaScale(String tempUuid, String creditEntrustId, String jsoncallback) {
 
 		BigDecimal totalAmount = BigDecimal.ZERO;
+
 		List<CreditEntrustPrincipal> principals = new ArrayList<CreditEntrustPrincipal>();
 		List<CreditEntrustRedemPrinci> redemPrincis = new ArrayList<CreditEntrustRedemPrinci>();
 
-		if (ObjectHelper.isNotEmpty(tempUuid)) {
+		// 判断临时id是否存在
+		if (ObjectHelper.isNotEmpty(tempUuid)) { // 临时id存在则直接计算出结果
 			principals = creditEntrustPrincipalService.findByTempUuid(tempUuid);
 			redemPrincis = creditEntrustRedemPrinciService.findByTempUuid(tempUuid);
-		} else {
+		} else { // 临时id不存在则根据信托计划id计算出结果
 			Map<String, Object> conditions = new HashMap<String, Object>();
 			conditions.put("creditEntrustId", creditEntrustId);
 			principals = creditEntrustPrincipalService.findByConditions(conditions);
@@ -662,15 +877,15 @@ public class CreditEntrustController extends BaseController {
 
 		// 计算总金额
 		if (ObjectHelper.isNotEmpty(principals)) {
-			for (CreditEntrustPrincipal creditEntrustPrincipal : principals) {
-				totalAmount = totalAmount.add(creditEntrustPrincipal.getPrincipalAmount() == null ? BigDecimal.ZERO
-						: creditEntrustPrincipal.getPrincipalAmount());
+			for (int i = 0; i < principals.size(); i++) {
+				totalAmount = totalAmount.add(principals.get(i).getPrincipalAmount() == null ? BigDecimal.ZERO
+						: principals.get(i).getPrincipalAmount());
 			}
 		}
 		if (ObjectHelper.isNotEmpty(redemPrincis)) {
-			for (CreditEntrustRedemPrinci creditEntrustRedemPrinci : redemPrincis) {
-				totalAmount = totalAmount.subtract(creditEntrustRedemPrinci.getRedemptionAmount() == null
-						? BigDecimal.ZERO : creditEntrustRedemPrinci.getRedemptionAmount());
+			for (int i = 0; i < redemPrincis.size(); i++) {
+				totalAmount = totalAmount.subtract(redemPrincis.get(i).getRedemptionAmount() == null ? BigDecimal.ZERO
+						: redemPrincis.get(i).getRedemptionAmount());
 			}
 		}
 
@@ -678,9 +893,17 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 专户贷方资金（非本金）跟踪
 	 * 
-	 * @return
+	 * @Title: initNonPrincipalTracking
+	 * @Description: 进入专户贷方资金（非本金）跟踪页面
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            专户贷方资金（非本金）跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initNonPrincipalTracking")
 	@UriKey(key = "com.zdsoft.finance.capital.initNonPrincipalTracking")
@@ -689,7 +912,7 @@ public class CreditEntrustController extends BaseController {
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+		if (ObjectHelper.isNotEmpty(id)) { // 如果id存在则查询出数据
 			try {
 				LoanCapital loanCapital = loanCapitalService.findOne(id);
 				LoanCapitalVo loanCapitalVo = new LoanCapitalVo(loanCapital);
@@ -698,8 +921,8 @@ public class CreditEntrustController extends BaseController {
 				// 封装已有费用项
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService.findByBusinessId(loanCapital.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -714,9 +937,17 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 专户贷方资金（非本金）跟踪
 	 * 
-	 * @return
+	 * @Title: initNonPrincipalTrackingView
+	 * @Description: 进入专户贷方资金（非本金）跟踪查看页面
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            专户贷方资金（非本金）跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initNonPrincipalTrackingView")
 	@UriKey(key = "com.zdsoft.finance.capital.initNonPrincipalTrackingView")
@@ -735,8 +966,8 @@ public class CreditEntrustController extends BaseController {
 				// 封装已有费用项
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService.findByBusinessId(loanCapital.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -751,19 +982,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划应付费用跟踪
 	 * 
-	 * @return
+	 * @Title: initCostTracking
+	 * @Description: 进入信托计划应付费用跟踪页面
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划应付费用跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCostTracking")
 	@UriKey(key = "com.zdsoft.finance.capital.initCostTracking")
 	@Reference(resource = "com.zdsoft.finance.capital.initCostTracking", label = "信托计划应付费用跟踪")
 	public ModelAndView initCostTracking(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划应付费用跟踪
 				CreditCostTracking costTracking = creditCostTrackingService.findOne(id);
 				CreditCostTrackingVo creditCostTrackingVo = new CreditCostTrackingVo(costTracking);
 				modelMap.put("creditCostTrackingVo", creditCostTrackingVo);
@@ -772,8 +1015,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(costTracking.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -788,20 +1031,34 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划应付费用跟踪查看
 	 * 
-	 * @return
+	 * @Title: initCostTrackingView
+	 * @Description: 信托计划应付费用跟踪查看
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            应付费用跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCostTrackingView")
 	@UriKey(key = "com.zdsoft.finance.capital.initCostTrackingView")
 	@Reference(resource = "com.zdsoft.finance.capital.initCostTrackingView", label = "信托计划应付费用跟踪查看")
 	public ModelAndView initCostTrackingView(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划应付费用跟踪信息
 				CreditCostTracking costTracking = creditCostTrackingService.findOne(id);
+
+				// 转换vo
 				CreditCostTrackingVo creditCostTrackingVo = new CreditCostTrackingVo(costTracking, new String[] {},
 						new String[] { "expenditureType" });
 				modelMap.put("creditCostTrackingVo", creditCostTrackingVo);
@@ -810,8 +1067,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(costTracking.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -826,19 +1083,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划借方资金（非放款）跟踪
 	 * 
-	 * @return
+	 * @Title: initTrackingTrustPlan
+	 * @Description: 进入信托计划借方资金（非放款）跟踪页面
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划借方资金（非放款）跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initTrackingTrustPlan")
 	@UriKey(key = "com.zdsoft.finance.capital.initTrackingTrustPlan")
 	@Reference(resource = "com.zdsoft.finance.capital.initTrackingTrustPlan", label = "信托计划借方资金（非放款）跟踪")
 	public ModelAndView initTrackingTrustPlan(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划借方资金（非放款）跟踪信息
 				CreditEntrustDebit creditEntrustDebit = creditEntrustDebitService.findOne(id);
 				CreditEntrustDebitVo creditEntrustDebitVo = new CreditEntrustDebitVo(creditEntrustDebit);
 				modelMap.put("creditEntrustDebitVo", creditEntrustDebitVo);
@@ -847,8 +1116,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustDebit.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -863,19 +1132,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划借方资金（非放款）跟踪查看
 	 * 
-	 * @return
+	 * @Title: initTrackingTrustPlanView
+	 * @Description: 信托计划借方资金（非放款）跟踪查看
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划借方资金（非放款）跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initTrackingTrustPlanView")
 	@UriKey(key = "com.zdsoft.finance.capital.initTrackingTrustPlanView")
 	@Reference(resource = "com.zdsoft.finance.capital.initTrackingTrustPlanView", label = "信托计划借方资金（非放款）跟踪查看")
 	public ModelAndView initTrackingTrustPlanView(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划借方资金（非放款）跟踪信息
 				CreditEntrustDebit creditEntrustDebit = creditEntrustDebitService.findOne(id);
 				CreditEntrustDebitVo creditEntrustDebitVo = new CreditEntrustDebitVo(creditEntrustDebit,
 						new String[] {}, new String[] { "debitType", "debtorType", "capitalState" });
@@ -885,8 +1166,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustDebit.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -922,8 +1203,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(spareCapital.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -938,9 +1219,17 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 备付资金跟踪
 	 * 
-	 * @return
+	 * @Title: initReserveFundTrackingView
+	 * @Description: 进入备付资金跟踪查看页面
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            备付资金跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initReserveFundTrackingView")
 	@UriKey(key = "com.zdsoft.finance.capital.initReserveFundTrackingView")
@@ -951,6 +1240,8 @@ public class CreditEntrustController extends BaseController {
 		modelMap.put("creditEntrustId", creditEntrustId);
 		if (ObjectHelper.isNotEmpty(id)) {
 			try {
+
+				// 查询备付资金跟踪信息
 				SpareCapital spareCapital = spareCapitalService.findOne(id);
 				SpareCapitalVo spareCapitalVo = new SpareCapitalVo(spareCapital, new String[] {},
 						new String[] { "operationType" });
@@ -960,8 +1251,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(spareCapital.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -976,19 +1267,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划转让信息
 	 * 
-	 * @return
+	 * @Title: initTransferInformation
+	 * @Description: 信托计划转让信息
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划转让id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initTransferInformation")
 	@UriKey(key = "com.zdsoft.finance.capital.initTransferInformation")
 	@Reference(resource = "com.zdsoft.finance.capital.initTransferInformation", label = "信托计划转让信息")
 	public ModelAndView initTransferInformation(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划转让信息
 				CreditEntrustAttom creditEntrustAttom = creditEntrustAttomService.findOne(id);
 				CreditEntrustAttomVo creditEntrustAttomVo = new CreditEntrustAttomVo(creditEntrustAttom);
 				modelMap.put("creditEntrustAttomVo", creditEntrustAttomVo);
@@ -997,8 +1300,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustAttom.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -1013,19 +1316,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划转让信息查看
 	 * 
-	 * @return
+	 * @Title: initTransferInformationView
+	 * @Description: 信托计划转让信息查看
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划转让id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initTransferInformationView")
 	@UriKey(key = "com.zdsoft.finance.capital.initTransferInformationView")
 	@Reference(resource = "com.zdsoft.finance.capital.initTransferInformationView", label = "信托计划转让信息查看")
 	public ModelAndView initTransferInformationView(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) {// 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划转让信息
 				CreditEntrustAttom creditEntrustAttom = creditEntrustAttomService.findOne(id);
 				CreditEntrustAttomVo creditEntrustAttomVo = new CreditEntrustAttomVo(creditEntrustAttom,
 						new String[] {}, new String[] { "acceptType", "attomState" });
@@ -1035,8 +1350,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustAttom.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -1051,19 +1366,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划本金投入
 	 * 
-	 * @return
+	 * @Title: initPrincipalInvestment
+	 * @Description: 信托计划本金投入
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划本金投入id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initPrincipalInvestment")
 	@UriKey(key = "com.zdsoft.finance.capital.initPrincipalInvestment")
 	@Reference(resource = "com.zdsoft.finance.capital.initPrincipalInvestment", label = "信托计划本金投入")
 	public ModelAndView initPrincipalInvestment(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划本金投入信息
 				CreditEntrustPrincipal creditEntrustPrincipal = creditEntrustPrincipalService.findOne(id);
 				CreditEntrustPrincipalVo creditEntrustPrincipalVo = new CreditEntrustPrincipalVo(
 						creditEntrustPrincipal);
@@ -1073,8 +1400,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustPrincipal.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -1083,25 +1410,45 @@ public class CreditEntrustController extends BaseController {
 				e.printStackTrace();
 				logger.error("查询数据失败", e);
 			}
+		} else {
+			try {
+				CreditEntrust creditEntrust = creditEntrustService.findOne(creditEntrustId);
+				modelMap.put("contribution", creditEntrust.getCapitallist().getCapitalName());
+			} catch (BusinessException e) {
+				e.printStackTrace();
+				logger.error("查询信托计划失败", e);
+			}
 		}
 
 		return new ModelAndView("/capital/credit_entrust_principal_add", modelMap);
 	}
 
 	/**
-	 * 信托计划本金投入确认
 	 * 
-	 * @return
+	 * @Title: initPrincipalInvestmentConfirm
+	 * @Description: 信托计划本金投入确认
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划本金投入id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initPrincipalInvestmentConfirm")
 	@UriKey(key = "com.zdsoft.finance.capital.initPrincipalInvestmentConfirm")
 	@Reference(resource = "com.zdsoft.finance.capital.initPrincipalInvestmentConfirm", label = "信托计划本金投入确认")
 	public ModelAndView initPrincipalInvestmentConfirm(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) {// 判断信托计划id是否存在
+
 			try {
+				// 查询信托计划本金投入信息
 				CreditEntrustPrincipal creditEntrustPrincipal = creditEntrustPrincipalService.findOne(id);
 				CreditEntrustPrincipalVo creditEntrustPrincipalVo = new CreditEntrustPrincipalVo(
 						creditEntrustPrincipal);
@@ -1111,8 +1458,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustPrincipal.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -1127,19 +1474,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 备付金跟踪到账确认
 	 * 
-	 * @return
+	 * @Title: initStandbyTrackingConfirm
+	 * @Description: 进入备付金跟踪到账确认页面
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划备付金跟踪id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initStandbyTrackingConfirm")
 	@UriKey(key = "com.zdsoft.finance.capital.initStandbyTrackingConfirm")
 	@Reference(resource = "com.zdsoft.finance.capital.initStandbyTrackingConfirm", label = "信托计划备付金跟踪到账确认")
 	public ModelAndView initStandbyTrackingConfirm(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划备付金跟踪信息
 				SpareCapital spareCapital = spareCapitalService.findOne(id);
 				SpareCapitalVo spareCapitalVo = new SpareCapitalVo(spareCapital);
 				modelMap.put("spareCapitalVo", spareCapitalVo);
@@ -1153,19 +1512,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划本金投入
 	 * 
-	 * @return
+	 * @Title: initPrincipalInvestmentView
+	 * @Description: 信托计划本金投入
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划本金投入id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initPrincipalInvestmentView")
 	@UriKey(key = "com.zdsoft.finance.capital.initPrincipalInvestmentView")
 	@Reference(resource = "com.zdsoft.finance.capital.initPrincipalInvestmentView", label = "信托计划本金投入查看")
 	public ModelAndView initPrincipalInvestmentView(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划本金投入信息
 				CreditEntrustPrincipal creditEntrustPrincipal = creditEntrustPrincipalService.findOne(id);
 				CreditEntrustPrincipalVo creditEntrustPrincipalVo = new CreditEntrustPrincipalVo(creditEntrustPrincipal,
 						new String[] {}, new String[] { "contributionType", "payoutPeriod" });
@@ -1175,8 +1546,8 @@ public class CreditEntrustController extends BaseController {
 				List<CreditEntrustFeeItem> feeItems = creditEntrustFeeItemService
 						.findByBusinessId(creditEntrustPrincipal.getId());
 				List<CreditEntrustFeeItemVo> feeItemVos = new ArrayList<CreditEntrustFeeItemVo>();
-				for (CreditEntrustFeeItem feeItem : feeItems) {
-					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItem);
+				for (int i = 0; i < feeItems.size(); i++) {
+					CreditEntrustFeeItemVo feeItemVo = new CreditEntrustFeeItemVo(feeItems.get(i));
 					feeItemVos.add(feeItemVo);
 				}
 
@@ -1191,19 +1562,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划本金赎回
 	 * 
-	 * @return
+	 * @Title: initRedemePrinci
+	 * @Description: 信托计划本金赎回
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划本金赎回id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initRedemePrinci")
 	@UriKey(key = "com.zdsoft.finance.capital.initRedemePrinci")
 	@Reference(resource = "com.zdsoft.finance.capital.initRedemePrinci", label = "信托计划本金赎回")
 	public ModelAndView initRedemePrinci(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划本金赎回信息
 				CreditEntrustRedemPrinci creditEntrustRedemPrinci = creditEntrustRedemPrinciService.findOne(id);
 				CreditEntrustRedemPrinciVo creditEntrustRedemPrinciVo = new CreditEntrustRedemPrinciVo(
 						creditEntrustRedemPrinci, new String[] {}, new String[] { "contributionType" });
@@ -1219,19 +1602,31 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 信托计划本金赎回
 	 * 
-	 * @return
+	 * @Title: initRedemePrinciView
+	 * @Description: 信托计划本金赎回查看
+	 * @author liuwei
+	 * @param tempUuid
+	 *            信托计划临时id
+	 * @param id
+	 *            信托计划本金赎回id
+	 * @param creditEntrustId
+	 *            信托计划id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initRedemePrinciView")
 	@UriKey(key = "com.zdsoft.finance.capital.initRedemePrinciView")
 	@Reference(resource = "com.zdsoft.finance.capital.initRedemePrinciView", label = "信托计划本金赎回查看")
 	public ModelAndView initRedemePrinciView(String tempUuid, String id, String creditEntrustId) {
+
 		ModelMap modelMap = new ModelMap();
 		modelMap.put("tempUuid", tempUuid);
 		modelMap.put("creditEntrustId", creditEntrustId);
-		if (ObjectHelper.isNotEmpty(id)) {
+
+		if (ObjectHelper.isNotEmpty(id)) { // 判断信托计划id是否存在
 			try {
+
+				// 查询信托计划本金赎回信息
 				CreditEntrustRedemPrinci creditEntrustRedemPrinci = creditEntrustRedemPrinciService.findOne(id);
 				CreditEntrustRedemPrinciVo creditEntrustRedemPrinciVo = new CreditEntrustRedemPrinciVo(
 						creditEntrustRedemPrinci, new String[] {}, new String[] { "contributionType" });
@@ -1247,22 +1642,24 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 获取费用项并转换为json
 	 * 
+	 * @Title: getFeeItems
+	 * @Description: 获取费用项并转换为json
+	 * @author liuwei
 	 * @param attribution
-	 * @param id
+	 *            所属类别
 	 * @param jsoncallback
-	 * @return
+	 * @return 费用项json
 	 */
 	@RequestMapping("/getFeeItems")
 	@UriKey(key = "com.zdsoft.finance.capital.getFeeItems")
 	@ResponseBody
-	public String getFeeItems(String attribution, String id, String jsoncallback) {
+	public String getFeeItems(String attribution, String jsoncallback) {
 
 		List<FeeItem> feeItems = feeItemService.findByAttribution(attribution);
 		List<FeeItemVo> feeItemVos = new ArrayList<FeeItemVo>();
-		for (FeeItem feeItem : feeItems) {
-			FeeItemVo feeItemVo = new FeeItemVo(feeItem);
+		for (int i = 0; i < feeItems.size(); i++) {
+			FeeItemVo feeItemVo = new FeeItemVo(feeItems.get(i));
 			feeItemVos.add(feeItemVo);
 		}
 		ResponseMsg msg = new ResponseMsg();
@@ -1275,11 +1672,14 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 获取费用项并转换为json
 	 * 
+	 * @Title: getCreditFeeItems
+	 * @Description: 获取费用项并转换为json
+	 * @author liuwei
 	 * @param businessId
+	 *            业务标识id
 	 * @param jsoncallback
-	 * @return
+	 * @return 费用项json
 	 */
 	@RequestMapping("/getCreditFeeItems")
 	@UriKey(key = "com.zdsoft.finance.capital.getCreditFeeItems")
@@ -1290,11 +1690,19 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存专户贷方资金跟踪
 	 * 
+	 * @Title: saveLoanCapital
+	 * @Description: 保存专户贷方资金跟踪
+	 * @author liuwei
 	 * @param loanCapitalVo
-	 * @param jsoncallback
-	 * @return
+	 *            专户贷方资金跟踪Vo
+	 * @param feeItemCd
+	 *            费用项cds
+	 * @param feeItemNm
+	 *            费用项nms
+	 * @param feeAmount
+	 *            费用项amount
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveLoanCapital")
 	@UriKey(key = "com.zdsoft.finance.capital.saveLoanCapital")
@@ -1334,10 +1742,18 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存应付费用跟踪
 	 * 
+	 * @Title: saveCostTracking
+	 * @Description: 保存应付费用跟踪
+	 * @author liuwei
 	 * @param creditCostTrackingVo
-	 * @param jsoncallback
+	 *            应付费用跟踪vo
+	 * @param feeItemCd
+	 *            费用项cds
+	 * @param feeItemNm
+	 *            费用项nms
+	 * @param feeAmount
+	 *            费用项amount
 	 * @return
 	 */
 	@RequestMapping("/saveCostTracking")
@@ -1379,11 +1795,19 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存借方资金跟踪
 	 * 
+	 * @Title: saveEntrustDebit
+	 * @Description: 保存借方资金跟踪
+	 * @author liuwei
 	 * @param creditEntrustDebitVo
-	 * @param jsoncallback
-	 * @return
+	 *            借方资金跟踪vo
+	 * @param feeItemCd
+	 *            费用项cds
+	 * @param feeItemNm
+	 *            费用项nms
+	 * @param feeAmount
+	 *            费用项amount
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveEntrustDebit")
 	@UriKey(key = "com.zdsoft.finance.capital.saveEntrustDebit")
@@ -1400,6 +1824,8 @@ public class CreditEntrustController extends BaseController {
 		// 关联信托计划
 		String creditEntrustId = creditEntrustDebitVo.getCreditEntrustId();
 		try {
+
+			// 查询信托计划信息
 			CreditEntrust creditEntrust = creditEntrustService.findOne(creditEntrustId);
 			entrustDebit.setCreditEntrust(creditEntrust);
 		} catch (BusinessException e1) {
@@ -1425,11 +1851,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存备付资金跟踪
 	 * 
+	 * @Title: saveSpareCapital
+	 * @Description: 保存备付资金跟踪
+	 * @author liuwei
 	 * @param spareCapitalVo
-	 * @param jsoncallback
-	 * @return
+	 *            备付资金跟踪vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveSpareCapital")
 	@UriKey(key = "com.zdsoft.finance.capital.saveSpareCapital")
@@ -1467,11 +1895,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存信托计划转让
 	 * 
+	 * @Title: saveEntrustAttom
+	 * @Description: 保存信托计划转让
+	 * @author liuwei
 	 * @param entrustAttomVo
-	 * @param jsoncallback
-	 * @return
+	 *            信托计划转让vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveEntrustAttom")
 	@UriKey(key = "com.zdsoft.finance.capital.saveEntrustAttom")
@@ -1484,6 +1914,7 @@ public class CreditEntrustController extends BaseController {
 		// 关联信托计划
 		String creditEntrustId = entrustAttomVo.getCreditEntrustId();
 		try {
+			// 查询信托计划信息
 			CreditEntrust creditEntrust = creditEntrustService.findOne(creditEntrustId);
 			entrustAttom.setCreditEntrust(creditEntrust);
 		} catch (BusinessException e1) {
@@ -1508,11 +1939,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存信托计划本金投入
 	 * 
+	 * @Title: saveEntrustPrincipal
+	 * @Description: 保存信托计划本金投入
+	 * @author liuwei
 	 * @param principalVo
-	 * @param jsoncallback
-	 * @return
+	 *            信托计划本金投入vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveEntrustPrincipal")
 	@UriKey(key = "com.zdsoft.finance.capital.saveEntrustPrincipal")
@@ -1525,6 +1958,7 @@ public class CreditEntrustController extends BaseController {
 		// 关联信托计划
 		String creditEntrustId = principalVo.getCreditEntrustId();
 		try {
+			// 查询信托计划信息
 			CreditEntrust creditEntrust = creditEntrustService.findOne(creditEntrustId);
 			principal.setCreditEntrust(creditEntrust);
 		} catch (BusinessException e1) {
@@ -1549,11 +1983,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 到账确认信托计划本金投入
 	 * 
+	 * @Title: confirmEntrustPrincipal
+	 * @Description: 到账确认信托计划本金投入
+	 * @author liuwei
 	 * @param principalVo
-	 * @param jsoncallback
-	 * @return
+	 *            信托计划本金投入vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/confirmEntrustPrincipal")
 	@UriKey(key = "com.zdsoft.finance.capital.confirmEntrustPrincipal")
@@ -1576,7 +2012,7 @@ public class CreditEntrustController extends BaseController {
 
 			// 持久对象
 			principal.setStatus(StatusNm.ARRIVAL.value);
-			principal.setActualDate(DateHelper.dateToLong(new Date(), "yyyyMMddHHmmss"));
+			principal.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			principal = creditEntrustPrincipalService.saveOrUpdateEntrustPrincipal(principal);
 			msg.setMsg("确认到账成功");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
@@ -1592,12 +2028,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 到账确认备付金跟踪
 	 * 
+	 * @Title: confirmSpareCapital
+	 * @Description: 到账确认备付金跟踪
+	 * @author liuwei
 	 * @param spareCapitalVo
-	 *            备付金跟踪Vo
-	 * @param jsoncallback
-	 * @return
+	 *            备付金跟踪vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/confirmSpareCapital")
 	@UriKey(key = "com.zdsoft.finance.capital.confirmSpareCapital")
@@ -1610,6 +2047,8 @@ public class CreditEntrustController extends BaseController {
 		// 关联信托计划
 		String creditEntrustId = spareCapitalVo.getCreditEntrustId();
 		try {
+
+			// 查询信托计划信息
 			CreditEntrust creditEntrust = creditEntrustService.findOne(creditEntrustId);
 			spareCapital.setCreditEntrust(creditEntrust);
 		} catch (BusinessException e1) {
@@ -1620,7 +2059,7 @@ public class CreditEntrustController extends BaseController {
 
 			// 持久对象
 			spareCapital.setStatus(StatusNm.ARRIVAL.value);
-			spareCapital = spareCapitalService.saveOrUpdateSpareCapital(spareCapital);
+			spareCapital = spareCapitalService.saveOrUpdateSpareCapitalAndMatch(spareCapital);
 			msg.setMsg("确认到账成功");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
 		} catch (Exception e) {
@@ -1635,11 +2074,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存本金赎回信息
 	 * 
+	 * @Title: saveRedemPrinci
+	 * @Description: 保存本金赎回信息
+	 * @author liuwei
 	 * @param principalVo
-	 * @param jsoncallback
-	 * @return
+	 *            本金赎回信息Vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveRedemPrinci")
 	@UriKey(key = "com.zdsoft.finance.capital.saveRedemPrinci")
@@ -1674,10 +2115,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 保存整体信托计划
 	 * 
+	 * @Title: saveCreditEntrust
+	 * @Description: 保存整体信托计划
+	 * @author liuwei
 	 * @param creditEntrustVo
-	 * @return
+	 *            信托计划Vo
+	 * @return ResponseMsg处理消息
 	 */
 	@RequestMapping("/saveCreditEntrust")
 	@UriKey(key = "com.zdsoft.finance.capital.saveCreditEntrust")
@@ -1686,6 +2130,7 @@ public class CreditEntrustController extends BaseController {
 
 		ResponseMsg msg = new ResponseMsg();
 
+		// 转换PO
 		CreditEntrust creditEntrust = creditEntrustVo.toPo();
 
 		// 保存资方信息
@@ -1713,10 +2158,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 修改整体信托计划
 	 * 
+	 * @Title: updateCreditEntrust
+	 * @Description: 修改整体信托计划
+	 * @author liuwei
 	 * @param creditEntrustVo
-	 * @return
+	 *            信托计划vo
+	 * @return ResponseMsg消息处理
 	 */
 	@RequestMapping("/updateCreditEntrust")
 	@UriKey(key = "com.zdsoft.finance.capital.updateCreditEntrust")
@@ -1741,11 +2189,13 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 一键资金匹配
 	 * 
+	 * @Title: oneKeyFundMatching
+	 * @Description: 一键资金匹配
+	 * @author liuwei
 	 * @param creditEntrustId
 	 *            信托计划id
-	 * @return 处理结果
+	 * @return ResponseMsg处理信息
 	 */
 	@RequestMapping("/oneKeyFundMatching")
 	@UriKey(key = "com.zdsoft.finance.capital.oneKeyFundMatching")
@@ -1767,10 +2217,72 @@ public class CreditEntrustController extends BaseController {
 	}
 
 	/**
-	 * 费用Vo集合转换为Po集合
 	 * 
-	 * @param feeItemVos
-	 * @return 费用Po集合
+	 * @Title: getBankLimit
+	 * @Description: 银行选择
+	 * @author liuwei
+	 * @param jsoncallback
+	 * @return 银行json数据
+	 */
+	@RequestMapping("/getBankLimit")
+	@UriKey(key = "com.zdsoft.finance.capital.getBankLimit")
+	@ResponseBody
+	public String getBankLimit(String jsoncallback) {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+
+		List<Bank> banks = bankService.findAllBank();
+		List<Map<String, Object>> bankMap = new ArrayList<Map<String, Object>>();
+		if (ObjectHelper.isNotEmpty(banks)) {
+			for (int i = 0; i < banks.size(); i++) {
+				Map<String, Object> objMap = new HashMap<String, Object>();
+				objMap.put("py", banks.get(i).getBankName());
+				objMap.put("name", banks.get(i).getBankName());
+				objMap.put("code", banks.get(i).getBankCode());
+
+				bankMap.add(objMap);
+			}
+		}
+		returnMap.put("data", bankMap);
+
+		return ObjectHelper.objectToJson(returnMap, jsoncallback);
+	}
+
+	@RequestMapping("/getPrincipalAmounts")
+	@UriKey(key = "com.zdsoft.finance.capital.getPrincipalAmounts")
+	@ResponseBody
+	public String getPrincipalAmounts(String tempUuid, String creditEntrustId, String jsoncallback) {
+		List<CreditEntrustPrincipal> creditEntrustPrincipals = null;
+		if (ObjectHelper.isNotEmpty(tempUuid)) {
+			creditEntrustPrincipals = creditEntrustPrincipalService.findByTempUuid(null);
+		} else if (ObjectHelper.isNotEmpty(creditEntrustId)) {
+			Map<String, Object> conditions = new HashMap<String, Object>();
+			conditions.put("creditEntrustId", creditEntrustId);
+			creditEntrustPrincipals = creditEntrustPrincipalService.findByConditions(conditions);
+		}
+
+		BigDecimal totalAmount = BigDecimal.ZERO;
+		if (ObjectHelper.isNotEmpty(creditEntrustPrincipals)) {
+			for (int i = 0; i < creditEntrustPrincipals.size(); i++) {
+				totalAmount = totalAmount.add(creditEntrustPrincipals.get(i).getPrincipalAmount());
+			}
+		}
+
+		return ObjectHelper.objectToJson(totalAmount, jsoncallback);
+
+	}
+
+	/**
+	 * 
+	 * @Title: changeToFeeItemPos
+	 * @Description: 费用Vo集合转换为Po集合
+	 * @author liuwei
+	 * @param feeItemCds
+	 *            费用cds
+	 * @param feeItemNms
+	 *            费用nms
+	 * @param feeAmounts
+	 *            费用amounts
+	 * @return 费用项集合
 	 */
 	private List<CreditEntrustFeeItem> changeToFeeItemPos(String[] feeItemCds, String[] feeItemNms,
 			BigDecimal[] feeAmounts) {

@@ -47,6 +47,32 @@ public class ConstantParameter {
      * app文件查看地址
      */
     private static String appDownloadUrl;
+    
+    /**
+     * 汇法网接口地址 huifaUrl
+     */
+    private static String huifaUrl;
+    
+    /**
+     * #工商信息接口地址businessUrl
+     */
+    private static String businessUrl;
+    
+    /**
+     * 资调摄像文件的服务器端存储位置定义
+     */
+    private static String shootPhotoServerFolderPath;
+
+    /**
+     * 资调摄像文件与服务器文件默认存储路径相对的路径地址
+     */
+    private static String shootPhotoRelativePath;
+    
+    /**
+     * #工商信息接口地址houseAssessmentUrl
+     */
+    private static String houseAssessmentUrl;
+    
     public static String getAppDownloadUrl() {
     	return appDownloadUrl;
     }
@@ -99,6 +125,51 @@ public class ConstantParameter {
     public static void setRuleEnginePort(String ruleEnginePort) {
     	ConstantParameter.ruleEnginePort = ruleEnginePort;
     }
+    
+    public static String getHuifaUrl() {
+    	return huifaUrl;
+    }
+    
+    @PropertySet
+    public static void setHuifaUrl(String huifaUrl) {
+    	ConstantParameter.huifaUrl = huifaUrl;
+    }
+    
+    public static String getBusinessUrl() {
+    	return businessUrl;
+    }
+    
+    @PropertySet
+    public static void setBusinessUrl(String businessUrl) {
+    	ConstantParameter.businessUrl = businessUrl;
+    }
+
+	public static String getShootPhotoServerFolderPath() {
+		return shootPhotoServerFolderPath;
+	}
+
+	@PropertySet
+	public static void setShootPhotoServerFolderPath(String shootPhotoServerFolderPath) {
+		ConstantParameter.shootPhotoServerFolderPath = shootPhotoServerFolderPath;
+	}
+
+	public static String getShootPhotoRelativePath() {
+		return shootPhotoRelativePath;
+	}
+
+	@PropertySet
+	public static void setShootPhotoRelativePath(String shootPhotoRelativePath) {
+		ConstantParameter.shootPhotoRelativePath = shootPhotoRelativePath;
+	}
+
+	public static String getHouseAssessmentUrl() {
+		return houseAssessmentUrl;
+	}
+	
+	@PropertySet
+	public static void setHouseAssessmentUrl(String houseAssessmentUrl) {
+		ConstantParameter.houseAssessmentUrl = houseAssessmentUrl;
+	}
     
 }
 

@@ -1,8 +1,5 @@
 package com.zdsoft.finance.casemanage.receivablePlan.vo;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import com.zdsoft.finance.casemanage.receivablePlan.entity.BankAccount;
 import com.zdsoft.finance.common.base.BaseVo;
 
@@ -12,8 +9,6 @@ import com.zdsoft.finance.common.base.BaseVo;
  * @author wangrongwei
  * @create 2017-01-05 20:11
  **/
-@Entity
-@Table(name = "case_bank_account")
 public class ReceivableAccountVo extends BaseVo<BankAccount> {
 
 	/**

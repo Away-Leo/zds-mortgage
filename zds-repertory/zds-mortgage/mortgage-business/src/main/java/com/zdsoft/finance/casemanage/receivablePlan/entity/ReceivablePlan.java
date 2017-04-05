@@ -9,13 +9,16 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 还款计划
- * 
- * @author wangrongwei
- * @create 2017-01-05 20:11
- **/
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ReceivablePlan.java 
+ * @ClassName: ReceivablePlan 
+ * @Description: 还款计划
+ * @author jincheng 
+ * @date 2017年2月16日 上午9:54:23 
+ * @version V1.0
+ */
 @Entity
-@Table(name = "case_receivable_plan")
+@Table(name = "fin_repayment_plan")
 public class ReceivablePlan extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -23,95 +26,144 @@ public class ReceivablePlan extends BaseEntity {
 	/**
 	 * 期数
 	 */
-	@Column(nullable = false)
-	private Integer periodsNo;
+	@Column()
+	private Integer periods;
 
 	/**
-	 * 应还日期
+	 * 当前还款日期
 	 */
-	@Column(nullable = false)
-	private Long repaymentDate;
+	@Column()
+	private Long planRepayDate;
 
 	/**
-	 * 本金
+	 * 当前开始日期
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal repaymentAmount = new BigDecimal(0);
+	@Column()
+	private Long startDate;
 
 	/**
-	 * 利息
+	 * 当前结束日期
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal interestAmount = new BigDecimal(0);
-	
+	@Column()
+	private Long endDate;
+
 	/**
-	 * 罚息
+	 * 当期本金
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal affirmPenalty = new BigDecimal(0);
-	
+	@Column(precision = 18, scale = 6)
+	private BigDecimal planPrincipalAmount = BigDecimal.ZERO;
+
 	/**
-	 * 服务费
+	 * 当期利息
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal serviceChange = new BigDecimal(0);
-	
+	@Column(precision = 18, scale = 6)
+	private BigDecimal planInterestAmount = BigDecimal.ZERO;
+
 	/**
-	 * 剩余本金
+	 * 当期服务费
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal surplusRepaymentAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal planServiceFee = BigDecimal.ZERO;
+
+	/**
+	 * 当期剩余本金
+	 */
+	@Column(precision = 18, scale = 6)
+	private BigDecimal remainPrincipal = BigDecimal.ZERO;
 
 	/**
 	 * 还款计划基本信息ID
 	 */
 	@Column(length = 32)
 	private String receivableInfoId;
-	
+
+	/**
+	 * 案件id
+	 */
+	@Column(length = 32)
+	private String caseApplyId;
+
 	/**
 	 * 放款ID
 	 */
 	@Column(length = 32)
 	private String loanApplyId;
-
-	public Integer getPeriodsNo() {
-		return periodsNo;
+	
+	/**
+	 * 所属机构
+	 */
+	@Column(length=32)
+	private String orgId;
+	
+	/**
+	 * 当期是否结清
+	 */
+	@Column(name = "settlement")
+	@org.hibernate.annotations.Type(type="true_false")
+	private Boolean settlement=false;
+	
+	public Integer getPeriods() {
+		return periods;
 	}
 
-	public void setPeriodsNo(Integer periodsNo) {
-		this.periodsNo = periodsNo;
+	public void setPeriods(Integer periods) {
+		this.periods = periods;
 	}
 
-	public Long getRepaymentDate() {
-		return repaymentDate;
+	public Long getPlanRepayDate() {
+		return planRepayDate;
 	}
 
-	public void setRepaymentDate(Long repaymentDate) {
-		this.repaymentDate = repaymentDate;
+	public void setPlanRepayDate(Long planRepayDate) {
+		this.planRepayDate = planRepayDate;
 	}
 
-	public BigDecimal getRepaymentAmount() {
-		return repaymentAmount;
+	public Long getStartDate() {
+		return startDate;
 	}
 
-	public void setRepaymentAmount(BigDecimal repaymentAmount) {
-		this.repaymentAmount = repaymentAmount;
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
 	}
 
-	public BigDecimal getInterestAmount() {
-		return interestAmount;
+	public Long getEndDate() {
+		return endDate;
 	}
 
-	public void setInterestAmount(BigDecimal interestAmount) {
-		this.interestAmount = interestAmount;
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
 	}
 
-	public BigDecimal getServiceChange() {
-		return serviceChange;
+	public BigDecimal getPlanPrincipalAmount() {
+		return planPrincipalAmount;
 	}
 
-	public void setServiceChange(BigDecimal serviceChange) {
-		this.serviceChange = serviceChange;
+	public void setPlanPrincipalAmount(BigDecimal planPrincipalAmount) {
+		this.planPrincipalAmount = planPrincipalAmount;
+	}
+
+	public BigDecimal getPlanInterestAmount() {
+		return planInterestAmount;
+	}
+
+	public void setPlanInterestAmount(BigDecimal planInterestAmount) {
+		this.planInterestAmount = planInterestAmount;
+	}
+
+	public BigDecimal getPlanServiceFee() {
+		return planServiceFee;
+	}
+
+	public void setPlanServiceFee(BigDecimal planServiceFee) {
+		this.planServiceFee = planServiceFee;
+	}
+
+	public BigDecimal getRemainPrincipal() {
+		return remainPrincipal;
+	}
+
+	public void setRemainPrincipal(BigDecimal remainPrincipal) {
+		this.remainPrincipal = remainPrincipal;
 	}
 
 	public String getReceivableInfoId() {
@@ -122,6 +174,14 @@ public class ReceivablePlan extends BaseEntity {
 		this.receivableInfoId = receivableInfoId;
 	}
 
+	public String getCaseApplyId() {
+		return caseApplyId;
+	}
+
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
+	}
+
 	public String getLoanApplyId() {
 		return loanApplyId;
 	}
@@ -130,20 +190,24 @@ public class ReceivablePlan extends BaseEntity {
 		this.loanApplyId = loanApplyId;
 	}
 
-	public BigDecimal getAffirmPenalty() {
-		return affirmPenalty;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setAffirmPenalty(BigDecimal affirmPenalty) {
-		this.affirmPenalty = affirmPenalty;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
-	public BigDecimal getSurplusRepaymentAmount() {
-		return surplusRepaymentAmount;
+	public Boolean getSettlement() {
+		return settlement;
 	}
 
-	public void setSurplusRepaymentAmount(BigDecimal surplusRepaymentAmount) {
-		this.surplusRepaymentAmount = surplusRepaymentAmount;
+	public void setSettlement(Boolean settlement) {
+		this.settlement = settlement;
 	}
-	
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+ 
 }

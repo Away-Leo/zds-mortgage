@@ -28,7 +28,15 @@ public class CaseApplyBeforeCustomer extends BaseEntity {
      */
     public static String MAIN_BORROW = "YWDM0051036";
     /**
-     * 用一句话描述这个变量表示什么
+     * 共借人 added by caixiekang 2017/02/15
+     */
+    public static String JOINTLY_PARTY = "YWDM0051037";
+    /**
+     * 担保人 add by caixiekang 2017/02/15
+     */
+    public static String GUARANTEE_PARTY = "YWDM0051038";
+    /**
+     * 序列化
      */
     private static final long serialVersionUID = 7571013779413761584L;
     /**

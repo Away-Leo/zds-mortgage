@@ -98,19 +98,19 @@ public class CaseMaterialListAttaServiceImpl extends
 				
 				//通过接口获取id,按照产品类型和唯一编码（包括资料中文名称、助记码、数字助记码）进行查找
 				//TODO:后面考虑用sql方式查询
-				MaterialList materialList = materiaListService.findByProductAndClass(productSubtypeId, fileName[0]);
+//				MaterialList materialList = materiaListService.findByProductAndClass(productSubtypeId, fileName[0]);
 				//
-				if(ObjectHelper.isNotEmpty(materialList)){
-					List<CaseMaterialList> caseMaterialLists = caseMaterialListService.findByMaterialListId(materialList.getId());
-					if(ObjectHelper.isNotEmpty(caseMaterialLists)) {
-						/**
-						 * 关联案件资料清单
-						 */
-						entity.setCaseMaterialList(caseMaterialLists.get(0));
-					}
-				} else {
-					//throw new BusinessException("10010004", "附件名称解析后没有匹配的资料类型");
-				}
+//				if(ObjectHelper.isNotEmpty(materialList)){
+//					List<CaseMaterialList> caseMaterialLists = caseMaterialListService.findByMaterialListId(materialList.getId());
+//					if(ObjectHelper.isNotEmpty(caseMaterialLists)) {
+//						/**
+//						 * 关联案件资料清单
+//						 */
+//						entity.setCaseMaterialList(caseMaterialLists.get(0));
+//					}
+//				} else {
+//					//throw new BusinessException("10010004", "附件名称解析后没有匹配的资料类型");
+//				}
 			}
 			
 			/**

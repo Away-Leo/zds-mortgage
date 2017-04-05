@@ -13,6 +13,7 @@ import com.zdsoft.essential.dto.emp.EmpDto;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.common.exception.BusinessException;
+import com.zdsoft.finance.common.exception.CodeException;
 import com.zdsoft.finance.product.entity.ProcessConfig;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.finance.product.repository.ProcessConfigRepository;
@@ -24,10 +25,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 流程配置操作接口实现
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProcessConfigServiceImpl.java 
+ * @ClassName: ProcessConfigServiceImpl 
+ * @Description: 流程配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午5:50:12 
+ * @version V1.0
  */
 @Service("processConfigService")
 public class ProcessConfigServiceImpl extends BaseServiceImpl<ProcessConfig, CustomRepository<ProcessConfig,String>> implements ProcessConfigService{
@@ -47,19 +51,16 @@ public class ProcessConfigServiceImpl extends BaseServiceImpl<ProcessConfig, Cus
 			logger.error("错误，请求参数不能为空");
 			throw new BusinessException("错误，请求参数不能为空");
 		}
-		
 		return processConfigRepository.findPage(processConfig, pageable);
 	}
 
 	@Override
-	@Transactional
-	public ProcessConfig saveOrUpdate(ProcessConfig processConfig) throws BusinessException {
-		
+	@Transactional(rollbackFor = Exception.class)
+	public ProcessConfig saveOrUpdate(ProcessConfig processConfig) throws Exception {
 		if(ObjectHelper.isEmpty(processConfig) || ObjectHelper.isEmpty(processConfig.getProduct().getId())){
 			logger.error("参数为空");
 			throw new BusinessException("参数为空");
 		}
-		
 		if(ObjectHelper.isEmpty(processConfig.getId())){
 			Product product=productService.findOne(processConfig.getProduct().getId());
 			if(ObjectHelper.isEmpty(product)){
@@ -77,7 +78,12 @@ public class ProcessConfigServiceImpl extends BaseServiceImpl<ProcessConfig, Cus
 			BeanUtils.copyProperties(processConfig, old, new String[]{"id","isDeleted","createTime","createBy","createOrgCd","product"});
 			processConfig=this.updateEntity(old);
 		}
-		
+		//根据产品判断流程配置代码唯一性
+				List<ProcessConfig> processConfigs = processConfigRepository.findByProductIdAndProcessCode(processConfig.getProduct().getId(), processConfig.getProcessCode());
+				if(processConfigs.size()>1){
+					logger.error("添加产品流程配置代码重复（processCode："+processConfig.getProcessCode()+"）");	
+					throw new CodeException("10010002","该数据已不存在，请检查数据");
+				}
 		return processConfig;
 	}
 	
@@ -97,7 +103,6 @@ public class ProcessConfigServiceImpl extends BaseServiceImpl<ProcessConfig, Cus
 			logger.error("参数不合法");
 			throw new BusinessException("参数不合法");
 		}
-		
 		List<ProcessConfig> list=this.findByProductId(oldProduct.getId());
 		if(ObjectHelper.isNotEmpty(list)){
 			for(ProcessConfig processConfig:list){
@@ -113,14 +118,14 @@ public class ProcessConfigServiceImpl extends BaseServiceImpl<ProcessConfig, Cus
 	}
 
 	@Override
-	public ProcessConfig findByProductIdAndProcessConfigCode(String productId, String processConfigCode)
+	public ProcessConfig findByProductIdAndProcessCode(String productId, String processCode)
 			throws BusinessException {
-		if(ObjectHelper.isEmpty(productId) || ObjectHelper.isEmpty(processConfigCode)){
+		if(ObjectHelper.isEmpty(productId) || ObjectHelper.isEmpty(processCode)){
 			logger.error("参数为空");
 			throw new BusinessException("参数为空");
 		}
 		
-		List<ProcessConfig> list=processConfigRepository.findByProductIdAndProcessConfigCode(productId, processConfigCode);
+		List<ProcessConfig> list=processConfigRepository.findByProductIdAndProcessCode(productId, processCode);
 		if(ObjectHelper.isNotEmpty(list)){
 			return list.get(0);
 		}

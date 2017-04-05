@@ -16,22 +16,14 @@
 			<div class="p10">
 				<form id="search_from" class="zui-form form-search" method="post"
 					enctype="multipart/form-data">
-					<input type="hidden" id="capitallist_id" name="capitallist_id" value="${capitalistId }"/>
+					<input type="hidden" id="capitallist_id" name="capitallist.id|E|S" value="${capitalistId }"/>
 					<dl class="form-item">
 						<dt class="title">信托计划名称：</dt>
 						<dd class="detail">
 							<label> <input class="zui-input"
 								id="creditEntrustName"
-								name="creditEntrustName">
+								name="creditEntrustName|LK|S">
 							</label>
-						</dd>
-					</dl>
-					<dl class="form-item">
-						<dt class="title">状态：</dt>
-						<dd class="detail">
-							<input class="zui-combobox zui-validatebox" id="state" name="state" type="hidden"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=bust"
-                              data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 						</dd>
 					</dl>
 					<dl class="form-btn">
@@ -68,22 +60,21 @@
 				<button class="mr10 mb15 btn-blue" type="button">刷新放款金额</button>
 			</div>
 			<div class="table-scroll" style="width:100%;">
-				<table class="table-index scroll  " style="white-space: nowrap;"  >
-					<tr><th rowspan="4">信托计划名称</th><th colspan="29">信托专户的资金情况</th><th colspan="3" rowspan="2">额度</th><th colspan="4" rowspan="2">备付资金情况</th><th colspan="2" rowspan="2">贷款回收</th><th rowspan="2" colspan="5">信托转让情况</th><th rowspan="4">创建日期</th><th rowspan="4" style="width:60px;">操作</th></tr>
-					<tr><th colspan="14">资金流入</th><th colspan="16">资金流出</th></tr>
-					<tr><th rowspan="2">优先本金</th><th colspan="2">劣后本金</th><th colspan="2">客户还款</th><th colspan="2">代偿</th><th colspan="2">回购</th><th rowspan="2">其他利息</th><th rowspan="2">暂待收款</th><th rowspan="2">信托保障基金</th><th rowspan="2">流入小计</th><th rowspan="2">退客户款</th><th colspan="2">优先资金</th><th colspan="2">劣后资金</th><th rowspan="2">信托保障基金(1%)</th><th rowspan="2">信托费用</th><th rowspan="2">银行托管费(0.05%)</th><th rowspan="2">信托服务费(0.8%)</th><th rowspan="2">展期服务费(0.15%)</th><th rowspan="2">印花税(0.05%)</th><th rowspan="2">深泛联管理费(8%)</th><th rowspan="2">代偿退回</th><th rowspan="2">回购退回</th><th rowspan="2">累计贷款投放</th><th rowspan="2">流出小计</th><th rowspan="2">截留额度</th><th rowspan="2">剩余可分配</th><th rowspan="2">已分配待放款</th><th rowspan="2">未分配备付金</th><th rowspan="2">账面余额</th><th rowspan="2">累计收回本金</th><th rowspan="2">累计收回利息</th><th rowspan="2">累计收回罚息</th><th rowspan="2">累计收回违约金</th><th rowspan="2">资金状态</th><th rowspan="2">信托本金</th><th rowspan="2">转让金额</th><th rowspan="2">转让日期</th><th rowspan="2">到期日期</th></tr>
-					<tr><th>货币</th><th>债权转入</th><th>本金</th><th>利息</th><th>本金</th><th>利息</th><th>本金</th><th>利息</th><th>优先本金</th><th>优先利息</th><th>劣后本金</th><th>劣后收益</th></tr>
+				<table class="table-detail scroll  " style="white-space: nowrap;"  >
+					<tr><th align="center" rowspan="4">信托计划名称</th><th align="center" align="center" colspan="29">信托专户的资金情况</th><th colspan="3" align="center" rowspan="2">额度</th><th align="center" colspan="2" rowspan="2">备付资金情况</th><th align="center" colspan="4" rowspan="2">贷款回收</th><th align="center" rowspan="2" colspan="5">信托转让情况</th><th align="center" rowspan="4">创建日期</th><th align="center" rowspan="4" style="width:60px;">操作</th></tr>
+					<tr><th align="center" colspan="13">资金流入</th><th align="center" colspan="16">资金流出</th></tr>
+					<tr><th align="center" rowspan="2">优先本金</th><th align="center" colspan="2">劣后本金</th><th align="center" colspan="2">客户还款</th><th align="center" colspan="2">代偿</th><th align="center" colspan="2">回购</th><th align="center" rowspan="2">其他利息</th><th align="center" rowspan="2">暂待收款</th><th align="center" rowspan="2">信托保障基金</th><th align="center" rowspan="2">流入小计</th><th align="center" rowspan="2">退客户款</th><th align="center" colspan="2">优先资金</th><th align="center" colspan="2">劣后资金</th><th align="center" rowspan="2">信托保障基金(1%)</th><th align="center" rowspan="2">信托费用</th><th align="center" rowspan="2">银行托管费(0.05%)</th><th align="center" rowspan="2">信托服务费(0.8%)</th><th align="center" rowspan="2">展期服务费(0.15%)</th><th align="center" rowspan="2">印花税(0.05%)</th><th align="center" rowspan="2">深泛联管理费(8%)</th><th align="center" rowspan="2">代偿退回</th><th align="center"  rowspan="2">回购退回</th><th align="center" rowspan="2">累计贷款投放</th><th align="center" rowspan="2">流出小计</th><th align="center" rowspan="2">截留额度</th><th align="center" rowspan="2">剩余可分配</th><th align="center" rowspan="2">已分配待放款</th><th align="center" rowspan="2">未分配备付金</th><th align="center" rowspan="2">账面余额</th><th align="center" rowspan="2">累计收回本金</th><th align="center" rowspan="2">累计收回利息</th><th align="center" rowspan="2">累计收回罚息</th><th align="center" rowspan="2">累计收回违约金</th><th align="center" rowspan="2">资金状态</th><th align="center" rowspan="2">信托本金</th><th align="center" rowspan="2">转让金额</th><th align="center" rowspan="2">转让日期</th><th align="center" rowspan="2">到期日期</th></tr>
+					<tr><th align="center">货币</th ><th align="center" align="center">债权转入</th><th align="center">本金</th><th align="center">利息</th><th align="center">本金</th><th align="center">利息</th><th align="center">本金</th><th align="center">利息</th><th align="center">优先本金</th><th align="center">优先利息</th><th align="center">劣后本金</th><th align="center">劣后收益</th></tr>
 					<tbody id="appendHtml"></tbody>
 					<tr><td colspan="46">
-						<div class="page datagrid-pager" style="float:right;"> <span id="totalSize">共有0条记录</span><a href="javascript:void(0);" class="page-on" title="1">1</a><span style="margin-left: 10px;margin-right: 0;">到第</span><input id="currentPage" name="currentPage" type="text" class="zd-input page-input" value="1"><span>页</span> <button type="button" id="searchBtn" class="btn-blue" style="padding: 2px 5px 3px 5px;">跳转</button></div>
+						<div class="page datagrid-pager" style="float:right;"> <span id="totalSize">共有0条记录</span><span style="margin-left: 10px;margin-right: 0;">到第</span><input id="currentPage" name="currentPage" type="text" class="zd-input page-input" value="1"><span>页</span> <button type="button" id="searchBtn" class="btn-blue" style="padding: 2px 5px 3px 5px;">跳转</button></div>
 					</td></tr>
 				</table>
-				
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-	seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], function($, CALLBACK) {
+	seajs.use(['jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], function($, CALLBACK) {
 			
 			// 查询按钮点击
 			$('#btn-search').click(function(){
@@ -92,7 +83,8 @@
 			
 			// 重置按钮点击
 			$('#btn-reset').click(function(){
-				
+				$('#creditEntrustName').val('');
+				$('#state').ZCombobox('setValue','');
 			});
 			
 			// 初始化页面
@@ -110,7 +102,8 @@
 				url += '&rows='+rows;
 				url += '&page='+currentPage;
 				
-				$('#creditTempNm').val(creditEntrustName);
+				$('#creditTempName').val(creditEntrustName);
+				$('#capitalistTempId').val(capitallist_id);
 
 				$('#export_from').attr('action',url);
 				
@@ -194,58 +187,59 @@
 				data += '&page='+currentPage;
 				$.ajax({
                     type: 'post',
-                    url: '<z:ukey key="com.zdsoft.finance.capital.getCreditEntrusts" context="admin"/>&jsoncallback=?',
+                    url: '<z:ukey key="com.zdsoft.finance.capital.getCreditEntrustsByHql" context="admin"/>&jsoncallback=?',
                     data: data,
                     dataType: 'json',
                     success: function (data) {
                     	var rows = data.rows;
                     	var appendHtml = "";
+                    	$('#totalSize').html("共有"+data.total+"条记录");
                     	for(var i = 0;i<rows.length; i++){
-                   			appendHtml += '<tr><td>'+rows[i].NAME+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount1 == null ? 0 : rows[i].amount1)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount2 == null ? 0 : rows[i].amount2)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount3 == null ? 0 : rows[i].amount3)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount4 == null ? 0 : rows[i].amount4)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount5 == null ? 0 : rows[i].amount5)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount6 == null ? 0 : rows[i].amount6)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount7 == null ? 0 : rows[i].amount7)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount8 == null ? 0 : rows[i].amount8)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount9 == null ? 0 : rows[i].amount9)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount10 == null ? 0 : rows[i].amount10)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount11 == null ? 0 : rows[i].amount11)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount12 == null ? 0 : rows[i].amount12)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount13 == null ? 0 : rows[i].amount13)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount14 == null ? 0 : rows[i].amount14)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount15 == null ? 0 : rows[i].amount15)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount16 == null ? 0 : rows[i].amount16)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount17 == null ? 0 : rows[i].amount17)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount18 == null ? 0 : rows[i].amount18)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount19 == null ? 0 : rows[i].amount19)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount20 == null ? 0 : rows[i].amount20)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount21 == null ? 0 : rows[i].amount21)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount22 == null ? 0 : rows[i].amount22)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount23 == null ? 0 : rows[i].amount23)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount24 == null ? 0 : rows[i].amount24)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount25 == null ? 0 : rows[i].amount25)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount26 == null ? 0 : rows[i].amount26)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount27 == null ? 0 : rows[i].amount27)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount28 == null ? 0 : rows[i].amount28)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount29 == null ? 0 : rows[i].amount29)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount30 == null ? 0 : rows[i].amount30)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount31 == null ? 0 : rows[i].amount31)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount32 == null ? 0 : rows[i].amount32)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount33 == null ? 0 : rows[i].amount33)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount34 == null ? 0 : rows[i].amount34)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount35 == null ? 0 : rows[i].amount35)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount36 == null ? 0 : rows[i].amount36)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount37 == null ? 0 : rows[i].amount37)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount38 == null ? 0 : rows[i].amount38)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount39 == null ? 0 : rows[i].amount39)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount40 == null ? 0 : rows[i].amount40)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount41 == null ? 0 : rows[i].amount41)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount42 == null ? 0 : rows[i].amount42)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount43 == null ? 0 : rows[i].amount43)+'</td>';
-                   			appendHtml += '<td>'+(rows[i].amount44 == null ? 0 : rows[i].amount44)+'</td>';
+                   			appendHtml += '<tr><td>'+rows[i].creditEntrustName+'</td>';
+                   			appendHtml += '<td>'+(rows[i].priorityPrincipal == null ? 0 : rows[i].priorityPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].currency == null ? 0 : rows[i].currency)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].bondTransfer == null ? 0 : rows[i].bondTransfer)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].repaymentPrincipal == null ? 0 : rows[i].repaymentPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].repaymentInterest == null ? 0 : rows[i].repaymentInterest)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].compensatoryPrincipal == null ? 0 : rows[i].compensatoryPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].compensatoryInterest == null ? 0 : rows[i].compensatoryInterest)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].backPrincipal == null ? 0 : rows[i].backPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].backInterest == null ? 0 : rows[i].backInterest)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].otherInterest == null ? 0 : rows[i].otherInterest)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].pendingPayment == null ? 0 : rows[i].pendingPayment)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].trustGuaranteeFund == null ? 0 : rows[i].trustGuaranteeFund)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].inflowSubtotal == null ? 0 : rows[i].inflowSubtotal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].refund == null ? 0 : rows[i].refund)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].fundsPriorityPrincipal == null ? 0 : rows[i].fundsPriorityPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].fundsPriorityInterest == null ? 0 : rows[i].fundsPriorityInterest)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].badPrincipal == null ? 0 : rows[i].badPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].inferiorPostYield == null ? 0 : rows[i].inferiorPostYield)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].trustGuaranteeFundPercent == null ? 0 : rows[i].trustGuaranteeFundPercent)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].trustExpense == null ? 0 : rows[i].trustExpense)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].bankCustodianFee == null ? 0 : rows[i].bankCustodianFee)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].trustServiceFee == null ? 0 : rows[i].trustServiceFee)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].extensionServiceFee == null ? 0 : rows[i].extensionServiceFee)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].stampDuty == null ? 0 : rows[i].stampDuty)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].sflManagementFee == null ? 0 : rows[i].sflManagementFee)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].compensatory == null ? 0 : rows[i].compensatory)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].buyBack == null ? 0 : rows[i].buyBack)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].cumulativeLoan == null ? 0 : rows[i].cumulativeLoan)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].outflowSubtotal == null ? 0 : rows[i].outflowSubtotal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].retain == null ? 0 : rows[i].retain)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].residualDistribution == null ? 0 : rows[i].residualDistribution)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].allocatedLoan == null ? 0 : rows[i].allocatedLoan)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].notEquippedPay == null ? 0 : rows[i].notEquippedPay)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].bookBalance == null ? 0 : rows[i].bookBalance)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].cumulativeRecoveryPrincipal == null ? 0 : rows[i].cumulativeRecoveryPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].cumulativeRecoveryInterest == null ? 0 : rows[i].cumulativeRecoveryInterest)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].cumulativeRecoveryPenalty == null ? 0 : rows[i].cumulativeRecoveryPenalty)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].cumulativeRecoveryLiqDamages == null ? 0 : rows[i].cumulativeRecoveryLiqDamages)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].capitalStatusName)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].trustPrincipal == null ? 0 : rows[i].trustPrincipal)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].transferAmount == null ? 0 : rows[i].transferAmount)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].transferDate == 0 ? '' : rows[i].transferDate)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].maturityDate == 0 ? '' : rows[i].maturityDate)+'</td>';
+                   			appendHtml += '<td>'+(rows[i].createDate.toString().substring(0,4)+'-'+rows[i].createDate.toString().substring(4,6)+'-'+rows[i].createDate.toString().substring(6,8))+'</td>';
                    			appendHtml += '<td onclick=changeValue("'+rows[i].id+'")><button class="btn-blue" style="white-space: nowrap;">处理</button></th></tr>';
                     		 
                     	}
@@ -280,7 +274,6 @@
 			
 			
 			$(function(){
-				
 				// 初始化执行查询
 				doSearch();
 			});

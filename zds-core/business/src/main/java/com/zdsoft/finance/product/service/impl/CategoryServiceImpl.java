@@ -18,10 +18,13 @@ import com.zdsoft.framework.core.common.annotation.Log;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品类别接口实现
- * @author longwei
- * @date 2016/01/10
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CategoryServiceImpl.java 
+ * @ClassName: CategoryServiceImpl 
+ * @Description: 产品类别接口实现
+ * @author gufeng 
+ * @date 2017年2月13日 上午10:23:25 
+ * @version V1.0
  */
 @Service("categoryService")
 public class CategoryServiceImpl extends BaseServiceImpl<Category, CustomRepository<Category,String>> implements CategoryService {

@@ -6,14 +6,18 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 产品合同模板关系表
- * @createTime 2017年1月10日 下午3:25:08
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductContract.java 
+ * @ClassName: ProductContract 
+ * @Description: 产品合同模板关系表
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:46:47 
+ * @version V1.0
  */
 @Entity
-@Table(name = "prct_product_contract")
+@Table(name = "prd_product_contract")
 public class ProductContract extends BaseEntity {
 
 	private static final long serialVersionUID = 9050510322788912096L;

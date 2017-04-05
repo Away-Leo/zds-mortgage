@@ -29,30 +29,11 @@ INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, de
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'archivesType01', 'F', '0', 'BILL_ORIGINAL', '原件', 'T', '原件', '99', 'BILL_ORIGINAL', 'F', 'F', 'archivesType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'archivesType02', 'F', '0', 'BILL_COPIES', '复印件', 'T', '复印件', '99', 'BILL_COPIES', 'F', 'F', 'archivesType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'archivesType03', 'F', '0', 'BILL_PICTURE', '照片件', 'T', '照片件', '99', 'BILL_PICTURE', 'F', 'F', 'archivesType');
-/*审批状态*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('bust', 'F', '0', 'bust', '审批状态', '审批状态', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'bust001', 'F', '0', 'bust001', '未审批', 'T', '未审批', '0', 'bust001', 'F', 'F', 'bust');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'bust002', 'F', '0', 'bust002', '审批中', 'T', '审批中', '0', 'bust002', 'F', 'F', 'bust');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'bust003', 'F', '0', 'bust003', '通过审批', 'T', '通过审批', '0', 'bust003', 'F', 'F', 'bust');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'bust004', 'F', '0', 'bust004', '已作废', 'T', '已作废', '0', 'bust004', 'F', 'F', 'bust');
 /*职业类型*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('careerType', 'F', '0', 'c10100', '职业类型', '职业类型', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'c101001', 'F', '0', 'c101001', '企业主', 'T', '企业主', '0', 'c101001', 'F', 'F', 'careerType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'c101002', 'F', '0', 'c101002', '上班族', 'T', '上班族', '0', 'c101002', 'F', 'F', 'careerType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'c101003', 'F', '0', 'c101003', '无', 'T', '无', '0', 'c101003', 'F', 'F', 'careerType');
-/*贷方类型*/
-INSERT INTO ess_codecategory  (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('cdtp','F','0','cdtp','贷方类型','贷方类型','T','T','F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp001', 'F','0', 'cdtp001', '客户还款','T', '客户还款',  '0', 'cdtp001', 'F', 'F',   'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp002', 'F','0', 'cdtp002', '债权转让','T', '债权转让', '0', 'cdtp002', 'F', 'F',  'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp003', 'F','0', 'cdtp003', '代偿','T', '代偿',  '0', 'cdtp003', 'F', 'F',  'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp004', 'F','0', 'cdtp004', '结息','T', '结息', '0', 'cdtp004', 'F', 'F',   'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp005', 'F','0', 'cdtp005', '内部借款','T', '内部借款',  '0', 'cdtp005', 'F', 'F',  'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp006', 'F','0', 'cdtp006', '银行利息','T', '银行利息',  '0', 'cdtp006', 'F', 'F',   'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp007', 'F','0', 'cdtp007', '暂待收款','T', '暂待收款', '0', 'cdtp007', 'F', 'F',   'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp008', 'F','0', 'cdtp008', '信托保障基金','T', '信托保障基金', '0', 'cdtp008', 'F', 'F',  'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp009', 'F','0', 'cdtp009', '内部还款','T', '内部还款',  '0', 'cdtp009', 'F', 'F',  'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp010', 'F','0', 'cdtp010', '回购','T', '回购', '0', 'cdtp010', 'F', 'F',  'cdtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cdtp011', 'F','0', 'cdtp011', '信托保障基金利息','T', '信托保障基金利息',  '0', 'cdtp011', 'F', 'F', 'cdtp');
 
 /*收费类型*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('chargeClass', 'F', '0', 'chargeClass', '收费类型', '收费类型', 'T', 'T', 'F');
@@ -64,10 +45,10 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'chargeClass06', 'F', '0', 'chargeClass06', '代收代付', 'T', '代收代付', '0', 'chargeClass06', 'F', 'F', 'chargeClass');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'chargeClass07', 'F', '0', 'chargeClass07', '前端收入', 'T', '前端收入', '0', 'chargeClass07', 'F', 'F', 'chargeClass');
 /*企业类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('companyType', 'F', '0', 'ct00100', '企业类型', '企业类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ct001001', 'F', '0', 'ct001001', '银行', 'T', '银行', '0', 'ct001001', 'F', 'F', 'companyType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ct001002', 'F', '0', 'ct001002', '往来单位', 'T', '往来单位', '0', 'ct001002', 'F', 'F', 'companyType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ct001003', 'F', '0', 'ct001003', '中介', 'T', '中介', '0', 'ct001003', 'F', 'F', 'companyType');
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('ct00100', 'F', '0', 'ct00100', '企业类型', '企业类型', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ct001001', 'F', '0', 'ct001001', '银行', 'T', '银行', '0', 'ct001001', 'F', 'F', 'ct00100');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ct001002', 'F', '0', 'ct001002', '往来单位', 'T', '往来单位', '0', 'ct001002', 'F', 'F', 'ct00100');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ct001003', 'F', '0', 'ct001003', '中介', 'T', '中介', '0', 'ct001003', 'F', 'F', 'ct00100');
 /*合作单位归属*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('contactCompanyBelong', 'F', '0', 'cb00100', '合作单位归属', '合作单位归属', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cb001001', 'F', '0', 'cb001001', '机构', 'T', '机构', '0', 'cb001001', 'F', 'F', 'contactCompanyBelong');
@@ -77,11 +58,7 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('contactType', 'F', '0', 'c0115', '联系类型', '联系类型', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'c01151', 'F', '0', 'c01151', '手机电话', 'T', '手机电话', '0', 'c01151', 'F', 'F', 'contactType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'c01152', 'F', '0', 'c01152', '家庭电话', 'T', '家庭电话', '0', 'c01152', 'F', 'F', 'contactType');
-/*资金状态*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('cpst', 'F', '0', 'cpst', '资金状态', '资金状态', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cpst001', 'F', '0', 'cpst001', '正常', 'T', '正常', '0', 'cpst001', 'F', 'F', 'cpst');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cpst002', 'F', '0', 'cpst002', '已销退', 'T', '已销退', '0', 'cpst002', 'F', 'F', 'cpst');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'cpst003', 'F', '0', 'cpst003', '作废', 'T', '作废', '0', 'cpst003', 'F', 'F', 'cpst');
+
 /*证件类型*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('credentiaType', 'F', '0', '060600', '证件类型', '证件类型', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '06060001', 'F', '0', '06060001', '身份证', 'T', '身份证', '0', '06060001', 'F', 'F', 'credentiaType');
@@ -98,22 +75,7 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '06060007', 'F', '0', '06060007', '台湾同胞来往内地通行证', 'T', '台湾同胞来往内地通行证', '0', '06060007', 'F', 'F', 'credentiaType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '06060008', 'F', '0', '06060008', '临时身份证', 'T', '临时身份证', '0', '06060008', 'F', 'F', 'credentiaType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '06060009', 'F', '0', '06060009', '外国人居留证', 'T', '外国人居留证', '0', '06060009', 'F', 'F', 'credentiaType');
-/*支出类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('dbtp','F','0','dbtp','支出类型','支出类型','T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp001', 'F', '0', 'dbtp001', '退客户款', 'T' , '退客户款', '0', 'dbtp001','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp002', 'F', '0', 'dbtp002', '收益/费用', 'T' , '收益/费用', '0', 'dbtp002','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp003', 'F', '0', 'dbtp003', '优先利息-投资方', 'T' , '优先利息-投资方', '0', 'dbtp003','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp004', 'F', '0', 'dbtp004', '劣后收益-劣后方', 'T' , '劣后收益-劣后方', '0', 'dbtp004','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp005', 'F', '0', 'dbtp005', '信托保障基金', 'T' , '信托保障基金', '0', 'dbtp005','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp006', 'F', '0', 'dbtp006', '信托费用', 'T' , '信托费用', '0', 'dbtp006','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp007', 'F', '0', 'dbtp007', '银行托管费', 'T' , '银行托管费',  '0', 'dbtp007','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp008', 'F', '0', 'dbtp008', '信托服务费', 'T' , '信托服务费',  '0', 'dbtp008','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp009', 'F', '0', 'dbtp009', '展期服务费', 'T' , '展期服务费', '0', 'dbtp009','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp0010', 'F', '0', 'dbtp0010', '印花税', 'T' , '印花税', '0', 'dbtp0010','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp0011', 'F', '0', 'dbtp0011', '深泛联管理费', 'T' , '深泛联管理费', '0', 'dbtp0011','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp0012', 'F', '0', 'dbtp0012', '代偿退回', 'T' , '代偿退回',  '0', 'dbtp0012','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp0013', 'F', '0', 'dbtp0013', '内部还款', 'T' , '内部还款',  '0', 'dbtp0013','F' , 'F', 'dbtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'dbtp0014', 'F', '0', 'dbtp0014', '回购退回 ', 'T' , '回购退回 ',  '0', 'dbtp0014','F' , 'F', 'dbtp');
+
 /*教育程度*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('degree', 'F', '0', 'e030300', '教育程度', '教育程度', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'e0303001', 'F', '0', 'e0303001', '研究生', 'T', '研究生', '0', 'e0303001', 'F', 'F', 'degree');
@@ -126,28 +88,15 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'e0303007', 'F', '0', 'e0303007', '初中', 'T', '初中', '0', 'e0303007', 'F', 'F', 'degree');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'e0303008', 'F', '0', 'e0303008', '小学', 'T', '小学', '0', 'e0303008', 'F', 'F', 'degree');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'e0303009', 'F', '0', 'e0303009', '文盲或半文盲', 'T', '文盲或半文盲', '0', 'e0303009', 'F', 'F', 'degree');
-/*借方类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('edtp', 'F', '0', 'edtp', '借方类型', '借方类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edtp001', 'F', '0', 'edtp001', '投资方', 'T', '投资方', '0', 'edtp001', 'F', 'F', 'edtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edtp002', 'F', '0', 'edtp002', '外贸信托', 'T', '外贸信托', '0', 'edtp002', 'F', 'F', 'edtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edtp003', 'F', '0', 'edtp003', '托管银行', 'T', '托管银行', '0', 'edtp003', 'F', 'F', 'edtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edtp004', 'F', '0', 'edtp004', '深泛联', 'T', '深泛联', '0', 'edtp004', 'F', 'F', 'edtp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edtp005', 'F', '0', 'edtp005', '其他往来对象', 'T', '其他往来对象', '0', 'edtp005', 'F', 'F', 'edtp');
-/*借方类型2*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('edty', 'F', '0', 'edty', '借方类型2', '借方类型2', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edty001', 'F', '0', 'edty001', '投资方', 'T', '投资方', '0', 'edty001', 'F', 'F', 'edty');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edty002', 'F', '0', 'edty002', '受让方', 'T', '受让方', '0', 'edty002', 'F', 'F', 'edty');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edty003', 'F', '0', 'edty003', '外贸信托', 'T', '外贸信托', '0', 'edty003', 'F', 'F', 'edty');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edty004', 'F', '0', 'edty004', '托管银行', 'T', '托管银行', '0', 'edty004', 'F', 'F', 'edty');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edty005', 'F', '0', 'edty005', '深泛联', 'T', '深泛联', '0', 'edty005', 'F', 'F', 'edty');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'edty006', 'F', '0', 'edty006', '其他往来对象', 'T', '其他往来对象', '0', 'edty006', 'F', 'F', 'edty');
-/*类别*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('exceptMatterType', 'F', '0', 'emt001000', '类别', '类别', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '其他事项', 'F', '0', '其他事项', '其他事项', 'T', '其他事项', '0', '其他事项', 'F', 'F', 'exceptMatterType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '审批材料', 'F', '0', '审批材料', '审批材料', 'T', '审批材料', '0', '审批材料', 'F', 'F', 'exceptMatterType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '抵押物', 'F', '0', '抵押物', '抵押物', 'T', '抵押物', '0', '抵押物', 'F', 'F', 'exceptMatterType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '资信调查', 'F', '0', '资信调查', '资信调查', 'T', '资信调查', '0', '资信调查', 'F', 'F', 'exceptMatterType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '风险措施', 'F', '0', '风险措施', '风险措施', 'T', '风险措施', '0', '风险措施', 'F', 'F', 'exceptMatterType');
+
+/*业务设置-特批事项类型*/
+INSERT INTO ess_codecategory(id,isDeleted,version,categoryCd,categoryNm,codeGenRuler,description,isCommon,isEnabled,isTree,orderNo )  VALUES ('YWDM0077', 'F', 1, 'YWDM0077', '特批事项', NULL, '特批事项', 'T', 'T', 'F', NULL);
+INSERT INTO ess_simplecode(isTree,id,isDeleted,version,code,desc_,isEnable,name,fullcode,codeCategory_id,parent_id,isDefault,dispOrder,isFixed) VALUES (0, 'YWDM007701','F', 0, 'YWDM007701', '', 'T', '申请人', 'YWDM007701', 'YWDM0077', NULL, 'T', '595', 'T');
+INSERT INTO ess_simplecode(isTree,id,isDeleted,version,code,desc_,isEnable,name,fullcode,codeCategory_id,parent_id,isDefault,dispOrder,isFixed) VALUES (0, 'YWDM007702','F', 0, 'YWDM007702', '', 'T', '抵押物', 'YWDM007702', 'YWDM0077', NULL, 'T', '596', 'T');
+INSERT INTO ess_simplecode(isTree,id,isDeleted,version,code,desc_,isEnable,name,fullcode,codeCategory_id,parent_id,isDefault,dispOrder,isFixed) VALUES (0, 'YWDM007703','F', 0, 'YWDM007703', '', 'T', '资信调查', 'YWDM007703', 'YWDM0077', NULL, 'T', '597', 'T');
+INSERT INTO ess_simplecode(isTree,id,isDeleted,version,code,desc_,isEnable,name,fullcode,codeCategory_id,parent_id,isDefault,dispOrder,isFixed) VALUES (0, 'YWDM007704','F', 0, 'YWDM007704', '', 'T', '审批材料', 'YWDM007704', 'YWDM0077', NULL, 'T', '598', 'T');
+INSERT INTO ess_simplecode(isTree,id,isDeleted,version,code,desc_,isEnable,name,fullcode,codeCategory_id,parent_id,isDefault,dispOrder,isFixed) VALUES (0, 'YWDM007705','F', 0, 'YWDM007705', '', 'T', '其它事项', 'YWDM007705', 'YWDM0077', NULL, 'T', '599', 'T');
+INSERT INTO ess_simplecode(isTree,id,isDeleted,version,code,desc_,isEnable,name,fullcode,codeCategory_id,parent_id,isDefault,dispOrder,isFixed) VALUES (0, 'YWDM007706','F', 0, 'YWDM007706', '', 'T', '风险措施', 'YWDM007706', 'YWDM0077', NULL, 'T', '600', 'T');
 /*费用项*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('feeCd', 'F', '0', 'feeCd', '费用项', '费用项', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'feeCd01', 'F', '0', 'feeCd01', '本金', 'T', '本金', '0', 'feeCd01', 'F', 'F', 'feeCd');
@@ -205,21 +154,11 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'i001007', 'F', '0', 'i001007', '信息传输、计算机服务和软件业', 'T', '信息传输、计算机服务和软件业', '0', 'i001007', 'F', 'F', 'industryType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'i001008', 'F', '0', 'i001008', '批发和零售业', 'T', '批发和零售业', '0', 'i001008', 'F', 'F', 'industryType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'i001009', 'F', '0', 'i001009', '住宿和餐饮业', 'T', '住宿和餐饮业', '0', 'i001009', 'F', 'F', 'industryType');
-/*出资方类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('ittp', 'F', '0', 'ittp', '出资方类型', '出资方类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp001', 'F', '0', 'ittp001', '优先-货币', 'T', '优先-货币', '0', 'ittp001', 'F', 'F', 'ittp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp002', 'F', '0', 'ittp002', '劣后-现金', 'T', '劣后-现金', '0', 'ittp002', 'F', 'F', 'ittp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp003', 'F', '0', 'ittp003', '劣后-债权', 'T', '劣后-债权', '0', 'ittp003', 'F', 'F', 'ittp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp004', 'F', '0', 'ittp004', '单一-货币', 'T', '单一-货币', '0', 'ittp004', 'F', 'F', 'ittp');
-/**出资方类型2*/
-INSERT INTO ess_codecategory (id,createTime,deleteTime,isDeleted,updateTime,version,categoryCd,categoryNm,codeGenRuler,description,isCommon,isEnabled,isTree,orderNo,createBy,updateBy,createOrgCd,updateOrgCd)VALUES('ittp2',NULL,NULL,'0',NULL,'0','ittp2','出资方类型2',NULL,'出资方类型2',1,1,0,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp2001', 'F', '0', 'ittp2001', '优先-货币', 'T', '优先-货币', '0', 'ittp2001', 'F', 'F', 'ittp2');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp2002', 'F', '0', 'ittp2002', '劣后-货币', 'T', '劣后-货币', '0', 'ittp2002', 'F', 'F', 'ittp2');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ittp2003', 'F', '0', 'ittp2003', '单一-货币', 'T', '单一-货币', '0', 'ittp2003', 'F', 'F', 'ittp2');
-/*类别*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('litigationFileType', 'F', '0', 'lft001000', '类别', '类别', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '立案证明', 'F', '0', '立案证明', '立案证明', 'T', '立案证明', '0', '立案证明', 'F', 'F', 'litigationFileType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '诉讼材料', 'F', '0', '诉讼材料', '诉讼材料', 'T', '诉讼材料', '0', '诉讼材料', 'F', 'F', 'litigationFileType');
+
+/*业务设置-诉讼资料配置类别liaoguowei*/
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('litigationFileType', 'F', '0', 'litigationFileType', '类别', '类别', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'litigationFileType1', 'F', '0', 'litigationFileType001', '立案证明', 'T', '立案证明', '0', 'litigationFileType001', 'F', 'F', 'litigationFileType');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'litigationFileType2', 'F', '0', 'litigationFileType002', '诉讼材料', 'T', '诉讼材料', '0', 'litigationFileType002', 'F', 'F', 'litigationFileType');
 /*居住年限*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('liveAge', 'F', '0', 'y00100', '居住年限', '居住年限', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'y001001', 'F', '0', 'y001001', '1年', 'T', '1年', '0', 'y001001', 'F', 'F', 'liveAge');
@@ -359,18 +298,15 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'mortgageOrder02', 'F', '0', 'mortgageOrder02', '抵2', 'T', '抵2', '0', 'mortgageOrder02', 'F', 'F', 'mortgageOrder');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'mortgageOrder03', 'F', '0', 'mortgageOrder03', '抵3', 'T', '抵3', '0', 'mortgageOrder03', 'F', 'F', 'mortgageOrder');
 /*类别*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('mortgagepersonType', 'F', '0', 'mt001000', '类别', '类别', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '委贷银行', 'F', '0', '委贷银行', '委贷银行', 'T', '委贷银行', '0', '委贷银行', 'F', 'F', 'mortgagepersonType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '抵押权人', 'F', '0', '抵押权人', '抵押权人', 'T', '抵押权人', '0', '抵押权人', 'F', 'F', 'mortgagepersonType');
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('mt001000', 'F', '0', 'mt001000', '类别', '类别', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '委贷银行', 'F', '0', '委贷银行', '委贷银行', 'T', '委贷银行', '0', '委贷银行', 'F', 'F', 'mt001000');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '抵押权人', 'F', '0', '抵押权人', '抵押权人', 'T', '抵押权人', '0', '抵押权人', 'F', 'F', 'mt001000');
 /*审批类型*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('opprovalOpinionType', 'F', '0', 'opprovalOpinionType', '审批类型', '审批类型', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'opprovalOpinionType01', 'F', '0', 'opprovalOpinionType01', '展期1', 'T', '展期1', '0', 'opprovalOpinionType01', 'F', 'F', 'opprovalOpinionType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'opprovalOpinionType02', 'F', '0', 'opprovalOpinionType02', '展期2', 'T', '展期2', '0', 'opprovalOpinionType02', 'F', 'F', 'opprovalOpinionType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'opprovalOpinionType03', 'F', '0', 'opprovalOpinionType03', '展期3', 'T', '展期3', '0', 'opprovalOpinionType03', 'F', 'F', 'opprovalOpinionType');
-/*操作类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('ortp', 'F', '0', 'ortp', '操作类型', '操作类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ortp001', 'F', '0', 'ortp001', '请款', 'T', '请款', '0', 'ortp001', 'F', 'F', 'ortp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'ortp002', 'F', '0', 'ortp002', '退回', 'T', '退回', '0', 'ortp002', 'F', 'F', 'ortp');
+
 /*支付（佣）条件*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('payConditionClass', 'F', '0', 'payConditionClass', '支付（佣）条件', '支付（佣）条件', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'payConditionClass01', 'F', '0', 'payConditionClass01', '赎楼回款', 'T', '不限制', '0', 'payConditionClass01', 'F', 'F', 'payConditionClass');
@@ -384,12 +320,7 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 /*企业类别*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('pgqylb', 'F', '0', 'pgqylb', '企业类别', '企业类别', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'pgqylb001', 'F', '0', 'pgqylb001', '企业类别', 'T', '企业类别', '0', 'pgqylb001', 'F', 'F', 'pgqylb');
-/*派息周期*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('popd', 'F', '0', 'popd', '派息周期', '派息周期', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'popd001', 'F', '0', 'popd001', '按月付息', 'T', '按月付息', '0', 'popd001', 'F', 'F', 'popd');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'popd002', 'F', '0', 'popd002', '按季付息', 'T', '按季付息', '0', 'popd002', 'F', 'F', 'popd');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'popd003', 'F', '0', 'popd003', '按年付息', 'T', '按年付息', '0', 'popd003', 'F', 'F', 'popd');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'popd004', 'F', '0', 'popd004', '到期付息', 'T', '到期付息', '0', 'popd004', 'F', 'F', 'popd');
+
 /*职务*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('position', 'F', '0', 'p0126', '职务', '职务', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'p01261', 'F', '0', 'p01261', '高管', 'T', '高管', '0', 'p01261', 'F', 'F', 'position');
@@ -398,6 +329,10 @@ INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, de
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'processFormCd01', 'F', '0', 'processFormCd01', '营销申请', 'T', '营销申请', '0', 'processFormCd01', 'F', 'F', 'processFormCd');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'processFormCd02', 'F', '0', 'processFormCd02', '项目申请', 'T', '项目申请', '0', 'processFormCd02', 'F', 'F', 'processFormCd');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'processFormCd03', 'F', '0', 'processFormCd03', '展期', 'T', '展期', '0', 'processFormCd03', 'F', 'F', 'processFormCd');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'processFormCd04', 'F', '0', 'processFormCd04', '面签', 'T', '面签', '0', 'processFormCd04', 'F', 'F', 'processFormCd');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'processFormCd05', 'F', '0', 'processFormCd05', '放款申请', 'T', '放款申请', '0', 'processFormCd05', 'F', 'F', 'processFormCd');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'processFormCd06', 'F', '0', 'processFormCd06', '还款计划', 'T', '还款计划', '0', 'processFormCd06', 'F', 'F', 'processFormCd');
+
 /*参数值*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('questionParamCd', 'F', '0', 'questionParamCd', '参数值', '参数值', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'a', 'F', '0', 'a', '0', 'T', '0', '0', 'a', 'F', 'F', 'questionParamCd');
@@ -433,12 +368,6 @@ INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnabl
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'r01432', 'F', '0', 'r01432', '亲戚', 'T', '亲戚', '0', 'r01432', 'F', 'F', 'relationship');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'r01433', 'F', '0', 'r01433', '同事', 'T', '同事', '0', 'r01433', 'F', 'F', 'relationship');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'r01434', 'F', '0', 'r01434', '配偶', 'T', '配偶', '0', 'r01434', 'F', 'F', 'relationship');
-/*资方类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('rstp', 'F', '0', 'rstp', '资方类型', '资方类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'rstp001', 'F', '0', 'rstp001', '银行', 'T', '银行', '0', 'rstp001', 'F', 'F', 'rstp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'rstp002', 'F', '0', 'rstp002', '信托', 'T', '信托', '0', 'rstp002', 'F', 'F', 'rstp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'rstp003', 'F', '0', 'rstp003', 'P2P', 'T', 'P2P', '0', 'rstp003', 'F', 'F', 'rstp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'rstp004', 'F', '0', 'rstp004', '小贷公司', 'T', '小贷公司', '0', 'rstp004', 'F', 'F', 'rstp');
 /*手机短信*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('sjdx', 'F', '0', 'sjdx', '手机短信', '手机短信', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'sjdx001', 'F', '0', 'sjdx001', '手机短信', 'T', '手机短信', '0', 'sjdx001', 'F', 'F', 'sjdx');
@@ -455,39 +384,25 @@ INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, de
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'sors001', 'F', '0', '1', '强', 'T', '强', '0', '1', 'F', 'F', 'sors');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'sors002', 'F', '0', '2', '弱', 'T', '弱', '0', '2', 'F', 'F', 'sors');
 /*来源*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('source', 'F', '0', 's0140', '来源', '来源', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01401', 'F', '0', 's01401', '外贸信托', 'T', '外贸信托', '0', 's01401', 'F', 'F', 'source');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01402', 'F', '0', 's01402', '渤海信托', 'T', '渤海信托', '0', 's01402', 'F', 'F', 'source');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01403', 'F', '0', 's01403', '泛华', 'T', '泛华', '0', 's01403', 'F', 'F', 'source');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01404', 'F', '0', 's01404', '第三方', 'T', '第三方', '0', 's01404', 'F', 'F', 'source');
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('s0140', 'F', '0', 's0140', '来源', '来源', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01401', 'F', '0', 's01401', '外贸信托', 'T', '外贸信托', '0', 's01401', 'F', 'F', 's0140');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01402', 'F', '0', 's01402', '渤海信托', 'T', '渤海信托', '0', 's01402', 'F', 'F', 's0140');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01403', 'F', '0', 's01403', '泛华', 'T', '泛华', '0', 's01403', 'F', 'F', 's0140');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 's01404', 'F', '0', 's01404', '第三方', 'T', '第三方', '0', 's01404', 'F', 'F', 's0140');
 /*类别*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('sysLabelType', 'F', '0', 'lt001000', '类别', '类别', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '信托贷款合同', 'F', '0', '信托贷款合同', '信托贷款合同', 'T', '信托贷款合同', '0', '信托贷款合同', 'F', 'F', 'sysLabelType');
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('lt001000', 'F', '0', 'lt001000', '类别', '类别', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '信托贷款合同', 'F', '0', '信托贷款合同', '信托贷款合同', 'T', '信托贷款合同', '0', '信托贷款合同', 'F', 'F', 'lt001000');
 /*类别值*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('sysLabelValueType', 'F', '0', 'slvt001000', '类别值', '类别值', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'SQL函数取值', 'F', '0', 'SQL函数取值', 'SQL函数取值', 'T', 'SQL函数取值', '0', 'SQL函数取值', 'F', 'F', 'sysLabelValueType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'SQL语句取值', 'F', '0', 'SQL语句取值', 'SQL语句取值', 'T', 'SQL语句取值', '0', 'SQL语句取值', 'F', 'F', 'sysLabelValueType');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '程序函数取值', 'F', '0', '程序函数取值', '程序函数取值', 'T', '程序函数取值', '0', '程序函数取值', 'F', 'F', 'sysLabelValueType');
-/*受让方类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('tftp', 'F', '0', 'tftp', '受让方类型', '受让方类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tftp001', 'F', '0', 'tftp001', '个人', 'T', '个人', '0', 'tftp001', 'F', 'F', 'tftp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tftp002', 'F', '0', 'tftp002', '机构', 'T', '机构', '0', 'tftp002', 'F', 'F', 'tftp');
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('slvt001000', 'F', '0', 'slvt001000', '类别值', '类别值', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'SQL函数取值', 'F', '0', 'SQL函数取值', 'SQL函数取值', 'T', 'SQL函数取值', '0', 'SQL函数取值', 'F', 'F', 'slvt001000');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'SQL语句取值', 'F', '0', 'SQL语句取值', 'SQL语句取值', 'T', 'SQL语句取值', '0', 'SQL语句取值', 'F', 'F', 'slvt001000');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, '程序函数取值', 'F', '0', '程序函数取值', '程序函数取值', 'T', '程序函数取值', '0', '程序函数取值', 'F', 'F', 'slvt001000');
+
 /*分段还款时间*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('timeType', 'F', '0', 'timeType', '分段还款时间', '分段还款时间', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'timeType01', 'F', '0', 'timeTypeOne', '第一年', 'T', '第一年', '99', 'timeTypeOne', 'F', 'F', 'timeType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'timeType02', 'F', '0', 'timeTypeTwo', '第二年', 'T', '第二年', '99', 'timeTypeTwo', 'F', 'F', 'timeType');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'timeType03', 'F', '0', 'timeTypeThree', '第三年', 'T', '第三年', '99', 'timeTypeThree', 'F', 'F', 'timeType');
-/*转让状态*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('tsst', 'F', '0', 'tsst', '转让状态', '转让状态', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tsst001', 'F', '0', 'tsst001', '已转让', 'T', '已转让', '0', 'tsst001', 'F', 'F', 'tsst');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tsst002', 'F', '0', 'tsst002', '未转让', 'T', '未转让', '0', 'tsst002', 'F', 'F', 'tsst');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tsst003', 'F', '0', 'tsst003', '即将转让', 'T', '即将转让', '0', 'tsst003', 'F', 'F', 'tsst');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tsst004', 'F', '0', 'tsst004', '已终止', 'T', '已终止', '0', 'tsst004', 'F', 'F', 'tsst');
-/*信托类型*/
-INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('tttp', 'F', '0', 'tttp', '信托类型', '信托类型', 'T', 'T', 'F');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tttp001', 'F', '0', 'tttp001', '单一基础信托', 'T', '单一基础信托', '0', 'tttp001', 'F', 'F', 'tttp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tttp002', 'F', '0', 'tttp002', '单一非基础信托', 'T', '单一非基础信托', '0', 'tttp002', 'F', 'F', 'tttp');
-INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'tttp003', 'F', '0', 'tttp003', '集合信托', 'T', '集合信托', '0', 'tttp003', 'F', 'F', 'tttp');
 /*类别*/
 INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('type', 'F', '0', 't00100', '类别', '类别', 'T', 'T', 'F');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 't001001', 'F', '0', 't001001', '银行', 'T', '银行', '0', 't001001', 'F', 'F', 'type');
@@ -531,6 +446,10 @@ INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, de
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'zhuangtai001', 'F', '0', 'zhuangtai001', '启用', 'T', '启用', '0', 'zhuangtai001', 'F', 'F', 'zhuangtai');
 INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'zhuangtai002', 'F', '0', 'zhuangtai002', '停用', 'T', '停用', '0', 'zhuangtai002', 'F', 'F', 'zhuangtai');
 
+/*业务设置-参数管理-抵押权人管理类别下拉liaoguowei*/
+INSERT INTO ess_codecategory (id, isDeleted, version, categoryCd, categoryNm, description, isCommon, isEnabled, isTree) VALUES ('mortOwnerType', 'F', '0', 'mortOwnerType', '抵押权人管理类别', '抵押权人管理类别', 'T', 'T', 'F');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'mortOwnerType001', 'F', '0', 'mortOwnerType001', '委贷银行', 'T', '委贷银行', '0', 'mortOwnerType001', 'F', 'F', 'mortOwnerType');
+INSERT INTO ess_simplecode (isTree, id, isDeleted, version, code, desc_, isEnable, name, dispOrder, fullCode, isDefault, isFixed, codeCategory_id) VALUES (0, 'mortOwnerType002', 'F', '0', 'mortOwnerType002', '抵押权人', 'T', '抵押权人', '0', 'mortOwnerType002', 'F', 'F', 'mortOwnerType');
 
 
 

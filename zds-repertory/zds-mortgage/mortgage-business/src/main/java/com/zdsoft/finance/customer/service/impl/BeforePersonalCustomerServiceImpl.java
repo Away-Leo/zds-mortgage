@@ -1,9 +1,7 @@
 package com.zdsoft.finance.customer.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,16 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.essential.dto.emp.EmpDto;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
-import com.zdsoft.finance.common.base.CustomRepository;
-import com.zdsoft.finance.common.utils.AppStatus;
-import com.zdsoft.finance.common.utils.app.AppServerUtil;
+import com.zdsoft.finance.common.exception.AppExistMainCustomerException;
+import com.zdsoft.finance.common.exception.AppOntExistMainCustomerException;
 import com.zdsoft.finance.customer.entity.BeforeAddress;
 import com.zdsoft.finance.customer.entity.BeforeContact;
 import com.zdsoft.finance.customer.entity.BeforePersonalAssociation;
 import com.zdsoft.finance.customer.entity.BeforePersonalCustomer;
 import com.zdsoft.finance.customer.entity.BeforeWorkUnit;
 import com.zdsoft.finance.customer.entity.CustomerCreateType;
-import com.zdsoft.finance.customer.repository.BeforePersonalAssociationRepository;
 import com.zdsoft.finance.customer.repository.BeforePersonalCusomerRepository;
 import com.zdsoft.finance.customer.service.BeforeAddressService;
 import com.zdsoft.finance.customer.service.BeforeContactService;
@@ -35,12 +31,20 @@ import com.zdsoft.finance.marketing.service.CaseApplyService;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.cra.client.service.CRA;
 import com.zdsoft.framework.cra.dto.AccountDTO;
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BeforePersonalCustomerServiceImpl.java 
+ * @ClassName: BeforePersonalCustomerServiceImpl 
+ * @Description: 个人客户service实现类
+ * @author xj 
+ * @date 2017年3月6日 下午6:15:11 
+ * @version V1.0
+ */
 @Service("BeforePersonalCustomerService")
-public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePersonalCustomer, CustomRepository<BeforePersonalCustomer, String>>  implements BeforePersonalCustomerService  {
-	@Autowired
-	private BeforePersonalCusomerRepository beforePersonalCusomerRepository;
-	@Autowired
-	private BeforePersonalAssociationRepository beforePersonalAssociationRepository;
+public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePersonalCustomer, BeforePersonalCusomerRepository>  implements BeforePersonalCustomerService  {
+
+
 	@Autowired
 	private BeforePersonalAssociationService beforePersonalAssociationService;
 	@Autowired
@@ -60,7 +64,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 	@Override 
 	public List<BeforePersonalCustomer> loadCustomerByCredentiaTypeAndCredentialNo(String credentialType,
 			String credentialNo) {
-		List<BeforePersonalCustomer> beforePersonalCustomer = beforePersonalCusomerRepository.findByCredentialTypeAndCredentialNoOrderByUpdateTimeDesc(credentialType, credentialNo);
+		List<BeforePersonalCustomer> beforePersonalCustomer = this.customReposity.findByCredentialTypeAndCredentialNoOrderByUpdateTimeDesc(credentialType, credentialNo);
 		return beforePersonalCustomer;
 	}
 
@@ -71,7 +75,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		}
 		List<BeforePersonalCustomer> beforePersonalCustomers = new ArrayList<BeforePersonalCustomer>();
 		//客户关系中间表
-		List<BeforePersonalAssociation> beforePersonalAssociations = beforePersonalAssociationRepository.findByRelationshipAndCustomerId(relationship, id);
+		List<BeforePersonalAssociation> beforePersonalAssociations = beforePersonalAssociationService.findByRelationshipAndCustomerId(relationship, id);
 		if(ObjectHelper.isNotEmpty(beforePersonalAssociations)){
 			for (BeforePersonalAssociation beforePersonalAssociation : beforePersonalAssociations) {
 				beforePersonalCustomers.add(beforePersonalAssociation.getBeforePersonalCusomer());
@@ -79,18 +83,14 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		}
 		return beforePersonalCustomers;
 	}
+	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public BeforePersonalCustomer saveOrUpdateCustomer(BeforePersonalCustomer beforePersonalCustomer,String caseApplyId) throws Exception {
-		List<BeforePersonalCustomer> newCustomers = new ArrayList<BeforePersonalCustomer>();
-		CaseApply caseApply = caseApplyService.findOne(caseApplyId);
-		//删除案件申请人关系
-		//caseApplyBeforeCustomerService.deleteByCaseApplyId(caseApplyId);
+			CaseApply caseApply = caseApplyService.findOne(caseApplyId);
 		
-		// 首先保存参与类型
-		//for (BeforePersonalCustomer bc : associatedCustomers) {
+			//保存客户信息
 			BeforePersonalCustomer cust = this.saveOrUpdate(beforePersonalCustomer);
-			newCustomers.add(cust);
 			//建立关系
 			caseApplyBeforeCustomerService.setJoinType(cust, caseApply, beforePersonalCustomer.getJoinType());
 			//保存工作单位
@@ -106,9 +106,9 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 			beforeAddressService.saveOrUpdateAddress(homeAddress, cust.getId(),null);
 			//删除他和配偶之间的关系
 			//首先先配偶删除以前的关系
-			 List<BeforePersonalAssociation> spouses = this.beforePersonalAssociationRepository.findByRelationshipAndCustomerId(BeforePersonalAssociation.SPOUSE, cust.getId());
+			 List<BeforePersonalAssociation> spouses = this.beforePersonalAssociationService.findByRelationshipAndCustomerId(BeforePersonalAssociation.SPOUSE, cust.getId());
 			if(ObjectHelper.isNotEmpty(spouses)){
-					beforePersonalAssociationRepository.delete(spouses);
+					beforePersonalAssociationService.delete(spouses);
 					//删除参与类型
 					caseApplyBeforeCustomerService.deleteByCustomerIdAndCaseApplyId(spouses.get(0).getBeforePersonalCusomer().getId(), caseApply.getId());
 			}
@@ -116,11 +116,12 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 			//配偶
 			BeforePersonalCustomer spouse = beforePersonalCustomer.getSpouse();
 			if(ObjectHelper.isNotEmpty(spouse)){
+				//设置配偶婚姻状况
+				spouse.setMaritalStatus(beforePersonalCustomer.getMaritalStatus());
 				//保存配偶
 				BeforePersonalCustomer spCust = this.saveOrUpdate(spouse);
-				//把配偶业返回回去
+				//把配偶信息返回回去
 				cust.setSpouse(spCust);
-				newCustomers.add(spCust);
 				//保存工作单位
 				List<BeforeWorkUnit> spBeforeWorkUnits = spouse.getBeforeWorkUnits();
 				beforeWorkUnitService.saveOrUpdateWorkUnit(spBeforeWorkUnits, spCust.getId(),null);
@@ -130,7 +131,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 				beforeContactService.saveOrUpdateContact(spReforeContacts, spCust.getId(),null);
 				
 				//保存地址
-				List<BeforeAddress> has = beforePersonalCustomer.getHomeAddress();
+				List<BeforeAddress> has = spouse.getHomeAddress();
 				beforeAddressService.saveOrUpdateAddress(has,spCust.getId(),null);
 				
 				//建立配偶关系
@@ -142,23 +143,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 					caseApplyBeforeCustomerService.setJoinType(spCust, caseApply, spJoinType);
 				}
 				
-			//}
 		}
-		
-		//设置与主借人关联关系
-		//查询主借人
-		//案件的主借人
-		/*List<BeforePersonalCustomer> mainCustomers = this.queryCustomerByCaseApplyIdAndJoinType(caseApplyId, CaseApplyBeforeCustomer.MAIN_BORROW);
-		if(ObjectHelper.isNotEmpty(mainCustomers)){
-			BeforePersonalCustomer mainCustomer = mainCustomers.get(0);
-			//删除主借人与其他人的关系
-			mainCustomer.getBeforePersonalAssociations().clear();
-			for (BeforePersonalCustomer ct : newCustomers) {
-				if(ObjectHelper.isNotEmpty(ct.getRelationship())){
-					beforePersonalAssociationService.setCustomerAssociation(mainCustomer.getId(), ct, ct.getRelationship());
-				}
-			}
-		}*/
 		return cust;
 	}
 
@@ -189,7 +174,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		//保存主客户
 		if(ObjectHelper.isNotEmpty(beforePersonalCustomer.getId())){
 			//更新
-			customer = beforePersonalCusomerRepository.getOne(beforePersonalCustomer.getId());
+			customer = this.customReposity.findOne(beforePersonalCustomer.getId());
 		}
 		this.copy(beforePersonalCustomer, customer);
 		EmpDto loginUser = CED.getLoginUser();
@@ -218,11 +203,20 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 			customer.setUpdateBy(empCd);
 		}
 		if(ObjectHelper.isNotEmpty(customer.getId())){
-			return beforePersonalCusomerRepository.updateEntity(customer);
+			return this.customReposity.updateEntity(customer);
 		}
-		return beforePersonalCusomerRepository.saveEntity(customer);
+		return this.customReposity.saveEntity(customer);
 		
 	}
+	/**
+	 * 
+	 * @Title: copy 
+	 * @Description: 复制客户
+	 * @author xj 
+	 * @param beforePersonalCustomer 被复制客户
+	 * @param customer 复制客户
+	 * @throws Exception
+	 */
 	private void copy(BeforePersonalCustomer beforePersonalCustomer, BeforePersonalCustomer customer) throws Exception {
 		//姓名
 		customer.setCustomerName(beforePersonalCustomer.getCustomerName());
@@ -250,6 +244,8 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		customer.setEmail(beforePersonalCustomer.getEmail());
 		//是否是实际用款人
 		customer.setActualUsePerson(beforePersonalCustomer.getActualUsePerson());
+		// 参与类型 共借人、担保人
+		customer.setJoinType(beforePersonalCustomer.getJoinType());
 		//头像
 		if(ObjectHelper.isNotEmpty(beforePersonalCustomer.getAttachmentId())){
 			customer.setAttachmentId(beforePersonalCustomer.getAttachmentId());
@@ -261,7 +257,8 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 	 * 保存或者修改客户app
 	 *
 	 * @author xj
-	 * @param beforePersonalCustomer
+	 * @param beforePersonalCustomer 客户
+	 * @param token app登录token
 	 * @return
 	 * @throws Exception 
 	 */
@@ -270,7 +267,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		//保存主客户
 		if(ObjectHelper.isNotEmpty(beforePersonalCustomer.getId())){
 			//更新
-			customer = beforePersonalCusomerRepository.getOne(beforePersonalCustomer.getId());
+			customer = this.customReposity.getOne(beforePersonalCustomer.getId());
 		}
 		AccountDTO account = CRA.getAccount(token);
 		EmpDto loginUser = CED.getLoginUser(account.getId());
@@ -284,7 +281,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		this.copy(beforePersonalCustomer, customer);
 		if(ObjectHelper.isNotEmpty(customer.getId())){
 			customer.setUpdateBy(empCd);
-			return beforePersonalCusomerRepository.updateEntity(customer);
+			return this.customReposity.updateEntity(customer);
 		}
 		customer.setCreateBy(empCd);
 		customer.setCreatorName(empNm);
@@ -292,37 +289,36 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		customer.setDepartmentName(departmentName);
 		customer.setCompanyCode(companyCd);
 		customer.setCompanyName(companyNm);
-		return beforePersonalCusomerRepository.saveEntity(customer);
+		return this.customReposity.saveEntity(customer);
 		
 	}
+	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String saveOrUpdateAppCustomer(String caseApplyId,BeforePersonalCustomer customer,
 			List<BeforeAddress> allAddress, List<BeforeWorkUnit> beforeWorkUnits, List<BeforeContact> contacts,boolean isSpouse,
 			String token) throws Exception{
-		HashMap<String, Object> resultMap = new HashMap<String,Object>();
 		if(ObjectHelper.isEmpty(caseApplyId) ||  ObjectHelper.isEmpty(token)){
 			logger.error(" caseApplyId or token is null ");
-			return AppServerUtil.buildJsonMessage(AppStatus.ArgsError,"caseApplyId or token is null！"); 
+			throw new Exception("caseApplyId or token is null");
 		}
 		//判断是否是主借人
 		String joinType = customer.getJoinType();
 		List<BeforePersonalCustomer> beforePersonalCustomers = this.queryCustomerByCaseApplyIdAndJoinType(caseApplyId, CaseApplyBeforeCustomer.MAIN_BORROW);
-		//要添加为主借人
+		//要添加为主借人,如果是则判断是否存在主借人，如果存在则不能添加
 		if(CaseApplyBeforeCustomer.MAIN_BORROW.equals(joinType)){
 			//判断是否有主借人且不是他自己
 			if(ObjectHelper.isNotEmpty(beforePersonalCustomers) && !beforePersonalCustomers.get(0).getId().equals(customer.getId())){
 				logger.error(" 添加主借人失败，该案件已经存在主借人 ");
-				return AppServerUtil.buildJsonMessage(AppStatus.ExistMainCustomer,"添加主借人失败，该案件已经存在主借人！"); 
+				throw new AppExistMainCustomerException();
 			}
 		}else if(ObjectHelper.isEmpty(beforePersonalCustomers) && !isSpouse){
 			logger.error(" 添加主借人失败，该案件不存在主借人 ");
-			return AppServerUtil.buildJsonMessage(AppStatus.OntExistMainCustomer,"添加主借人失败，该案件不存在主借人！");
+			throw new AppOntExistMainCustomerException();
 		}
+		
 		//案件
 		CaseApply caseApply = caseApplyService.findOne(caseApplyId);
-		//新增客户
-		String spouseId = customer.getSpouseId();
 		//创建类型
 		customer.setCreateType(CustomerCreateType.APP.value());
 		//保存的客户
@@ -331,6 +327,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		if(ObjectHelper.isNotEmpty(joinType)){
 			caseApplyBeforeCustomerService.setJoinType(personalCustomer, caseApply, joinType);
 		}
+		
 		//案件的主借人
 		if(CaseApplyBeforeCustomer.MAIN_BORROW.equals(joinType)){
 			BeforePersonalCustomer mainCustomer = this.queryCustomerByCaseApplyIdAndJoinType(caseApplyId, CaseApplyBeforeCustomer.MAIN_BORROW).get(0);
@@ -340,10 +337,22 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 				beforePersonalAssociationService.setCustomerAssociation(mainCustomer.getId(), personalCustomer, personalCustomer.getRelationship());
 			}
 		}
+		
+		//新增客户的配偶id，用于建立关系
+		String spouseId = customer.getSpouseId();
 		//设置配偶关系
 		if(ObjectHelper.isNotEmpty(spouseId)){
 			//配偶
-			BeforePersonalCustomer findOne = beforePersonalCusomerRepository.findOne(spouseId);
+			BeforePersonalCustomer findOne = this.customReposity.findOne(spouseId);
+			//先删除配偶关系
+			List<BeforePersonalAssociation> beforePersonalAssociation1 = beforePersonalAssociationService.findByRelationshipAndCustomerId(spouseId, BeforePersonalAssociation.SPOUSE);
+			List<BeforePersonalAssociation> beforePersonalAssociation2 = beforePersonalAssociationService.findByRelationshipAndCustomerId(personalCustomer.getId(), BeforePersonalAssociation.SPOUSE);
+			if(ObjectHelper.isNotEmpty(beforePersonalAssociation1)){
+				beforePersonalAssociationService.delete(beforePersonalAssociation1);
+			}
+			if(ObjectHelper.isNotEmpty(beforePersonalAssociation2)){
+				beforePersonalAssociationService.delete(beforePersonalAssociation2);
+			}
 			if(isSpouse){
 				//保存的是配偶
 				beforePersonalAssociationService.setCustomerAssociation(spouseId, personalCustomer, BeforePersonalAssociation.SPOUSE);
@@ -351,16 +360,15 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 				beforePersonalAssociationService.setCustomerAssociation(personalCustomer.getId(), findOne, BeforePersonalAssociation.SPOUSE);
 			}
 		}
+		
 		//设置地址
 		beforeAddressService.saveOrUpdateAddress(allAddress, personalCustomer.getId(),token);
 		//设置工作单位
 		beforeWorkUnitService.saveOrUpdateWorkUnit(beforeWorkUnits, personalCustomer.getId(),token);
 		//设置联系方式
 		beforeContactService.saveOrUpdateContact(contacts, personalCustomer.getId(),token);
-		Map<String,Object> data = new HashMap<String,Object>();
-		data.put("customerId", personalCustomer.getId());
 		logger.info("贷款申请-添加/修改客户成功");
-		return AppServerUtil.buildJsonObject(AppStatus.Succeed,data);
+		return personalCustomer.getId();
 	}
 
 	@Override
@@ -375,7 +383,6 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 			for (CaseApplyBeforeCustomer cc : cabCustomers) {
 				BeforePersonalCustomer ct = (BeforePersonalCustomer) cc.getBeforeCustomer();
 				ct.setJoinType(cc.getJoinType());
-//				ct.setJoinTypeName(cc.getJoinTypeName());
 				cts.add(ct);
 			}
 		}
@@ -386,10 +393,9 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 			BeforePersonalCustomer mainCustomer = mainBorrow.get(0);
 			for (BeforePersonalCustomer ct : cts) {
 				//和主借人关系对象
-				BeforePersonalAssociation pa = beforePersonalAssociationRepository.findByCustomerIdAndBeforePersonalCusomerId(mainCustomer.getId(), ct.getId());
+				BeforePersonalAssociation pa = beforePersonalAssociationService.findByCustomerIdAndBeforePersonalCusomerId(mainCustomer.getId(), ct.getId());
 				if(ObjectHelper.isNotEmpty(pa)){
 					ct.setRelationship(pa.getRelationship());
-//					ct.setRelationshipName(pa.getRelationshipName());
 				}
 				
 			}
@@ -398,7 +404,7 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 		//配偶单独提出，保持和页面一样
 		for (BeforePersonalCustomer ct : cts) {
 			//查询配偶
-			List<BeforePersonalAssociation> bas = beforePersonalAssociationRepository.findByRelationshipAndCustomerId(BeforePersonalAssociation.SPOUSE, ct.getId());
+			List<BeforePersonalAssociation> bas = beforePersonalAssociationService.findByRelationshipAndCustomerId(BeforePersonalAssociation.SPOUSE, ct.getId());
 			if(ObjectHelper.isNotEmpty(bas)){
 				BeforePersonalAssociation ba = bas.get(0);
 				BeforePersonalCustomer bc = ba.getBeforePersonalCusomer();
@@ -406,8 +412,32 @@ public class BeforePersonalCustomerServiceImpl  extends BaseServiceImpl<BeforePe
 				ct.setSpouse(bc);
 			}
 		}
-		return result;
+		
+		//List 按照 主借人,共借人,担保人排序 add By Caixiekang
+		List<BeforePersonalCustomer> sortList = new ArrayList<>();
+		for (BeforePersonalCustomer beforePersonalCustomer : result) {
+			if(CaseApplyBeforeCustomer.MAIN_BORROW.equals(beforePersonalCustomer.getJoinType())){
+				sortList.add(beforePersonalCustomer);
+			}
+		}
+		for (BeforePersonalCustomer beforePersonalCustomer : result) {
+			if(CaseApplyBeforeCustomer.JOINTLY_PARTY.equals(beforePersonalCustomer.getJoinType())){
+				sortList.add(beforePersonalCustomer);
+			}
+		}
+		for(BeforePersonalCustomer beforePersonalCustomer : result){
+			if(CaseApplyBeforeCustomer.GUARANTEE_PARTY.equals(beforePersonalCustomer.getJoinType())){
+				sortList.add(beforePersonalCustomer);
+			}
+		}
+		return sortList;
 	}
+
+	@Override
+	public BeforePersonalCustomer findById(String id){
+		return this.customReposity.findOne(id);
+	}
+
 
 	
 

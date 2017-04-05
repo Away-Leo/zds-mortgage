@@ -5,9 +5,19 @@ import java.math.BigDecimal;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.CapitalistTrust;
 
-public class CapitalistTrustVo extends BaseVo<CapitalistTrust>{
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CapitalistTrustVo.java
+ * @ClassName: CapitalistTrustVo
+ * @Description: 信托资方
+ * @author liuwei
+ * @date 2017年3月9日 上午11:26:45
+ * @version V1.0
+ */
+public class CapitalistTrustVo extends BaseVo<CapitalistTrust> {
 
-	
 	/**
 	 * 
 	 */
@@ -24,24 +34,31 @@ public class CapitalistTrustVo extends BaseVo<CapitalistTrust>{
 	 * 约定的代偿时间
 	 */
 	private Long appointRepayDate;
+
 	public BigDecimal getPlanInputCost() {
 		return planInputCost;
 	}
+
 	public void setPlanInputCost(BigDecimal planInputCost) {
 		this.planInputCost = planInputCost;
 	}
+
 	public BigDecimal getAppointBorrowRate() {
 		return appointBorrowRate;
 	}
+
 	public void setAppointBorrowRate(BigDecimal appointBorrowRate) {
 		this.appointBorrowRate = appointBorrowRate;
 	}
+
 	public Long getAppointRepayDate() {
 		return appointRepayDate;
 	}
+
 	public void setAppointRepayDate(Long appointRepayDate) {
 		this.appointRepayDate = appointRepayDate;
 	}
+
 	public CapitalistTrustVo() {
 		super();
 	}
@@ -58,5 +75,5 @@ public class CapitalistTrustVo extends BaseVo<CapitalistTrust>{
 		CapitalistTrust po = new CapitalistTrust();
 		return super.toPo(this, po);
 	}
-	
+
 }

@@ -49,7 +49,7 @@ public class CaseMaterialListVo extends BaseVo<CaseMaterialList> {
     private String materiaName;
 
     /**
-     * 对应产品资料清单id(与prct_materialList弱关联),暂时不用
+     * 对应产品资料清单id(与prd_materialList弱关联),暂时不用
      */
     private String materialListId;
     

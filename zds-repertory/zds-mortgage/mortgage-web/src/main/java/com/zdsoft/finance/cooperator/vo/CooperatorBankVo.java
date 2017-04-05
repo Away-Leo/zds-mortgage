@@ -4,10 +4,15 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.CooperatorBank;
 
 /**
- * 合作方银行
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CooperatorBankVo.java
+ * @ClassName: CooperatorBankVo
+ * @Description: 合作方银行Vo
+ * @author liuwei
+ * @date 2017年3月9日 上午11:27:17
+ * @version V1.0
  */
 public class CooperatorBankVo extends BaseVo<CooperatorBank> {
 

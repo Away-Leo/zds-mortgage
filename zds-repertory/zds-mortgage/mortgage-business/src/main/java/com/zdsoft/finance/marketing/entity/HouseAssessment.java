@@ -9,16 +9,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:HouseAssessment.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:房产评估信息实体
- * @author: zhoushichao
- * @date:2017年1月14日 下午8:20:04
- * @version:v1.0
+ * @Title: HouseAssessment.java 
+ * @ClassName: HouseAssessment 
+ * @Description: 房产评估信息实体
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:45:20 
+ * @version V1.0
  */
 @Entity
-@Table(name="mark_house_assessment")
+@Table(name="mkt_house_assessment")
 public class HouseAssessment extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +38,7 @@ public class HouseAssessment extends BaseEntity {
 	 * 评估价格
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal evaluationPrice;
+	private BigDecimal evaluationPrice = BigDecimal.ZERO;
 	/**
 	 * 评估时间
 	 */

@@ -15,7 +15,7 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
  *         )
  */
 @Entity
-@Table(name = "coact_agency_contract_tpl_apply")
+@Table(name = "con_agency_contract_tpl_apply")
 
 public class CoactAgencyContractTplApply  extends BaseEntity{
 	

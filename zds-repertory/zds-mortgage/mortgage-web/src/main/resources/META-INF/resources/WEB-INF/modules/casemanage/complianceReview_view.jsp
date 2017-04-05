@@ -11,36 +11,47 @@
 </head>
 <body>
 <div class="frm-content frm-bottom" id="complianceReview">
+	<form id="form" class="zui-form" action="javascript:void(0);">
     <div class="page-box">
         <h1 class="page-title">案件信息</h1>
+        <!-- 案件信息开始 -->
         <div class="p5">
             <table class="table-detail">
                 <tr>
                     <td class="td-title pct15">案件号</td>
                     <td class="pct15">${caseApplyVo.caseApplyCode}</td>
-                    <td class="td-title pct15">主借人</td>
+                    <td class="td-title pct15">机构</td>
                     <td class="pct15" ></td>
-                    <td class="td-title pct15">放款金额</td>
+                    <td class="td-title pct15">主借人</td>
                     <td class="pct15"></td>
                 </tr>
                 <tr>
-                    <td class="td-title pct15">放款期限</td>
+                    <td class="td-title pct15">贷款金额</td>
                     <td class="pct15"></td>
-                    <td class="td-title pct15">已放款资金</td>
+                    <td class="td-title pct15">贷款期限</td>
                     <td class="pct15"></td>
-                    <td class="td-title pct15">待垫出</td>
+                    <td class="td-title pct15">子产品</td>
                     <td class="pct15"></td>
                 </tr>
                 <tr>
-                    <td class="td-title pct15">已收回资金</td>
+                    <td class="td-title pct15">综合利率</td>
                     <td class="pct15"></td>
-                    <td class="td-title pct15">待回收资金</td>
+                    <td class="td-title pct15">还款方式</td>
+                    <td class="pct15"></td>
+                    <td class="td-title pct15">资金来源</td>
+                    <td class="pct15"></td>
+                </tr>
+                <tr>
+                    <td class="td-title pct15">评估价抵押成数</td>
+                    <td class="pct15"></td>
+                    <td class="td-title pct15">贷款成数</td>
                     <td class="pct15"></td>
                     <td class="td-title pct15"></td>
                     <td class="pct15"></td>
                 </tr>
             </table>
         </div>
+        <!-- 案件信息结束 -->
         <h1 class="page-title">审批记录</h1>
         <div class="p5">
             <table class="table-flow">
@@ -73,99 +84,79 @@
             </table>
         </div>
         <div class="page-title">复核结果</div>
-		<div class="p10">
-			<div class="zd-form">
-				<form id="reviewForm" class="zui-form" action="javascript:void(0);" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.casemanage.getRelatedLoanInfo" context="admin"/>&jsoncallback=?", "callBack": "saveCallBack"}'>
-					<table class="table-detail">
-							<tr>
-								<td class="td-title pct20"><b class="c-red mr5">*</b>复核结果</td>
-								<td class="pct30">
-									<dd class="detail" id="reviewResults">
-				                        <input class="zui-checkbox zui-validatebox" id="radioResult" type="hidden" data-multiple="false"
-				                               data-data="[{'id':'0','text':'复核通过'},{'id':'1','text':'复核未通过'},{'id':'2','text':'否决'}]"
-				                               data-valuefield="id" data-textfield="text" validate-type="Require">
-				                    </dd>
-								</td>
-								<td class="td-title pct20"></td>
-								<td class="pct30">
-								</td>
-							</tr>
-							
-					</table>
-				</form>
-			</div>
+		<div class="p5">
+			<table class="table-detail">
+				<tr>
+					<td class="td-title pct20"><b class="c-red mr5">*</b>复核结果</td>
+					<td class="pct50">
+						<dd class="detail" id="reviewResults">
+	                        <input class="zui-checkbox zui-validatebox" id="radioResult" type="hidden" data-multiple="false"
+	                               data-data="[{'id':'0','text':'复核通过'},{'id':'1','text':'复核未通过'},{'id':'2','text':'否决'}]"
+	                               data-valuefield="id" data-textfield="text" validate-type="Require">
+	                    </dd>
+					</td>
+					<td class="td-title pct10"></td>
+					<td class="pct30"></td>
+				</tr>
+			</table>
 		</div>
-		<div id="zd-table-warp">
+		<!-- 复核信息start -->
+		<div id="theReviewInfo">
 			<div class="page-title">复核信息</div>
-			<div class="p10">
-				<div class="zd-form">
-					<form id="reviewInfo" class="zui-form" action="javascript:void(0);" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.casemanage.getRelatedLoanInfo" context="admin"/>&jsoncallback=?", "callBack": "saveCallBack"}'>
-						<table class="table-detail">
-								<tr>
-									<td class="td-title pct10"><b class="c-red mr5">*</b>一级标示</td>
-									<td class="pct20">
-										<dl class="form-item form-auto">
-											<dd class="detail">
-												<input class="zui-combobox zui-validatebox" type="hidden" data-data="[{'id':'0','text':'业务风险审批合规性'},{'id':'1','text':'业务操作合规性'},{'id':'2','text':'违规操作'}]" data-callback="firstMarking" data-valuefield="id" data-textfield="text" validate-type="Require">
-											</dd>
-										</dl>
-									</td>
-									<td class="td-title pct10"><b class="c-red mr5">*</b>二级标示</td>
-									<td class="pct20">
-										<dl class="form-item form-auto">
-											<dd class="detail">
-												<input class="zui-combobox zui-validatebox" type="hidden" id="secondMarking"  validate-type="Require">
-											</dd>
-										</dl>
-									</td>
-									<td class="td-title pct10"><b class="c-red mr5">*</b>三级标示</td>
-									<td class="pct30">
-										<dl class="form-item form-auto">
-											<dd class="detail">
-												<input class="zui-combobox zui-validatebox" type="hidden"  id="thirdMarking" validate-type="Require">
-											</dd>
-										</dl>
-									</td>
-								</tr>
-						</table>
-					</form>
-				</div>
+			<div class="p5">
+				<table class="table-detail">
+					<tr>
+						<td class="td-title pct10"><b class="c-red mr5">*</b>一级标示</td>
+						<td class="pct20">
+							<dl class="form-item form-auto">
+								<dd class="detail">
+									<input class="zui-combobox zui-validatebox" type="hidden" 
+										data-data="[{'id':'0','text':'业务风险审批合规性'},{'id':'1','text':'业务操作合规性'},{'id':'2','text':'违规操作'}]" 
+										data-callback="chooseFirstMarking" data-valuefield="id" data-textfield="text" validate-type="Require">
+								</dd>
+							</dl>
+						</td>
+						<td class="td-title pct10"><b class="c-red mr5">*</b>二级标示</td>
+						<td class="pct20">
+							<dl class="form-item form-auto">
+								<dd class="detail">
+									<input class="zui-combobox zui-validatebox" type="hidden" id="secondMarking"  validate-type="Require">
+								</dd>
+							</dl>
+						</td>
+						<td class="td-title pct10"><b class="c-red mr5">*</b>三级标示</td>
+						<td class="pct30">
+							<dl class="form-item form-auto">
+								<dd class="detail">
+									<input class="zui-combobox zui-validatebox" type="hidden"  id="thirdMarking" validate-type="Require">
+								</dd>
+							</dl>
+						</td>
+					</tr>
+				</table>
 			</div>
-			<div class="p10">
+			<!-- 复核信息的列表table -->
+			<div class="p5">
 				<div id="zd-table-test"></div>
 			</div>
 			<!-- 责任人选择器 -->
 			<div id="personnelSelector"></div>
+			<!-- 描述说明输入 -->
+			<div class="p5" id="remark">
 			<div class="zd-form" id="remark">
-<<<<<<< HEAD
 				<table class="table-detail">
-						<tr>
-							<td class="td-title" style="width:200px;">描述</td>
-							<td colspan="5">
-								<label>
-                  						<textarea class="zui-area" name="markRemark" placeholder="最多可以输入200个字符" style="width:100%;"></textarea>
-          							</label>
-							</td>
-						</tr>
+					<tr>
+						<td class="td-title" style="width:200px;">描述</td>
+						<td colspan="5">
+							<label>
+	       						<textarea class="zui-area" placeholder="最多可以输入200个字符" style="width:100%;"></textarea>
+							</label>
+						</td>
+					</tr>
 				</table>
-=======
-					<form id="remarkInfo" class="zui-form" action="javascript:void(0);" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.casemanage.getRelatedLoanInfo" context="admin"/>&jsoncallback=?", "callBack": "saveCallBack"}'>
-						<table class="table-detail">
-								<tr>
-									<td class="td-title" style="width:200px;">描述</td>
-									<td colspan="5">
-										<label>
-                    						<textarea class="zui-area" placeholder="最多可以输入200个字符" style="width:100%;"></textarea>
-               							 </label>
-									</td>
-								</tr>
-						</table>
-					</form>
-				</div>
->>>>>>> branch 'master' of http://222.177.14.56:8081/liuwei/zds-finance-mortgage.git
 			</div>
 		</div>
-			
+		<!-- 复核信息end -->
 		<div class="page-title">后补资料</div>
 		<div class="p10">
 			<form id="afterData" class="zui-form" action="javascript:void(0);" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.casemanage.getRelatedLoanInfo" context="admin"/>&jsoncallback=?"}'>
@@ -200,22 +191,32 @@
 			</div>
 			</form>
 		</div>
-		
         <div class="save">
 		    <button id="btn-save" class="btn-blue mr10" type="button">保存</button>
 		    <button id="btn-cancel" class="btn-blue mr10" type="button" onclick="javascript:history.back(-1);">返回</button>
 		</div>
-    </div>
+   	</form>
 </div>
 </body>
 <script type="text/javascript">
 seajs.use(['jquery', 'zd/tools', 'zd/jquery.zds.page.callback', 'zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter','zd/jquery.zds.checkbox'], function($, ZTOOL, CALLBACK) {
+	//复核结果 ：只有选择 复核通过时才显示复核信息
+	$("#reviewResults").click(function(){
+		if($("#radioResult").val()==1 || $("#radioResult").val()==2){
+			$("#theReviewInfo").css("display","none");
+		}else{
+			$("#theReviewInfo").css("display","block");
+		}
+	});
+	
+	//复核信息
 	var paramMark = "";
 	//选择一级标示 
-    CALLBACK.firstMarking=function(value,text) {
+    CALLBACK.chooseFirstMarking=function(value,text) {
     	paramMark = "";
         paramMark += "&firstMark="+value;
-        if(value == "0"){//业务风险审批合规性
+     	//业务风险审批合规性
+        if(value == "0"){
         	$("#secondMarking").ZCombobox({
                 valueField: "id",
                 textField: "name",
@@ -235,7 +236,8 @@ seajs.use(['jquery', 'zd/tools', 'zd/jquery.zds.page.callback', 'zd/jquery.zds.f
 	            }
             });
         }
-        if(value == "1"){//业务操作合规性
+      	//业务操作合规性
+        if(value == "1"){
         	$("#secondMarking").ZCombobox({
 	       		valueField: "id",
 	            textField: "name",
@@ -451,13 +453,7 @@ seajs.use(['jquery', 'zd/tools', 'zd/jquery.zds.page.callback', 'zd/jquery.zds.f
        });
     
     //---------------------------
-	$("#reviewResults").click(function(){
-		if($("#radioResult").val()==1 || $("#radioResult").val()==2){
-			$("#zd-table-warp").css("display","none");
-		}else{
-			$("#zd-table-warp").css("display","block");
-		}
-	});
+	
 	//保存
 	$("#btn-save").click(function(){
 		var formData = $("#afterData").serializeArray();

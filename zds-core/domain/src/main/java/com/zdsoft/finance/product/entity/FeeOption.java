@@ -4,400 +4,217 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
 import java.math.BigDecimal;
 
 /**
- * 机构产品费用项域对象
- * @author LiaoGuoWei
- * @create 2016-12-30 17:57
- **/
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: FeeOption.java 
+ * @ClassName: FeeOption 
+ * @Description: 产品机构费用
+ * @author gufeng 
+ * @date 2017年3月6日 上午10:51:52 
+ * @version V1.0
+ */
 @Entity
-@Table(name = "prct_feeoption")
+@Table(name = "prd_feeoption")
 public class FeeOption extends BaseEntity {
 
-    /**
-     * 产品编号
+	private static final long serialVersionUID = 4855564738503102583L;
+	/**
+     * 产品id
      */
     @Column(length = 36)
-    private String productCode;
+    private String productId;
     /**
-     * 产品名称
+     * 收费类型
      */
-    @Column(length = 255)
-    private String productName;
-
+    @Column(length = 20)
+    private String feeType;
     /**
-     * 收费类型编号
+     * 收费项目
      */
-    @Column(length = 255)
-    private String chargeTypeCode;
-
+    @Column(length = 20)
+    private String feeItem;
     /**
-     * 收费类型名称
+     * 收款计算方式
      */
-    @Column(length = 255)
-    private String chargeTypeName;
-
-    /**
-     * 收费项目编号
-     */
-    @Column(length = 255)
-    private String chargingItemCode;
-
-    /**
-     * 收费项目名称
-     */
-    @Column(length = 255)
-    private String chargingItemName;
-
-    /**
-     * 收款计算方式编号
-     */
-    @Column(length = 255)
-    private String collectionMethodCode;
-
-    /**
-     * 收款计算方式名称
-     */
-    @Column(length = 255)
-    private String collectionMethodName;
-
+    @Column(length = 20)
+    private String chargeCalculateWay;
     /**
      * 收款金额
      */
-    @Column(precision = 30,scale = 12)
-    private BigDecimal collectionAmount;
-
+    @Column(precision = 18,scale = 6)
+    private BigDecimal chargeAmount = BigDecimal.ZERO;
     /**
      * 收款比例
      */
-    @Column(length = 42)
-    private Double collectionRatio;
-
+    @Column(precision = 18,scale = 6)
+    private Double chargeRatio;
     /**
-     * 付款计算方式编号
+     * 付款计算方式
      */
-    @Column(length = 255)
-    private String paymentMethodCode;
-    /**
-     * 付款计算方式名称
-     */
-    @Column(length = 255)
-    private String paymentMethodName;
-
+    @Column(length = 20)
+    private String payCalculateWay;
     /**
      * 付款金额
      */
-    @Column(precision = 30,scale = 12)
-    private BigDecimal paymentAmount;
-
+    @Column(precision = 18,scale = 6)
+    private BigDecimal payAmount = BigDecimal.ZERO;
     /**
      * 付款比例
      */
-    @Column(length = 42)
-    private Double paymentRatio;
-
+    @Column(precision = 18,scale = 6)
+    private Double payRatio;
     /**
-     * 营业收支编号
+     * 是否营业收入
      */
-    @Column(length = 255)
-    private String isBusinessInAndOutCode;
+    @Column
+    @Type(type="true_false")
+    private Boolean isOperateIncome = false;
     /**
-     * 营业收支名称
+     * 是否先请再付
      */
-    @Column(length = 255)
-    private String isBusinessInAndOutName;
+    @Column
+    @Type(type="true_false")
+    private Boolean isPayFirst = false;
     /**
-     * 先请再付编号
+     * 支付条件
      */
-    @Column(length = 255)
-    private String isRepayCode;
+    @Column(length = 20)
+    private String paymentTerms;
     /**
-     * 先请再付名称
+     * 是否支佣
      */
-    @Column(length = 255)
-    private String isRepayName;
-
+    @Column
+    @Type(type="true_false")
+    private Boolean isPayCommission = false;
     /**
-     * 支付条件编号
+     * 佣金支付条件
      */
-    @Column(length = 255)
-    private String payConditionCode;
-
-    /**
-     * 支付条件名称
-     */
-    @Column(length = 255)
-    private String payConditionName;
-
-    /**
-     * 是否支佣编号
-     */
-    @Column(length = 255)
-    private String isPayCommissionCode;
-    /**
-     * 是否支佣名称
-     */
-    @Column(length = 255)
-    private String isPayCommissionName;
-
-    /**
-     * 佣金支付条件编号
-     */
-    @Column(length = 255)
-    private String payCommiCondCode;
-    /**
-     * 佣金支付条件名称
-     */
-    @Column(length = 255)
-    private String payCommiCondName;
-
+    @Column(length = 20)
+    private String payCondition;
     /**
      * 支佣节点
      */
-    @Column(length = 255)
-    private String payCommiNode;
-
+    @Column(length = 64)
+    private String point;
     /**
-     * 是否停用编号
+     * 是否停用
      */
-    @Column(length = 255)
-    private String isStopCode;
-    /**
-     * 是否停用名称
-     */
-    @Column(length = 255)
-    private String isStopName;
-
+    @Column
+    @Type(type="true_false")
+    private Boolean isEnable;
     /**
      * 备注
      */
-    @Lob
-    private String mo;
-
-    public String getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getChargeTypeCode() {
-        return chargeTypeCode;
-    }
-
-    public void setChargeTypeCode(String chargeTypeCode) {
-        this.chargeTypeCode = chargeTypeCode;
-    }
-
-    public String getChargeTypeName() {
-        return chargeTypeName;
-    }
-
-    public void setChargeTypeName(String chargeTypeName) {
-        this.chargeTypeName = chargeTypeName;
-    }
-
-    public String getChargingItemCode() {
-        return chargingItemCode;
-    }
-
-    public void setChargingItemCode(String chargingItemCode) {
-        this.chargingItemCode = chargingItemCode;
-    }
-
-    public String getChargingItemName() {
-        return chargingItemName;
-    }
-
-    public void setChargingItemName(String chargingItemName) {
-        this.chargingItemName = chargingItemName;
-    }
-
-    public String getCollectionMethodCode() {
-        return collectionMethodCode;
-    }
-
-    public void setCollectionMethodCode(String collectionMethodCode) {
-        this.collectionMethodCode = collectionMethodCode;
-    }
-
-    public String getCollectionMethodName() {
-        return collectionMethodName;
-    }
-
-    public void setCollectionMethodName(String collectionMethodName) {
-        this.collectionMethodName = collectionMethodName;
-    }
-
-    public BigDecimal getCollectionAmount() {
-        return collectionAmount;
-    }
-
-    public void setCollectionAmount(BigDecimal collectionAmount) {
-        this.collectionAmount = collectionAmount;
-    }
-
-    public Double getCollectionRatio() {
-        return collectionRatio;
-    }
-
-    public void setCollectionRatio(Double collectionRatio) {
-        this.collectionRatio = collectionRatio;
-    }
-
-    public String getPaymentMethodCode() {
-        return paymentMethodCode;
-    }
-
-    public void setPaymentMethodCode(String paymentMethodCode) {
-        this.paymentMethodCode = paymentMethodCode;
-    }
-
-    public String getPaymentMethodName() {
-        return paymentMethodName;
-    }
-
-    public void setPaymentMethodName(String paymentMethodName) {
-        this.paymentMethodName = paymentMethodName;
-    }
-
-    public BigDecimal getPaymentAmount() {
-        return paymentAmount;
-    }
-
-    public void setPaymentAmount(BigDecimal paymentAmount) {
-        this.paymentAmount = paymentAmount;
-    }
-
-    public Double getPaymentRatio() {
-        return paymentRatio;
-    }
-
-    public void setPaymentRatio(Double paymentRatio) {
-        this.paymentRatio = paymentRatio;
-    }
-
-    public String getIsBusinessInAndOutCode() {
-        return isBusinessInAndOutCode;
-    }
-
-    public void setIsBusinessInAndOutCode(String isBusinessInAndOutCode) {
-        this.isBusinessInAndOutCode = isBusinessInAndOutCode;
-    }
-
-    public String getIsBusinessInAndOutName() {
-        return isBusinessInAndOutName;
-    }
-
-    public void setIsBusinessInAndOutName(String isBusinessInAndOutName) {
-        this.isBusinessInAndOutName = isBusinessInAndOutName;
-    }
-
-    public String getIsRepayCode() {
-        return isRepayCode;
-    }
-
-    public void setIsRepayCode(String isRepayCode) {
-        this.isRepayCode = isRepayCode;
-    }
-
-    public String getIsRepayName() {
-        return isRepayName;
-    }
-
-    public void setIsRepayName(String isRepayName) {
-        this.isRepayName = isRepayName;
-    }
-
-    public String getPayConditionCode() {
-        return payConditionCode;
-    }
-
-    public void setPayConditionCode(String payConditionCode) {
-        this.payConditionCode = payConditionCode;
-    }
-
-    public String getPayConditionName() {
-        return payConditionName;
-    }
-
-    public void setPayConditionName(String payConditionName) {
-        this.payConditionName = payConditionName;
-    }
-
-    public String getIsPayCommissionCode() {
-        return isPayCommissionCode;
-    }
-
-    public void setIsPayCommissionCode(String isPayCommissionCode) {
-        this.isPayCommissionCode = isPayCommissionCode;
-    }
-
-    public String getIsPayCommissionName() {
-        return isPayCommissionName;
-    }
-
-    public void setIsPayCommissionName(String isPayCommissionName) {
-        this.isPayCommissionName = isPayCommissionName;
-    }
-
-    public String getPayCommiCondCode() {
-        return payCommiCondCode;
-    }
-
-    public void setPayCommiCondCode(String payCommiCondCode) {
-        this.payCommiCondCode = payCommiCondCode;
-    }
-
-    public String getPayCommiCondName() {
-        return payCommiCondName;
-    }
-
-    public void setPayCommiCondName(String payCommiCondName) {
-        this.payCommiCondName = payCommiCondName;
-    }
-
-    public String getPayCommiNode() {
-        return payCommiNode;
-    }
-
-    public void setPayCommiNode(String payCommiNode) {
-        this.payCommiNode = payCommiNode;
-    }
-
-    public String getIsStopCode() {
-        return isStopCode;
-    }
-
-    public void setIsStopCode(String isStopCode) {
-        this.isStopCode = isStopCode;
-    }
-
-    public String getIsStopName() {
-        return isStopName;
-    }
-
-    public void setIsStopName(String isStopName) {
-        this.isStopName = isStopName;
-    }
-
-    public String getMo() {
-        return mo;
-    }
-
-    public void setMo(String mo) {
-        this.mo = mo;
-    }
+    @Column(length = 1000)
+    private String remark;
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+	public String getFeeType() {
+		return feeType;
+	}
+	public void setFeeType(String feeType) {
+		this.feeType = feeType;
+	}
+	public String getFeeItem() {
+		return feeItem;
+	}
+	public void setFeeItem(String feeItem) {
+		this.feeItem = feeItem;
+	}
+	public String getChargeCalculateWay() {
+		return chargeCalculateWay;
+	}
+	public void setChargeCalculateWay(String chargeCalculateWay) {
+		this.chargeCalculateWay = chargeCalculateWay;
+	}
+	public BigDecimal getChargeAmount() {
+		return chargeAmount;
+	}
+	public void setChargeAmount(BigDecimal chargeAmount) {
+		this.chargeAmount = chargeAmount;
+	}
+	public Double getChargeRatio() {
+		return chargeRatio;
+	}
+	public void setChargeRatio(Double chargeRatio) {
+		this.chargeRatio = chargeRatio;
+	}
+	public String getPayCalculateWay() {
+		return payCalculateWay;
+	}
+	public void setPayCalculateWay(String payCalculateWay) {
+		this.payCalculateWay = payCalculateWay;
+	}
+	public BigDecimal getPayAmount() {
+		return payAmount;
+	}
+	public void setPayAmount(BigDecimal payAmount) {
+		this.payAmount = payAmount;
+	}
+	public Double getPayRatio() {
+		return payRatio;
+	}
+	public void setPayRatio(Double payRatio) {
+		this.payRatio = payRatio;
+	}
+	public Boolean getIsOperateIncome() {
+		return isOperateIncome;
+	}
+	public void setIsOperateIncome(Boolean isOperateIncome) {
+		this.isOperateIncome = isOperateIncome;
+	}
+	public Boolean getIsPayFirst() {
+		return isPayFirst;
+	}
+	public void setIsPayFirst(Boolean isPayFirst) {
+		this.isPayFirst = isPayFirst;
+	}
+	public String getPaymentTerms() {
+		return paymentTerms;
+	}
+	public void setPaymentTerms(String paymentTerms) {
+		this.paymentTerms = paymentTerms;
+	}
+	public Boolean getIsPayCommission() {
+		return isPayCommission;
+	}
+	public void setIsPayCommission(Boolean isPayCommission) {
+		this.isPayCommission = isPayCommission;
+	}
+	public String getPayCondition() {
+		return payCondition;
+	}
+	public void setPayCondition(String payCondition) {
+		this.payCondition = payCondition;
+	}
+	public String getPoint() {
+		return point;
+	}
+	public void setPoint(String point) {
+		this.point = point;
+	}
+	public Boolean getIsEnable() {
+		return isEnable;
+	}
+	public void setIsEnable(Boolean isEnable) {
+		this.isEnable = isEnable;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+    
+   
 }

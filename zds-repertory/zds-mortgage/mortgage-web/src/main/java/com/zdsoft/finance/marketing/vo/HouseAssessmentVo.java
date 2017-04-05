@@ -6,15 +6,16 @@ import java.math.BigDecimal;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.marketing.entity.HouseAssessment;
 
-/** 	
-* 版权所有：重庆正大华日软件有限公司	
-* @Title: HouseAssessmentVo.java 	
-* @Package com.zdsoft.finance.marketing.vo 	
-* @Description: TODO	
-* @author Administrator 	
-* @date 2017年1月15日 下午4:17:59 	
-* @version V1.0 	
-*/
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: HouseAssessmentVo.java 
+ * @ClassName: HouseAssessmentVo 
+ * @Description: 房产评估信息Vo
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:49:06 
+ * @version V1.0
+ */
 public class HouseAssessmentVo extends BaseVo<HouseAssessment>{
 
 	private static final long serialVersionUID = 1L;
@@ -61,9 +62,4 @@ public class HouseAssessmentVo extends BaseVo<HouseAssessment>{
 	public void setEvaluationDate(Long evaluationDate) {
 		this.evaluationDate = evaluationDate;
 	}
-	
-	
-	
-	
-	
 }

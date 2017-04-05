@@ -4,192 +4,196 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.Capitalist;
 
 /**
- * 资方表
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CapitalistVo.java
+ * @ClassName: CapitalistVo
+ * @Description: 资方vo
+ * @author liuwei
+ * @date 2017年3月2日 下午2:28:12
+ * @version V1.0
  */
 public class CapitalistVo extends BaseVo<Capitalist> {
 
 	/**
-	 * 
+	 * @Fields serialVersionUID
 	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 合作方名称
-	 */
-	private String cooperatorName;
-	/**
-	 * 合作方简称
-	 */
-	private String cooperatorShortName;
-	/**
-	 * 上级名称
-	 */
-	private String parentName;
-	/**
-	 * 合作方类型
-	 */
-	private String cooperatorType;
-	/**
-	 * 合作方地址
-	 */
-	private String cooperatorAddress;
-	/**
-	 * 地区CODE
-	 */
-	private String regionCode;
-	/**
-	 * 成立时间
-	 */
-	private Long foundDate;
-	/**
-	 * 法人
-	 */
-	private String legalPerson;
-	/**
-	 * 税号
-	 */
-	private String dutyParagraph;
-	/**
-	 * 行业
-	 */
-	private String industry;
-	/**
-	 * 备注
-	 */
-	private String remark;
-	/**
-	 * 是否停用
-	 */
-	private String isStop;
-	/**
-	 * 网站
-	 */
-	private String website;
+	private static final long serialVersionUID = 5275435307894569590L;
 
 	/**
-	 * 电话
+	 * 资方名称
 	 */
-	private String contactTelNumber;
+	private String capitalName;
 
 	/**
 	 * 资方类型
 	 */
 	private String capitalistType;
-	private String capitalistTypeName;
+
 	/**
-	 * 资方类别
+	 * 资方类型Name
+	 */
+	private String capitalistTypeName;
+
+	/**
+	 * 是否停用
+	 */
+	private String isStop;
+
+	/**
+	 * 类别(银行持有)
 	 */
 	private String capitalistCategory;
+
+	/**
+	 * 简称
+	 */
+	private String capitalShortName;
+
+	/**
+	 * 电话
+	 */
+	private String telephone;
+
+	/**
+	 * 地区及详细地址省
+	 */
+	private String addProvince;
+
+	/**
+	 * 地区及详细地址市
+	 */
+	private String addCity;
+
+	/**
+	 * 地区及详细地址区
+	 */
+	private String addCountry;
+
+	/**
+	 * 地区及详细地址
+	 */
+	private String address;
+
+	/**
+	 * 成立时间
+	 */
+	private Long foundDate;
+
+	/**
+	 * 法人
+	 */
+	private String legalPerson;
+
+	/**
+	 * 税号
+	 */
+	private String dutyParagraph;
+
+	/**
+	 * 银行帐号
+	 */
+	private String bankAccount;
+
+	/**
+	 * 行业
+	 */
+	private String industry;
+
 	/**
 	 * 是否有银行协议
 	 */
 	private String isHasBankAgreement;
+
 	/**
-	 * 协议名称
+	 * 备注
 	 */
-	private String agreementName;
+	private String remark;
+
 	/**
-	 * 逻辑删除
+	 * 上级机构
 	 */
-	private String logicDelelte;
-	private String bankAccountShow;
-	/**
-	 * 银行卡帐号
-	 */
-	private CooperatorBankVo cooperatorBankVo;
-	/**
-	 * 信托计划
-	 */
-	private CapitalistTrustVo trustVo;
+	private String parentOrg;
 
-	public String getBankAccountShow() {
-		return bankAccountShow;
+	public String getCapitalName() {
+		return capitalName;
 	}
 
-	public void setBankAccountShow(String bankAccountShow) {
-		this.bankAccountShow = bankAccountShow;
+	public void setCapitalName(String capitalName) {
+		this.capitalName = capitalName;
 	}
 
-	public CapitalistTrustVo getTrustVo() {
-		return trustVo;
+	public String getCapitalistType() {
+		return capitalistType;
 	}
 
-	public void setTrustVo(CapitalistTrustVo trustVo) {
-		this.trustVo = trustVo;
+	public void setCapitalistType(String capitalistType) {
+		this.capitalistType = capitalistType;
 	}
 
-	public CooperatorBankVo getCooperatorBankVo() {
-		return cooperatorBankVo;
+	public String getIsStop() {
+		return isStop;
 	}
 
-	public void setCooperatorBankVo(CooperatorBankVo cooperatorBankVo) {
-		this.cooperatorBankVo = cooperatorBankVo;
+	public void setIsStop(String isStop) {
+		this.isStop = isStop;
 	}
 
-	public String getCapitalistTypeName() {
-		return capitalistTypeName;
+	public String getCapitalistCategory() {
+		return capitalistCategory;
 	}
 
-	public void setCapitalistTypeName(String capitalistTypeName) {
-		this.capitalistTypeName = capitalistTypeName;
+	public void setCapitalistCategory(String capitalistCategory) {
+		this.capitalistCategory = capitalistCategory;
 	}
 
-	public String getCooperatorName() {
-		return cooperatorName;
+	public String getCapitalShortName() {
+		return capitalShortName;
 	}
 
-	public void setCooperatorName(String cooperatorName) {
-		this.cooperatorName = cooperatorName;
+	public void setCapitalShortName(String capitalShortName) {
+		this.capitalShortName = capitalShortName;
 	}
 
-	public String getCooperatorShortName() {
-		return cooperatorShortName;
+	public String getTelephone() {
+		return telephone;
 	}
 
-	public void setCooperatorShortName(String cooperatorShortName) {
-		this.cooperatorShortName = cooperatorShortName;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
-	public String getDutyParagraph() {
-		return dutyParagraph;
+	public String getAddProvince() {
+		return addProvince;
 	}
 
-	public void setDutyParagraph(String dutyParagraph) {
-		this.dutyParagraph = dutyParagraph;
+	public void setAddProvince(String addProvince) {
+		this.addProvince = addProvince;
 	}
 
-	public String getParentName() {
-		return parentName;
+	public String getAddCity() {
+		return addCity;
 	}
 
-	public void setParentName(String parentName) {
-		this.parentName = parentName;
+	public void setAddCity(String addCity) {
+		this.addCity = addCity;
 	}
 
-	public String getCooperatorType() {
-		return cooperatorType;
+	public String getAddCountry() {
+		return addCountry;
 	}
 
-	public void setCooperatorType(String cooperatorType) {
-		this.cooperatorType = cooperatorType;
+	public void setAddCountry(String addCountry) {
+		this.addCountry = addCountry;
 	}
 
-	public String getCooperatorAddress() {
-		return cooperatorAddress;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setCooperatorAddress(String cooperatorAddress) {
-		this.cooperatorAddress = cooperatorAddress;
-	}
-
-	public String getRegionCode() {
-		return regionCode;
-	}
-
-	public void setRegionCode(String regionCode) {
-		this.regionCode = regionCode;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public Long getFoundDate() {
@@ -208,60 +212,28 @@ public class CapitalistVo extends BaseVo<Capitalist> {
 		this.legalPerson = legalPerson;
 	}
 
+	public String getDutyParagraph() {
+		return dutyParagraph;
+	}
+
+	public void setDutyParagraph(String dutyParagraph) {
+		this.dutyParagraph = dutyParagraph;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
 	public String getIndustry() {
 		return industry;
 	}
 
 	public void setIndustry(String industry) {
 		this.industry = industry;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getIsStop() {
-		return isStop;
-	}
-
-	public void setIsStop(String isStop) {
-		this.isStop = isStop;
-	}
-
-	public String getWebsite() {
-		return website;
-	}
-
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-
-	public String getContactTelNumber() {
-		return contactTelNumber;
-	}
-
-	public void setContactTelNumber(String contactTelNumber) {
-		this.contactTelNumber = contactTelNumber;
-	}
-
-	public String getCapitalistType() {
-		return capitalistType;
-	}
-
-	public void setCapitalistType(String capitalistType) {
-		this.capitalistType = capitalistType;
-	}
-
-	public String getCapitalistCategory() {
-		return capitalistCategory;
-	}
-
-	public void setCapitalistCategory(String capitalistCategory) {
-		this.capitalistCategory = capitalistCategory;
 	}
 
 	public String getIsHasBankAgreement() {
@@ -272,37 +244,36 @@ public class CapitalistVo extends BaseVo<Capitalist> {
 		this.isHasBankAgreement = isHasBankAgreement;
 	}
 
-	public String getAgreementName() {
-		return agreementName;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setAgreementName(String agreementName) {
-		this.agreementName = agreementName;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public String getLogicDelelte() {
-		return logicDelelte;
+	public String getParentOrg() {
+		return parentOrg;
 	}
 
-	public void setLogicDelelte(String logicDelelte) {
-		this.logicDelelte = logicDelelte;
+	public void setParentOrg(String parentOrg) {
+		this.parentOrg = parentOrg;
 	}
-	public String getFoundDateNm() {
-		Long found = this.getFoundDate();
-		if (found != null && found > 2000) {
-			String t = String.valueOf(found);
-			return t.substring(0, 4) + "-" + t.substring(4, 6) + "-" + t.substring(6, 8);
-		}
-		return "";
+
+	public String getCapitalistTypeName() {
+		return capitalistTypeName;
 	}
+
+	public void setCapitalistTypeName(String capitalistTypeName) {
+		this.capitalistTypeName = capitalistTypeName;
+	}
+
 	public CapitalistVo() {
 		super();
 	}
 
 	public CapitalistVo(Capitalist capitalist) {
 		super(capitalist, new String[] { "cooperatorBankVo", "trustVo" });
-		this.setCooperatorBankVo(new CooperatorBankVo(capitalist.getCooperatorBank()));
-		this.setTrustVo(new CapitalistTrustVo(capitalist.getCapitalistTrust()));
 	}
 
 	public CapitalistVo(Capitalist capitalist, String[] args, String[] simpleArgs) {

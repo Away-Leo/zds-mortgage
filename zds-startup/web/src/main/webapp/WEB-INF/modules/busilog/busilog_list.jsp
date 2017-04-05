@@ -27,9 +27,14 @@
 					<dl class="form-item">
 						<dt class="title">操作时间：</dt>
 						<dd class="detail">
-							<label> <input class="zui-input"
-								style="height: 30px; line-height: 30px;" id="operatorTime"
-								name="operatorTime|LK|S">
+
+								<input class="zui-date zui-validatebox" type="text" id="startTimeLimit"  placeholder="选择开始日期"  onclick="WdatePicker({readOnly:true,realDateFmt:'yyyyMMdd',dateFmt:'yyyy-MM-dd',vel:'operatorTime_Re',maxDate:'#F{$dp.$D(\'endTimeLimit\')}'})"  style="width: 95px;"/>
+								<input type="hidden" id="operatorTime_Re" name="operatorTime|RE|S">
+						</dd>
+						<dd class="detail">
+							<label>
+								<input class="zui-date zui-validatebox" type="text" id="endTimeLimit"   placeholder="选择结束日期"   onclick="WdatePicker({readOnly:true,realDateFmt:'yyyyMMdd',dateFmt:'yyyy-MM-dd',vel:'operatorTime_Le',minDate:'#F{$dp.$D(\'startTimeLimit\')}'})"  style="width: 95px;"/>
+								<input type="hidden" id="operatorTime_Le" name="operatorTime|LE|S">
 							</label>
 						</dd>
 					</dl>
@@ -45,9 +50,11 @@
 					<dl class="form-item">
 						<dt class="title">日志记录类型：</dt>
 						<dd class="detail">
-							<label> <input class="zui-input"
-								style="height: 30px; line-height: 30px;" id="logType"
-								name="logType|E|S">
+							<label>
+								<input class="zui-combobox zui-validatebox" id="logType" type="hidden"
+									   name="logType|E|S" validate-type="Require"
+									   data-data="[{'id':'1','text':'自动'},{'id':'2','text':'手动'}]"
+									   data-valuefield="id" data-textfield="text"/>
 							</label>
 						</dd>
 					</dl>
@@ -108,7 +115,10 @@
 	</div>
 	<script type="text/javascript">
 		seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], function($, CALLBACK) {
-			
+            $.ZUI.init();
+			$("#btn-reset").click(function () {
+                $.ZUI.resetForms('#search_from');
+            });
 			$("#dialogForm").Zdialog({
 				width: 700, height: 340, closed: true, title: "新增业务日志",
 				buttons: [
@@ -155,7 +165,7 @@
 			var url = '<z:ukey key='zf.businesslog.getLogList' context='admin'/>&jsoncallback=?';
 			$('#log-datagrid').ZTable({
 				columns:[[{field:'operatorNm', title:'操作人', align:'center'},
-				          {field:'operatorTime', title:'操作时间', align:'left'},
+				          {field:'operatorTime', title:'操作时间', align:'left',formatter:formatDate},
 				          {field:'moduleNm', title:'模块名', align:'left'},
 				          {field:'actionNm', title:'动作', align:'left'},
 				          {field:'description', title:'描述', align:'left'},
@@ -177,9 +187,13 @@
 					}
 				}],
 			});
-			
-			
-			//点击查询
+
+            //格式化列表数据
+            CALLBACK.formatDate=function(rowData,index){
+                return ZTools.strToDate(rowData.operatorTime);
+            };
+
+            //点击查询
 			$("#btn-submit").click(function() {
 				doSearch();
 			});
@@ -187,13 +201,21 @@
 			$("#btn-reset").click(function() {
 				$('#amount').val("");
 				$('#busiCd').val("");
+                $("#operatorTime_Re").val("");
+                $("#operatorTime_Le").val("");
 			
 			});
 
 			function doSearch() {
-				var formArray=$("#search_from").serialize();
-				formArray = decodeURIComponent(formArray, true);
-				$('#log-datagrid').ZTable("reload",formArray);
+                var s = $("#operatorTime_Re").val();
+                var e = $("#operatorTime_Le").val();
+                var formArray=$("#search_from").serialize();
+                formArray = decodeURIComponent(formArray, true);
+                if(s&&e){
+                    formArray += "&operatorTime|BT|BT=" + s+"000000" + "," + e+"235959";
+				}
+                $('#log-datagrid').ZTable("reload",formArray);
+
 			};
 			// 人员选择器
 			$("#selecter").Zseleter({

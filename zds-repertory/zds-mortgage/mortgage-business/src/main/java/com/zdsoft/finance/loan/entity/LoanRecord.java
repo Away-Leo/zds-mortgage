@@ -1,5 +1,7 @@
 package com.zdsoft.finance.loan.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,91 +10,96 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 /**
- * 放款操作记录
- * @author laijun
- * @create 2017-01-05 20:11
- **/
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: LoanRecord.java 
+ * @ClassName: LoanRecord 
+ * @Description: 放款操作记录实体
+ * @author huangwei 
+ * @date 2017年2月28日 下午2:08:19 
+ * @version V1.0
+ */
 @Entity
 @Table(name = "loan_record")
 public class LoanRecord extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 操作时间
-	 */
-	private Long dealDate;
-	/**
-	 * 实际发生时间
-	 */
-	private Long dealRealDate;
-	/**
 	 * 操作类型
 	 */
-	@Column(length = 32)
-	private String dealTypeName;
+	@Column(length=32)
+	public String operationType;
 	/**
-	 * 处理人
+	 * 实际放款时间
 	 */
-	@Column(length = 32)
-	private String dealUser;
+	@Column
+	public long actualDate;
+	/**
+	 * 放款金额
+	 */
+	@Column(precision = 18, scale = 6)
+	public BigDecimal loanAmount = BigDecimal.ZERO;
 	/**
 	 * 备注
 	 */
-	@Column(length = 500)
-	private String mo;
-
+	@Column(length=512)
+	public String remark;
+	/**
+	 * 操作人员
+	 */
+	@Column(length=512)
+	public String operatorCode;
+	/**
+	 * 操作时间
+	 */
+	@Column
+	public long operationDate;
+	/**
+	 * 放款申请
+	 */
 	@ManyToOne
 	@JoinColumn(name = "loanApplyId", nullable = false)
 	private LoanApply loanApply;
-
-	public LoanRecord() {
+	public String getOperationType() {
+		return operationType;
 	}
-
-	public Long getDealDate() {
-		return this.dealDate;
+	public void setOperationType(String operationType) {
+		this.operationType = operationType;
 	}
-
-	public void setDealDate(Long dealDate) {
-		this.dealDate = dealDate;
+	public long getActualDate() {
+		return actualDate;
 	}
-
-	public Long getDealRealDate() {
-		return this.dealRealDate;
+	public void setActualDate(long actualDate) {
+		this.actualDate = actualDate;
 	}
-
-	public void setDealRealDate(Long dealRealDate) {
-		this.dealRealDate = dealRealDate;
+	public BigDecimal getLoanAmount() {
+		return loanAmount;
 	}
-
-	public String getDealTypeName() {
-		return this.dealTypeName;
+	public void setLoanAmount(BigDecimal loanAmount) {
+		this.loanAmount = loanAmount;
 	}
-
-	public void setDealTypeName(String dealTypeName) {
-		this.dealTypeName = dealTypeName;
+	public String getRemark() {
+		return remark;
 	}
-
-	public String getDealUser() {
-		return this.dealUser;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
-
-	public void setDealUser(String dealUser) {
-		this.dealUser = dealUser;
-	}
-
-	public String getMo() {
-		return this.mo;
-	}
-
-	public void setMo(String mo) {
-		this.mo = mo;
-	}
-
 	public LoanApply getLoanApply() {
-		return this.loanApply;
+		return loanApply;
 	}
-
 	public void setLoanApply(LoanApply loanApply) {
 		this.loanApply = loanApply;
 	}
-
+	public String getOperatorCode() {
+		return operatorCode;
+	}
+	public void setOperatorCode(String operatorCode) {
+		this.operatorCode = operatorCode;
+	}
+	public long getOperationDate() {
+		return operationDate;
+	}
+	public void setOperationDate(long operationDate) {
+		this.operationDate = operationDate;
+	}
+	
+	
 }

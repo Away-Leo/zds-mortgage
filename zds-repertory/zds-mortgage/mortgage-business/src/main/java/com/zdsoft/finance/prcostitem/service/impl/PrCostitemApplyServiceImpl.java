@@ -1,15 +1,5 @@
 package com.zdsoft.finance.prcostitem.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.zdsoft.bpm.dto.ProcessInstanceDto;
 import com.zdsoft.bpm.service.client.BPM;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
@@ -27,11 +17,21 @@ import com.zdsoft.finance.prcostitem.service.PrCostitemApplyService;
 import com.zdsoft.framework.core.common.exception.AppException;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+
 
 /**
- * 费用支拥申请
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2017-01-03
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostitemApplyServiceImpl.java 
+ * @ClassName: PrCostitemApplyServiceImpl 
+ * @Description: 费用支拥申请
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:04:10 
+ * @version V1.0
  */
 @Service
 public class PrCostitemApplyServiceImpl extends BaseServiceImpl<PrCostitemApply, CustomRepository<PrCostitemApply, String>> 
@@ -134,7 +134,7 @@ public class PrCostitemApplyServiceImpl extends BaseServiceImpl<PrCostitemApply,
 			busiForm = saveBusiForm(po);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("审批单保存出错",e.getMessage());
+			logger.error("审批单保存出错",e);
 			throw new BusinessException("100000002",e.getMessage());
 		}
 		if(ObjectHelper.isEmpty(busiForm)){
@@ -148,10 +148,10 @@ public class PrCostitemApplyServiceImpl extends BaseServiceImpl<PrCostitemApply,
         //流程实例
         ProcessInstanceDto instanceDto = null;
         try {
-			instanceDto = BPM.startMainProcess("费用支拥", po.getId(), busiForm.getId(), "费用支拥", engineVarible, businessVarible);
+			instanceDto = BPM.startMainProcess("收费支佣", po.getId(), busiForm.getId(), "收费支佣", engineVarible, businessVarible);
 		} catch (AppException e) {
 			e.printStackTrace();
-			logger.error("流程启动错误1",e.getMessage());
+			logger.error("流程启动错误1",e);
 			throw new BusinessException("10000004","流程启动错误1");
 		}
         if(ObjectHelper.isEmpty(instanceDto)){
@@ -172,12 +172,14 @@ public class PrCostitemApplyServiceImpl extends BaseServiceImpl<PrCostitemApply,
 	 */
 	private BusiForm saveBusiForm(PrCostitemApply po) throws Exception {
 		BusiForm bf = new BusiForm();
-		bf.setStatus(BusiFormStatus.APPROVAL.value);
-		bf.setApplyEmpCd(po.getApplyEmpCd());
-		bf.setApplyEmpNm(po.getApplyEmpNm());
-	    bf.setApplyTime(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+		bf.setFormStatus(BusiFormStatus.APPROVAL.value);
+		//申请人编号
+		bf.setLaunchEmpCode(po.getApplyEmpCd());
+        //申请人名称
+		bf.setLaunchEmpName(po.getApplyEmpNm());
+	    bf.setApplyDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 	    bf.setBusinessEntityId(po.getId());
-	    bf.setBusinessEntityNm(po.getClass().getName());
+	    bf.setBusinessEntityName(po.getClass().getName());
 //	    bf.setComponentsEntityId(po.getProjectCd());
 //	    bf.setComponentsEntityNm(Project.class.getName());
 	    return busiFormService.saveBusiForm(bf);

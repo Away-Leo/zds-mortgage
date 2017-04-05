@@ -1,8 +1,7 @@
-package com.zdsoft.finance.casemanage.limitapply.controller;
+package com.zdsoft.finance.casemanage.limitApply.controller;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,28 +10,41 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.zdsoft.essential.client.aop.annotation.DataAuthResource;
 import com.zdsoft.essential.client.service.CED;
-import com.zdsoft.finance.casemanage.limitapply.entity.CaseLimitApply;
-import com.zdsoft.finance.casemanage.limitapply.entity.FundPlanInfo;
-import com.zdsoft.finance.casemanage.limitapply.service.CaseLimitApplyService;
-import com.zdsoft.finance.casemanage.limitapply.service.FundPlanInfoService;
-import com.zdsoft.finance.casemanage.limitapply.vo.CaseLimitApplyVo;
-import com.zdsoft.finance.casemanage.limitapply.vo.CaseLimitPlanInfoVo;
-import com.zdsoft.finance.casemanage.limitapply.vo.FundPlanInfoVo;
+import com.zdsoft.essential.dto.emp.EmpDto;
+import com.zdsoft.essential.dto.permission.DataOperPermDto;
+import com.zdsoft.finance.capital.entity.CreditEntrust;
+import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.casemanage.limitApply.entity.CaseLimitApply;
+import com.zdsoft.finance.casemanage.limitApply.service.CaseLimitApplyService;
+import com.zdsoft.finance.casemanage.limitApply.vo.CaseLimitApplyVo;
 import com.zdsoft.finance.common.base.QueryObj;
+import com.zdsoft.finance.common.exception.AllotAmountException;
+import com.zdsoft.finance.common.exception.AmountLackBusiness;
 import com.zdsoft.finance.common.exception.BusinessException;
+import com.zdsoft.finance.common.exception.NotOpenLimitException;
+import com.zdsoft.finance.common.utils.ParameterUtil;
+import com.zdsoft.finance.cooperator.entity.Capitalist;
+import com.zdsoft.finance.cooperator.service.CapitalistService;
 import com.zdsoft.finance.marketing.entity.CaseApply;
+import com.zdsoft.finance.marketing.entity.HouseProperty;
 import com.zdsoft.finance.marketing.service.CaseApplyService;
-import com.zdsoft.finance.marketing.vo.CaseApplyVo;
+import com.zdsoft.finance.marketing.service.HousePropertyService;
+import com.zdsoft.finance.product.entity.CreditEntrustPlanConfig;
+import com.zdsoft.finance.product.service.CreditEntrustPlanConfigService;
 import com.zdsoft.framework.core.common.dto.ResponseMsg;
+import com.zdsoft.framework.core.common.exception.AppException;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
+import com.zdsoft.framework.core.common.util.StoreHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 import com.zdsoft.framework.cra.annotation.Menu;
@@ -43,230 +55,342 @@ import com.zdsoft.framework.cra.annotation.Menu;
  * @Title:CaseLimitApplyController.java
  * @Package:com.zdsoft.finance.casemanage.limitapply.controller
  * @Description:案件额度申请控制器
- * @author: xiongpan
+ * @author: xj
  * @date:2017年1月7日 上午10:02:10
  * @version:v1.0
  */
 @Controller
-@RequestMapping("limitApply")
+@RequestMapping("/limitApply")
 public class CaseLimitApplyController extends BaseController {
 
 	@Autowired
 	private CaseApplyService caseApplySerivce;
-
 	@Autowired
 	private CaseLimitApplyService caseLimitApplyService;
-	
 	@Autowired
-	private FundPlanInfoService fundPlanInfoService;
+	private CreditEntrustService creditEntrustService;
+	@Autowired
+	private CapitalistService capitalistService;
+	@Autowired
+	private CreditEntrustPlanConfigService  creditEntrustPlanConfigService ;
+	@Autowired
+	private HousePropertyService  housePropertyService ;
 
 	@Autowired
 	private CED CED;
 
 	/**
-	 * 案件额度申请列表入口
 	 * 
-	 * @return 额度申请列表页面
+	 * @Title: limitApplyList 
+	 * @Description: 案件额度申请列表入口
+	 * @author xj 
+	 * @return
 	 */
 	@RequestMapping("/initCaseLimitApply")
-	@UriKey(key = "com.zdsoft.finance.casemanage.initCaseLimitApply")
-	@Menu(resource = "com.zdsoft.finance.casemanage.initCaseLimitApply", label = "额度申请列表", group = "project", order = 1)
-	public ModelAndView initCaseLimitApply() {
-		return new ModelAndView("/casemanage/limitapply/case_limit_apply_list");
+	@UriKey(key = "com.cnfh.rms.limitApplyList.casemanage.limitApplyList")
+	@Menu(resource = "com.cnfh.rms.casemanage.limitApplyList", label = "额度申请", group = "project", order = 6)
+	@DataAuthResource(resource="com.cnfh.rms.casemanage.limitApplyList.dataAuth",label="额度申请",group="com.cnfh.rms.casemanage.limitApplyList")
+	public ModelAndView limitApplyList() {
+		ModelMap map = new ModelMap();
+		try {
+			EmpDto loginUser = CED.getLoginUser();
+			String empCd = loginUser.getEmpCd();
+			map.put("empCd", empCd);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("limitApplyList", e);
+		}
+		return new ModelAndView("/casemanage/limitApply/limit_apply_list",map);
 	}
 
 	/**
-	 * 案件额度申请查询列表
 	 * 
+	 * @Title: caseLimitApplyList 
+	 * @Description: 案件额度申请查询列表
+	 * @author xj 
+	 * @param request
 	 * @param pageable
 	 * @param jsoncallback
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping("/caseLimitApplyList")
-	@UriKey(key = "com.zdsoft.finance.casemanage.limitApply.caseLimitApplyList")
+	@UriKey(key = "com.cnfh.rms.casemanage.caseLimitApplyList")
 	@ResponseBody
-	public String caseLimitApplyList(HttpServletRequest request, PageRequest pageable, String jsoncallback) throws Exception {
-		// 获取查询参数
-		@SuppressWarnings("unchecked")
-		List<QueryObj> queryObjs = (List<QueryObj>) request.getAttribute("listObj");
-		// 获取案件申请配置信息
-		Page<Map<String, Object>> caseLimitApply = caseApplySerivce.findPageCaseLimitApply(pageable, queryObjs);
-		ResponseMsg msg = new ResponseMsg();
-		msg.setMsg("列表查询成功");
-		msg.setResultStatus(ResponseMsg.SUCCESS);
-		msg.setTotal(caseLimitApply.getTotalRows());
-		msg.setRows(caseLimitApply.getRecords());
+	public String caseLimitApplyList(HttpServletRequest request, PageRequest pageable, String jsoncallback){
+	    ResponseMsg msg = new ResponseMsg();
+        try {
+            // 获取查询参数
+            List<QueryObj> queryObjs = ParameterUtil.getQueryObjByParameter(request, new String[]{"cus","ma"});
+            //数据权限
+            DataOperPermDto dtOperPermDto=CED.findDataPerms(StoreHelper.getApplication(), "com.cnfh.rms.casemanage.limitApplyList.dataAuth");
+            // 获取案件申请配置信息
+            Page<Map<String, Object>> caseLimitApply = caseApplySerivce.findPageCaseLimitApply(pageable, queryObjs,dtOperPermDto);
+            List<Map<String, Object>> records = caseLimitApply.getRecords();
+            if(ObjectHelper.isNotEmpty(records)){
+                for (Map<String,Object> map : caseLimitApply.getRecords()) {
+                        try {
+                            //额度状态
+                            String actualLimitStatus = (String) map.get("actualLimitStatus");
+                            if(ObjectHelper.isNotEmpty(actualLimitStatus)){
+                                map.put("actualLimitStatusName", CED.loadSimpleCodeNameByFullCode(actualLimitStatus));
+                            }
+                            //查询抵押情况
+                            List<HouseProperty> housePropertys = housePropertyService.findByCaseApplyId((String)map.get("id"));
+                            if(ObjectHelper.isNotEmpty(housePropertys)&&housePropertys.size()>0){
+                                String mortgageSituation = housePropertys.get(0).getMortgageSituation();
+                                if(ObjectHelper.isNotEmpty(mortgageSituation)){  
+                                    map.put("pledgeType", CED.loadSimpleCodeNameByFullCode(mortgageSituation));
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            logger.error("caseLimitApplyList", e); 
+                        }
+                    
+                }
+            }
+            
+            msg.setMsg("列表查询成功");
+            msg.setResultStatus(ResponseMsg.SUCCESS);
+            msg.setTotal(caseLimitApply.getTotalRows());
+            msg.setRows(caseLimitApply.getRecords());
+        } catch (AppException e1) {
+        	logger.error("caseLimitApplyList", e1); 
+            e1.printStackTrace();
+        }
+	
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
 
 	/**
-	 * 跳转到额度申请页面
 	 * 
-	 * @return
-	 * @throws BusinessException
-	 */
-	@RequestMapping("/addCaseLimitApply")
-	@UriKey(key = "com.zdsoft.finance.casemanage.limitApply.addCaseLimitApply")
-	@ResponseBody
-	public ModelAndView addCaseLimitApply(String id, String customerName, String pledgeType) throws Exception {
-		Map<String, Object> applyLimitModel = new HashMap<String, Object>();
-		CaseApplyVo caseApplyVo = new CaseApplyVo();
-		CaseApply caseApply = caseApplySerivce.findOne(id);
-		BeanUtils.copyProperties(caseApply, caseApplyVo);
-		caseApplyVo.setCustomerName(customerName);
-		caseApplyVo.setPledgeType(pledgeType);
-		// 调用接口,返回资金计划以及是专户资金还是备付资金,贷款发放账户和贷款回款账户信息,若是备付金还得返回可匹配的额度.
-		// FundPlanInfo fundPlanInfo =
-		// caseApplySerivce.getFundPlanInfo(caseApply.getProductSubtype(),
-		// caseApply.getAssessedPriceMortgage(), caseApply.getApplyAmount());
-		FundPlanInfo fundPlanInfo = caseApplySerivce.findOne(id).getFundPlanInfo();
-		if (ObjectHelper.isNotEmpty(fundPlanInfo)) {
-			FundPlanInfoVo fundPlanInfoVo = new FundPlanInfoVo();
-			BeanUtils.copyProperties(fundPlanInfo, fundPlanInfoVo);
-			applyLimitModel.put("fundPlanInfoVo", fundPlanInfoVo);
-		}
-		caseApplyVo.setCurrentApplierId(CED.getLoginUser().getId());
-		caseApplyVo.setCurrentApplierName(CED.getLoginUser().getEmpNm());
-
-		applyLimitModel.put("caseApplyVo", caseApplyVo);
-		return new ModelAndView("/casemanage/limitapply/case_limit_apply_add", applyLimitModel);
-	}
-
-	/**
-	 * 获取本案件的申请记录
-	 * 
+	 * @Title: quotaApplication 
+	 * @Description: 跳转到额度申请页面
+	 * @author xj 
 	 * @param id
-	 * @param jsoncallback
+	 * @param customerName
+	 * @param pledgeType
 	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/getTheCaseLimitApplyHistory")
-	@UriKey(key = "com.zdsoft.finance.casemanage.limitApply.getTheCaseLimitApplyHistory")
+	@RequestMapping("/quotaApplication")
+	@UriKey(key = "com.cnfh.rms.casemanage.quotaApplication")
 	@ResponseBody
-	public String getTheCaseLimitApplyHistory(String id, String jsoncallback) {
-		List<CaseLimitApply> caseLimitApplys = caseLimitApplyService.findByCaseApplyId(id);
-		ResponseMsg msg = new ResponseMsg();
-		msg.setMsg("列表查询成功");
-		msg.setResultStatus(ResponseMsg.SUCCESS);
-		msg.setTotal((long) caseLimitApplys.size());
-		msg.setRows(caseLimitApplys);
-		return ObjectHelper.objectToJson(msg, jsoncallback);
-	}
-
-	/**
-	 * 跳转到详情页面
-	 * 
-	 * @return
-	 * @throws BusinessException
-	 */
-	@RequestMapping("/detailsCaseLimitApply")
-	@UriKey(key = "com.zdsoft.finance.casemanage.limitApply.detailsCaseLimitApply")
-	@ResponseBody
-	public ModelAndView detailsCaseLimitApply(String id, String customerName, String pledgeType)
-			throws BusinessException {
-		Map<String, Object> applyLimitModel = new HashMap<>();
-		CaseApply caseApply = caseApplySerivce.findOne(id);
-		CaseApplyVo caseApplyVo = new CaseApplyVo();
-		BeanUtils.copyProperties(caseApply, caseApplyVo);
-		FundPlanInfo fundPlanInfo = caseApply.getFundPlanInfo();
-		if(ObjectHelper.isNotEmpty(fundPlanInfo)){
-			FundPlanInfoVo fundPlanInfoVo = new FundPlanInfoVo();
-			BeanUtils.copyProperties(fundPlanInfo, fundPlanInfoVo);
-			applyLimitModel.put("fundPlanInfoVo", fundPlanInfoVo);
-		}
-		caseApplyVo.setCustomerName(customerName);
-		caseApplyVo.setPledgeType(pledgeType);
-
-		CaseLimitApply caseLimitApply = caseLimitApplyService.findByCaseApplyId(id).get(0);
-		if (ObjectHelper.isNotEmpty(caseLimitApply)) {
-			CaseLimitApplyVo caseLimitApplyVo = new CaseLimitApplyVo();
-			BeanUtils.copyProperties(caseLimitApply, caseLimitApplyVo);
-			applyLimitModel.put("caseLimitApplyVo", caseLimitApplyVo);
-		}
-		applyLimitModel.put("caseApplyVo", caseApplyVo);
-		return new ModelAndView("/casemanage/limitapply/case_limit_apply_details", applyLimitModel);
-	}
-
-	/**
-	 * 保存额度申请信息
-	 */
-	@RequestMapping("/saveCaseLimitApply")
-	@UriKey(key = "com.zdsoft.finance.casemanage.limitApply.saveCaseLimitApply")
-	@ResponseBody
-	public ResponseMsg saveCaseLimitApply(CaseLimitPlanInfoVo caseLimitPlanInfoVo, String fundPlanName, String caseApplyId,
-			String isPrepareAccount, BigDecimal loanOutAccountAmount) {
-		ResponseMsg msg = new ResponseMsg();
+	public ModelAndView quotaApplication(String caseApplyId) throws Exception {
+		ModelMap applyLimitModel = new ModelMap();
+		CaseLimitApplyVo caseLimitApplyVo = new CaseLimitApplyVo();
 		try {
 			CaseApply caseApply = caseApplySerivce.findOne(caseApplyId);
-			CaseLimitApplyVo caseLimitApplyVo = caseLimitPlanInfoVo.getCaseLimitApplyVo();
-			FundPlanInfoVo fundPlanInfoVo = caseLimitPlanInfoVo.getFundPlanInfoVo();
-			caseApply.setActualApplyAmount(caseLimitApplyVo.getCurrentApplyLimit());
-			caseLimitApplyVo.setApplyDate(DateHelper.dateToLong(new Date(), "yyyyMMddHHssmm"));
-			if (ObjectHelper.isNotEmpty(fundPlanInfoVo.getLoanOutAccountAmount())
-					&& fundPlanInfoVo.getLoanOutAccountAmount().compareTo(caseLimitApplyVo.getCurrentApplyLimit()) >= 0) {
-				// 如果贷款发放账户是备付金账户
-				if (CED.loadSimpleCodeNameByFullCode(fundPlanInfoVo.getIsPrepareAccount()).equals("YWDM0049002")) {
-					fundPlanInfoVo.setIsGetPrepareLimit("YWDM0049002");
+			//资金来源
+			String capitalSource = caseApply.getCapitalSource();
+			if(ObjectHelper.isNotEmpty(capitalSource)){
+				Capitalist capitalist = capitalistService.findOne(capitalSource);
+				if(ObjectHelper.isNotEmpty(capitalist)){
+					String cooperatorName = capitalist.getCapitalName();
+					applyLimitModel.put("cooperatorName", cooperatorName);
 				}
-				caseApply.setActualLimitStatus("YWDM0051058");
-				caseLimitApplyVo.setAllotDate(DateHelper.dateToLong(new Date(), "yyyyMMddHHssmm"));
-			} else {
-				caseApply.setActualLimitStatus("YWDM0051057");
 			}
-			caseLimitApplyVo.setFundPlanName(fundPlanName);
-			CaseLimitApply caseLimitApply = new CaseLimitApply();
-			BeanUtils.copyProperties(caseLimitApplyVo, caseLimitApply);
-			FundPlanInfo fundPlanInfo = new FundPlanInfo();
-			BeanUtils.copyProperties(fundPlanInfoVo, fundPlanInfo);
-			caseApply.setFundPlanInfo(fundPlanInfo);
+			//查询资金计划
+			CreditEntrustPlanConfig creditEntrustPlanConfig = creditEntrustPlanConfigService.findByProductIdAndCapitalistId(caseApply.getProductSubtypeId(), capitalSource, caseApply.getLoanNumber()); 
+			//资金id
+			String capitalPlanId = creditEntrustPlanConfig.getCapitalPlanId();
 			
-			fundPlanInfoService.saveOrUpdateEntity(fundPlanInfo);
-			caseLimitApplyService.saveEntity(caseLimitApply);
-			caseApplySerivce.updateEntity(caseApply);
+			//查询资金
+			CreditEntrust creditEntrust = creditEntrustService.findOne(capitalPlanId);
+			//资金计划id
+			caseLimitApplyVo.setFundPlanId(capitalPlanId);
+			//资金计划名称 
+			caseLimitApplyVo.setFundPlanName(creditEntrust.getCreditEntrustName());
+			//贷款发放账户机构名称 
+			caseLimitApplyVo.setLoanOutAccountBranchName(creditEntrust.getWaitApprBank());
+			//贷款发放账户账户名
+			caseLimitApplyVo.setLoanOutAccountName(creditEntrust.getWaitApprName());
+			//贷款发放账户
+			caseLimitApplyVo.setLoanOutAccount(creditEntrust.getWaitApprNo());
+			//贷款回款账户机构名称
+			caseLimitApplyVo.setLoanBackAccountBranchName(creditEntrust.getCollectionAccountBank());
+			//贷款回款账户账户名 
+			caseLimitApplyVo.setLoanBackAccountName(creditEntrust.getCollectionAccountName());
+			//贷款回款账户
+			caseLimitApplyVo.setLoanBackAccount(creditEntrust.getCollectionAccountNo());
+			//是否开放申请额度
+			applyLimitModel.put("isOpenApply", creditEntrust.getIsOpenApply());
+			applyLimitModel.put("vo", caseLimitApplyVo);
 			
-			msg.setResultStatus(ResponseMsg.SUCCESS);
-			msg.setMsg("申请成功");
+			EmpDto loginUser = CED.getLoginUser();
+			String empNm = loginUser.getEmpNm();
+			//当前登录人
+			applyLimitModel.put("empNm", empNm);
+			//当前日期
+			applyLimitModel.put("currentDate", DateHelper.dateToString(new Date()));
+			//申请金额
+			applyLimitModel.put("applyAmount", caseApply.getApplyAmount());
 		} catch (Exception e) {
-			logger.error("CED错误", e.getMessage());
+			e.printStackTrace();
+			logger.error("quotaApplication", e);
+		}
+		return new ModelAndView("/casemanage/limitApply/limit_apply_edit", applyLimitModel);
+	}
+
+	/**
+	 * 
+	 * @Title: caseLimitApplyView 
+	 * @Description: 额度申请查看或者取消
+	 * @author xj 
+	 * @param caseLimitApplyId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/caseLimitApplyView")
+	@UriKey(key = "com.cnfh.rms.casemanage.caseLimitApplyView")
+	@ResponseBody
+	public ModelAndView caseLimitApplyView(String caseLimitApplyId,String caseApplyId)
+			throws Exception {
+		ModelMap modelMap = new ModelMap();
+		try {
+			CaseApply caseApply = caseApplySerivce.findOne(caseApplyId);
+			//资金来源
+			String capitalSource = caseApply.getCapitalSource();
+			if(ObjectHelper.isNotEmpty(capitalSource)){
+				Capitalist capitalist = capitalistService.findOne(capitalSource);
+				if(ObjectHelper.isNotEmpty(capitalist)){
+					String cooperatorName = capitalist.getCapitalName();
+					modelMap.put("cooperatorName", cooperatorName);
+				}
+			}
+			
+			CaseLimitApply caseLimitApply = caseLimitApplyService.findOne(caseLimitApplyId);
+			CaseLimitApplyVo vo = new CaseLimitApplyVo(caseLimitApply);
+			modelMap.put("vo", vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("caseLimitApplyView", e);
+		}
+		return new ModelAndView("/casemanage/limitApply/limit_apply_view", modelMap);
+	}
+
+	/**
+	 * 
+	 * @Title: saveCaseLimitApply 
+	 * @Description: 额度申请
+	 * @author xj 
+	 * @param caseLimitPlanInfoVo
+	 * @return
+	 */
+	@RequestMapping("/saveCaseLimitApply")
+	@UriKey(key = "com.cnfh.rms.casemanage.saveCaseLimitApply")
+	@ResponseBody
+	public ResponseMsg saveCaseLimitApply(CaseLimitApplyVo caseLimitApplyVo) {
+		ResponseMsg msg = new ResponseMsg();
+		CaseLimitApply caseLimitApply = new CaseLimitApply();
+		try {
+			BeanUtils.copyProperties(caseLimitApplyVo, caseLimitApply);
+			//业务需求：申请和额度分配不进行事物控制，申请成功后额度分配可以不成功
+			//申请额度
+			caseLimitApply = caseLimitApplyService.saveCaseLimitApply(caseLimitApply);
+			//额度分配
+			caseLimitApplyService.allotCaseLimitApply(caseLimitApply);
+			msg.setResultStatus(ResponseMsg.SUCCESS);
+			msg.setMsg("额度申请成功");
+		} catch(AmountLackBusiness e){
+			logger.info("申请失败,资金余额不足", e);
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+			msg.setMsg("申请失败，资金余额不足!");
+			e.printStackTrace();
+		} catch(NotOpenLimitException e){
+			logger.info("申请失败，未开放申请额度!",e);
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+			msg.setMsg("申请失败，未开放申请额度!");
+			e.printStackTrace();
+		} catch(BusinessException e){
+			e.printStackTrace();
+			msg.setMsg("系统内部错误，请查看日志!");
+			if(ObjectHelper.isNotEmpty(e.getExceptionMessage())){
+				msg.setMsg(e.getExceptionMessage());
+			}
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+			logger.error("caseLimitApply保存失败", e);
+		} catch(AllotAmountException e){
+			e.printStackTrace();
+			logger.info("申请额度成功,分配额度失败", e);
+			msg.setResultStatus(ResponseMsg.SUCCESS);
+			msg.setMsg("申请额度成功,分配额度失败!");
+		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("caseLimitApply保存失败", e);
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
-			msg.setMsg("系统内部错误，请查看日志");
+			msg.setMsg("系统内部错误，请查看日志!");
 		}
 		return msg;
 	}
 
 	/**
-	 * 取消额度申请
+	 * 
+	 * @Title: cancleCaseLimitApply 
+	 * @Description: 取消额度申请
+	 * @author xj 
+	 * @param caseApplyId
+	 * @return
 	 */
 	@RequestMapping("/cancelCaseLimitApply")
-	@UriKey(key = "com.zdsoft.finance.casemanage.limitApply.cancelCaseLimitApply")
+	@UriKey(key = "com.cnfh.rms.casemanage.cancelCaseLimitApply")
 	@ResponseBody
-	public ResponseMsg cancleCaseLimitApply(String id) {
+	public ResponseMsg cancleCaseLimitApply(String caseLimitApplyId) {
 		ResponseMsg msg = new ResponseMsg();
 		try {
-		CaseApply caseApply = caseApplySerivce.findOne(id);
-		caseApply.setActualApplyAmount(null);
-		caseApply.setActualLimitStatus("YWDM0051056");
-		caseApply.setFundPlanInfo(null);
-		caseApplySerivce.updateEntity(caseApply);
-		
-		CaseLimitApply caseLimitApply = caseLimitApplyService.findByCaseApplyId(id).get(0);
-		if(ObjectHelper.isNotEmpty(caseLimitApply)){
-			caseLimitApply.setCancelDate(DateHelper.dateToLong(new Date(), "yyyyMMddHHssmm"));
-			caseLimitApply.setLimitCancelEmpName(CED.getLoginUser().getEmpNm());
-			caseLimitApplyService.updateEntity(caseLimitApply);
-		}
 			msg.setResultStatus(ResponseMsg.SUCCESS);
-			msg.setMsg("取消额度申请成功");
-		} catch (Exception e) {
-			logger.error("CED错误", e.getMessage());
+			msg.setMsg("取消额度成功");
+			caseLimitApplyService.cancelCaseLimitApply(caseLimitApplyId);
+		} catch(BusinessException e){
 			e.printStackTrace();
-			logger.error("caseLimitApply或caseApply修改失败", e);
+			msg.setMsg("系统内部错误，请查看日志!");
+			if(ObjectHelper.isNotEmpty(e.getExceptionMessage())){
+				msg.setMsg(e.getExceptionMessage());
+			}
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+			logger.error("取消额度申请失败", e);
+		} catch (Exception e) {
+			logger.error("取消额度申请失败", e);
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 			msg.setMsg("系统内部错误，请查看日志");
 		}
 		return msg;
 	}
-
+	
+	/**
+	 * 
+	 * @Title: hostoryCaseLimitApplyList 
+	 * @Description: 通过案件id查询历史额度申请列表
+	 * @author xj 
+	 * @param caseApplyId
+	 * @return
+	 */
+	@RequestMapping("/hostoryCaseLimitApplyList")
+	@UriKey(key = "com.cnfh.rms.casemanage.hostoryCaseLimitApplyList")
+	@ResponseBody
+	public ResponseMsg hostoryCaseLimitApplyList(String caseApplyId){
+		ResponseMsg msg = new ResponseMsg();
+		try {
+			msg.setResultStatus(ResponseMsg.SUCCESS);
+			List<CaseLimitApplyVo> caseLimitApplyVos = new ArrayList<CaseLimitApplyVo>();
+			List<CaseLimitApply> caseLimitApplys = caseLimitApplyService.findByCaseApplyId(caseApplyId);
+			if(ObjectHelper.isNotEmpty(caseLimitApplys)){
+				for (CaseLimitApply caseLimitApply : caseLimitApplys) {
+					CaseLimitApplyVo vo = new CaseLimitApplyVo();
+					BeanUtils.copyProperties(caseLimitApply, vo);
+					caseLimitApplyVos.add(vo);
+				}
+			}
+			
+			msg.setRows(caseLimitApplyVos);
+			msg.setTotal(Long.valueOf(caseLimitApplyVos.size()));
+		} catch (Exception e) {
+			logger.error("取消额度申请失败", e);
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+			msg.setMsg("系统内部错误，请查看日志");
+		}
+		return msg;
+		
+	}
 }

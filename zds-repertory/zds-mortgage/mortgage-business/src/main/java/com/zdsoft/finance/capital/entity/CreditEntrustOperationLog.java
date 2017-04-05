@@ -7,14 +7,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 信托计划操作日志
  * 
- * @createTime:2017年1月12日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustOperationLog.java 
+ * @ClassName: CreditEntrustOperationLog 
+ * @Description: 信托计划操作日志
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:24:17 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_operation_log")
+@Table(name = "cptl_operation_log")
 public class CreditEntrustOperationLog extends BaseEntity {
 
 	/**

@@ -4,11 +4,15 @@ import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.capital.entity.CreditEntrustOperationLog;
 
 /**
- * 信托计划日志service
  * 
- * @createTime:2017年1月12日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustOperationLogService.java
+ * @ClassName: CreditEntrustOperationLogService
+ * @Description: 信托计划日志service
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:36:48
+ * @version V1.0
  */
 public interface CreditEntrustOperationLogService extends BaseService<CreditEntrustOperationLog> {
 

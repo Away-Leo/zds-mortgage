@@ -4,13 +4,19 @@ package com.zdsoft.finance.archive.vo;
 import com.zdsoft.finance.archive.entity.ArchiveFile;
 import com.zdsoft.finance.common.base.BaseVo;
 
+
 /**
- * 档案清单
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-21
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ArchiveFileVo.java 
+ * @ClassName: ArchiveFileVo 
+ * @Description: 档案清单
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:09:11 
+ * @version V1.0
  */
 public class ArchiveFileVo extends BaseVo<ArchiveFile> {
 
+	private static final long serialVersionUID = -8083700999286679828L;
 	/**
 	 * 档案等级
 	 */

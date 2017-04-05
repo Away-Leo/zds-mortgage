@@ -31,15 +31,18 @@ import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
-import com.zdsoft.framework.cra.annotation.Menu;
 import com.zdsoft.framework.cra.annotation.Reference;
 
 /**
- * 机构资金计划分配Controller
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: InstitutionalFundsController.java
+ * @ClassName: InstitutionalFundsController
+ * @Description: 机构资金计划分配Controller
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:12:18
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/institutionalFunds")
@@ -54,9 +57,15 @@ public class InstitutionalFundsController extends BaseController {
 	@Autowired
 	InstitutionFundsService institutionFundsService;
 
+	/**
+	 * 
+	 * @Title: initInstitutionalFunds
+	 * @Description: 机构资金计划分配入口(菜单屏蔽,取消该功能)
+	 * @author liuwei
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/initInstitutionalFunds")
 	@UriKey(key = "com.zdsoft.finance.capital.initInstitutionalFunds")
-	@Menu(resource = "com.zdsoft.finance.capital.initInstitutionalFunds", label = "机构资金计划分配", group = "capital", order = 3)
 	public ModelAndView initInstitutionalFunds() {
 
 		// 获取组织机构信息，得到所有分公司
@@ -74,13 +83,16 @@ public class InstitutionalFundsController extends BaseController {
 	}
 
 	/**
-	 * 查询列表
 	 * 
+	 * @Title: getInstitutionFunds
+	 * @Description: 机构资金计划列表
+	 * @author liuwei
 	 * @param request
 	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 机构资金计划列表json
 	 */
 	@RequestMapping("/getInstitutionFunds")
 	@UriKey(key = "com.zdsoft.finance.capital.getInstitutionFunds")
@@ -95,9 +107,9 @@ public class InstitutionalFundsController extends BaseController {
 		Page<InstitutionFunds> fundsPage = institutionFundsService.findByHqlConditions(pageable, queryObjs);
 		List<InstitutionFundsVo> fundsVo = new ArrayList<InstitutionFundsVo>();
 
-		for (InstitutionFunds funds : fundsPage.getRecords()) {
-			InstitutionFundsVo fundVo = new InstitutionFundsVo(funds);
-
+		// 转换vo
+		for (int i = 0; i < fundsPage.getRecords().size(); i++) {
+			InstitutionFundsVo fundVo = new InstitutionFundsVo(fundsPage.getRecords().get(i));
 			fundsVo.add(fundVo);
 		}
 
@@ -111,17 +123,20 @@ public class InstitutionalFundsController extends BaseController {
 	}
 
 	/**
-	 * 判断资方机构配置信息与分公司信息是否对等
 	 * 
-	 * @param fundsPage
-	 *            资方机构配置信息
+	 * @Title: checkInstitutionFunds
+	 * @Description: 判断资方机构配置信息与分公司信息是否对等
+	 * @author liuwei
+	 * @param fundsList
+	 *            机构资金配置列表
 	 * @param organizations
-	 * @return
+	 *            机构列表
 	 */
 	private void checkInstitutionFunds(List<InstitutionFunds> fundsList, List<OrgDto> organizations) {
 
 		List<OrgDto> branchOrgs = new ArrayList<OrgDto>();
-		for (OrgDto orgDto : organizations) {
+		for (int i = 0; i < organizations.size(); i++) {
+			OrgDto orgDto = organizations.get(i);
 			// 判断所属分公司机构
 			if ("1".equals(orgDto.getOrgType())) {
 				branchOrgs.add(orgDto);
@@ -129,9 +144,7 @@ public class InstitutionalFundsController extends BaseController {
 		}
 		try {
 			if (fundsList.size() == 0L) { // 如果资方机构配置信息为空，则新增资方机构配置信息
-
 				institutionFundsService.saveInstitutionFundsList(branchOrgs);
-
 			} else if (fundsList.size() != organizations.size()) { // 如果资方机构配置信息与分公司数量不匹配，则新增资方机构配置信息
 				institutionFundsService.updateInstitutionFundsList(fundsList, branchOrgs);
 			}
@@ -143,22 +156,30 @@ public class InstitutionalFundsController extends BaseController {
 	}
 
 	/**
-	 * 信托计划分配弹框
 	 * 
-	 * @return
+	 * @Title: initCasePlanDistribution
+	 * @Description: 信托计划分配弹框
+	 * @author liuwei
+	 * @param id
+	 *            机构资金分配id
+	 * @return ModelAndView
 	 */
-	@RequestMapping("/initCasePlanDistribution")
-	@UriKey(key = "com.zdsoft.finance.capital.initCasePlanDistribution")
-	@Reference(resource = "com.zdsoft.finance.capital.initCasePlanDistribution", label = "信托计划分配")
+	@RequestMapping("/initCasePlanDistribution2")
+	@UriKey(key = "com.zdsoft.finance.capital.initCasePlanDistribution2")
+	@Reference(resource = "com.zdsoft.finance.capital.initCasePlanDistribution2", label = "信托计划分配")
 	public ModelAndView initCasePlanDistribution(String id) {
 		ModelMap modelMap = new ModelMap();
 
 		try {
+
+			// 通过id查询机构资金分配信息
 			InstitutionFunds institutionFunds = institutionFundsService.findOne(id);
+
+			// 转换vo
 			InstitutionFundsVo fundsVo = new InstitutionFundsVo(institutionFunds);
 
 			modelMap.put("fundsVo", fundsVo);
-			modelMap.put("updateTime", DateHelper.dateToString(new Date(), "yyyy/MM/dd"));
+			modelMap.put("updateTime", DateHelper.dateToString(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 		} catch (BusinessException e) {
 			e.printStackTrace();
 			logger.error("查询信托计划分配出现错误", e);
@@ -167,6 +188,16 @@ public class InstitutionalFundsController extends BaseController {
 		return new ModelAndView("/capital/instritutional_funds_add", modelMap);
 	}
 
+	/**
+	 * 
+	 * @Title: updateInstitutionFunds
+	 * @Description: 修改机构资金分配信息
+	 * @author liuwei
+	 * @param institutionFundsVo
+	 *            机构资金分配Vo
+	 * @param jsoncallback
+	 * @return ResponseMsg处理消息
+	 */
 	@RequestMapping("/updateInstitutionFunds")
 	@UriKey(key = "com.zdsoft.finance.capital.updateInstitutionFunds")
 	@ResponseBody
@@ -203,10 +234,12 @@ public class InstitutionalFundsController extends BaseController {
 	}
 
 	/**
-	 * 获取所有资方信息
 	 * 
+	 * @Title: getManagements
+	 * @Description: 获取所有资方信息
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
+	 * @return 资方信息json
 	 */
 	@RequestMapping("/getManagements")
 	@UriKey(key = "com.zdsoft.finance.capital.getManagements")
@@ -215,19 +248,20 @@ public class InstitutionalFundsController extends BaseController {
 		List<Capitalist> capitalists = capitalistService.findList();
 		List<CapitalistVo> capitalistVos = new ArrayList<CapitalistVo>();
 
-		for (Capitalist capitalist : capitalists) {
-			CapitalistVo vo = new CapitalistVo(capitalist);
+		for (int i = 0; i < capitalists.size(); i++) {
+			CapitalistVo vo = new CapitalistVo(capitalists.get(i));
 			capitalistVos.add(vo);
 		}
 		return ObjectHelper.objectToJson(capitalistVos, jsoncallback);
 	}
+
 	/**
 	 * 
-	 * 根据公司code获取资方
-	 *
-	 * @author xj
+	 * @Title: getCapitalistList
+	 * @Description: 根据公司code获取资方
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
+	 * @return 资方json
 	 */
 	@RequestMapping("/getCapitalistList")
 	@UriKey(key = "com.zdsoft.finance.capital.getCapitalistList")
@@ -236,13 +270,17 @@ public class InstitutionalFundsController extends BaseController {
 		List<CapitalistVo> capitalistVos = new ArrayList<CapitalistVo>();
 		EmpDto loginUser;
 		try {
+
+			// 获取当前登录人
 			loginUser = CED.getLoginUser();
+
+			// 根据公司编号查询机构资金分配信息
 			InstitutionFunds institutionFundsList = institutionFundsService.findByOrgCd(loginUser.getCompanyCd());
-			if(ObjectHelper.isNotEmpty(institutionFundsList)){
+			if (ObjectHelper.isNotEmpty(institutionFundsList)) {
 				List<Capitalist> capitalists = institutionFundsList.getCapitalists();
-				if(ObjectHelper.isNotEmpty(capitalists)){
-					for (Capitalist capitalist : capitalists) {
-						CapitalistVo vo = new CapitalistVo(capitalist);
+				if (ObjectHelper.isNotEmpty(capitalists)) {
+					for (int i = 0; i < capitalists.size(); i++) {
+						CapitalistVo vo = new CapitalistVo(capitalists.get(i));
 						capitalistVos.add(vo);
 					}
 				}
@@ -251,8 +289,8 @@ public class InstitutionalFundsController extends BaseController {
 			logger.error("根据code获取资方失败", e);
 			e.printStackTrace();
 		}
-		
+
 		return ObjectHelper.objectToJson(capitalistVos, jsoncallback);
 	}
-	
+
 }

@@ -10,42 +10,6 @@
 </head>
 <body>
 <div id="processConfigForm">
-	<!-- 查询区域 -->
-	<div class="page-box">
-		<div class="page-title">查询</div>
-		<div class="p10">
-			<form id="queryProcessConfigForm" class="zui-form form-search" method="post" zdata-options="{}">
-				<dl class="form-item">
-					<dt class="title">流程名称:</dt>
-					<dd class="detail">
-						<label> 
-							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="processName" name="processName">
-						</label>
-					</dd>
-				</dl>
-				<dl class="form-item">
-					<dt class="title">代码:</dt>
-					<dd class="detail">
-						<input class="zui-combobox zui-validatebox" type="hidden" validate-type="" id="processFormCd"
-	                        data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=processFormCd"
-	                        data-valuefield="fullcode" data-textfield="name" name="processFormCd">
-					</dd>
-				</dl>
-				<dl class="form-item">
-					<dt class="title">是否启用:</dt>
-					<dd class="detail">
-						<input class="zui-combobox zui-validatebox" type="hidden" validate-type="" id="processConfigIsEnable"
-	                        data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]" value="true"
-	                        data-valuefield="id" data-textfield="text" name="isEnable">
-					</dd>
-				</dl>
-				<dl class="form-btn">
-					<input type="button" class="btn-blue" id="searchProcessConfig" value="查询" />
-					<input type="button" class="btn-gray" id="resetProcessConfig" value="重置" />
-				</dl>
-			</form>
-		</div>
-	</div>
 	<!-- 列表区域 -->
 	<div class="page-box">
 		<div class="page-title">流程配置</div>
@@ -54,10 +18,10 @@
 				<table>
         			<tr>
             			<th data-options="field:processName,width:20%">流程名称</th>
-            			<th data-options="field:processFormNm,width:20%">代码</th>
+            			<th data-options="field:processCodeName,width:20%">代码</th>
             			<th data-options="field:processKey,width:30%">流程Key</th>
             			<th data-options="field:isEnable,width:10%" formatter="formatIsEnable">是否启用</th>
-            			<th data-options="field:id,width:20%" formatter="formatId">操作</th>
+            			<th data-options="field:id,width:20%" formatter="processFunction">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -77,26 +41,8 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	
 	CALLBACK.addProcessConfig=function(){
 		var	url = '<z:ukey key="com.zdsoft.finance.processConfig.dialog" context="admin"/>&productId=${product.id}';
-		$('#editProcessConfigDialog').load(url,function(){
-			
-		});
+		$('#editProcessConfigDialog').load(url,function(){});
 	}
-
-	$('#searchProcessConfig').on('click',function(){
-		var flag=$.ZUI.validateForm($('#queryProcessConfigForm'));
-    	if(flag){
-        	var formArray=$("#queryProcessConfigForm").serialize();
-        	formArray=decodeURIComponent(formArray, true);
-        	$('#tb-processConfig').ZTable("reload", formArray);
-    	}
-	});
-	
-	$('#resetProcessConfig').on('click',function(){
-    	$('#processName').val('');
-    	$('#processFormCd').ZCombobox('setValue','');
-    	$('#processConfigIsEnable').ZCombobox('setValue',true);
-		$('#tb-processConfig').ZTable("reload", {isEnable:true});
-    });
 	
 	CALLBACK.formatIsEnable=function(rowData,index){
 		if(rowData.isEnable){
@@ -106,7 +52,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		}
 	}
 	
-	CALLBACK.formatId=function(rowData,index){
+	CALLBACK.processFunction=function(rowData,index){
 		var id=rowData.id;
 		if(!id){
 			$.ZMessage.error("错误", "未获取到主键", function () {
@@ -114,17 +60,14 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
             });
 			return ;
 		}
-		
-		return '<a href="javaScript:void(0)" onclick="editProcessConfig"><button class="btn-blue">编辑</button></a>'
-    	+
-    	'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="deleteProcessConfig"><button class="btn-blue">删除</button></a>';
+		var str = "<a title='修改' class='btn-blue' onclick='editProcessConfig'>修改</a>" +
+    	"&nbsp;&nbsp;<a title='删除' class='btn-blue' onclick='deleteProcessConfig'>删除</a>";
+		return str;
 	}
 	
 	CALLBACK.editProcessConfig=function(index,rowData){
 		var	url = '<z:ukey key="com.zdsoft.finance.processConfig.dialog" context="admin"/>&productId=${product.id}&processConfigId='+rowData.id;
-		$('#editProcessConfigDialog').load(url,function(){
-			
-		});
+		$('#editProcessConfigDialog').load(url,function(){});
 	}
 	
 	CALLBACK.deleteProcessConfig=function(index,rowData){

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>收费支拥管理</title>
+<title>收费支佣管理</title>
 </head>
 <body>
 <div class="frm-content frm-bottom">
@@ -44,7 +44,7 @@
 	           		</tbody>
 	            </table>
 			</div>
-			<h1 class="page-title">收费支拥</h1>
+			<h1 class="page-title">收费支佣</h1>
 			<div class="p5">
 				<div id="costitemTable" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.prCostItem.listData" context="admin"/>&jsoncallback=?&id|IN|S=${vo.items}","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index"}'>
 					<table>

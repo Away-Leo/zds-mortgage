@@ -69,9 +69,15 @@ public class FindParamInterceptor extends HandlerInterceptorAdapter {
 		} else {
 			return null;
 		}
-
-		if (ObjectHelper.isNotEmpty(obj) && ObjectHelper.isNotEmpty(obj.getValue())) {
+		if (ObjectHelper.isNotEmpty(obj) && "null".equals(obj.getValue())) {
 			return obj;
+		}
+		if (ObjectHelper.isNotEmpty(obj) && ObjectHelper.isNotEmpty(obj.getValue())) {
+			if (("like".equals(obj.getOperator()) && "%%".equals(obj.getValue()))) {
+				return null;
+			} else {
+				return obj;
+			}
 		} else {
 			return null;
 		}
@@ -131,7 +137,7 @@ public class FindParamInterceptor extends HandlerInterceptorAdapter {
 			obj.setValue(ServletRequestUtils.getLongParameter(request, str, 0));
 			break;
 		case "D":
-			obj.setValue(ServletRequestUtils.getDoubleParameter(request, str, 0.0)/100);
+			obj.setValue(ServletRequestUtils.getDoubleParameter(request, str, 0.0) / 100);
 			break;
 		case "S":
 			obj.setValue(ServletRequestUtils.getStringParameter(request, str, null).trim());
@@ -182,13 +188,16 @@ public class FindParamInterceptor extends HandlerInterceptorAdapter {
 			obj.setOperator("LK");
 		else if (qu[1].equals("IN")) {
 			obj.setOperator("IN");
-			obj.setValue(Arrays.asList(ServletRequestUtils.getStringParameter(request, str).split(",")));
+			obj.setValue(ObjectHelper.isEmpty(ServletRequestUtils.getStringParameter(request, str)) ? null
+					: Arrays.asList(ServletRequestUtils.getStringParameter(request, str).split(",")));
 		} else if (qu[1].equals("NN")) {
 			obj.setOperator("NN");
-			obj.setValue(Arrays.asList(ServletRequestUtils.getStringParameter(request, str).split(",")));
+			obj.setValue(ObjectHelper.isEmpty(ServletRequestUtils.getStringParameter(request, str)) ? null
+					: Arrays.asList(ServletRequestUtils.getStringParameter(request, str).split(",")));
 		} else if (qu[1].equals("OL")) {
 			obj.setOperator("OL");
-			obj.setValue(Arrays.asList(ServletRequestUtils.getStringParameter(request, str).split(",")));
+			obj.setValue(ObjectHelper.isEmpty(ServletRequestUtils.getStringParameter(request, str)) ? null
+					: Arrays.asList(ServletRequestUtils.getStringParameter(request, str).split(",")));
 		} else if (qu[1].equals("BT")) {
 			obj.setOperator("BT");
 		}
@@ -206,10 +215,16 @@ public class FindParamInterceptor extends HandlerInterceptorAdapter {
 		} else if ("D".equals(qu[2])) {// Double类型
 			String tempValue = ServletRequestUtils.getStringParameter(request, str);
 			if (ObjectHelper.isNotEmpty(tempValue)) {
-				obj.setValue(ServletRequestUtils.getDoubleParameter(request, str, 0D)/100);
+				obj.setValue(ServletRequestUtils.getDoubleParameter(request, str, 0D) / 100);
 			}
 		} else if ("S".equals(qu[2]) && (!"IN".equals(qu[1]) && !"NN".equals(qu[1]) && !"OL".equals(qu[1]))) { // String类型
-			obj.setValue(ServletRequestUtils.getStringParameter(request, str, null).trim());
+			String tempValue = request.getParameter(str);
+			if ("null".equals(tempValue)) {
+				obj.setValue("null");
+			} else {
+				obj.setValue(ServletRequestUtils.getStringParameter(request, str, null).trim());
+			}
+
 		} else if ("BD".equals(qu[2])) {// BigDecimal类型
 			String amountTemp = ServletRequestUtils.getStringParameter(request, str, null).trim();
 			obj.setValue(AmountConversionUtil.convertToYuan(amountTemp));

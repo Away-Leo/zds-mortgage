@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.essential.dto.basedata.AttachmentDto;
 import com.zdsoft.finance.common.base.QueryObj;
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.cooperator.entity.Capitalist;
 import com.zdsoft.finance.cooperator.entity.CooperateIdea;
 import com.zdsoft.finance.cooperator.service.CapitalistService;
@@ -30,85 +29,120 @@ import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
 /**
- * 资方合作协议
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CooperateIdeaController.java
+ * @ClassName: CooperateIdeaController
+ * @Description: 资方合作协议Controller
+ * @author liuwei
+ * @date 2017年3月8日 上午10:15:21
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/cooperateIdea")
-public class CooperateIdeaController  extends BaseController{
-	
+public class CooperateIdeaController extends BaseController {
+
 	@Autowired
 	CooperateIdeaService cooperateIdeaService;
-	
+
 	@Autowired
 	CED CED;
 	@Autowired
 	CapitalistService capitalistService;
-	
+
 	/**
-	 * 合作方联系人信息列表
 	 * 
-	 * @return
+	 * @Title: initCooperateIdea
+	 * @Description: 合作协议列表
+	 * @author liuwei
+	 * @param capitalistId
+	 *            资方id
+	 * @param operationType
+	 *            操作类型
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCooperateIdea")
 	@UriKey(key = "com.zdsoft.finance.cooperator.idea.initCooperateIdea")
-	public ModelAndView initCooperateIdea(String capitalistId,String operationType) {
+	public ModelAndView initCooperateIdea(String capitalistId, String operationType) {
 		ModelAndView model = new ModelAndView("/cooperator/cooperateIdea_list");
 		model.addObject("capitalistId", capitalistId);
 		model.addObject("operationType", operationType);
 		return model;
 	}
 
+	/**
+	 * 
+	 * @Title: dialog
+	 * @Description: 合作协议dialog
+	 * @author liuwei
+	 * @param capitalistId
+	 *            资方id
+	 * @param id
+	 *            合作协议id
+	 * @param operationType
+	 *            操作类型
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/dialog")
-	@UriKey(key="com.zdsoft.finance.cooperator.idea.dialog")
-	public ModelAndView dialog(String capitalistId,String id,String operationType) throws Exception{
-		ModelAndView modelAndView=new ModelAndView("/cooperator/cooperator_idea_dialog");
-		if("mod".equals(operationType)){
-			CooperateIdea idea = cooperateIdeaService.findOne(id);
-			CooperateIdeaVo vo = new CooperateIdeaVo(idea);
-			List<AttachmentVo> attrs = new ArrayList<>();
-			List<AttachmentDto> dto = new ArrayList<>();
-			if(vo != null && StringUtils.isNotEmpty(vo.getAttachmentId()) &&  vo.getAttachmentId().contains(",")){
-				String[] att = vo.getAttachmentId().split(",");
-				dto = getListAttr(att);
-				
-			}else{
-				if(!StringUtils.isEmpty(vo.getAttachmentId())){
-					AttachmentDto attr = CED.findAttachmentById(vo.getAttachmentId());
-					dto.add(attr);
+	@UriKey(key = "com.zdsoft.finance.cooperator.idea.dialog")
+	public ModelAndView dialog(String capitalistId, String id, String operationType) {
+		ModelAndView modelAndView = new ModelAndView("/cooperator/cooperator_idea_dialog");
+
+		try {
+			if ("mod".equals(operationType)) {
+				CooperateIdea idea = cooperateIdeaService.findOne(id);
+				CooperateIdeaVo vo = new CooperateIdeaVo(idea);
+				List<AttachmentVo> attrs = new ArrayList<>();
+				List<AttachmentDto> dto = new ArrayList<>();
+				if (vo != null && StringUtils.isNotEmpty(vo.getAttachmentId()) && vo.getAttachmentId().contains(",")) {
+					String[] att = vo.getAttachmentId().split(",");
+					dto = getListAttr(att);
+
+				} else {
+					if (!StringUtils.isEmpty(vo.getAttachmentId())) {
+						AttachmentDto attr = CED.findAttachmentById(vo.getAttachmentId());
+						dto.add(attr);
+					}
 				}
+				for (AttachmentDto adto : dto) {
+					AttachmentVo attrvo = new AttachmentVo();
+					attrvo.setId(adto.getId());
+					attrvo.setFileLabel(adto.getFileLabel());
+					attrvo.setFileNm(adto.getFileNm());
+					attrvo.setFilePath(adto.getFilePath());
+					attrvo.setFileSize(adto.getFileSize());
+					attrvo.setFileType(adto.getFileType());
+					attrs.add(attrvo);
+				}
+				modelAndView.addObject("infoVo", vo);
+				modelAndView.addObject("attrs", attrs);
 			}
-			for (AttachmentDto adto : dto) {
-				AttachmentVo attrvo = new AttachmentVo();
-				attrvo.setId(adto.getId());
-				attrvo.setFileLabel(adto.getFileLabel());
-				attrvo.setFileNm(adto.getFileNm());
-				attrvo.setFilePath(adto.getFilePath());
-				attrvo.setFileSize(adto.getFileSize());
-				attrvo.setFileType(adto.getFileType());
-				attrs.add(attrvo);
-			}
-			modelAndView.addObject("infoVo", vo);
-			modelAndView.addObject("attrs", attrs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("查询合作协议信息失败", e);
 		}
 		modelAndView.addObject("capitalistId", capitalistId);
 		modelAndView.addObject("operationType", operationType);
 		return modelAndView;
 	}
+
 	/**
-	 * 列表数据展示
 	 * 
+	 * @Title: getCooperateIdea
+	 * @Description: 列表数据展示
+	 * @author liuwei
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
-	 * @throws Exception 
+	 *            分页信息
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/getCooperateIdea")
 	@UriKey(key = "com.zdsoft.finance.cooperator.idea.getCooperateIdea")
 	@ResponseBody
-	public String getCooperateIdea(HttpServletRequest request, String jsoncallback, PageRequest pageable) throws Exception {
+	public String getCooperateIdea(HttpServletRequest request, String jsoncallback, PageRequest pageable) {
 
 		// 获取页面封装的查询参数
 		@SuppressWarnings("unchecked")
@@ -117,35 +151,49 @@ public class CooperateIdeaController  extends BaseController{
 		Page<CooperateIdea> infos = cooperateIdeaService.findByHqlConditions(pageable, queryObjs);
 		List<CooperateIdea> list = infos.getRecords();
 		List<CooperateIdeaVo> listVo = new ArrayList<CooperateIdeaVo>();
-		for (CooperateIdea info : list) {
-			CooperateIdeaVo vo = new CooperateIdeaVo(info);
-			if(info != null && org.apache.commons.lang3.StringUtils.isNotEmpty(info.getAttachmentId()) && info.getAttachmentId().contains(",")){
-				String[] att = info.getAttachmentId().split(",");
-				String str = getAttr(att);
-				vo.setAttachName(str);
-			}else{
-				if(!StringUtils.isEmpty(info.getAttachmentId())){
-					AttachmentDto dto = CED.findAttachmentById(info.getAttachmentId());
-					vo.setAttachName(dto.getFileLabel());
-				}
-			}
-			listVo.add(vo);
-		}
 		ResponseMsg msg = new ResponseMsg();
-		msg.setMsg("列表查询成功");
-		msg.setResultStatus(ResponseMsg.SUCCESS);
-		msg.setTotal(infos.getTotalRows());
-		msg.setRows(listVo);
+		try {
+			for (CooperateIdea info : list) {
+				CooperateIdeaVo vo = new CooperateIdeaVo(info);
+				if (info != null && org.apache.commons.lang3.StringUtils.isNotEmpty(info.getAttachmentId())
+						&& info.getAttachmentId().contains(",")) {
+					String[] att = info.getAttachmentId().split(",");
+					String str = getAttr(att);
+					vo.setAttachName(str);
+				} else {
+					if (!StringUtils.isEmpty(info.getAttachmentId())) {
+						AttachmentDto dto = CED.findAttachmentById(info.getAttachmentId());
+						vo.setAttachName(dto.getFileLabel());
+					}
+				}
+				listVo.add(vo);
+			}
+
+			msg.setMsg("列表查询成功");
+			msg.setResultStatus(ResponseMsg.SUCCESS);
+			msg.setTotal(infos.getTotalRows());
+			msg.setRows(listVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("获取附件信息失败", e);
+			msg.setMsg("列表查询失败");
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+		}
+
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
 
 	/**
-	 * 附件文件操作
+	 * 
+	 * @Title: getListAttr
+	 * @Description: 附件文件操作
+	 * @author liuwei
 	 * @param args
-	 * @return
+	 *            附件ids
+	 * @return 附件集合
 	 * @throws Exception
 	 */
-	public List<AttachmentDto> getListAttr(String[] args) throws Exception{
+	public List<AttachmentDto> getListAttr(String[] args) throws Exception {
 		List<String> list = new ArrayList<>();
 		for (String str : args) {
 			list.add(str);
@@ -153,13 +201,18 @@ public class CooperateIdeaController  extends BaseController{
 		List<AttachmentDto> dto = CED.findAttachmentByIds(list);
 		return dto;
 	}
+
 	/**
-	 * 附件显示操作
+	 * 
+	 * @Title: getAttr
+	 * @Description: 附件显示操作
+	 * @author liuwei
 	 * @param args
-	 * @return
+	 *            附件ids
+	 * @return 附件名称
 	 * @throws Exception
 	 */
-	public String getAttr(String[] args) throws Exception{
+	public String getAttr(String[] args) throws Exception {
 		List<String> list = new ArrayList<>();
 		for (String str : args) {
 			list.add(str);
@@ -167,63 +220,83 @@ public class CooperateIdeaController  extends BaseController{
 		List<AttachmentDto> dto = CED.findAttachmentByIds(list);
 		String str = "";
 		for (AttachmentDto attachmentDto : dto) {
-			str+=attachmentDto.getFileLabel()+",";
+			str += attachmentDto.getFileLabel() + ",";
 		}
-		str = str.substring(0,str.length()-1);
+		str = str.substring(0, str.length() - 1);
 		return str;
 	}
 
 	/**
-	 * 更新联系人
 	 * 
-	 * @param jsoncallback
+	 * @Title: save
+	 * @Description: 更新合作协议
+	 * @author liuwei
 	 * @param infoVo
-	 * @return
-	 * @throws BusinessException
+	 *            合作协议信息
+	 * @return 处理消息Json
 	 */
 	@RequestMapping("/save")
 	@UriKey(key = "com.zdsoft.finance.cooperator.idea.save")
 	@ResponseBody
-	public String save(CooperateIdeaVo infoVo) throws BusinessException {
+	public String save(CooperateIdeaVo infoVo) {
 		ResponseMsg msg = new ResponseMsg();
-		if (!ObjectHelper.isEmpty(infoVo)) {
-			if (ObjectHelper.isEmpty(infoVo.getId())) {
-				Capitalist ter = capitalistService.findOne(infoVo.getCapitalistId());
-				CooperateIdea info = infoVo.toPO();
-				info.setCapitalist(ter);
-				cooperateIdeaService.saveEntity(info);
-				msg.setMsg("保存成功！");
-				msg.setResultStatus(ResponseMsg.SUCCESS);
+
+		try {
+			// 判断合作协议是否存在
+			if (!ObjectHelper.isEmpty(infoVo)) {
+				// 判断合作协议id是否传入
+				if (ObjectHelper.isEmpty(infoVo.getId())) {
+
+					// 没有则新增
+					Capitalist ter = capitalistService.findOne(infoVo.getCapitalistId());
+					CooperateIdea info = infoVo.toPO();
+					info.setCapitalist(ter);
+					cooperateIdeaService.saveEntity(info);
+					msg.setMsg("保存成功！");
+					msg.setResultStatus(ResponseMsg.SUCCESS);
+				} else {
+					// 存在则执行修改
+					CooperateIdea info = cooperateIdeaService.findOne(infoVo.getId());
+					info.setAgreementName(infoVo.getAgreementName());
+					info.setAttachmentId(infoVo.getAttachmentId());// 附件
+					Capitalist ter = capitalistService.findOne(infoVo.getCapitalistId());
+					info.setCapitalist(ter);
+					cooperateIdeaService.updateEntity(info);
+					msg.setMsg("更新成功！");
+					msg.setResultStatus(ResponseMsg.SUCCESS);
+				}
+
 			} else {
-				CooperateIdea info = cooperateIdeaService.findOne(infoVo.getId());
-				info.setAgreementName(infoVo.getAgreementName());
-				info.setAttachmentId(infoVo.getAttachmentId());//附件
-				Capitalist ter = capitalistService.findOne(infoVo.getCapitalistId());
-				info.setCapitalist(ter);
-				cooperateIdeaService.updateEntity(info);
-				msg.setMsg("更新成功！");
-				msg.setResultStatus(ResponseMsg.SUCCESS);
+				msg.setMsg("数据为空");
+				msg.setResultStatus(ResponseMsg.APP_ERROR);
 			}
-		} else {
-			msg.setMsg("数据为空");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("保存合作协议失败", e);
+			msg.setMsg("保存合作协议失败");
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
 
 	/**
-	 * 删除
 	 * 
+	 * @Title: del
+	 * @Description: 逻辑删除合作协议
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
-	 * @throws BusinessException
+	 * @param id
+	 *            合作协议id
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/del")
 	@UriKey(key = "com.zdsoft.finance.cooperator.idea.del")
 	@ResponseBody
-	public String del(String jsoncallback, String id) throws BusinessException {
+	public String del(String jsoncallback, String id) {
 		ResponseMsg msg = new ResponseMsg();
 		try {
+
+			// 逻辑删除合作协议
 			cooperateIdeaService.logicDelete(id);
 			msg.setMsg("操作成功！");
 			msg.setResultStatus(ResponseMsg.SUCCESS);

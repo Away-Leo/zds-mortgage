@@ -2,17 +2,20 @@ package com.zdsoft.finance.cooperator.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 合作方联系人
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: ContactsInfo.java
+ * @ClassName: ContactsInfo
+ * @Description: 联系人资料(刘伟二次维护)
+ * @author liuwei
+ * @date 2017年2月25日 下午2:03:04
+ * @version V1.0
  */
 @Entity
 @Table(name = "cpt_contacts_info")
@@ -24,46 +27,47 @@ public class ContactsInfo extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 联系人姓名
+	 * 联系人
 	 */
-	@Column(length = 64)
-	private String contactName;
+	@Column(length = 128)
+	private String linkman;
+
 	/**
 	 * 联系类型
 	 */
-	@Column(length = 64)
+	@Column(length = 20)
 	private String contactType;
+
 	/**
 	 * 电话号码
 	 */
-	@Column(length = 15)
-	private String contactTelNumber;
+	@Column(length = 32)
+	private String contactNumber;
+
 	/**
 	 * 职务
 	 */
-	@Column(length = 64)
-	private String role;
-	/**
-	 * 传真
-	 */
 	@Column(length = 32)
-	private String foxNumber;
-	/**
-	 * 邮编
-	 */
-	@Column(length = 32)
-	private String postalCode;
+	private String duty;
 
 	/**
-	 * 关联的终端
+	 * 合作方id
 	 */
-	@ManyToOne
-	@JoinColumn(name = "terminalId")
-	private CooperatorTerminal cooperatorTerminal;
+	@Column(length = 32)
+	private String partnerId;
 
-	@ManyToOne
-	@JoinColumn(name = "capitalistId")
-	private Capitalist capitalist;
+	/**
+	 * 终端主要联系人临时存放
+	 */
+	private transient Boolean mainContacts = Boolean.valueOf(false);
+
+	public String getLinkman() {
+		return linkman;
+	}
+
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
+	}
 
 	public String getContactType() {
 		return contactType;
@@ -73,60 +77,36 @@ public class ContactsInfo extends BaseEntity {
 		this.contactType = contactType;
 	}
 
-	public String getFoxNumber() {
-		return foxNumber;
+	public String getContactNumber() {
+		return contactNumber;
 	}
 
-	public void setFoxNumber(String foxNumber) {
-		this.foxNumber = foxNumber;
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
-	public String getPostalCode() {
-		return postalCode;
+	public String getDuty() {
+		return duty;
 	}
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
+	public void setDuty(String duty) {
+		this.duty = duty;
 	}
 
-	public Capitalist getCapitalist() {
-		return capitalist;
+	public String getPartnerId() {
+		return partnerId;
 	}
 
-	public void setCapitalist(Capitalist capitalist) {
-		this.capitalist = capitalist;
+	public void setPartnerId(String partnerId) {
+		this.partnerId = partnerId;
 	}
 
-	public CooperatorTerminal getCooperatorTerminal() {
-		return cooperatorTerminal;
+	public Boolean getMainContacts() {
+		return mainContacts;
 	}
 
-	public void setCooperatorTerminal(CooperatorTerminal cooperatorTerminal) {
-		this.cooperatorTerminal = cooperatorTerminal;
-	}
-
-	public String getContactName() {
-		return contactName;
-	}
-
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
-
-	public String getContactTelNumber() {
-		return contactTelNumber;
-	}
-
-	public void setContactTelNumber(String contactTelNumber) {
-		this.contactTelNumber = contactTelNumber;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
+	public void setMainContacts(Boolean mainContacts) {
+		this.mainContacts = mainContacts;
 	}
 
 }

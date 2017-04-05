@@ -10,17 +10,23 @@ import com.zdsoft.finance.capital.entity.SpareCapital;
 import com.zdsoft.finance.common.base.CustomRepository;
 
 /**
- * 备付资金跟踪Repository
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: SpareCapitalRepository.java
+ * @ClassName: SpareCapitalRepository
+ * @Description: 备付资金跟踪Repository
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:32:49
+ * @version V1.0
  */
 public interface SpareCapitalRepository extends CustomRepository<SpareCapital, String> {
 
 	/**
-	 * 根据临时id查询备付资金跟踪列表
 	 * 
+	 * @Title: findByTempUuid
+	 * @Description: 根据临时id查询备付资金跟踪列表
+	 * @author liuwei
 	 * @param tempUuid
 	 *            临时id
 	 * @return 备付资金跟踪列表
@@ -29,8 +35,10 @@ public interface SpareCapitalRepository extends CustomRepository<SpareCapital, S
 	public List<SpareCapital> findByTempUuid(@Param("tempUuid") String tempUuid);
 
 	/**
-	 * 根据查询条件查询备付资金跟踪列表
 	 * 
+	 * @Title: findByConditions
+	 * @Description: 根据查询条件查询备付资金跟踪列表
+	 * @author liuwei
 	 * @param conditions
 	 *            查询条件
 	 * @return 备付资金跟踪列表
@@ -38,8 +46,10 @@ public interface SpareCapitalRepository extends CustomRepository<SpareCapital, S
 	public List<SpareCapital> findByConditions(Map<String, Object> conditions);
 
 	/**
-	 * 根据信托计划id查询备付资金跟踪列表，并排序
 	 * 
+	 * @Title: findByCreditEntrustIdAndOrderByCreteTime
+	 * @Description: 根据信托计划id查询备付资金跟踪列表，并排序
+	 * @author liuwei
 	 * @param creditEntrustId
 	 *            信托计划id
 	 * @return 备付资金跟踪列表

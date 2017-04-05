@@ -7,19 +7,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.zdsoft.finance.common.base.CustomRepository;
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.PartRepayment;
 
+
 /**
- * 分段还款
- * @createTime 2017年1月10日 下午2:47:48
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PartRepaymentRepository.java 
+ * @ClassName: PartRepaymentRepository 
+ * @Description: 分段还款
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:47:28 
+ * @version V1.0
  */
 public interface PartRepaymentRepository extends CustomRepository<PartRepayment, String>{
 
 	/**
-	 * 逻辑删除
+	 * @Title: logicByProduct 
+	 * @Description: 逻辑删除
+	 * @author gufeng 
 	 * @param productId 产品id
 	 */
 	@Modifying
@@ -27,11 +32,37 @@ public interface PartRepaymentRepository extends CustomRepository<PartRepayment,
 	public void logicByProduct(@Param("productId")String productId);
 
 	/**
-	 * 查询
-	 * @param productId
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findByProductId 
+	 * @Description: 查询
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return 条件数据
 	 */
 	@Query("select pr from PartRepayment pr where pr.isDeleted=false and pr.productId=:productId ")
-	public List<PartRepayment> findByProductId(@Param("productId")String productId) throws BusinessException;
+	public List<PartRepayment> findByProductId(@Param("productId")String productId);
+	
+	/**
+	 * @Title: findByTimeSectionAndProductIdAndIsDeleted 
+	 * @Description: 分段还款查询
+	 * @author gufeng 
+	 * @param timeSection 时间段
+	 * @param productId 产品id
+	 * @param isDeleted 删除
+	 * @return 分段还款数据
+	 */
+	public List<PartRepayment> findByTimeSectionAndProductIdAndIsDeleted(String timeSection, String productId,
+			boolean isDeleted);
+	
+	/**
+	 * @Title: findByTimeSectionAndProductIdAndIsDeletedAndIdNot 
+	 * @Description: 分段还款查询
+	 * @author gufeng 
+	 * @param timeSection 时间段
+	 * @param productId 产品id
+	 * @param isDeleted 删除
+	 * @param id 主键
+	 * @return 分段还款数据
+	 */
+	public List<PartRepayment> findByTimeSectionAndProductIdAndIsDeletedAndIdNot(String timeSection, String productId,
+			boolean isDeleted, String id);
 }

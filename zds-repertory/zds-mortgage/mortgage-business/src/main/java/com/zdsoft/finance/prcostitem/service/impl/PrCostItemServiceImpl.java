@@ -17,10 +17,15 @@ import com.zdsoft.finance.prcostitem.repository.PrCostItemRepository;
 import com.zdsoft.finance.prcostitem.service.PrCostItemService;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 机构产品费用
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemServiceImpl.java 
+ * @ClassName: PrCostItemServiceImpl 
+ * @Description: 机构产品费用
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:05:08 
+ * @version V1.0
  */
 @Service
 public class PrCostItemServiceImpl extends BaseServiceImpl<PrCostItem, CustomRepository<PrCostItem, String>> 

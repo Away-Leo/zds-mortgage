@@ -9,13 +9,18 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 合作方银行
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CooperatorBank.java
+ * @ClassName: CooperatorBank
+ * @Description: 合作银行(刘伟二次维护)
+ * @author liuwei
+ * @date 2017年2月25日 下午2:05:17
+ * @version V1.0
  */
 @Entity
-@Table(name = "cpt_cooperator_bank_account")
+@Table(name = "cpt_cooperator_bank")
 public class CooperatorBank extends BaseEntity {
 
 	/**
@@ -27,26 +32,7 @@ public class CooperatorBank extends BaseEntity {
 	 */
 	@Column(length = 20)
 	private String bankName;
-	/**
-	 * 银行卡号
-	 */
-	@Column(length = 32)
-	private String bankAccount;
-	/**
-	 * 银行代码
-	 */
-	@Column(length = 32)
-	private String bankCode;
-	/**
-	 * 开户名
-	 */
-	@Column(length = 32)
-	private String accountName;
-	/**
-	 * 账户描述
-	 */
-	@Column(length = 500)
-	private String accountDetali;
+	
 	/**
 	 * 关联的终端
 	 */
@@ -54,38 +40,12 @@ public class CooperatorBank extends BaseEntity {
 	@JoinColumn(name = "terminalId")
 	private CooperatorTerminal cooperatorTerminal;
 
-	private Capitalist capitalist;
-
-	public Capitalist getCapitalist() {
-		return capitalist;
+	public String getBankName() {
+		return bankName;
 	}
 
-	public void setCapitalist(Capitalist capitalist) {
-		this.capitalist = capitalist;
-	}
-
-	public String getBankAccount() {
-		return bankAccount;
-	}
-
-	public void setBankAccount(String bankAccount) {
-		this.bankAccount = bankAccount;
-	}
-
-	public String getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-	public String getAccountDetali() {
-		return accountDetali;
-	}
-
-	public void setAccountDetali(String accountDetali) {
-		this.accountDetali = accountDetali;
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 
 	public CooperatorTerminal getCooperatorTerminal() {
@@ -96,21 +56,4 @@ public class CooperatorBank extends BaseEntity {
 		this.cooperatorTerminal = cooperatorTerminal;
 	}
 
-	public String getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public String getBankCode() {
-		return bankCode;
-	}
-
-	public void setBankCode(String bankCode) {
-		this.bankCode = bankCode;
-	}
-
-	
 }

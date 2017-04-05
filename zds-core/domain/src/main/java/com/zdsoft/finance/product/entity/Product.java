@@ -10,16 +10,18 @@ import org.hibernate.annotations.Type;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
-
-
 /**
- * 产品管理主表
- * @author longwei
- * @date 2016/12/21
- * @version 1.0
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: Product.java 
+ * @ClassName: Product 
+ * @Description: 产品
+ * @author gufeng 
+ * @date 2017年2月16日 下午5:45:58 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_product")
+@Table(name="prd_product")
 public class Product extends BaseEntity{
 
 	private static final long serialVersionUID = -6217450078740504410L;
@@ -27,7 +29,7 @@ public class Product extends BaseEntity{
 	/**
 	 * 产品名称
 	 */
-	@Column(length=255)
+	@Column(length=64)
 	private String productName;
 	
 	/**
@@ -58,13 +60,13 @@ public class Product extends BaseEntity{
 	/**
 	 * 产品编号-自定义
 	 */
-	@Column(length=60)
+	@Column(length=64)
 	private String customCode;
 	
 	/**
 	 * 面签资料
 	 */
-	@Column(length=1000)
+	@Column(length=1500)
 	private String faceData;
 	
 	/**
@@ -79,6 +81,33 @@ public class Product extends BaseEntity{
 	 */
 	@Column(length=32,name="capitalist_id")
 	private String capitalistId;
+	
+	/**
+	 * 资方名字
+	 */
+	@Column(length = 64)
+	private String capitalistName;
+	
+	/**
+	 * 产品类别id
+	 */
+	private transient String categoryId;
+	
+	public String getCapitalistName() {
+		return capitalistName;
+	}
+
+	public void setCapitalistName(String capitalistName) {
+		this.capitalistName = capitalistName;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
 
 	public String getProductName() {
 		return productName;

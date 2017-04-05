@@ -23,17 +23,23 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCustomer> {
 
     /**
-     * 用一句话描述这个变量表示什么
+     * 序列化
      */
     private static final long serialVersionUID = -3753965636594036636L;
+    
     /**
      * 曾用名
      */
     private String formerName;
+    
     /**
      * 出生日期
      */
     private Long birthdayDate;
+    
+    /**
+     * 出生日期
+     */
     private String birthdayDateStr;//modify by liuhuan 2017-1-20 出生日期显示格式
 
     /**
@@ -45,10 +51,12 @@ public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCus
      * 性别名称 modify by liyb
      */
     private String genderName;
+    
     /**
      * 个人年收入
      */
     private BigDecimal annualIncomeAmmount;
+    
     /**
      * 婚姻状况
      */
@@ -58,39 +66,63 @@ public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCus
      * 婚姻状况名称 modify by liyb
      */
     private String maritalStatusName;
+    
     /**
-     * 职业类型
+     * 职业类型code
      */
     private String careerType;
-    private String careerTypeName;//modify by liuhuan 2017-1-20 职业类型名称
+    
     /**
-     * 受教育程度
+     * 职业类型name
+     */
+    private String careerTypeName;//modify by liuhuan 2017-1-20 职业类型名称
+    
+    /**
+     * 受教育程度code
      */
     private String degree;
-    private String degreeName;//modify by liuhuan 2017-1-21 受教育程度名称
+    
     /**
-     * 居住年限
+     * 受教育程度name
+     */
+    private String degreeName;//modify by liuhuan 2017-1-21 受教育程度名称
+    
+    /**
+     * 居住年限code
      */
     private String liveAge;
+    
+    /**
+     * 居住年限name
+     */
     private String liveAgeName;//modify by liuhuan 2017-1-21
+    
     /**
      * 邮箱地址
      */
     private String email;
+    
     /**
-     * 是否是实际用款人
+     * 是否是实际用款人code
      */
     private String actualUsePerson;
+    
+    /**
+     * 是否是实际用款人name
+     */
     private String actualUsePersonName;//modify by liuhuan 2017-1-21
+    
     /**
      * 头像id
      */
     private String attachmentId;
+    
     /**
      * 头像url
      */
 
     private String headPortraitPath;
+    
     /**
      * app上传的扫描证件图片(附件id)
      */
@@ -105,6 +137,7 @@ public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCus
      * 与主借人关系名称 add by liyb
      */
     private String relationshipName;
+    
     /**
      * 参与类型 共借人、担保人
      */
@@ -129,6 +162,11 @@ public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCus
      * 家庭住址
      */
     private List<BeforeAddress> homeAddress;
+    
+    /**
+     * 户籍地址 modify by jingjiyan
+     */
+    private String permanentAddress;
 
     public Integer getAge() {
         if (ObjectHelper.isNotEmpty(this.getBirthdayDate())) {
@@ -148,7 +186,9 @@ public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCus
     }
 
     public BeforePersonalCustomerVo(BeforePersonalCustomer po) {
-    	super(po,null,new String[]{"joinType","credentialType","gender","maritalStatus","careerType","degree","liveAge","actualUsePerson"},new String[]{"birthdayDate|yyyy-MM-dd"});
+    	if (ObjectHelper.isNotEmpty(po)) {
+    		VoUtil.copyPoperties(po, this, false, null, new String[]{"joinType","credentialType","gender","maritalStatus","careerType","degree","liveAge","actualUsePerson"}, new String[]{"birthdayDate|yyyy-MM-dd"});
+    	}
     }
     
     public BeforePersonalCustomerVo(BeforePersonalCustomer po, String[] args, String[] simpleArgs) throws Exception {
@@ -369,5 +409,13 @@ public class BeforePersonalCustomerVo extends BeforeCustomerVo<BeforePersonalCus
     public void setHomeAddress(List<BeforeAddress> homeAddress) {
         this.homeAddress = homeAddress;
     }
+
+	public String getPermanentAddress() {
+		return permanentAddress;
+	}
+
+	public void setPermanentAddress(String permanentAddress) {
+		this.permanentAddress = permanentAddress;
+	}
 
 }

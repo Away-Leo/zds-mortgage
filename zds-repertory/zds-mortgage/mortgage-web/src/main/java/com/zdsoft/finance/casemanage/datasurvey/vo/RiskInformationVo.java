@@ -79,7 +79,7 @@ public class RiskInformationVo extends BaseVo<RiskInfomation> {
 	/**
 	 * 其他
 	 */
-	private String mo;
+	private String remark;
 
 	public Long getExpectSearchDate() {
 		return expectSearchDate;
@@ -194,12 +194,12 @@ public class RiskInformationVo extends BaseVo<RiskInfomation> {
 		this.workSituation = workSituation;
 	}
 
-	public String getMo() {
-		return mo;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setMo(String mo) {
-		this.mo = mo;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public void setExpectSearchDate(Long expectSearchDate) {

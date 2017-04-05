@@ -3,14 +3,20 @@ package com.zdsoft.finance.product.vo;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.product.entity.ProductContract;
 
+
 /**
- * 产品合同关联关系
- * @createTime 2017年1月10日 下午7:31:23
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductContractVo.java 
+ * @ClassName: ProductContractVo 
+ * @Description: 产品合同关联关系
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:46:16 
+ * @version V1.0
  */
 public class ProductContractVo extends BaseVo<ProductContract> {
 
+
+	private static final long serialVersionUID = -2470281713950092757L;
 
 	/**
 	 * 产品id
@@ -22,6 +28,9 @@ public class ProductContractVo extends BaseVo<ProductContract> {
 	 */
 	private String contractId;
 	
+	/**
+	 * 合同id多个
+	 */
 	private String[] contractIds;
 
 	public String[] getContractIds() {

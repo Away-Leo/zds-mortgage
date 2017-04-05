@@ -3,7 +3,6 @@ package com.zdsoft.finance.product.service.impl;
 import com.zdsoft.essential.dto.emp.EmpDto;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
 import com.zdsoft.finance.common.exception.BusinessException;
-import com.zdsoft.finance.common.utils.ObjectProperUtil;
 import com.zdsoft.finance.product.entity.FeeOption;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.finance.product.repository.FeeOptionRepository;
@@ -19,11 +18,15 @@ import java.util.List;
 
 
 /**
- * 机构产品费用项service
- *
- * @author LiaoGuoWei
- * @create 2017-01-03 10:23
- **/
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: FeeOptionServiceImpl.java 
+ * @ClassName: FeeOptionServiceImpl 
+ * @Description: 机构产品费用项
+ * @author gufeng 
+ * @date 2017年3月6日 上午11:17:34 
+ * @version V1.0
+ */
 @Service("feeOptionService")
 public class FeeOptionServiceImpl extends BaseServiceImpl<FeeOption, FeeOptionRepository> implements FeeOptionService {
 
@@ -46,15 +49,10 @@ public class FeeOptionServiceImpl extends BaseServiceImpl<FeeOption, FeeOptionRe
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public FeeOption deleteById(String id) throws BusinessException {
+	public void deleteById(String id) throws BusinessException {
 		if (ObjectHelper.isNotEmpty(id)) {
 			FeeOption feeOption = this.findById(id);
-			feeOption = this.feeOptionRepository.logicDelete(feeOption);
-			if (ObjectHelper.isNotEmpty(feeOption) && feeOption.getIsDeleted()) {
-				return feeOption;
-			} else {
-				throw new BusinessException("10010009", "逻辑删除相应数据出错");
-			}
+			this.feeOptionRepository.logicDelete(feeOption);
 		} else {
 			throw new BusinessException("10010004", "未传入相关数据");
 		}
@@ -64,16 +62,8 @@ public class FeeOptionServiceImpl extends BaseServiceImpl<FeeOption, FeeOptionRe
 	@Transactional(rollbackFor = Exception.class)
 	public FeeOption saveFeeOption(FeeOption feeOption) throws BusinessException {
 		if (ObjectHelper.isNotEmpty(feeOption)) {
-			if (ObjectHelper.isEmpty(feeOption.getId())) {
-				FeeOption savedFeeOption = this.feeOptionRepository.saveEntity(feeOption);
-				if (ObjectHelper.isNotEmpty(savedFeeOption) && ObjectHelper.isNotEmpty(savedFeeOption.getId())) {
-					return savedFeeOption;
-				} else {
-					throw new BusinessException("10010010", "保存数据出错");
-				}
-			} else {
-				throw new BusinessException("10010003", "传入参数有误");
-			}
+			FeeOption savedFeeOption = this.feeOptionRepository.saveEntity(feeOption);
+			return savedFeeOption;
 		} else {
 			throw new BusinessException("10010004", "未传入相关参数");
 		}
@@ -82,19 +72,18 @@ public class FeeOptionServiceImpl extends BaseServiceImpl<FeeOption, FeeOptionRe
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public FeeOption updateFeeOption(FeeOption feeOption) throws BusinessException {
-		if (ObjectHelper.isNotEmpty(feeOption)) {
-			if (ObjectHelper.isNotEmpty(feeOption.getId())) {
-				FeeOption oldFeeOption = this.findById(feeOption.getId());
-				// 将新值复制到旧值上
-				oldFeeOption = (FeeOption) ObjectProperUtil.compareAndValue(feeOption, oldFeeOption, false);
-				oldFeeOption = this.feeOptionRepository.updateEntity(oldFeeOption);
-				return oldFeeOption;
-			} else {
-				throw new BusinessException("10010003", "传入参数有误");
-			}
+		FeeOption bean = null;
+		if (ObjectHelper.isNotEmpty(feeOption) && ObjectHelper.isNotEmpty(feeOption.getId())) {
+			bean = this.findById(feeOption.getId());
 		} else {
-			throw new BusinessException("10010004", "未传入相关参数");
+			throw new BusinessException("10010004", "传入参数有误");
 		}
+		if(ObjectHelper.isEmpty(bean)){
+			throw new BusinessException("10010004", "未找到费用数据,id=" + feeOption.getId());
+		}
+		BeanUtils.copyProperties(feeOption, bean,new String[]{"isDeleted","createBy","createOrgCd","createTime","version"});
+		bean = this.feeOptionRepository.updateEntity(bean);
+		return bean;
 	}
 
 	@Override
@@ -113,27 +102,15 @@ public class FeeOptionServiceImpl extends BaseServiceImpl<FeeOption, FeeOptionRe
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public List<FeeOption> findAllByProductIdAndChargeTypeCode(String productId, String chargeTypeCd)
+	public List<FeeOption> findByProductIdAndFeeType(String productId, String chargeTypeCd)
 			throws BusinessException {
-		if (ObjectHelper.isNotEmpty(productId)&&ObjectHelper.isNotEmpty(chargeTypeCd)) {
-			List<FeeOption> feeOptionList = feeOptionRepository.findAllByProductCodeAndChargeTypeCode(productId, chargeTypeCd);
-			return feeOptionList;
-		} else {
-			throw new BusinessException("10010004", "未传入相关参数");
-		}
-
-	}
-
-	@Override
-	public List<FeeOption> findDistinctChargeTypeCodeByProductId(String productId)
-			throws BusinessException {
-		if (ObjectHelper.isNotEmpty(productId)) {
-			List<FeeOption> feeOptionList = feeOptionRepository.findDistinctChargeTypeCdByProductCd(productId);
-			return feeOptionList;
+		if (ObjectHelper.isNotEmpty(productId) && ObjectHelper.isNotEmpty(chargeTypeCd)) {
+			return feeOptionRepository.findByProductIdAndFeeType(productId, chargeTypeCd);
 		} else {
 			throw new BusinessException("10010004", "未传入相关参数");
 		}
 	}
+
 	@Override
 	public List<FeeOption> findByProductId(String productId) throws BusinessException {
 		if(ObjectHelper.isEmpty(productId)){
@@ -150,18 +127,25 @@ public class FeeOptionServiceImpl extends BaseServiceImpl<FeeOption, FeeOptionRe
 			logger.error("参数不合法");
 			throw new BusinessException("参数不合法");
 		}
-
 		List<FeeOption> list=this.findByProductId(oldProduct.getId());
 		if(ObjectHelper.isNotEmpty(list)){
 			for(FeeOption feeOption:list){
 				FeeOption newFeeOption=new FeeOption();
-				BeanUtils.copyProperties(feeOption, newFeeOption,new String[]{"id","version","isDeleted","updateTime","updateBy","updateOrgCd","productCode"});
+				BeanUtils.copyProperties(feeOption, newFeeOption,new String[]{"id","version","isDeleted","updateTime","updateBy","updateOrgCd","productId"});
 				newFeeOption.setCreateBy(empDto.getEmpCd());
 				newFeeOption.setCreateOrgCd(empDto.getOrgCd());
 				newFeeOption.setCreateTime(new Date());
-				newFeeOption.setProductCode(newProduct.getId());
+				newFeeOption.setProductId(newProduct.getId());
 				this.saveEntity(newFeeOption);
 			}
 		}
+	}
+
+	@Override
+	public String getCostItemName(String code) throws BusinessException {
+		if(ObjectHelper.isEmpty(code)){
+			throw new BusinessException("1000000001","参数为空");
+		}
+		return feeOptionRepository.findCostItemByCode(code);
 	}
 }

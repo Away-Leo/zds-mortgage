@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.ProcessConfig;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 import com.zdsoft.framework.core.common.page.Page;
@@ -13,10 +12,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品流程配置操作仓库接口实现
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProcessConfigRepositoryImpl.java 
+ * @ClassName: ProcessConfigRepositoryImpl 
+ * @Description: 产品流程配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午5:43:03 
+ * @version V1.0
  */
 public class ProcessConfigRepositoryImpl {
 
@@ -24,14 +26,14 @@ public class ProcessConfigRepositoryImpl {
 	private EntityManager em;
 	
 	@SuppressWarnings("unchecked")
-	public Page<ProcessConfig> findPage(ProcessConfig processConfig,Pageable pageable) throws BusinessException {
+	public Page<ProcessConfig> findPage(ProcessConfig processConfig,Pageable pageable) {
 		
 		StringBuffer hql=new StringBuffer(" from ProcessConfig p where 1=1 and p.isDeleted=:isDeleted ");
 		if(ObjectHelper.isNotEmpty(processConfig.getProcessName())){
 			hql.append("and p.processName like :processName ");
 		}
-		if(ObjectHelper.isNotEmpty(processConfig.getProcessFormCd())){
-			hql.append("and p.processFormCd=:processFormCd ");
+		if(ObjectHelper.isNotEmpty(processConfig.getProcessCode())){
+			hql.append("and p.processCode=:processCode ");
 		}
 		if(ObjectHelper.isNotEmpty(processConfig.getIsEnable())){
 			hql.append("and p.isEnable=:isEnable ");
@@ -50,9 +52,9 @@ public class ProcessConfigRepositoryImpl {
 			query.setParameter("processName", "%"+processConfig.getProcessName()+"%");
 			queryC.setParameter("processName", "%"+processConfig.getProcessName()+"%");
 		}
-		if(ObjectHelper.isNotEmpty(processConfig.getProcessFormCd())){
-			query.setParameter("processFormCd", processConfig.getProcessFormCd());
-			queryC.setParameter("processFormCd", processConfig.getProcessFormCd());
+		if(ObjectHelper.isNotEmpty(processConfig.getProcessCode())){
+			query.setParameter("processCode", processConfig.getProcessCode());
+			queryC.setParameter("processCode", processConfig.getProcessCode());
 		}
 		if(ObjectHelper.isNotEmpty(processConfig.getIsEnable())){
 			query.setParameter("isEnable", processConfig.getIsEnable());

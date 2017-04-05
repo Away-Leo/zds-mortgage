@@ -27,10 +27,13 @@ import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
 /**
- * 资金计划配置控制器
- * @author longwei
- * @date 2017/01/17
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustPlanConfigController.java 
+ * @ClassName: CreditEntrustPlanConfigController 
+ * @Description: 资金计划配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午8:22:32 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/creditEntrustPlanConfig")
@@ -46,48 +49,78 @@ public class CreditEntrustPlanConfigController extends BaseController {
 	private CED CED;
 	
 	/**
-	 * 资金计划配置页面
+	 * @Title: list 
+	 * @Description: 入口
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return 资金计划配置页面
+	 * @throws BusinessException
 	 */
 	@RequestMapping("/list")
 	@UriKey(key="com.zdsoft.finance.creditEntrustPlanConfig.list")
-	public ModelAndView list(String productId) throws BusinessException {
+	public ModelAndView list(String productId) {
 		ModelAndView  modelAndView=new ModelAndView("product/credit_entrust_plan_config_list");
 		if(ObjectHelper.isEmpty(productId)){
 			logger.error("参数异常");
-			throw new BusinessException("参数异常");
 		}
-		
-		Product product=productService.findOne(productId);
+		Product product = null;
+		try {
+			product = productService.findOne(productId);
+		} catch (BusinessException e) {
+			logger.error("查询出错",e);
+			e.printStackTrace();
+		}
 		if(ObjectHelper.isEmpty(product)){
 			logger.error("主产品已不存在，请确认是否已删除");
-			throw new BusinessException("主产品已不存在，请确认是否已删除");
 		}
-		
 		modelAndView.addObject("product", new ProductVo(product));
 		return modelAndView;
 	}
 	
 	/**
-	 * 对话框
+	 * @Title: dialog 
+	 * @Description: 对话框
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @param creditEntrustPlanConfigId 资金计划id
+	 * @return dialog页面
 	 */
 	@RequestMapping("/dialog")
 	@UriKey(key="com.zdsoft.finance.creditEntrustPlanConfig.dialog")
-	public ModelAndView dialog(String productId,String creditEntrustPlanConfigId) throws BusinessException {
+	public ModelAndView dialog(String productId,String creditEntrustPlanConfigId){
 		ModelAndView modelAndView=new ModelAndView("product/credit_entrust_plan_config_dialog");
 		if(ObjectHelper.isNotEmpty(creditEntrustPlanConfigId)){
-			CreditEntrustPlanConfig creditEntrustPlanConfig=creditEntrustPlanConfigService.findOne(creditEntrustPlanConfigId);
+			CreditEntrustPlanConfig creditEntrustPlanConfig = null;
+			try {
+				creditEntrustPlanConfig = creditEntrustPlanConfigService.findOne(creditEntrustPlanConfigId);
+			} catch (BusinessException e) {
+				logger.error("查询出错",e);
+				e.printStackTrace();
+			}
 			if(ObjectHelper.isEmpty(creditEntrustPlanConfig)){
 				logger.error("资金计划配置不存在");
-				throw new BusinessException("资金计划配置不存在");
 			}
 			modelAndView.addObject("creditEntrustPlanConfig", new CreditEntrustPlanConfigVo(creditEntrustPlanConfig));
+		}
+		try {
+			Product product = productService.findOne(productId);
+			ProductVo vo = new ProductVo(product);
+			modelAndView.addObject("product", vo);
+		} catch (BusinessException e) {
+			logger.error("查询出错",e);
+			e.printStackTrace();
 		}
 		modelAndView.addObject("productId", productId);
 		return modelAndView;
 	}
 	
 	/**
-	 * 资金计划列表
+	 * @Title: getList 
+	 * @Description: 资金计划列表
+	 * @author gufeng 
+	 * @param creditEntrustPlanConfigVo 查询条件
+	 * @param pageRequest 分页
+	 * @return 分页数据
 	 */
 	@ResponseBody
 	@RequestMapping("/getList")
@@ -105,7 +138,7 @@ public class CreditEntrustPlanConfigController extends BaseController {
 			msg.setTotal(page.getTotalRows());
 			return msg;
 		} catch (BusinessException e) {
-			logger.error("查询列表失败");
+			logger.error("查询列表失败",e);
 			e.printStackTrace();
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 			msg.setMsg("查询列表失败");
@@ -113,24 +146,38 @@ public class CreditEntrustPlanConfigController extends BaseController {
 		return msg;
 	}
 	
+	/**
+	 * @Title: saveOrUpdate 
+	 * @Description: 保存或更新
+	 * @author gufeng 
+	 * @param creditEntrustPlanConfigVo 保存数据
+	 * @return 保存结果
+	 */
 	@ResponseBody
 	@RequestMapping("/saveOrUpdate")
 	@UriKey(key="com.zdsoft.finance.creditEntrustPlanConfig.saveOrUpdate")
 	public ResponseMsg saveOrUpdate(CreditEntrustPlanConfigVo creditEntrustPlanConfigVo) {
 		ResponseMsg msg=new ResponseMsg();
-		CreditEntrustPlanConfig creditEntrustPlanConfig=creditEntrustPlanConfigVo.toPo();
+		CreditEntrustPlanConfig creditEntrustPlanConfig = creditEntrustPlanConfigVo.toPo();
 		try {
 			buildCommonField(creditEntrustPlanConfig);
 			creditEntrustPlanConfigService.saveOrUpdate(creditEntrustPlanConfig);
 		} catch (BusinessException e) {
-			logger.error("保存或修改失败");
+			logger.error("保存或修改失败",e);
 			e.printStackTrace();
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
-			msg.setMsg("保存或修改失败");
+			msg.setMsg(e.getExceptionMessage());
 		}
 		return msg;
 	}
 	
+	/**
+	 * @Title: delete 
+	 * @Description: 删除
+	 * @author gufeng 
+	 * @param creditEntrustPlanConfigId 资金计划id
+	 * @return 删除结果
+	 */
 	@ResponseBody
 	@RequestMapping("/delete")
 	@UriKey(key="com.zdsoft.finance.creditEntrustPlanConfig.delete")
@@ -142,7 +189,6 @@ public class CreditEntrustPlanConfigController extends BaseController {
 			msg.setMsg("参数为空");
 			return msg;
 		}
-		
 		try {
 			creditEntrustPlanConfigService.delete(creditEntrustPlanConfigId);
 		} catch (BusinessException e) {
@@ -151,11 +197,17 @@ public class CreditEntrustPlanConfigController extends BaseController {
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 			msg.setMsg("删除错误");
 		}
-		
 		return msg;
 	}
 	
-	public void buildCommonField(CreditEntrustPlanConfig creditEntrustPlanConfig) throws BusinessException {
+	/**
+	 * @Title: buildCommonField 
+	 * @Description: 数据配置
+	 * @author gufeng 
+	 * @param creditEntrustPlanConfig 资金计划
+	 * @throws BusinessException 数据出错
+	 */
+	private void buildCommonField(CreditEntrustPlanConfig creditEntrustPlanConfig) throws BusinessException {
 		try {
 			EmpDto empDto = CED.getLoginUser();
 			if(ObjectHelper.isEmpty(empDto)){

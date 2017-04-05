@@ -1,11 +1,13 @@
 package com.zdsoft.finance.cooperator.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,28 +16,32 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.common.base.QueryObj;
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.cooperator.entity.Capitalist;
-import com.zdsoft.finance.cooperator.entity.CapitalistTrust;
-import com.zdsoft.finance.cooperator.entity.CooperatorBank;
 import com.zdsoft.finance.cooperator.service.CapitalistService;
 import com.zdsoft.finance.cooperator.service.CapitalistTrustService;
 import com.zdsoft.finance.cooperator.service.CooperatorBankService;
-import com.zdsoft.finance.cooperator.vo.CapitalistTrustVo;
 import com.zdsoft.finance.cooperator.vo.CapitalistVo;
+import com.zdsoft.finance.product.entity.Product;
+import com.zdsoft.finance.product.service.ProductService;
 import com.zdsoft.framework.core.common.dto.ResponseMsg;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.PageRequest;
+import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 import com.zdsoft.framework.cra.annotation.Menu;
 
 /**
- * 资方
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CapitalistController.java
+ * @ClassName: CapitalistController
+ * @Description: 资方Controller
+ * @author liuwei
+ * @date 2017年3月2日 下午2:29:49
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/capitalist")
@@ -49,11 +55,19 @@ public class CapitalistController extends BaseController {
 	CooperatorBankService cooperatorBankService;
 	@Autowired
 	CED CED;
+	@Autowired
+	private ProductService productService;
+	/**
+	 * 资方状态——启用
+	 */
+	public static final String CAPITALIST_STATUS = "YWDM0049001";
 
 	/**
-	 * 合作方联系人信息列表
 	 * 
-	 * @return
+	 * @Title: initContactsInfo
+	 * @Description: 资方管理菜单组
+	 * @author liuwei
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCapitalist")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.initCapitalist")
@@ -64,16 +78,18 @@ public class CapitalistController extends BaseController {
 	}
 
 	/**
-	 * 返回资方list
 	 * 
+	 * @Title: capitalistSimpleCode
+	 * @Description: 资方列表信息
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
+	 * @return 资方列表json
 	 */
 	@RequestMapping("/capitalistSimpleCode")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.capitalistSimpleCode")
 	@ResponseBody
 	public String capitalistSimpleCode(String jsoncallback) {
-		List<Capitalist> list = capitalistService.findLogicList("1");
+		List<Capitalist> list = capitalistService.findListByStatus(CAPITALIST_STATUS);
 		List<CapitalistVo> listVo = new ArrayList<CapitalistVo>();
 		for (Capitalist info : list) {
 			CapitalistVo vo = new CapitalistVo(info);
@@ -81,17 +97,22 @@ public class CapitalistController extends BaseController {
 		}
 		return ObjectHelper.objectToJson(listVo, jsoncallback);
 	}
+
 	/**
-	 * 返回根据部门的资方list
 	 * 
+	 * @Title: capitalistOrgSimpleCode
+	 * @Description: 返回根据部门的资方集合
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
+	 * @param createOrgCd
+	 *            部门编号
+	 * @return 资方集合json
 	 */
 	@RequestMapping("/capitalistOrgSimpleCode")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.capitalistOrgSimpleCode")
 	@ResponseBody
-	public String capitalistOrgSimpleCode(String jsoncallback,String createOrgCd) {
-		List<Capitalist> list = capitalistService.findLogicOrgList(createOrgCd, "0");
+	public String capitalistOrgSimpleCode(String jsoncallback, String createOrgCd) {
+		List<Capitalist> list = capitalistService.findListByStatusAndOrgCd(createOrgCd, CAPITALIST_STATUS);
 		List<CapitalistVo> listVo = new ArrayList<CapitalistVo>();
 		for (Capitalist info : list) {
 			CapitalistVo vo = new CapitalistVo(info);
@@ -99,31 +120,107 @@ public class CapitalistController extends BaseController {
 		}
 		return ObjectHelper.objectToJson(listVo, jsoncallback);
 	}
+
 	/**
-	 * 新增页Tab
 	 * 
+	 * @Title: findByProductSubtypeId
+	 * @Description: 返回根据产品信息获取的资方集合
+	 * @author jingjiyan
+	 * @param productSubtypeId
+	 *            子产品id
+	 * @param jsoncallback
 	 * @return
-	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/findByProductSubtypeId")
+	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.findByProductSubtypeId")
+	public String findByProductSubtypeId(String productSubtypeId, String jsoncallback) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			if (ObjectHelper.isNotEmpty(productSubtypeId)) {
+
+				Product product = productService.findOne(productSubtypeId);
+				if (ObjectHelper.isNotEmpty(product)) {
+					Capitalist capitalist = capitalistService.findOne(product.getCapitalistId());
+					if (ObjectHelper.isNotEmpty(capitalist)) {
+						Map<String, Object> returnData = new HashMap<String, Object>();
+						returnData.put("id", capitalist.getId());
+						returnData.put("capitalName", capitalist.getCapitalName());
+						returnData.put("isDefault", true);
+						list.add(returnData);
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("通过产品信息获取的资方集合", e);
+		}
+		return ObjectHelper.objectToJson(list, jsoncallback);
+
+	}
+
+	/**
+	 * 
+	 * @Title: findByCapitalSourceId
+	 * @Description: 返回根据产品信息获取的资方
+	 * @author zhoushichao
+	 * @param productSubtypeId
+	 *            子产品id
+	 * @param jsoncallback
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/findByCapitalSourceId")
+	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.findByCapitalSourceId")
+	public String findByCapitalSourceId(String productSubtypeId, String jsoncallback) {
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		try {
+			if (ObjectHelper.isNotEmpty(productSubtypeId)) {
+
+				Product product = productService.findOne(productSubtypeId);
+				if (ObjectHelper.isNotEmpty(product)) {
+					Capitalist capitalist = capitalistService.findOne(product.getCapitalistId());
+					if (ObjectHelper.isNotEmpty(capitalist)) {
+						returnData.put("id", capitalist.getId());
+						returnData.put("capitalName", capitalist.getCapitalName());
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("通过产品信息获取的资方集合", e);
+		}
+		return ObjectHelper.objectToJson(returnData, jsoncallback);
+
+	}
+
+	/**
+	 * 
+	 * @Title: tab
+	 * @Description: 资方信息页签
+	 * @author liuwei
+	 * @param capitalistId
+	 *            资方id
+	 * @param operationType
+	 *            操作类型
+	 * @param capitalistType
+	 *            资方类型
+	 * @param cooperatorName
+	 *            资方名称
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/tab")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.tab")
-	public ModelAndView tab(String capitalistId, String operationType, String capitalistType, String cooperatorName)
-			throws Exception {
+	public ModelAndView tab(String capitalistId, String operationType, String capitalistType, String cooperatorName) {
 		ModelAndView modelAndView = new ModelAndView("/cooperator/capitalist_edit_tab");
 		Capitalist ca = new Capitalist();
 		if ("add".equals(operationType)) {
-			ca.setCooperatorName(cooperatorName);
+			ca.setCapitalName(cooperatorName);
 			ca.setCapitalistType(capitalistType);
-			CooperatorBank bank = new CooperatorBank();
-			CooperatorBank banks = cooperatorBankService.saveEntity(bank);
-			CapitalistTrust trust = new CapitalistTrust();
-			CapitalistTrust captrust = capitalistTrustService.saveEntity(trust);
-			ca.setCapitalistTrust(captrust);// 进入页面初始化数据
-			ca.setCooperatorBank(banks);
-			ca.setCreateOrgCd(CED.getLoginUser().getOrgCd());
-			ca.setLogicDelelte("1");
-			Capitalist cap = capitalistService.saveEntity(ca);
-			modelAndView.addObject("capitalist", cap);
+			ca = capitalistService.saveCapitalTemp(ca);
+			modelAndView.addObject("capitalist", ca);
 		} else {
 			ca.setId(capitalistId);
 			modelAndView.addObject("capitalist", ca);
@@ -132,13 +229,35 @@ public class CapitalistController extends BaseController {
 		return modelAndView;
 	}
 
+	@RequestMapping("/validateOnlyName")
+	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.validateOnlyName")
+	@ResponseBody
+	public ResponseMsg validateOnlyName(String cooperatorName, String capitalistType) {
+		ResponseMsg responseMsg = new ResponseMsg();
+		Capitalist capitalist = capitalistService.findByCooperatorNameAndCapitalistType(cooperatorName, capitalistType);
+		if (ObjectHelper.isNotEmpty(capitalist)) {
+			responseMsg.setMsg("已有重复的资方,请检查后添加");
+			responseMsg.setResultStatus(ResponseMsg.APP_ERROR);
+		} else {
+			responseMsg.setMsg("可以添加");
+			responseMsg.setResultStatus(ResponseMsg.SUCCESS);
+		}
+
+		return responseMsg;
+
+	}
+
 	/**
-	 * 列表数据展示
 	 * 
+	 * @Title: getCapitalist
+	 * @Description: 资方列表
+	 * @author liuwei
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 处理信息json
 	 */
 	@RequestMapping("/getCapitalist")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.getCapitalist")
@@ -148,13 +267,7 @@ public class CapitalistController extends BaseController {
 		// 获取页面封装的查询参数
 		@SuppressWarnings("unchecked")
 		List<QueryObj> queryObjs = (List<QueryObj>) request.getAttribute("listObj");
-		QueryObj obj = new QueryObj();
-		obj.setElement("String");
-		obj.setObj("logicDelelte");
-		obj.setOperator("E");
-		obj.setValue("0");
-		queryObjs.add(obj);
-		// 分页查询会议
+		// 分页查询资方信息
 		Page<Capitalist> infos = capitalistService.findByHqlConditions(pageable, queryObjs);
 		List<Capitalist> list = infos.getRecords();
 		List<CapitalistVo> listVo = new ArrayList<CapitalistVo>();
@@ -171,32 +284,34 @@ public class CapitalistController extends BaseController {
 	}
 
 	/**
-	 * 联系人编辑
 	 * 
-	 * @return
-	 * @throws BusinessException
+	 * @Title: capitalistEdit
+	 * @Description: 联系人编辑
+	 * @author liuwei
+	 * @param capitalistId
+	 *            资方id
+	 * @param operationType
+	 *            操作类型
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/edit")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.edit")
-	public ModelAndView capitalistEdit(String capitalistId, String operationType) throws BusinessException {
+	public ModelAndView capitalistEdit(String capitalistId, String operationType) {
 		ModelAndView modelAndView = null;
 		try {
 			Capitalist info = capitalistService.findOne(capitalistId);
-			if (info.getCapitalistType().equals("bank")) {
+			if (info.getCapitalistType().equals("YWDM0011201")) {
 				// 银行
 				modelAndView = new ModelAndView("/cooperator/capitalist_edit_bank");
 			} else {
 				// 非银
 				modelAndView = new ModelAndView("/cooperator/capitalist_edit_nonsilver");
 			}
-			if (!"add".equals(operationType)) {
-				CapitalistTrust trust = capitalistTrustService.findOne(info.getCapitalistTrust().getId());
-				modelAndView.addObject("trust", trust);
-			}
 			CapitalistVo capitalistVo = new CapitalistVo(info);
 			modelAndView.addObject("capitalist", capitalistVo);
 			modelAndView.addObject("capitalistId", capitalistId);
 			modelAndView.addObject("operationType", operationType);
+			modelAndView.addObject("maxDate", DateHelper.dateToString(new Date(), DateHelper.DATE_SHORT_FORMAT));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -205,78 +320,62 @@ public class CapitalistController extends BaseController {
 	}
 
 	/**
-	 * 资方新增弹窗
 	 * 
-	 * @return
-	 * @throws BusinessException
+	 * @Title: dialog
+	 * @Description: 资方新增dialog
+	 * @author liuwei
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/dialog")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.dialog")
-	public ModelAndView dialog() throws BusinessException {
+	public ModelAndView dialog() {
 		ModelAndView modelAndView = new ModelAndView("/cooperator/capitalist_dialog");
 		return modelAndView;
 	}
 
 	/**
-	 * 保存
 	 * 
-	 * @param jsoncallback
+	 * @Title: save
+	 * @Description: 资方信息保存
+	 * @author liuwei
 	 * @param infoVo
-	 * @return
-	 * @throws BusinessException
+	 *            资方信息
+	 * @return msg处理信息json
 	 */
 	@RequestMapping("/save")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.save")
 	@ResponseBody
-	public String save(CapitalistVo infoVo, CapitalistTrustVo trustVo) throws BusinessException {
+	public String save(CapitalistVo infoVo) {
 		ResponseMsg msg = new ResponseMsg();
-		Capitalist cap = capitalistService.findOne(infoVo.getId());
-		cap.setLogicDelelte("0");
-		cap.setCooperatorShortName(infoVo.getCooperatorShortName());// 资方简称
-		cap.setIsStop(infoVo.getIsStop());// 是否停用
-		cap.setCooperatorType(infoVo.getCooperatorType());// 资方类别
-		cap.setCooperatorAddress(infoVo.getCooperatorAddress());
-		cap.setRegionCode(infoVo.getRegionCode());
-		cap.setFoundDate(infoVo.getFoundDate());
-		cap.setLegalPerson(infoVo.getLegalPerson());
-		cap.setDutyParagraph(infoVo.getDutyParagraph());
-		cap.setIndustry(infoVo.getIndustry());
-		cap.setIsStop(infoVo.getIsStop());
-		cap.setCapitalistCategory(infoVo.getCapitalistCategory());
-		cap.setRemark(infoVo.getRemark());
-		cap.setContactTelNumber(infoVo.getContactTelNumber());
-		cap.setIsHasBankAgreement(infoVo.getIsHasBankAgreement());
-		capitalistService.updateEntity(cap);
-		// 更新银行字段
-		if (StringUtils.isNotEmpty(infoVo.getBankAccountShow())) {
-			CooperatorBank bank = cooperatorBankService.findOne(cap.getCooperatorBank().getId());
-			bank.setBankAccount(infoVo.getBankAccountShow());
-			cooperatorBankService.updateEntity(bank);
+
+		// 转换为资方Po
+		Capitalist capitalist = infoVo.toPO();
+		try {
+			capitalist = capitalistService.saveOrUpdateCapitalist(capitalist);
+			msg.setMsg("保存成功");
+			msg.setResultStatus(ResponseMsg.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg.setMsg("保存失败");
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
-		// 更新信托字段
-		if (trustVo != null) {
-			CapitalistTrust trust = capitalistTrustService.findOne(cap.getCapitalistTrust().getId());
-			trust.setAppointBorrowRate(trustVo.getAppointBorrowRate());
-			trust.setAppointRepayDate(trustVo.getAppointRepayDate());
-			trust.setPlanInputCost(trustVo.getPlanInputCost());
-			capitalistTrustService.saveEntity(trust);
-		}
-		msg.setMsg("更新成功！");
-		msg.setResultStatus(ResponseMsg.SUCCESS);
 		return ObjectHelper.objectToJson(msg);
 	}
 
 	/**
-	 * 删除
 	 * 
+	 * @Title: del
+	 * @Description: 资方信息逻辑删除
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
-	 * @throws BusinessException
+	 * @param id
+	 *            资方id
+	 * @return 处理消息json
 	 */
 	@RequestMapping("/del")
 	@UriKey(key = "com.zdsoft.finance.cooperator.capitalist.del")
 	@ResponseBody
-	public String del(String jsoncallback, String id) throws BusinessException {
+	public String del(String jsoncallback, String id) {
 		ResponseMsg msg = new ResponseMsg();
 		try {
 			capitalistService.logicDelete(id);

@@ -7,10 +7,13 @@ import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.Pageable;
 
 /**
- * 我的草稿接口
- * @author longwei
- * @date 2017/01/13
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MyDraftService.java 
+ * @ClassName: MyDraftService 
+ * @Description: 我的草稿接口
+ * @author longwei 
+ * @date 2017年2月6日 上午11:10:27 
+ * @version V1.0
  */
 public interface MyDraftService {
 

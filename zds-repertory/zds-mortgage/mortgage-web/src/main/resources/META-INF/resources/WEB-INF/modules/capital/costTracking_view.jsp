@@ -23,22 +23,22 @@
 		        <div class="p5">
 		            <table class="table-detail">
 		                <tr>
-		                    <td class="td-title pct10">支出类型</td>
+		                    <td class="td-title pct10">支出类型：</td>
 		                    <td class="pct20">${creditCostTrackingVo.expenditureTypeName }</td>
-		                    <td class="td-title pct10">名称</td>
+		                    <td class="td-title pct10">名称：</td>
 		                    <td class="pct20">${creditCostTrackingVo.costName }</td>
 		                    <td class="td-title pct10"></td>
 		                    <td class="pct20"></td>
 		                </tr>
 		                <tr>
-		                    <td class="td-title">摘要</td>
+		                    <td class="td-title">摘要：</td>
 		                    <td colspan="5">${creditCostTrackingVo.summary }</td>
 		                </tr>
 		            </table>
 		            <div class="m10">
 			            <table class="table-index">
 							<c:if test="${fn:length(feeItemVos)>0}">
-								<tr><td>序号</td><td>费用项目</td><td>金额</td></tr>
+								<tr><td>序号</td><td>费用项目</td><td>金额(元)</td></tr>
 							</c:if>
 							<c:forEach var="feeItemVo" items="${feeItemVos }" varStatus="status">
 								<tr>
@@ -54,14 +54,14 @@
 					</div>
 					<table class="table-detail">
 		                <tr>
-		                	<td class="td-title pct10">总计</td>
+		                	<td class="td-title pct10">总计(元)：</td>
 		                    <td class="pct20">${creditCostTrackingVo.totalAmount }</td>
-		                    <td class="td-title pct10">应付日期</td>
-		                    <td class="pct20">${creditCostTrackingVo.payDate }</td>
+		                    <td class="td-title pct10">应付日期：</td>
+		                    <td class="pct20 strToDate">${creditCostTrackingVo.payDateName }</td>
 		                </tr>
 		                <tr>
-		                    <td class="td-title">备注</td>
-		                    <td colspan="5">${creditCostTrackingVo.payDate }</td>
+		                    <td class="td-title">备注：</td>
+		                    <td colspan="5">${creditCostTrackingVo.remark }</td>
 		                </tr>
 	                </table>
 	            </div>
@@ -76,7 +76,7 @@
 				            			<th data-options="field:operationContent">操作内容</th>
 				            			<th data-options="field:operationEmpName">处理人</th>
 				            			<!-- <th data-options="field:remark">备注</th> -->
-				            			<th data-options="field:operationDate">操作时间</th>
+				            			<th data-options="field:operationDateName">操作时间</th>
 							        </tr>
 								</thead>
 							</table>
@@ -105,7 +105,7 @@
                             if (data.resultStatus == 0) {
                             	if(data.rows.length != 0){
                             		tempData = data.rows;
-                            		var appendHtml = '<table class="table-index"><tr><td>序号</td><td>费用项目</td><td>金额</td></tr>';
+                            		var appendHtml = '<table class="table-index"><tr><td>序号</td><td>费用项目</td><td>金额(元)</td></tr>';
                             		for(var i=0;i<data.rows.length;i++){
 										var rows = data.rows;
 										appendHtml +=  '<tr><td>'+(i+1)+'</td><td>'+rows[i].feeItemNm+'</td><td><input type="hidden" id="feeItemCd" name="feeItemCd" value="'+rows[i].feeItemCd +'"/><input type="hidden" id="feeItemNm" name="feeItemNm" value="'+rows[i].feeItemNm+'"/> <input class="zui-input zui-validatebox" onchange="sumAmount();" validate-type="Require,Digital[18-12]" value=""  name="feeAmount"/></td></tr>';
@@ -133,6 +133,7 @@
 			
 			// 初始化
 			$.ZUI.init();
+			$.ZUI.strToDate();
 			
 			// 计算总金额
 			window.sumAmount = function(){

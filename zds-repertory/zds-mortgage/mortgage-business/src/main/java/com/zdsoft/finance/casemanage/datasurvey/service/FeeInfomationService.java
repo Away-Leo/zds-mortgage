@@ -26,22 +26,22 @@ public interface FeeInfomationService extends BaseService<FeeInfomation> {
 	/**
 	 * 收费用计算方式：固定
 	 */
-	public static final String FEE_CALCULATE_FIXED = "collectionMethodCode1";
+	public static final String FEE_CALCULATE_FIXED = "chargeCalculateWay1";
 	
 	/**
 	 * 收费用计算方式：比例
 	 */
-	public static final String FEE_CALCULATE_RATIO = "collectionMethodCode2";
+	public static final String FEE_CALCULATE_RATIO = "chargeCalculateWay2";
 	
 	/**
 	 * 付费用计算方式：固定
 	 */
-	public static final String FEE_PAY_CALCULATE_FIXED = "paymentMethodCode1";
+	public static final String FEE_PAY_CALCULATE_FIXED = "payCalculateWay1";
 	
 	/**
 	 * 付费用计算方式：比例
 	 */
-	public static final String FEE_PAY_CALCULATE_RATIO = "paymentMethodCode2";
+	public static final String FEE_PAY_CALCULATE_RATIO = "payCalculateWay2";
 	
 	/**
 	 * 参与对象类型类别Id
@@ -60,14 +60,47 @@ public interface FeeInfomationService extends BaseService<FeeInfomation> {
 
 	/**
 	 * 
-	 * 查询某个案件的数据
+	 * 查询某个案件的数据(若无则带出产品信息)
 	 *
 	 * @author jingyh
 	 * @param caseApplyId
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<FeeInfomation> findFeeInfomationByCaseApplyId(String caseApplyId) throws BusinessException;
+	public List<FeeInfomation> findFeeInfomationByCaseApplyId(String caseApplyId) throws Exception;
+	
+	/**
+	 * 
+	 * @Title: findFeeByCaseApplyId 
+	 * @Description: 查询某个案件的数据
+	 * @author xiangjx 
+	 * @param caseApplyId
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<FeeInfomation> findFeeByCaseApplyId(String caseApplyId) throws BusinessException;
+	
+	/**
+	 * 
+	 * @Title: findByCaseApplyId 
+	 * @Description: 查询案件收费集合信息
+	 * @author jingyh 
+	 * @param caseApplyId
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<FeeInfomation> findByCaseApplyId(String caseApplyId) throws Exception;
+	/**
+	 * 
+	 * @Title: findByCaseApplyIdAnd 
+	 * @Description: 收款列表数据列表
+	 * @author xiangjx 
+	 * @param caseApplyId
+	 * @param payerType
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<FeeInfomation> findByCaseApplyIdAndPayerType(String caseApplyId,String payerType) throws BusinessException;
 	
 	/**
 	 * 
@@ -102,4 +135,48 @@ public interface FeeInfomationService extends BaseService<FeeInfomation> {
 	 */
 	public Page<Map<String, Object>> findEvaluationInfos(List<QueryObj> queryInfo,PageRequest pageReq);
 	
+	/**
+	 * 
+	 * @Title: findReviceObjTypeInfosByCaseApplyId 
+	 * @Description: 根据案件Id查询对应的收费对象类别下拉数据
+	 * @author jingyh 
+	 * @param caseApplyId
+	 * @return
+	 */
+	public List<Map<String,Object>> findReviceObjTypeInfosByCaseApplyId(String caseApplyId) throws BusinessException;
+	
+	/**
+	 * 
+	 * @Title: findByCaseApplyIdAndReceiveObjTypes 
+	 * @Description: 根据案件Id和收费对象类别信息查询收费明细记录
+	 * @author jingyh 
+	 * @param caseApplyId
+	 * @param receiveObjTypes
+	 * @return
+	 */
+	public List<FeeInfomation> findByCaseApplyIdAndReceiveObjTypes(String caseApplyId,List<String> receiveObjTypes) throws BusinessException;
+	
+
+    /**
+     * @Title: findByCaseApplyIdAndFeeItemAndFeeType 
+     * @Description: 根据费用类型、费用项获取费用
+     * @author jincheng 
+     * @param caseApplyId
+     * @param feeItem
+     * @param feeType
+     * @return
+     */
+	public List<FeeInfomation> findByCaseApplyIdAndFeeItemAndFeeType(String caseApplyId,String feeItem, String feeType);
+
+	/**
+	 * @Title: getCaseApplyAndFeeList 
+	 * @Description: 获取案件费用合计
+	 * @author jincheng 
+	 * @param page
+	 * @param li
+	 * @return
+	 */
+	public Page<Map<String, Object>> getCaseApplyAndFeeList(PageRequest page, List<QueryObj> li)throws Exception;
+
+   
 }

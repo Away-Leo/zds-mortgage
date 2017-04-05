@@ -5,11 +5,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 资金机构配置信息Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: InstitutionFundsVo.java 
+ * @ClassName: InstitutionFundsVo 
+ * @Description: 资金机构配置信息Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:20:43 
+ * @version V1.0
  */
 public class InstitutionFundsVo extends BaseVo<InstitutionFunds> {
 
@@ -107,10 +110,10 @@ public class InstitutionFundsVo extends BaseVo<InstitutionFunds> {
 			StringBuffer capitalistId = new StringBuffer();
 			for (int i = 0; i < institutionFunds.getCapitalists().size(); i++) {
 				if (i == (institutionFunds.getCapitalists().size() - 1)) {
-					cooperatorName.append(institutionFunds.getCapitalists().get(i).getCooperatorName());
+					cooperatorName.append(institutionFunds.getCapitalists().get(i).getCapitalName());
 					capitalistId.append(institutionFunds.getCapitalists().get(i).getId());
 				} else {
-					cooperatorName.append(institutionFunds.getCapitalists().get(i).getCooperatorName() + ",");
+					cooperatorName.append(institutionFunds.getCapitalists().get(i).getCapitalName() + ",");
 					capitalistId.append(institutionFunds.getCapitalists().get(i).getId() + ",");
 				}
 			}

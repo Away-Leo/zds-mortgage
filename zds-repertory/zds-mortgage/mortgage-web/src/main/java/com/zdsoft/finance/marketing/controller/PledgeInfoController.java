@@ -1,5 +1,6 @@
 package com.zdsoft.finance.marketing.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import com.zdsoft.finance.marketing.entity.PledgeInfo;
 import com.zdsoft.finance.marketing.service.PledgeInfoService;
 import com.zdsoft.finance.marketing.vo.PledgeInfoVo;
 import com.zdsoft.framework.core.common.dto.ResponseMsg;
-import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
@@ -27,63 +27,40 @@ import com.zdsoft.framework.core.commweb.component.BaseController;
  * @version:v1.0
  */
 @Controller
-@RequestMapping("/pledgeInfo")
+@RequestMapping("marketing/pledgeInfo")
 public class PledgeInfoController extends BaseController{
 	
 	@Autowired
 	private PledgeInfoService pledgeInfoService;
 	
 	/**
-	 * 保存抵押信息
-	 * @param pledgeInfoVo 抵押信息
-	 * @return
-	 */
-	@RequestMapping("/savePledgeInfo")
-	@UriKey(key = "com.zdsoft.finance.marketing.savePledgeInfo")
-	@ResponseBody
-	public ResponseMsg savePledgeInfo(PledgeInfoVo pledgeInfoVo) {
-		
-		PledgeInfo pledgeInfo = null;
-		ResponseMsg msg = new ResponseMsg();
-
-		// 将Vo转成Po
-		pledgeInfo = pledgeInfoVo.toPO();
-		
-		// 执行保存
-		try {
-			pledgeInfoService.saveOrUpdateEntity(pledgeInfo);
-			
-			msg.setResultStatus(ResponseMsg.SUCCESS);
-			msg.setMsg("保存抵押信息成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("beforehandApply保存失败", e);
-			msg.setResultStatus(ResponseMsg.APP_ERROR);
-			msg.setMsg("系统内部错误，请查看日志");
-		}
-		return msg;
-	}
-	
-	/**
-	 * 抵押信息查询列表
-	 * @param request 
+	 * 
+	 * @Title: getPledgeInfoList 
+	 * @Description: 根据房产Id查询抵押信息列表
+	 * @author zhoushichao 
+	 * @param housePropertyId 房产Id
 	 * @param jsoncallback
-	 * @param pageable
 	 * @return
 	 */
 	@RequestMapping("/getPledgeInfoList")
-	@UriKey(key = "com.zdsoft.finance.marketing.getPledgeInfoList")
+	@UriKey(key = "com.zdsoft.finance.marketing.pledgeInfo.getPledgeInfoList")
 	@ResponseBody
-	public String getPledgeInfoList(String  housePropertyId, String jsoncallback, PageRequest pageable) {
+	public String getPledgeInfoList(String  housePropertyId,String jsoncallback) {
 
 		ResponseMsg msg = new ResponseMsg();
-		// 分页抵押信息
+		// 查询抵押信息
 		List<PledgeInfo> pledgeInfoList=null;
+		List<PledgeInfoVo> voList = new ArrayList<PledgeInfoVo>();
 		try {
 			if (ObjectHelper.isNotEmpty(housePropertyId)) {
 				pledgeInfoList = pledgeInfoService.findByHouseId(housePropertyId);
-			msg.setTotal(new Long(pledgeInfoList.size()));
-			msg.setRows(pledgeInfoList);
+				for(PledgeInfo info : pledgeInfoList){
+					PledgeInfoVo vo = new PledgeInfoVo(info);
+					voList.add(vo);
+				}
+				
+			msg.setTotal(new Long(voList.size()));
+			msg.setRows(voList);
 			msg.setMsg("抵押信息列表查询成功！");
 			}else{
 				msg.setMsg("抵押信息列表查询无数据！");
@@ -92,30 +69,32 @@ public class PledgeInfoController extends BaseController{
 		} catch (BusinessException e) {
 			msg.setMsg("抵押信息列表查询失败");
 			e.printStackTrace();
+			logger.error("抵押信息列表查询失败",e);
 		}
-		
-
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
 	
 	/**
-	 * 逻辑删除抵押信息
-	 * @param jsoncallback
+	 * 、
+	 * @Title: deletePledgeInfo 
+	 * @Description: 根据id逻辑删除抵押信息
+	 * @author zhoushichao 
+	 * @param id 抵押id
 	 * @return
-	 * @throws BusinessException 
 	 */
-	@RequestMapping("/delete")
-	@UriKey(key = "com.zdsoft.finance.marketing.deletePledgeInfo")
+	@RequestMapping("/deletePledgeInfo")
+	@UriKey(key = "com.zdsoft.finance.marketing.pledgeInfo.deletePledgeInfo")
 	@ResponseBody
-	public String deletePledgeInfo(String jsoncallback,String id) throws BusinessException {
+	public String deletePledgeInfo(String id){
 		ResponseMsg msg = new ResponseMsg();
 		try {
 			pledgeInfoService.logicDelete(id);
-			msg.setMsg("删除成功！");
+			msg.setMsg("删除抵押信息成功！");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
-		} catch (Exception e) {
-			msg.setMsg("删除失败！"+e.getMessage());
+		} catch (BusinessException e) {
+			msg.setMsg("删除抵押信息失败！"+e.getMessage());
 			msg.setResultStatus(ResponseMsg.SYS_ERROR);
+			logger.error("删除抵押信息失败！",e);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}

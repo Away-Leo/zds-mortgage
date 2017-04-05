@@ -127,7 +127,7 @@ public class RateConvertUtil {
 				return (new BigDecimal(oldValue).multiply(new BigDecimal(100)).multiply(new BigDecimal(12)).setScale(2,
 						BigDecimal.ROUND_HALF_DOWN)).doubleValue();
 			} else if (ObjectHelper.isNotEmpty(cycle) && cycle.equals(RateConvertUtil.RATE_DAY)) {
-				return (new BigDecimal(oldValue).multiply(new BigDecimal(100)).multiply(new BigDecimal(360)).setScale(2,
+				return (new BigDecimal(oldValue).multiply(new BigDecimal(1000)).multiply(new BigDecimal(360)).setScale(2,
 						BigDecimal.ROUND_HALF_DOWN)).doubleValue();
 			} else {
 				return oldValue;

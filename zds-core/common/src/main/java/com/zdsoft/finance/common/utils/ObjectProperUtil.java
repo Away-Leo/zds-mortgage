@@ -30,14 +30,14 @@ public class ObjectProperUtil {
      * @return
      * @throws BusinessException
      */
-    public static Object compareAndValue(Object source,Object target,boolean isCopyAll) throws BusinessException{
+    public static Object compareAndValue(Object source,Object target,boolean isCopyAll,String[] copyFields) throws BusinessException{
         if(ObjectHelper.isNotEmpty(source)&&ObjectHelper.isNotEmpty(target)){
             if(source.getClass().getName().equals(target.getClass().getName())){
                 if(isCopyAll){
                     BeanUtils.copyProperties(source,target);
                     return target;
                 }else{
-                    target=valueField(source, target);
+                    target=valueField(source, target,copyFields);
                     return target;
                 }
             }else{
@@ -55,7 +55,7 @@ public class ObjectProperUtil {
      * @param target
      * @return
      */
-    private static Object valueField(Object source,Object target){
+    private static Object valueField(Object source,Object target,String[] copyFields){
         //得到当前类source所有的属性
         Field[] fieldsSource=source.getClass().getDeclaredFields();
         //得到当前类source父类所有的属性
@@ -73,6 +73,15 @@ public class ObjectProperUtil {
                         &&!targetField.get(target).toString().equals(temp.get(source).toString())
                         ||!descriptor.contains("static")&&ObjectHelper.isNotEmpty(temp.get(source))&&ObjectHelper.isEmpty(targetField.get(target))){
                     targetField.set(target,temp.get(source));
+                }
+                //如果包含复制字段数组不为空
+                if(ObjectHelper.isNotEmpty(copyFields)){
+                    for(int i=0;i<copyFields.length;i++){
+                        //如果包含复制字段等于当前字段
+                        if(copyFields[i].equals(temp.getName())){
+                            targetField.set(target,temp.get(source));
+                        }
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -93,6 +102,15 @@ public class ObjectProperUtil {
                         &&!targetFieldSuper.get(target).toString().equals(temp.get(source).toString())
                         ||!descriptor.contains("static")&&ObjectHelper.isNotEmpty(temp.get(source))&&ObjectHelper.isEmpty(targetFieldSuper.get(target))){
                     targetFieldSuper.set(target,temp.get(source));
+                }
+                //如果包含复制字段数组不为空
+                if(ObjectHelper.isNotEmpty(copyFields)){
+                    for(int i=0;i<copyFields.length;i++){
+                        //如果包含复制字段等于当前字段
+                        if(copyFields[i].equals(temp.getName())){
+                            targetFieldSuper.set(target,temp.get(source));
+                        }
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace();

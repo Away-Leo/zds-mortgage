@@ -30,7 +30,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<jackson.version>2.8.2</jackson.version>
 		<ehcache.version>2.10.2</ehcache.version>
-		<logback-classic.version>1.1.3</logback-classic.version>
+		<logback-classic.version>1.1.7</logback-classic.version>
 		<logback-ext-spring.version>0.1.4</logback-ext-spring.version>
 		<jsonassert.version>1.3.0</jsonassert.version>
 		<json-path.version>2.2.0</json-path.version>
@@ -40,9 +40,12 @@
 		<apache-poi.version>3.7</apache-poi.version>
 		<google-zxing.version>3.1.0</google-zxing.version>
 		<!-- 基础开发平台 -->
-		<zds.framework.version>4.1.2</zds.framework.version>
+		<zds.framework.version>4.1.5</zds.framework.version>
+		<!-- 32.50 测试平台 -->
+		<!--  <zds.framework.version>4.1.5-SNAPSHOT</zds.framework.version> -->
 		<!-- 工作流 -->
-		<zds.workflow.version>4.1.2</zds.workflow.version>
+		<zds.workflow.version>4.1.5</zds.workflow.version>
+		<!--  <zds.workflow.version>4.1.5-SNAPSHOT</zds.workflow.version> -->
 		<!-- 设置源代码的字符集 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
@@ -174,19 +177,6 @@
 				</exclusions>
 			</dependency>
 			
-			
-			<dependency>
-				<groupId>com.zdsoft.framework</groupId>
-				<artifactId>zds-fromework-cra-activemq</artifactId>
-				<version>${zds.framework.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>slf4j-log4j12</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
 			<dependency>
 				<groupId>com.zdsoft.framework</groupId>
 				<artifactId>zds-framework-cra-client</artifactId>
@@ -216,6 +206,12 @@
 						<groupId>org.slf4j</groupId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<!-- cms 消息管理-->
+			<dependency>
+				<groupId>com.zdsoft.framework</groupId>
+				<artifactId>zds-message-client</artifactId>
+				<version>${zds.framework.version}</version>
 			</dependency>
 			
 			<!-- 引入工作流 START -->
@@ -315,8 +311,18 @@
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
-
+			<dependency>
+				<groupId>com.belerweb</groupId>
+				<artifactId>pinyin4j</artifactId>
+				<version>2.5.1</version>
+			</dependency>
+	
 		</dependencies>
 	</dependencyManagement>
 

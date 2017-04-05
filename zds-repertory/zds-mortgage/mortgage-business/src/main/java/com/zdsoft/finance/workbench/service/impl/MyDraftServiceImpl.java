@@ -19,10 +19,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 我的草稿接口实现
- * @author longwei
- * @date 2017/01/13
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MyDraftServiceImpl.java 
+ * @ClassName: MyDraftServiceImpl 
+ * @Description: 我的草稿接口实现
+ * @author longwei 
+ * @date 2017年2月6日 上午11:10:20 
+ * @version V1.0
  */
 @Service("myDraftService")
 public class MyDraftServiceImpl implements MyDraftService{
@@ -51,7 +54,7 @@ public class MyDraftServiceImpl implements MyDraftService{
 			throw new BusinessException("查询草稿表单为空");
 		}
 		// 查询流程配置草稿配置
-		ProcessConfig processConfig=processConfigService.findByProductIdAndProcessConfigCode(busiForm.getProductCd(), ProcessConfigCode.MYDRAFT_INFO.getCode()); 
+		ProcessConfig processConfig=processConfigService.findByProductIdAndProcessCode(busiForm.getProductCode(), ProcessConfigCode.MYDRAFT_INFO.getCode()); 
 		if(ObjectHelper.isEmpty(processConfig)){
 			logger.error("流程草稿配置为空");
 			throw new BusinessException("流程草稿配置为空");

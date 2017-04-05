@@ -15,14 +15,17 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 本金赎回
  * 
- * @createTime:2017年1月11日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustRedemPrinci.java 
+ * @ClassName: CreditEntrustRedemPrinci 
+ * @Description: 本金赎回
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:24:32 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_redemprinci")
+@Table(name = "cptl_credit_redemprinci")
 public class CreditEntrustRedemPrinci extends BaseEntity {
 
 	/**
@@ -45,13 +48,13 @@ public class CreditEntrustRedemPrinci extends BaseEntity {
 	/**
 	 * 赎回金额
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal redemptionAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal redemptionAmount = BigDecimal.ZERO;
 
 	/**
 	 * 备注
 	 */
-	@Column(length = 2000)
+	@Column(length = 500)
 	private String remark;
 
 	/**
@@ -79,7 +82,10 @@ public class CreditEntrustRedemPrinci extends BaseEntity {
 	 */
 	@Column
 	private Long completeDate;
-
+	
+	/**
+	 * 所属信托计划
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	@JoinColumn(name = "creditEntrustId")

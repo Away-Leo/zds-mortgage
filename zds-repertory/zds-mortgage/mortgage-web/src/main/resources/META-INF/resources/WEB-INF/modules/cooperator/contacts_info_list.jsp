@@ -3,20 +3,20 @@
 	<div class="frm-content" id="contactsDiv">
 		<div class="page-box">
 			<div class="p10">
-				<div id="contacts_datagrid_view" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.cooperator.getContactsInfo" context="admin"/>&cooperatorTerminal.id|E|S=${terminalId}&jsoncallback=?","singleSelect":false,"pagination":true,"idField":"id","toolbar":"#contacts_datagrid_applylist","tableCls":"table-index"}'>
+				<div id="contacts_datagrid_view" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.cooperator.getContactsInfo" context="admin"/>&partnerId|E|S=${partnerId}&jsoncallback=?","singleSelect":false,"pagination":true,"idField":"id","toolbar":"#contacts_datagrid_applylist","tableCls":"table-index"}'>
 					<table>
 						<thead>
 		        			<tr>
-		            			<th data-options="field:contactName">联系人</th>
-		            			<th data-options="field:contactTelNumber">办公固话/手机</th>
-		            			<th data-options="field:role">职务</th>
+		            			<th data-options="field:linkman">联系人</th>
+		            			<th data-options="field:contactNumber">办公固话/手机</th>
+		            			<th data-options="field:duty">职务</th>
 		            			<th data-options="field:id" formatter="contactFormat">操作</th>
 					        </tr>
 						</thead>
 					</table>
 				</div>
 				<div id="contacts_datagrid_applylist">
-				    <a class="zui-toolbar"  id="btn-add" text="增加" iconCls="icon-add" buttonCls="btn-blue" handler="doContacts"></a>
+				    <a class="zui-toolbar"  id="btn-add" text="新增" iconCls="icon-add" buttonCls="btn-blue" handler="doContacts"></a>
 				</div>
 			</div>
 		</div>
@@ -28,26 +28,26 @@
 		
 		//操作
 		CALLBACK.contactFormat = function(row,value){
-			var html = "<a title='编辑' class='icon-btn22 handler-icon c-green' onclick='contactEdit'></a>";
-			html += "<a title='查看' class='icon-btn31 handler-icon c-orange' onclick='contactView'></a>";
-			html += "<a title='删除' class='icon-btn12 handler-icon c-gray' onclick='contactDel'></a>";
+			var html = "<a title='编辑' class='btn-blue mr5' onclick='contactEdit'>编辑</a>";
+			html += "<a title='查看' class='btn-blue mr5' onclick='contactView'>查看</a>";
+			html += "<a title='删除' class='btn-blue' onclick='contactDel'>删除</a>";
 			return html;
 		};
 		//编辑对话框
 		CALLBACK.doContacts=function(){
-			var	url = '<z:ukey key="com.zdsoft.finance.cooperator.contactsInfo.dialog" context="admin"/>&operationType=add&terminalId=${terminalId}';
+			var	url = '<z:ukey key="com.zdsoft.finance.cooperator.contactsInfo.dialog" context="admin"/>&operationType=add&terminalId=${partnerId}';
 			$('#contactsDialog').load(url,function(){
 				
 			});
 		};
 		CALLBACK.contactEdit = function(index,data){
-			var	url = '<z:ukey key="com.zdsoft.finance.cooperator.contactsInfo.dialog" context="admin"/>&operationType=mod&terminalId=${terminalId}&id='+data.id;
+			var	url = '<z:ukey key="com.zdsoft.finance.cooperator.contactsInfo.dialog" context="admin"/>&operationType=mod&terminalId=${partnerId}&id='+data.id;
 			$('#contactsDialog').load(url,function(){
 				
 			});			
 		};
 		CALLBACK.contactView = function(index,data){
-			var	url = '<z:ukey key="com.zdsoft.finance.cooperator.contactsInfo.dialog" context="admin"/>&operationType=view&terminalId=${terminalId}&id='+data.id;
+			var	url = '<z:ukey key="com.zdsoft.finance.cooperator.contactsInfo.dialog" context="admin"/>&operationType=view&terminalId=${partnerId}&id='+data.id;
 			$('#contactsDialog').load(url,function(){
 				
 			});

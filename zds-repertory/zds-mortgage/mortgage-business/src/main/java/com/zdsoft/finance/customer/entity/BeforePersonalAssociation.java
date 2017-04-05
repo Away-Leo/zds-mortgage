@@ -20,29 +20,32 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
  * @version:v1.0
  */
 @Entity
-@Table(name = "cus_before_pers_association")
+@Table(name = "cust_before_pers_association")
 public class BeforePersonalAssociation extends BaseEntity {
 
     /**
      * 配偶对应的simplecode
      */
-    public static String SPOUSE = "r01434";
+    public static String SPOUSE = "YWDM0014804";
 
     /**
-     * 用一句话描述这个变量表示什么
+     * 序列化
      */
     private static final long serialVersionUID = 2711834250311750956L;
+    
     /**
      * 客户id
      */
     @Column(length = 32)
     private String customerId;
+    
     /**
      * 关联客户
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "relationtCustomerId")
     private BeforePersonalCustomer beforePersonalCusomer;
+    
     /**
      * 与主借人关系
      */

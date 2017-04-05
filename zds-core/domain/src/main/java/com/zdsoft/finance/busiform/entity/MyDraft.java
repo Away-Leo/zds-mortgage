@@ -3,10 +3,13 @@ package com.zdsoft.finance.busiform.entity;
 import java.util.Date;
 
 /**
- * 我的草稿临时实体对象
- * @author longwei
- * @date 2017/01/13
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MyDraft.java 
+ * @ClassName: MyDraft 
+ * @Description: 我的草稿临时实体对象
+ * @author longwei 
+ * @date 2017年2月6日 上午11:05:32 
+ * @version V1.0
  */
 public class MyDraft {
 

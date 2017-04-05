@@ -7,11 +7,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 
 /**
- * 本金赎回Vo
  * 
- * @createTime:2017年1月11日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustRedemPrinciVo.java 
+ * @ClassName: CreditEntrustRedemPrinciVo 
+ * @Description: 本金赎回Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:20:22 
+ * @version V1.0
  */
 public class CreditEntrustRedemPrinciVo extends BaseVo<CreditEntrustRedemPrinci> {
 

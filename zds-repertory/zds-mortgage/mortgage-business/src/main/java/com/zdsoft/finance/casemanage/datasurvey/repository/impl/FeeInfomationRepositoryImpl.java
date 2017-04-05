@@ -58,8 +58,8 @@ public class FeeInfomationRepositoryImpl {
 		sb.append("	cabc.joinType AS joinType,");
 		sb.append("	cbp.birthdayDate AS birthdayDate");
 		sb.append(" FROM");
-		sb.append("	cus_before_customer cbc");
-		sb.append(" LEFT JOIN cus_before_personal cbp ON cbp.id = cbc.id");
+		sb.append("	cust_before_customer cbc");
+		sb.append(" LEFT JOIN cust_before_personal cbp ON cbp.id = cbc.id");
 		sb.append(" LEFT JOIN case_before_customer cabc ON cabc.customerId = cbc.id");
 		sb.append(" AND cabc.caseApplyId = '" + caseApplyId + "'");
 		sb.append(" WHERE");
@@ -67,7 +67,7 @@ public class FeeInfomationRepositoryImpl {
 		sb.append("		SELECT");
 		sb.append("			cbpa.relationtCustomerId");
 		sb.append("		FROM");
-		sb.append("			cus_before_pers_association cbpa");
+		sb.append("			cust_before_pers_association cbpa");
 		sb.append("		WHERE");
 		sb.append("			cbpa.relationship = '"+BeforePersonalAssociation.SPOUSE+"'"); // 配偶
 		sb.append("		AND cbpa.customerId IN (");
@@ -160,5 +160,34 @@ public class FeeInfomationRepositoryImpl {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @Title: findReviceObjTypeInfosByCaseApplyId 
+	 * @Description: 根据案件Id查询对应的收费对象类别下拉数据
+	 * @author jingyh 
+	 * @param caseApplyId
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map<String,Object>> findReviceObjTypeInfosByCaseApplyId(String caseApplyId) {
+		// 此处引用oracle函数wmsys.wm_concat
+		StringBuffer sb = new StringBuffer(" SELECT cfi.feeObjectType,");
+		sb.append("	       wmsys.wm_concat(distinct cfi.feeObjectId) feeObjectIds,");
+		sb.append("	       wmsys.wm_concat(distinct cfi.feeeObjectName) feeObjectNames,");
+		sb.append("	       sum(cfi.expectedAmount) expectedAmountTotal");
+		sb.append("	  FROM case_fee_infomation cfi");
+		sb.append("	  WHERE cfi.caseapplyid='"+caseApplyId+"'");
+		sb.append("	  GROUP BY cfi.feeObjectType");
+		// 创建query
+		//得到Session
+		Session session = em.unwrap(Session.class);
+		//创建查询对象
+		SQLQuery q = session.createSQLQuery(sb.toString());
+		q.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		log.debug("查询的hql为：{}", sb.toString());
+		List<Map<String, Object>> resultList = q.getResultList();
+		return resultList;
+	}
+	
 }
 

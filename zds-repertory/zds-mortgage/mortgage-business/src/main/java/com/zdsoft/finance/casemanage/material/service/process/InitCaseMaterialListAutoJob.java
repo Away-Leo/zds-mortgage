@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zdsoft.bpm.annotation.client.AutoJob;
 import com.zdsoft.finance.casemanage.material.entity.CaseMaterialList;
-import com.zdsoft.finance.casemanage.material.service.CaseMaterialListAttaService;
 import com.zdsoft.finance.casemanage.material.service.CaseMaterialListService;
 import com.zdsoft.finance.marketing.entity.BeforehandApply;
 import com.zdsoft.finance.marketing.service.BeforehandApplyService;

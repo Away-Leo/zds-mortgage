@@ -6,11 +6,14 @@ import com.zdsoft.finance.capital.entity.CreditEntrustFeeItem;
 import com.zdsoft.finance.common.base.BaseVo;
 
 /**
- * 所属费用项Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustFeeItemVo.java 
+ * @ClassName: CreditEntrustFeeItemVo 
+ * @Description: 所属费用项Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:19:31 
+ * @version V1.0
  */
 public class CreditEntrustFeeItemVo extends BaseVo<CreditEntrustFeeItem> {
 	/**

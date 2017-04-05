@@ -21,7 +21,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>操作类型：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="operationType" name="operationType" type="hidden" value="${spareCapitalVo.operationType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=ortp"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00144"
                               data-valuefield="fullcode" data-textfield="name" validate-type="Require" data-choose="disable">
 					</dd>
 				</dl>
@@ -29,7 +29,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>请款金额：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-disable zui-validatebox" validate-type="Require,Digital[18-12]" value="${spareCapitalVo.applyAmount }"
-							 id="applyAmount" disabled name="applyAmount">
+							 id="applyAmount"  name="applyAmount">
 						</label>
 					</dd>
 				</dl>
@@ -54,7 +54,7 @@
 			<div class="page-box">
 				<div class="page-title">确认到账信息</div>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>实际到账金额：</dt>
+					<dt class="title sptitle"><b class="c-red mr5">*</b>实际到账金额：</dt>
 					<dd class="detail">
 						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
 							 id="actualAmount" value="${spareCapitalVo.actualAmount }"  name="actualAmount">
@@ -62,7 +62,7 @@
 					</dd>
 				</dl>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>实际到账日期：</dt>
+					<dt class="title sptitle"><b class="c-red mr5">*</b>实际到账日期：</dt>
 					<dd class="detail">
 						 <label>
                             <input type="text" id="actualArrivalDateLocal"  value="${spareCapitalVo.actualArrivalDate }" class="zui-input  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'actualArrivalDate'})">
@@ -91,7 +91,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>

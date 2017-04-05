@@ -19,7 +19,7 @@
 					<dt class="title">合同名称：</dt>
 					<dd class="detail">
 						<label>
-							<input class="zui-input zui-validatebox" type="text" name="c|contractNm|LK|S"/>
+							<input class="zui-input zui-validatebox" type="text" name="c|contractName|LK|S"/>
 						</label>
 					</dd>
 				</dl>
@@ -40,10 +40,10 @@
 			<div id="contractTable" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.productContract.list" context="admin"/>&jsoncallback=?&pc|productId|E|S=${productId}","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#contract_ztoolbar"}'>
 				<table>
         			<tr>
-            			<th data-options="field:contractNm">合同名称</th>
-            			<th data-options="field:attrNm" formatter="formatAttrNm">附件</th>
-            			<th data-options="field:contractType">合同类型</th>
-            			<th data-options="field:id" formatter="contractOperate">操作</th>
+            			<th data-options="field:CONTRACTNAME">合同名称</th>
+            			<th data-options="field:ATTACHMENTNAME" formatter="formatAttrNm">附件</th>
+            			<th data-options="field:CONTRACTTYPENAME">合同类型</th>
+            			<th data-options="field:ID" formatter="contractFunction">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -129,7 +129,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		list.children().remove();
 		noList.children().remove();
 		$(selectData).each(function(i,v){
-			$("#Zbothselecter .power-own .power-select-list").append("<li data-id=" + this.id + " onclick='contractClick(this)'>"+this.contractNm+"</li>")
+			$("#Zbothselecter .power-own .power-select-list").append("<li data-id=" + this.ID + " onclick='contractClick(this)'>"+this.CONTRACTNAME+"</li>")
 		});
 		
 		$("#contractAdd").unbind("click").click(function(){
@@ -215,9 +215,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 				if(rdata.status == 1){
 					$.ZMessage.success("提示", rdata.msg, function () {
 						$("#contract_dialog_add").Zdialog("close");
-						var formArray=$("#contract_search_from").serialize();
-						formArray = decodeURIComponent(formArray, true);
-						$('#contractTable').ZTable("reload",formArray);
+						$('#contractTable').ZTable("reload",{});
 	                });
 				}else{
 					$.ZMessage.error("错误", rdata.msg, function () {
@@ -227,10 +225,10 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		});
 	}
 	//操作
-	CALLBACK.contractOperate = function(row,value){
-		var html = "<a title='详情' class='handler-icon icon-btn31' onclick='contractView'></a>";
-		html += "<a title='删除' class='handler-icon icon-btn12' onclick='contractDel'></a>";
-		return html;
+	CALLBACK.contractFunction = function(row,value){
+		var str = "<a title='详情' class='btn-blue' onclick='contractView'>详情</a>" +
+    	"&nbsp;&nbsp;<a title='删除' class='btn-blue' onclick='contractDel'>删除</a>";
+		return str;
 	};
 	//查看
 	CALLBACK.contractView = function(index,data){
@@ -239,25 +237,27 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	};
 	//删除
 	CALLBACK.contractDel = function(index,data){
-		$.ajax({
-			url:'<z:ukey key="com.zdsoft.finance.productContract.deleted" context="admin"/>&jsoncallBack=?',
-			data:{
-				id : data.id
-			},
-			type:"post",
-			dataType:"jsonp",
-			success:function(rdata){
-				if(rdata.status == 1){
-					$.ZMessage.success("提示", rdata.msg, function () {
-						var formArray=$("#contract_search_from").serialize();
-						formArray = decodeURIComponent(formArray, true);
-						$('#contractTable').ZTable("reload",formArray);
-	                });
-				}else{
-					$.ZMessage.error("错误", rdata.msg, function () {
-	                });
+		$.ZMessage.question("警告", "确认删除？", function () {
+			$(".zd-message").ZWindow("close");
+			$.ajax({
+				url:'<z:ukey key="com.zdsoft.finance.productContract.deleted" context="admin"/>&jsoncallBack=?',
+				data:{
+					id : data.ID
+				},
+				type:"post",
+				dataType:"jsonp",
+				success:function(rdata){
+					if(rdata.status == 1){
+						$.ZMessage.success("提示", rdata.msg, function () {
+							var formArray=$("#contract_search_from").serializeArray();
+							$('#contractTable').ZTable("reload",formArray);
+		                });
+					}else{
+						$.ZMessage.error("错误", rdata.msg, function () {
+		                });
+					}
 				}
-			}
+			});
 		});
 	};
 	//初始化页面
@@ -266,8 +266,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	$.ZUI.initForms('#contract_dialog_add_form');
 	//查询
 	$('#btn-search-contract').click(function(){
-		var formArray=$("#contract_search_from").serialize();
-		formArray = decodeURIComponent(formArray, true);
+		var formArray=$("#contract_search_from").serializeArray();
 		$('#contractTable').ZTable("reload",formArray);
 	});
 	//重置

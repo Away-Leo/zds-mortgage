@@ -38,6 +38,28 @@ public class HousePropertyPledgeInfoVo {
      * 二抵贷款余额
      */
     private BigDecimal secondLoanBalance;
+    
+    /**
+	 * 成数
+	 */
+    private BigDecimal percentage;
+    /**
+     * 楼龄
+     */
+    private String floorAge;
+    /**
+     * 风控核定价
+     */
+    private BigDecimal controlPrice;
+    /**
+     * 居住状态
+     */
+    private String livingState;
+    private String livingStateName;
+    /**
+     * 实际金额
+     */
+    private BigDecimal applyAmount;
 
     public String getHousePropertyId() {
         return housePropertyId;
@@ -80,4 +102,51 @@ public class HousePropertyPledgeInfoVo {
         this.secondLoanBalance = secondLoanBalance;
     }
 
+	public BigDecimal getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(BigDecimal percentage) {
+		this.percentage = percentage;
+	}
+
+	public String getFloorAge() {
+		return floorAge;
+	}
+
+	public void setFloorAge(String floorAge) {
+		this.floorAge = floorAge;
+	}
+
+	public BigDecimal getControlPrice() {
+		return controlPrice;
+	}
+
+	public void setControlPrice(BigDecimal controlPrice) {
+		this.controlPrice = controlPrice;
+	}
+
+	public String getLivingState() {
+		return livingState;
+	}
+
+	public void setLivingState(String livingState) {
+		this.livingState = livingState;
+	}
+
+	public String getLivingStateName() {
+		return livingStateName;
+	}
+
+	public void setLivingStateName(String livingStateName) {
+		this.livingStateName = livingStateName;
+	}
+
+	public BigDecimal getApplyAmount() {
+		return applyAmount;
+	}
+
+	public void setApplyAmount(BigDecimal applyAmount) {
+		this.applyAmount = applyAmount;
+	}
 }

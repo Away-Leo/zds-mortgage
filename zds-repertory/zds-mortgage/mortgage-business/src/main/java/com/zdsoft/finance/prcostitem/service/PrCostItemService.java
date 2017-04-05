@@ -4,10 +4,15 @@ import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.prcostitem.entity.PrCostItem;
 
+
 /**
- * 机构产品费用
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemService.java 
+ * @ClassName: PrCostItemService 
+ * @Description: 机构产品费用
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:07:50 
+ * @version V1.0
  */
 public interface PrCostItemService extends BaseService<PrCostItem>{
 

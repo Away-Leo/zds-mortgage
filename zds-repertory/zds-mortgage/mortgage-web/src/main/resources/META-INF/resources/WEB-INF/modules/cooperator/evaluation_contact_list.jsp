@@ -24,7 +24,7 @@
 					</table>
 				</div>
 				<div id="btn-applylist">
-				    <a class="zui-toolbar"  id="btn-add" text="增加" iconCls="icon-add" buttonCls="btn-blue" handler="doAdd"></a>
+				    <a class="zui-toolbar"  id="btn-add" text="新增" iconCls="icon-add" buttonCls="btn-blue" handler="doAdd"></a>
 				</div>
 			</div>
 		</div>

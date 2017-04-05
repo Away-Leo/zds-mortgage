@@ -5,13 +5,19 @@ import java.math.BigDecimal;
 import com.zdsoft.finance.capital.entity.CreditCostTracking;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
+import com.zdsoft.framework.core.common.util.DateHelper;
+import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 应付费用跟踪Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditCostTrackingVo.java
+ * @ClassName: CreditCostTrackingVo
+ * @Description: 应付费用跟踪Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:19:11
+ * @version V1.0
  */
 public class CreditCostTrackingVo extends BaseVo<CreditCostTracking> {
 
@@ -54,6 +60,11 @@ public class CreditCostTrackingVo extends BaseVo<CreditCostTracking> {
 	 * 应付日期
 	 */
 	private Long payDate;
+
+	/**
+	 * 应付日期name
+	 */
+	private String payDateName;
 
 	/**
 	 * 提交人
@@ -210,6 +221,14 @@ public class CreditCostTrackingVo extends BaseVo<CreditCostTracking> {
 		this.statusName = statusName;
 	}
 
+	public String getPayDateName() {
+		return payDateName;
+	}
+
+	public void setPayDateName(String payDateName) {
+		this.payDateName = payDateName;
+	}
+
 	public CreditCostTrackingVo() {
 		super();
 	}
@@ -217,11 +236,21 @@ public class CreditCostTrackingVo extends BaseVo<CreditCostTracking> {
 	public CreditCostTrackingVo(CreditCostTracking creditCostTracking) {
 		super(creditCostTracking);
 		this.setStatusName(StatusNm.getName(creditCostTracking.getStatus()));
+		if (ObjectHelper.isNotEmpty(creditCostTracking.getPayDate())) {
+			this.setPayDateName(DateHelper.dateToString(
+					DateHelper.stringToDate(this.getPayDate().toString(), DateHelper.DATE_SHORT_SIMPLE_FORMAT),
+					DateHelper.DATE_SHORT_FORMAT));
+		}
 	}
 
 	public CreditCostTrackingVo(CreditCostTracking creditCostTracking, String[] args, String[] simpleArgs) {
 		super(creditCostTracking, args, simpleArgs);
 		this.setStatusName(StatusNm.getName(creditCostTracking.getStatus()));
+		if (ObjectHelper.isNotEmpty(creditCostTracking.getPayDate())) {
+			this.setPayDateName(DateHelper.dateToString(
+					DateHelper.stringToDate(this.getPayDate().toString(), DateHelper.DATE_SHORT_SIMPLE_FORMAT),
+					DateHelper.DATE_SHORT_FORMAT));
+		}
 	}
 
 	public CreditCostTracking toPo() {

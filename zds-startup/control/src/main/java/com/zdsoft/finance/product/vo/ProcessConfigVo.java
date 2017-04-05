@@ -5,33 +5,52 @@ import com.zdsoft.finance.product.entity.ProcessConfig;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 流程配置vo
- * @author longwei
- * @date 2016/12/29
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProcessConfigVo.java 
+ * @ClassName: ProcessConfigVo 
+ * @Description: 流程配置vo
+ * @author gufeng 
+ * @date 2017年3月14日 下午4:59:04 
+ * @version V1.0
  */
 public class ProcessConfigVo extends BaseVo<ProcessConfig> {
 
-	// 流程名称
+	private static final long serialVersionUID = 8862582453047012770L;
+
+	/**
+	 * 流程名称
+	 */
 	private String processName;
 	
-	// 代码
-	private String processFormCd;
+	/**
+	 * 代码
+	 */
+	private String processCode;
+	/**
+	 * 代码 名称
+	 */
+	private String processCodeName;
 	
-	// 代码
-	private String processFormNm;
-	
-	// 流程key
+	/**
+	 * 流程key
+	 */
 	private String processKey;
 	
-	// 状态
+	/**
+	 * 状态
+	 */
 	private Boolean isEnable;
 	
-	// 备注
+	/**
+	 * 备注
+	 */
 	private String remark;
 	
-	// 所属产品
+	/**
+	 * 所属产品
+	 */
 	private ProductVo productVo;
 
 	public String getProcessName() {
@@ -42,20 +61,20 @@ public class ProcessConfigVo extends BaseVo<ProcessConfig> {
 		this.processName = processName;
 	}
 
-	public String getProcessFormCd() {
-		return processFormCd;
+	public String getProcessCode() {
+		return processCode;
 	}
 
-	public void setProcessFormCd(String processFormCd) {
-		this.processFormCd = processFormCd;
+	public void setProcessCode(String processCode) {
+		this.processCode = processCode;
 	}
 
-	public String getProcessFormNm() {
-		return processFormNm;
+	public String getProcessCodeName() {
+		return processCodeName;
 	}
 
-	public void setProcessFormNm(String processFormNm) {
-		this.processFormNm = processFormNm;
+	public void setProcessCodeName(String processCodeName) {
+		this.processCodeName = processCodeName;
 	}
 
 	public String getProcessKey() {
@@ -93,7 +112,7 @@ public class ProcessConfigVo extends BaseVo<ProcessConfig> {
 	public ProcessConfigVo(){}
 	
 	public ProcessConfigVo(ProcessConfig processConfig){
-		super(processConfig, new String[]{"productVo"});
+		super(processConfig, new String[]{"productVo"},new String[]{"processCode"});
 		this.setProductVo(new ProductVo(processConfig.getProduct()));
 	}
 	
@@ -104,7 +123,6 @@ public class ProcessConfigVo extends BaseVo<ProcessConfig> {
 			Product product=this.getProductVo().toPo();
 			processConfig.setProduct(product);
 		}
-		
 		return processConfig;
 	}
 	

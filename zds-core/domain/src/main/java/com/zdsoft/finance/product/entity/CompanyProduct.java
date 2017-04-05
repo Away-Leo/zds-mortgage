@@ -7,14 +7,18 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 公司产品中间表
- * @author longwei
- * @date 2016/12/22
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CompanyProduct.java 
+ * @ClassName: CompanyProduct 
+ * @Description: 公司产品中间表
+ * @author gufeng 
+ * @date 2017年3月14日 下午4:30:27 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_company_product")
+@Table(name="prd_company_product")
 public class CompanyProduct extends BaseEntity{
 
 	private static final long serialVersionUID = -3016387821362129174L;

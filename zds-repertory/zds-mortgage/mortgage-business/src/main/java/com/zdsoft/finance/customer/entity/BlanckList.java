@@ -4,17 +4,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.IndexColumn;
+
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 
 
 /**
  * 黑名单
- * @author zhangchao
- * 2016/12/21
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BlanckList.java 
+ * @ClassName: BlanckList 
+ * @Description: 
+ * @author zhangchao 
+ * @date 2017年2月6日 上午10:16:59 
+ * @version V1.0
  */
 @Entity
-@Table(name = "zf_blancklist")
+@Table(name = "cust_blacklist")
 public class BlanckList extends BaseEntity {
 
 	/**
@@ -25,32 +32,26 @@ public class BlanckList extends BaseEntity {
 	/**
      * 姓名
      */
-    @Column(length = 64)
+    @Column(length = 128)
     private String blackName;
     
     /**
      * 证件类型
      */
-    @Column(length = 15)
+    @Column(length = 20)
     private String credentiaType;
     
     /**
      * 证件号
      */
-    @Column(length = 18)
+    @Column(length = 64)
     private String credentialNo;
     
     /**
      * 原因类型
      */
-    @Column(length = 15)
+    @Column(length = 20)
     private String reasonType;
-    
-    /**
-     * 创建人id
-     */
-    @Column(length = 32)
-    private String creatorId;
     
     /**
      * 公司代码
@@ -61,7 +62,7 @@ public class BlanckList extends BaseEntity {
     /**
      * 来源
      */
-    @Column(length = 15)
+    @Column(length = 20)
     private String source;
     
     /**
@@ -75,6 +76,36 @@ public class BlanckList extends BaseEntity {
      */
     @Column
     private Long endDate;
+    
+    /**
+     * 工作单位
+     */
+    @Column(length=128)
+    private String workUnit;
+    
+    /**
+     * 工作电话
+     */
+    @Column(length=11)
+    private String workContact;
+    
+    /**
+     * 家庭电话
+     */
+    @Column(length=11)
+    private String familyContact;
+    
+    /**
+     * 备注
+     */
+    @Column(length=500)
+    private String remark;
+    
+    /**
+     * 关联客户
+     */
+    @Column(length=32)
+    private String relationCustomerId;
 
 	public String getBlackName() {
 		return blackName;
@@ -108,14 +139,6 @@ public class BlanckList extends BaseEntity {
 		this.reasonType = reasonType;
 	}
 
-	public String getCreatorId() {
-		return creatorId;
-	}
-
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
-	}
-
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -146,6 +169,46 @@ public class BlanckList extends BaseEntity {
 
 	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getWorkUnit() {
+		return workUnit;
+	}
+
+	public void setWorkUnit(String workUnit) {
+		this.workUnit = workUnit;
+	}
+
+	public String getWorkContact() {
+		return workContact;
+	}
+
+	public void setWorkContact(String workContact) {
+		this.workContact = workContact;
+	}
+
+	public String getFamilyContact() {
+		return familyContact;
+	}
+
+	public void setFamilyContact(String familyContact) {
+		this.familyContact = familyContact;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getRelationCustomerId() {
+		return relationCustomerId;
+	}
+
+	public void setRelationCustomerId(String relationCustomerId) {
+		this.relationCustomerId = relationCustomerId;
 	}
 
 }

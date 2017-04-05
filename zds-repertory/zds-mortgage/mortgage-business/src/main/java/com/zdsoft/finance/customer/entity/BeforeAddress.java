@@ -16,7 +16,7 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
  * @version:v1.0
  */
 @Entity
-@Table(name="cus_before_address")
+@Table(name="cust_before_address")
 public class BeforeAddress extends BaseEntity {
 	/**
 	 * 家庭地址
@@ -28,38 +28,45 @@ public class BeforeAddress extends BaseEntity {
 	public static String HOUSEHOLD_REGISTRATION_ADDRESS="t0931";
 
 	/**
-	 * 用一句话描述这个变量表示什么
+	 * 序列化
 	 */
 	private static final long serialVersionUID = -441545314778791379L;
+	
 	/**
 	 * 省
 	 */
 	@Column(length=20)
 	private String province;
+	
 	/**
 	 * 市
 	 */
 	@Column(length=20)
 	private String city;
+	
 	/**
 	 * 区
 	 */
 	@Column(length=20)
 	private String district;
+	
 	/**
 	 * 详细地址
 	 */
 	@Column(length=500)
 	private String address;
+	
 	/**
 	 * 地址类型
 	 */
 	@Column(length=20)
 	private String addressType;
+	
 	/**
 	 * 客户id
 	 */
 	private String customerId;
+	
 	public String getProvince() {
 		return province;
 	}

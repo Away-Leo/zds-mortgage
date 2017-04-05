@@ -1,0 +1,84 @@
+﻿.screen-only
+{
+	z-index:1000px; position: relative;
+}
+.jp-page
+{
+	position: relative;	
+	overflow:visible;
+
+}
+.jp-text, .jp-label, .jp-image, .jp-barcode
+{
+	position: absolute;
+	overflow:visible;
+	color:Blue;
+}
+.jp-paper-background
+{
+	position: absolute;
+}
+
+.tpltable, td
+{
+	border: 1px;
+	border-style: solid;
+	border-collapse: collapse;
+	border-color: Black;
+}
+.jp-text-content
+{
+		font-size: 10.5pt;
+	 padding-bottom:2px;
+}
+.jp-text-content p
+{
+ margin:0px;	
+}
+.temptable, td
+{
+	border: 1px;
+	border-style: solid;
+	border-collapse: collapse;
+	border-color: Black;
+}
+.temptable thead td
+{
+	text-align: center;
+	width: auto;
+}
+.temptable
+{
+	width: 100%;
+}
+.temptable tbody
+{
+	text-align: center;
+	 font-size:7pt;
+}
+.hktemptable tbody
+{
+	font-size:12pt !important;
+}
+
+.dktemptable
+{
+	width: 100%;
+	font-family:宋体; 
+	padding:5px 5px 5px 5px;
+	border-collapse:collapse;
+	border:solid#000 1px; 
+	text-align:left;
+	font-size:12pt;
+}
+.jp-content
+{
+	background: white;
+	overflow: hidden;
+	border: solid 1px;
+	border-color: Black;
+	width:200mm;
+	height: 287mm;
+		page-break-after:always;
+}
+

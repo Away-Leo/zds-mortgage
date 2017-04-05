@@ -40,7 +40,7 @@
 			                                </dd>
 			                            </dl>
 			                        </td>
-			                        <td class="td-title pct10">客户头像</td>
+			                        <td class="td-title pct10"></td>
 			                        <td class="pct30" rowspan="4">
 			                            <dl class="form-item form-auto">
 			                                <dd class="detail">
@@ -55,7 +55,7 @@
 			                                <dd class="detail">
 			                                    <label>
 			                                    	<input class="zui-input" disabled="disabled"
-													id="credentiaType" name="credentiaType" value="${postLoanPersonalVo.credentiaType }">
+													id="credentialType" name="credentialType" value="${postLoanPersonalVo.credentialType }">
 			                                    </label>
 			                                </dd>
 			                            </dl>
@@ -261,8 +261,8 @@
 		                                </dd>
 		                            </dl>
 		                        </td>
-		                        <td class="td-title pct10">客户头像</td>
-		                        <td class="pct30" rowspan="4">
+		                        <td class="td-title pct10"></td>
+		                        <td class="pct30" rowspan="3">
 		                            <dl class="form-item form-auto">
 		                                <dd class="detail">
 		                                </dd>
@@ -276,7 +276,7 @@
 		                                <dd class="detail">
 		                                    <label>
 		                                    	<input class="zui-input" disabled="disabled"
-													id="maritalcredentiaType" name="credentiaType">
+													id="maritalcredentialType" name="credentialType">
 		                                    </label>
 		                                </dd>
 		                            </dl>
@@ -319,13 +319,7 @@
 		                        </td>
 		                        <td class="td-title"></td>
 		                    </tr>
-		                    <tr>
-	                    	<td></td>
-	                        <td></td>
-	                        <td></td>
-	                        <td></td>
-	                        <td></td>
-		                    </tr>
+		                    
 	                    </table>
 	                    </div>
 					</div>					
@@ -598,7 +592,7 @@
 	            						$('#maritalId').val(data.id);
 	            						$("#maritalclientNm").val(data.customerName);
 	            						$("#maritalformerNm").val(data.formerName);
-	            						$("#maritalcredentiaType").val(data.credentiaType);
+	            						$("#maritalcredentialType").val(data.credentialType);
 	            						$("#maritalcredentialNo").val(data.credentialNo);
 	            						$("#maritalcareerType").val(data.careerType);
 	            						$("#maritalemail").val(data.email);
@@ -615,8 +609,8 @@
 			};
 			
 			function getAge(){
-				var credentiaType = '${postLoanPersonalVo.credentiaType }';
-				if(credentiaType != '身份证' ){
+				var credentialType = '${postLoanPersonalVo.credentialType }';
+				if(credentialType != '身份证' ){
 					var birthday = '${postLoanPersonalVo.birthdayDate }';
 					if(birthday != '' && birthday != null){
 						var year = birthday.substr(0, 4);

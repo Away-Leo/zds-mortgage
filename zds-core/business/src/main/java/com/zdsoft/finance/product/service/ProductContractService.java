@@ -12,28 +12,31 @@ import com.zdsoft.finance.product.entity.ProductContract;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.PageRequest;
 
+
 /**
- * 产品合同中间表
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date  2016-12-28
- */
-/**
- * 产品合同模板关系
- * @createTime 2017年1月10日 下午3:52:19
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductContractService.java 
+ * @ClassName: ProductContractService 
+ * @Description: 产品合同中间表
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:45:12 
+ * @version V1.0
  */
 public interface ProductContractService extends BaseService<ProductContract>{
 
 	/**
-	 * 删除
+	 * @Title: deleteByProductId 
+	 * @Description: 删除
+	 * @author gufeng 
 	 * @param productId 产品id
 	 * @throws BusinessException 异常
 	 */
 	public void deleteByProductId(String productId)throws BusinessException;
 
 	/**
-	 * sql 分页
+	 * @Title: getProductContractPage 
+	 * @Description: sql 分页
+	 * @author gufeng 
 	 * @param pageable 分页参数
 	 * @param queryObjs 条件
 	 * @return 分页数据
@@ -41,33 +44,42 @@ public interface ProductContractService extends BaseService<ProductContract>{
 	public Page<Map<String, Object>> getProductContractPage(PageRequest pageable, List<QueryObj> queryObjs);
 	
 	/**
-	 * 查询合同选择
-	 * @param productId
+	 * @Title: selectContract 
+	 * @Description: 查询合同选择
+	 * @author gufeng 
+	 * @param productId 产品id
 	 * @return 合同集合
 	 * @throws BusinessException 异常
 	 */
 	public List<Map<String,Object>> selectContract(String productId)throws BusinessException;
 
 	/**
-	 * 保存
+	 * @Title: saveOrUpdate 
+	 * @Description: 保存
+	 * @author gufeng 
 	 * @param po 需要保存的对象
 	 * @throws BusinessException 异常
 	 */
 	public void saveOrUpdate(ProductContract po)throws BusinessException;
 	
 	/**
-	 * 查询
-	 * @param productId
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findByProductId 
+	 * @Description: 查询
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return 机构合同
+	 * @throws BusinessException 异常
 	 */
 	public List<ProductContract> findByProductId(String productId) throws BusinessException;
 	
 	/**
-	 * 复制
-	 * @param product
-	 * @param empDto
-	 * @throws BusinessException
+	 * @Title: copy 
+	 * @Description: 复制
+	 * @author gufeng 
+	 * @param oldProduct 旧产品
+	 * @param newProduct 新产品
+	 * @param empDto 员工
+	 * @throws BusinessException 异常
 	 */
 	public void copy(Product oldProduct,Product newProduct,EmpDto empDto) throws BusinessException;
 }

@@ -57,6 +57,12 @@ public class RiskInfomationServiceImpl extends BaseServiceImpl<RiskInfomation, C
 					oldCaseApply.setRiskInfo(riskInfo);
 				}
 			}
+			if(ObjectHelper.isNotEmpty(apply.getCapitalUseFor())){
+				oldCaseApply.setCapitalUseFor(apply.getCapitalUseFor());
+			}
+			if(ObjectHelper.isNotEmpty(apply.getTerminalId())){
+				oldCaseApply.setTerminalId(apply.getTerminalId());
+			}
 
 			apply = caseApplyRepository.updateEntity(oldCaseApply);
 		}

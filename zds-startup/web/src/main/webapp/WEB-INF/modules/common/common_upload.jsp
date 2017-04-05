@@ -20,16 +20,22 @@ var delattachment = '<z:ukey key="public.upload.delattachment"  context="admin"/
  * 普通附件上传方法
  *@param multi 上传类型
  *@param objId 回调函数名称拼接
+ *@param fileTypeExts 上传类型
  */
-function initCommonUpload(multi,objId) {
+function initCommonUpload(multi,objId,fileTypes) {
 	var multiFlag = false;
 	if(multi){
 		multiFlag=multi;
+	}
+	var fileTypeExts="*.*";
+	if(fileTypes){
+		fileTypeExts=fileTypes;
 	}
 	$('#file_upload').uploadify({
 		'multi': multiFlag,
 		'swf'      : '<%=resServerUpload %>/assets/js/zd/uploadify.swf',
 		'uploader' : upload_url,
+		'fileTypeExts':fileTypeExts, 
 		'buttonText':'上传资料',
 		'width':'80',
 		'debug':false,
@@ -68,76 +74,32 @@ seajs.use(['jquery', 'zd/jquery.zds.message'],function ($) {
 		var html=$('#'+showId).html();
 		if(singleFlag){
 			$('#'+showId).html("");
-			html = "<div id='fileDiv_"+attachementsId+"' >"+fileLabel+"<a class='ml5 c-blue'  name='deleteLink' data-id='"+attachementsId+"'>删除</a><a class='ml5 c-blue'  name='downLink'  data-id='"+attachementsId+"'>下载</a></div>";
+			html = "<div id='fileDiv_"+attachementsId+"' >"+fileLabel+"<a class='ml5 c-blue' data-filefiled='"+fileField+"'  name='deleteLink' data-id='"+attachementsId+"'>删除</a><a class='ml5 c-blue'  name='downLink'  data-id='"+attachementsId+"'>下载</a></div>";
 		}else{
 			if(html==""||html=="备注：未上传附件"||html=="注：未上传附件"){
-				html = "<div id='fileDiv_"+attachementsId+"' >"+fileLabel+"<a class='ml5 c-blue'  name='deleteLink' data-id='"+attachementsId+"'>删除</a><a class='ml5 c-blue'  name='downLink'  data-id='"+attachementsId+"'>下载</a></div>";
+				html = "<div id='fileDiv_"+attachementsId+"' >"+fileLabel+"<a class='ml5 c-blue' data-filefiled='"+fileField+"' name='deleteLink' data-id='"+attachementsId+"'>删除</a><a class='ml5 c-blue'  name='downLink'  data-id='"+attachementsId+"'>下载</a></div>";
 			}else{
-				html=html+"<div id='fileDiv_"+attachementsId+"'>"+fileLabel+"<a class='ml5 c-blue' name='deleteLink' data-id='"+attachementsId+"'>删除</a><a class='ml5 c-blue'  name='downLink' data-id='"+attachementsId+"'>下载</a></div>";
+				html=html+"<div id='fileDiv_"+attachementsId+"'>"+fileLabel+"<a class='ml5 c-blue' data-filefiled='"+fileField+"' name='deleteLink' data-id='"+attachementsId+"'>删除</a><a class='ml5 c-blue'  name='downLink' data-id='"+attachementsId+"'>下载</a></div>";
 			}
 		}
 		
 		$('#'+showId).html(html);
-		
-		//点击删除 文件
-		$("div[id^='fileDiv_'] a").live("click", function(){
-			var aName = $(this).attr("name");
-			var fileId = $(this).data("id");
-			if(aName=="downLink"){//下载
-				var downUrl=essdownUrl+'&attachmentId='+fileId;
-				window.downLoadFile(downUrl);
-			}else{//删除
-				var delete_url=delattachment+"&jsoncallback=?&attachmentId=" + fileId;
-				
-			    //调用删除
-				/* $.ajax({
-					type :'post',
-					url : delete_url,
-					dataType : 'jsonp',
-					success : function(result) {
-						if(result.success){
-							$.ZMessage.success("成功", "删除成功!", function () { });
-							$("#fileDiv_"+fileId).remove();
-						}else{
-							$.ZMessage.error("错误","删除失败!", function () {});
-						}
-					}
-				}); */
-				if($("#fileDiv_"+fileId)[0]!=undefined){
-					//删除上传ID对应在值
-					var fileIds = $("#"+fileField).val();
-					if(fileIds!=""){
-						var fileArr=fileIds.split(",");
-						if(fileArr.length==1){
-							$("#"+fileField).val("");
-						}else{
-							var arr_index = $.inArray(fileId,fileArr);
-							fileArr.splice(arr_index,1);
-							$("#"+fileField).val(fileArr.toString());
-						}
-						
-					}
-					//删除行
-					$.ZMessage.success("成功", "删除成功!", function () { });
-					$("#fileDiv_"+fileId).remove();
-				}
-			}
-		});
-	}
-
-	/*
-	 * 需要下载请加方法downLoadFile
-	 */
-	window.downLoadFile=function(){
-		window.location.href = essdownUrl;
 	}
 	
-	/*
-	 * 需要下载请加方法downLoadFile
-	 */
-	window.downLoadFile=function(essdownUrl){
-		window.location.href = essdownUrl;
-	}
+	//点击删除 文件
+	$("div[id^='fileDiv_'] a").live("click", function(){
+		var aName = $(this).attr("name");
+		var fileId = $(this).data("id");
+		if(aName=="downLink"){//下载
+			window.downFile(fileId);
+		}else if(aName=="deleteLink"){//删除
+			var filefiled = $(this).data("filefiled");
+		    //调用删除
+			window.delFile(fileId,filefiled);
+		}
+	});
+	
+	
 	
 	/*
 	 * 下载
@@ -150,10 +112,24 @@ seajs.use(['jquery', 'zd/jquery.zds.message'],function ($) {
 	/*
 	 * 删除
 	 */
-	window.delFile=function(fileId){
-		var delete_url=delattachment+"&jsoncallback=?&attachmentId=" + fileId;
-		$.ZMessage.success("成功", "删除成功!", function () { });
-		$("#fileDiv_"+fileId).remove();
+	window.delFile=function(fileId,fileField){
+		if($("#fileDiv_"+fileId)[0]!=undefined){
+			//删除上传ID对应在值
+			var fileIds = $("#"+fileField).val();
+			if(fileIds&&fileIds!=""){
+				$.ZMessage.question("确认", "确认删除？", function () {
+					var fileArr=fileIds.split(",");
+					if(fileArr.length==1){
+						$("#"+fileField).val("");
+					}else{
+						var arr_index = $.inArray(fileId,fileArr);
+						fileArr.splice(arr_index,1);
+						$("#"+fileField).val(fileArr.toString());
+					}
+					$("#fileDiv_"+fileId).remove();
+				});
+			}
+		}
 	}
 	
 })

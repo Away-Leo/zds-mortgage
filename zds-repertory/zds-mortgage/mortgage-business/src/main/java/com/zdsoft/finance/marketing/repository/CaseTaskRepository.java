@@ -21,7 +21,7 @@ public interface CaseTaskRepository extends CustomRepository<CaseTask, String>{
 	
 	/**
 	 * 根据案件id 查询 派工人员信息
-	 * @param caseApplyId
+	 * @param caseApplyId 案件id
 	 * @return
 	 */
 	@Query(" from CaseTask where isDeleted='F' and caseApplyId=:caseApplyId order by createTime desc ")

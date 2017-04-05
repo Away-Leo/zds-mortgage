@@ -2,215 +2,179 @@ package com.zdsoft.finance.customer.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import com.zdsoft.finance.marketing.entity.CaseApply;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
-/**
- * @ClassName Credit
- * @Description 征信信息
- * @author Liyb
- * @Date 2017年1月13日 下午5:13:31
- * @version 1.0.0
- */
+
+/** 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: Credit.java 
+ * @ClassName: Credit 
+ * @Description: 案件客户征信信息
+ * @author liuhuan 
+ * @date 2017年2月23日 上午10:37:45 
+ * @version V1.0 
+ */ 
 @Entity
-@Table(name = "cus_credit")
+@Table(name = "cust_credit")
 public class Credit extends BaseEntity {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2006175870147775656L;
+    
+    /**
+     *  未获取征信
+     */
+    public static final String LINK_STATUS_UNSUCCESSFUL = "YWDM008501";
+    /**
+     * 已在线授权
+     */
+    public static final String LINK_STATUS_ONLINE = "YWDM008502";
+    /**
+     * 已上传征信授权书
+     */
+    public static final String LINK_STATUS_AUTHORIZATION = "YWDM008503";
+    /**
+     * 已上传征信(征信报告)
+     */
+    public static final String LINK_STATUS_CREDIT = "YWDM008504";
+    /**
+     * 已获取征信
+     */
+    public static final String LINK_STATUS_SUCCESSFUL = "YWDM008505";
+    /**
+     * 已上传征信身份证
+     */
+    public static final String LINK_STATUS_CARD = "YWDM008506";
+    
+    /**
+     * 环节代码：营销录入
+     */
+    public static final String LINK_CODE_APPLY = "YWDM009101";
+    
+    /**
+     * 环节代码：资调录入
+     */
+    public static final String LINK_CODE_SURVEY = "YWDM009102";
+    
+    /**
+     * 贷后录入
+     */
+    public static final String LINK_CODE_AFTER_LOAN = "YWDM009103";
 
     /**
-     * 案件id，非持久化字段
+     * 案件id
      */
-    @Transient
+    @Column(length = 32)
     private String caseApplyId;
 
     /**
-     * 关联案件
-     */
-    @ManyToOne
-    @JoinColumn(name = "caseApplyId")
-    private CaseApply caseApply;
-
-    /**
-     * 客户ID，考虑到贷前、后客户是否统一的问题，暂采用弱关联
+     * 客户ID
      */
     @Column(length = 32)
     private String customerId;
 
+    /**   
+     * 征信环节code (营销录入,资调录入,贷后录入)  
+     */ 
+    @Column(length = 20)
+    private String creditLinkCode;
+    
+    
     /**
-     * 客户名称(冗余,由于客户逻辑问题)
-     */
-    @Column(length = 128)
-    private String customerName;
-
-    /**
-     * 客户证件类型code(冗余,由于客户逻辑问题)
-     */
-    @Column(length = 64)
-    private String credentialType;
-
-    /**
-     * 客户证件类型名称(冗余,由于客户逻辑问题)
-     */
-    @Column(length = 128)
-    private String credentialTypeName;
-
-    /**
-     * 证件号码(冗余,由于客户逻辑问题)
-     */
-    @Column(length = 64)
-    private String credentialNo;
-
-    /**
-     * 参与类型code(冗余,由于客户逻辑问题)
+     * 环节状态code (未获取征信,已在线授权书,已上传征信授权书,已上传征信,已获取征信)
      */
     @Column(length = 32)
-    private String joinType;
-
+    private String linkStatusCode;
+    
     /**
-     * 参与类型名字(冗余,由于客户逻辑问题)
+     * 上传附件时间
      */
-    @Column(length = 64)
-    private String joinTypeName;
-
+    @Column(length = 16)
+    private Long uploadDate;
+    
     /**
-     * 是否实际用款人code(冗余,由于客户逻辑问题)
+     * 录入状态 ( "0":未录入   "1":录入 )
      */
-    @Column(length = 64)
-    private String actualUsePerson;
-
+    @Column(length = 1)
+    private String inputStatus;
+    
     /**
-     * 是否实际用款人中文(冗余,由于客户逻辑问题)
+     * 录入时间
      */
-    @Column(length = 64)
-    private String actualUsePersonName;
-
+    @Column(length = 16)
+    private Long inputDate;
+    
     /**
-     * 征信状态
+     * 录入人code
      */
     @Column(length = 32)
-    private String creditStatus;
+    private String inputManCode;
+    
+	public String getCaseApplyId() {
+		return caseApplyId;
+	}
 
-    /**
-     * 征信录入时间
-     */
-    @Column
-    private Long recordDate;
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
+	}
 
-    /**
-     * 客户征信附件集合
-     */
-    //修改成与案件资料清单附件关联
+	public String getCustomerId() {
+		return customerId;
+	}
 
-    public String getCaseApplyId() {
-        return caseApplyId;
-    }
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
 
-    public void setCaseApplyId(String caseApplyId) {
-        this.caseApplyId = caseApplyId;
-    }
 
-    public CaseApply getCaseApply() {
-        return caseApply;
-    }
+	public String getCreditLinkCode() {
+		return creditLinkCode;
+	}
 
-    public void setCaseApply(CaseApply caseApply) {
-        this.caseApply = caseApply;
-    }
+	public void setCreditLinkCode(String creditLinkCode) {
+		this.creditLinkCode = creditLinkCode;
+	}
 
-    public String getCustomerId() {
-        return customerId;
-    }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+	public String getLinkStatusCode() {
+		return linkStatusCode;
+	}
 
-    public String getCustomerName() {
-        return customerName;
-    }
+	public void setLinkStatusCode(String linkStatusCode) {
+		this.linkStatusCode = linkStatusCode;
+	}
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+	public Long getUploadDate() {
+		return uploadDate;
+	}
 
-    public String getCredentialType() {
-        return credentialType;
-    }
+	public void setUploadDate(Long uploadDate) {
+		this.uploadDate = uploadDate;
+	}
 
-    public void setCredentialType(String credentialType) {
-        this.credentialType = credentialType;
-    }
+	public String getInputStatus() {
+		return inputStatus;
+	}
 
-    public String getCredentialTypeName() {
-        return credentialTypeName;
-    }
+	public void setInputStatus(String inputStatus) {
+		this.inputStatus = inputStatus;
+	}
 
-    public void setCredentialTypeName(String credentialTypeName) {
-        this.credentialTypeName = credentialTypeName;
-    }
+	public Long getInputDate() {
+		return inputDate;
+	}
 
-    public String getCredentialNo() {
-        return credentialNo;
-    }
+	public void setInputDate(Long inputDate) {
+		this.inputDate = inputDate;
+	}
 
-    public void setCredentialNo(String credentialNo) {
-        this.credentialNo = credentialNo;
-    }
+	public String getInputManCode() {
+		return inputManCode;
+	}
 
-    public String getJoinType() {
-        return joinType;
-    }
+	public void setInputManCode(String inputManCode) {
+		this.inputManCode = inputManCode;
+	}
 
-    public void setJoinType(String joinType) {
-        this.joinType = joinType;
-    }
-
-    public String getJoinTypeName() {
-        return joinTypeName;
-    }
-
-    public void setJoinTypeName(String joinTypeName) {
-        this.joinTypeName = joinTypeName;
-    }
-
-    public String getActualUsePerson() {
-        return actualUsePerson;
-    }
-
-    public void setActualUsePerson(String actualUsePerson) {
-        this.actualUsePerson = actualUsePerson;
-    }
-
-    public String getActualUsePersonName() {
-        return actualUsePersonName;
-    }
-
-    public void setActualUsePersonName(String actualUsePersonName) {
-        this.actualUsePersonName = actualUsePersonName;
-    }
-
-    public String getCreditStatus() {
-        return creditStatus;
-    }
-
-    public void setCreditStatus(String creditStatus) {
-        this.creditStatus = creditStatus;
-    }
-
-    public Long getRecordDate() {
-        return recordDate;
-    }
-
-    public void setRecordDate(Long recordDate) {
-        this.recordDate = recordDate;
-    }
 }

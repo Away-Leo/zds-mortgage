@@ -18,6 +18,17 @@ import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.framework.core.common.exception.BusinessException;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: InstitutionFundsServiceImpl.java
+ * @ClassName: InstitutionFundsServiceImpl
+ * @Description: 机构资方配置信息ServiceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:40:31
+ * @version V1.0
+ */
 @Service("institutionFundsService")
 public class InstitutionFundsServiceImpl
 		extends BaseServiceImpl<InstitutionFunds, CustomRepository<InstitutionFunds, String>>
@@ -37,7 +48,9 @@ public class InstitutionFundsServiceImpl
 	@Override
 	@Transactional
 	public void saveInstitutionFundsList(List<OrgDto> organizations) throws Exception {
-		for (OrgDto orgDto : organizations) {
+		for (int i = 0; i < organizations.size(); i++) {
+			OrgDto orgDto = organizations.get(i);
+			
 			InstitutionFunds funds = new InstitutionFunds();
 
 			// 保存基本信息
@@ -55,6 +68,7 @@ public class InstitutionFundsServiceImpl
 			// 保存
 			institutionFundsRepository.saveEntity(funds);
 		}
+		
 	}
 
 	@Override
@@ -65,7 +79,8 @@ public class InstitutionFundsServiceImpl
 		List<OrgDto> addOrgTreeDto = new ArrayList<OrgDto>();
 
 		// 对比资金机构配置信息和机构信息
-		for (OrgDto orgDto : organizations) {
+		for (int i = 0; i < organizations.size(); i++) {
+			OrgDto orgDto  = organizations.get(i);
 			Boolean isAdd = true;
 
 			for (InstitutionFunds funds : fundsList) {

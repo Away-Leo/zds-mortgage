@@ -12,7 +12,7 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
  * @date 2017-1-16
  * */
 @Entity
-@Table(name = "coact_contract_seal_apply")
+@Table(name = "con_contract_seal_apply")
 public class CoactCaseApplyContractSealApply extends BaseEntity {
 	private static final long serialVersionUID = -3768555669980589669L;
 

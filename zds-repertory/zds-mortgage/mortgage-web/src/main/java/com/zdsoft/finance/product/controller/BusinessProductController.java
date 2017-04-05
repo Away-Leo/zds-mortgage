@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.essential.dto.emp.EmpDto;
+import com.zdsoft.finance.product.entity.Category;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.finance.product.service.ProductService;
-import com.zdsoft.finance.spi.product.dto.ProductCode;
-import com.zdsoft.framework.core.common.dto.ResponseMsg;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
-
-import net.sf.ehcache.util.ProductInfo;
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
@@ -49,14 +45,14 @@ public class BusinessProductController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("/findByCategoryIdAndOrgCd")
-	@UriKey(key="com.zdsoft.finance.businessProduct.findByCategoryIdAndOrgCd")
+	@UriKey(key="com.cnfh.rms.businessProduct.findByCategoryIdAndOrgCd")
 	public String findByCategoryIdAndOrgCd(String categoryId,String jsoncallback){
 		EmpDto loginUser=null;
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		try {
 			if(ObjectHelper.isNotEmpty(categoryId)){
 				loginUser = CED.getLoginUser();
-				List<Product> products = productService.findByCategoryIdAndOrgCd(categoryId, loginUser.getOrgCd());
+				List<Product> products = productService.findByCategoryIdAndOrgCd(categoryId, loginUser.getCompanyCd());
 				if(ObjectHelper.isNotEmpty(products)){
 					for (Product product : products) {
 						Map<String,Object>	returnData = new HashMap<String,Object>();
@@ -70,6 +66,42 @@ public class BusinessProductController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("通过产品类型查询对应机构的产品", e);
+		}
+		return  ObjectHelper.objectToJson(list, jsoncallback);
+		
+	}
+	/**
+	 * 
+	 * @Title: findByCategoryId 
+	 * @Description: 通过产品分类查询产品
+	 * @author xj 
+	 * @param categoryId
+	 * @param jsoncallback
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/findByCategoryId")
+	@UriKey(key="com.cnfh.rms.businessProduct.findByCategoryId")
+	public String findByCategoryId(String categoryId,String jsoncallback){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		try {
+			if(ObjectHelper.isNotEmpty(categoryId)){
+				Category category = new Category();
+				category.setId(categoryId);
+				List<Product> products = productService.findByCategory(category);
+				if(ObjectHelper.isNotEmpty(products)){
+					for (Product product : products) {
+						Map<String,Object>	returnData = new HashMap<String,Object>();
+						returnData.put("id", product.getId());
+						returnData.put("value", product.getProductName());
+						list.add(returnData);
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("通过产品分类查询产品", e);
 		}
 		return  ObjectHelper.objectToJson(list, jsoncallback);
 		

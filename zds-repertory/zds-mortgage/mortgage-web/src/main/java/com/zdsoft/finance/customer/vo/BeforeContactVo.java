@@ -13,31 +13,42 @@ import com.zdsoft.finance.customer.entity.BeforeContact;
  * @version:v1.0
  */
 public class BeforeContactVo extends BaseVo<BeforeContact> {
+	
 	/**
-	 * 用一句话描述这个变量表示什么
+	 * 序列化
 	 */
 	private static final long serialVersionUID = -2937959485785130151L;
+	
 	/**
 	 * 姓名
 	 */
 	private String customerName;
+	
 	/**
-	 * 联系类型
+	 * 联系类型code
 	 */
 	private String contactType;
+	
+	/**
+	 * 联系类型name
+	 */
 	private String contactTypeName;//modify by liuhuan 2017-1-21
+	
 	/**
 	 * 联系类型中文名称
 	 */
 	private String contactTypeNm;
+	
 	/**
 	 * 电话号码
 	 */
 	private String phoneNumber;
+	
 	/**
 	 * 贷前客户id
 	 */
 	private String customerId;
+	
 	public String getCustomerName() {
 		return customerName;
 	}

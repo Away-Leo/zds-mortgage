@@ -13,12 +13,12 @@
 	             <dt class="title"><b class="c-red mr5">*</b>贷款利率:</dt>
 	             <dd class="detail">
 	                 <label>
-	                     <input type="text" class="zui-input nwidth2 zui-validatebox" validate-type="Require,Digital[2-4]" name="rate" value="${productRate.rate }"/>
+	                     <input type="text" class="zui-input nwidth2 zui-validatebox" validate-type="Require,Digital[2-2]" name="rate" value="${productRate.rate }"/>
 	                 </label>
 	             </dd>
 	             <dd class="detail">
 	             	<input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" data-width="78" value="${productRate.rateUnit }"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=rateUtil"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00119"
 	                        data-valuefield="fullcode" data-textfield="name" name="rateUnit">
 	          </dd>
 	         </dl>
@@ -35,7 +35,7 @@
 	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=0931"
 	                        data-valuefield="fullcode" data-textfield="name" name="startDateUnit">
 	          </dd>
-	          <span class="word">至</span>
+	          <span class="word" style="margin-left: 25px;margin-right: 25px;">至</span>
 	          <dd class="detail">
 	                 <label>
 	                     <input type="text" class="zui-input nwidth2 zui-validatebox" validate-type="Require,Integer" name="endDate" value="${productRate.endDate }"/>
@@ -65,7 +65,7 @@
                     handler: function () {
                    	var flag=$.ZUI.validateForm($('#addProductRateForm'));
                     	if(flag){
-                    		var addProductRateForm = $('#addProductRateForm').serialize();
+                    		var addProductRateForm = $('#addProductRateForm').serializeArray();
                             $.ajax({
                                 type: 'post',
                                 url: '<z:ukey key="com.zdsoft.finance.product.saveOrUpdateRate" context="admin"/>',
@@ -76,7 +76,7 @@
                                     	$.ZMessage.success("提示", "保存成功", function () {
                     	                    $(".zd-message").ZWindow("close");
                     	                });
-                                    	$('#tb-productRate').ZTable("reload", {});
+                                    	$('#tb-productRate').ZTable("reload",{"loadProductId":$("#addProductRateForm input[name='productId']").val()});
                                     	$("#productRateDialog").Zdialog("close");
                                     }else{
                                     	$.ZMessage.error("错误", data.msg, function () {

@@ -3,6 +3,7 @@ package com.zdsoft.finance.casemanage.datasurvey.vo;
 import java.math.BigDecimal;
 
 import com.zdsoft.finance.casemanage.datasurvey.entity.FeeInfomation;
+import com.zdsoft.finance.casemanage.datasurvey.service.FeeInfomationService;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.common.utils.VoUtil;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
@@ -16,32 +17,42 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	/**
+	 * 序号
+	 */
+	private String index;
+
 	/**
 	 * 结余
 	 */
 	private BigDecimal balanceAmount;
-	
+
 	/**
 	 * 预计应收
 	 */
 	private BigDecimal expectedAmount;
-	
+
 	/**
 	 * 预计应付
 	 */
 	private BigDecimal expectedPayableAmount;
 	
 	/**
+	 * 费用id
+	 */
+	private String feeId;
+
+	/**
 	 * 收费项目
 	 */
 	private String feeItem;
-	
+
 	/**
 	 * 费用项名称
 	 */
 	private String feeItemName;
-	
+
 	/**
 	 * 费用类型名称
 	 */
@@ -50,22 +61,22 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 	 * 收费对象
 	 */
 	private String feeObjectId;
-	
+
 	/**
 	 * 收费对象名称
 	 */
 	private String feeeObjectName;
-	
+
 	/**
 	 * 收费对象类别
 	 */
 	private String feeObjectType;
-	
+
 	/**
 	 * 收费对象类别名称
 	 */
 	private String feeObjectTypeName;
-	
+
 	/**
 	 * 费用类型
 	 */
@@ -78,64 +89,210 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 	 * 付费对象
 	 */
 	private String payObjectId;
-	
+
 	/**
 	 * 付费对象名称
 	 */
 	private String payObjectName;
-	
+
 	/**
 	 * 付费对象类别
 	 */
 	private String payObjectType;
-	
+
 	/**
 	 * 付费对象类别名称
 	 */
 	private String payObjectTypeName;
-	
+
 	/**
 	 * 实收
 	 */
 	private BigDecimal receivedAmount;
-	
+
 	/**
-	 * 案件
+	 * 案件id
 	 */
 	private String caseApplyId;
-	
+
+	/**
+	 * 案件号
+	 */
+	private String caseApplyCode;
+
 	/**
 	 * 序号（用于提交）
 	 */
 	private Integer serialNum;
+
+	/*************** 案件信息 ***************************/
+
+	private String productTypeName;
+
+	/**
+	 * 资金来源
+	 */
+	private String capitalSource;
+
+	/**
+	 * 机构
+	 */
+	private String mechanismName;
+
+	private String productTypeId;
+
+	private String productSubtypeId;
+
+	/**
+	 * 子产品名称
+	 */
+	private String productSubtypeName;
+
+	/**
+	 * 案件状态
+	 */
+	private String caseApplyStatus;
+	/**
+	 * 结余
+	 */
+	private String balance;
+	/**
+	 * 案件申请日期
+	 */
+	private String applyDateStr;
+	/**
+	 * 主借人
+	 */
+	private String custtomerName;
+
+	public String getApplyDateStr() {
+		return applyDateStr;
+	}
+
+	public void setApplyDateStr(String applyDateStr) {
+		this.applyDateStr = applyDateStr;
+	}
+
+	public String getCusttomerName() {
+		return custtomerName;
+	}
+
+	public void setCusttomerName(String custtomerName) {
+		this.custtomerName = custtomerName;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getProductTypeName() {
+		return productTypeName;
+	}
+
+	public void setProductTypeName(String productTypeName) {
+		this.productTypeName = productTypeName;
+	}
+
+	public String getCapitalSource() {
+		return capitalSource;
+	}
+
+	public void setCapitalSource(String capitalSource) {
+		this.capitalSource = capitalSource;
+	}
+
+	public String getMechanismName() {
+		return mechanismName;
+	}
+
+	public void setMechanismName(String mechanismName) {
+		this.mechanismName = mechanismName;
+	}
+
+	public String getProductTypeId() {
+		return productTypeId;
+	}
+
+	public void setProductTypeId(String productTypeId) {
+		this.productTypeId = productTypeId;
+	}
+
+	public String getProductSubtypeId() {
+		return productSubtypeId;
+	}
+
+	public String getFeeId() {
+		return feeId;
+	}
+
+	public void setFeeId(String feeId) {
+		this.feeId = feeId;
+	}
+
+	public void setProductSubtypeId(String productSubtypeId) {
+		this.productSubtypeId = productSubtypeId;
+	}
+
+	public String getProductSubtypeName() {
+		return productSubtypeName;
+	}
+
+	public void setProductSubtypeName(String productSubtypeName) {
+		this.productSubtypeName = productSubtypeName;
+	}
+
+	public String getCaseApplyStatus() {
+		return caseApplyStatus;
+	}
+
+	public void setCaseApplyStatus(String caseApplyStatus) {
+		this.caseApplyStatus = caseApplyStatus;
+	}
 
 	public FeeInfomationVo() {
 		super();
 	}
 
 	public FeeInfomationVo(FeeInfomation po) {
-		super(po,null,new String[]{"feeItem","feeObjectType","feeType","payObjectType"});
+		super(po, null, new String[] { "feeObjectType", "feeType", "payObjectType" });
 		if (ObjectHelper.isNotEmpty(po.getCaseApply())) {
 			this.setCaseApplyId(po.getCaseApply().getId());
 		}
+		if (FeeInfomationService.JOIN_TYPE_OTHER_FULLCODE.equals(po.getFeeObjectType())) {
+			this.setFeeObjectTypeName(FeeInfomationService.JOIN_TYPE_OTHER_NAME);
+		}
+		if (FeeInfomationService.JOIN_TYPE_OTHER_FULLCODE.equals(po.getPayObjectType())) {
+			this.setPayObjectTypeName(FeeInfomationService.JOIN_TYPE_OTHER_NAME);
+		}
 	}
-	
+
 	public FeeInfomationVo(FeeInfomation po, Integer serialNumber) {
-		super(po,null,new String[]{"feeItem","feeObjectType","feeType","payObjectType"});
+		super(po, null, new String[] { "feeObjectType", "feeType", "payObjectType" });
 		if (ObjectHelper.isNotEmpty(po.getCaseApply())) {
 			this.setCaseApplyId(po.getCaseApply().getId());
+		}
+		if (FeeInfomationService.JOIN_TYPE_OTHER_FULLCODE.equals(po.getPayObjectType())) {
+			this.setPayObjectTypeName(FeeInfomationService.JOIN_TYPE_OTHER_NAME);
+		}
+		if (FeeInfomationService.JOIN_TYPE_OTHER_FULLCODE.equals(po.getFeeObjectType())) {
+			this.setFeeObjectTypeName(FeeInfomationService.JOIN_TYPE_OTHER_NAME);
 		}
 		this.setSerialNum(serialNumber);
 	}
 
 	public FeeInfomation toPO() {
 		FeeInfomation po = new FeeInfomation();
-		VoUtil.copyPoperties(this, po, true,new String[]{"id","feeItemName","feeTypeName"}, new String[]{"feeItem","feeType"});
+		VoUtil.copyPoperties(this, po, true, new String[] { "id", "feeTypeName" },
+				new String[] { "feeType" });
 		return po;
 	}
 
 	public BigDecimal getBalanceAmount() {
-		return balanceAmount;
+		return ObjectHelper.isNotEmpty(balanceAmount)?balanceAmount:BigDecimal.ZERO;
 	}
 
 	public void setBalanceAmount(BigDecimal balanceAmount) {
@@ -143,7 +300,7 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 	}
 
 	public BigDecimal getExpectedAmount() {
-		return expectedAmount;
+		return ObjectHelper.isNotEmpty(expectedAmount)?expectedAmount:BigDecimal.ZERO;
 	}
 
 	public void setExpectedAmount(BigDecimal expectedAmount) {
@@ -151,7 +308,7 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 	}
 
 	public BigDecimal getExpectedPayableAmount() {
-		return expectedPayableAmount;
+		return ObjectHelper.isNotEmpty(expectedPayableAmount)?expectedPayableAmount:BigDecimal.ZERO;
 	}
 
 	public void setExpectedPayableAmount(BigDecimal expectedPayableAmount) {
@@ -191,7 +348,7 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 	}
 
 	public BigDecimal getPaidAmount() {
-		return paidAmount;
+		return ObjectHelper.isNotEmpty(paidAmount)?paidAmount:BigDecimal.ZERO;
 	}
 
 	public void setPaidAmount(BigDecimal paidAmount) {
@@ -215,7 +372,7 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 	}
 
 	public BigDecimal getReceivedAmount() {
-		return receivedAmount;
+		return ObjectHelper.isNotEmpty(receivedAmount)?receivedAmount:BigDecimal.ZERO;
 	}
 
 	public void setReceivedAmount(BigDecimal receivedAmount) {
@@ -244,6 +401,18 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 
 	public void setCaseApplyId(String caseApplyId) {
 		this.caseApplyId = caseApplyId;
+	}
+
+	public String getCaseApplyCode() {
+		return caseApplyCode;
+	}
+
+	public void setCaseApplyCode(String caseApplyCode) {
+		this.caseApplyCode = caseApplyCode;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getFeeItemName() {
@@ -284,6 +453,14 @@ public class FeeInfomationVo extends BaseVo<FeeInfomation> {
 
 	public void setSerialNum(Integer serialNum) {
 		this.serialNum = serialNum;
+	}
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
 	}
 
 }

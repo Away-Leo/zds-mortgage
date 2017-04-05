@@ -66,6 +66,16 @@ public class CaseApplyByProductVo {
      * 贷款期限单位名称
      */
     private String periodUnitName;
+    
+	/**
+	 * 资方id
+	 */
+	private String capitalistId;
+	
+	/**
+	 * 资方名字
+	 */
+	private String capitalistName;
 
     public String getCategory() {
         return category;
@@ -155,5 +165,21 @@ public class CaseApplyByProductVo {
     public void setPeriodUnitName(String periodUnitName) {
         this.periodUnitName = periodUnitName;
     }
+
+	public String getCapitalistId() {
+		return capitalistId;
+	}
+
+	public void setCapitalistId(String capitalistId) {
+		this.capitalistId = capitalistId;
+	}
+
+	public String getCapitalistName() {
+		return capitalistName;
+	}
+
+	public void setCapitalistName(String capitalistName) {
+		this.capitalistName = capitalistName;
+	}
     
 }

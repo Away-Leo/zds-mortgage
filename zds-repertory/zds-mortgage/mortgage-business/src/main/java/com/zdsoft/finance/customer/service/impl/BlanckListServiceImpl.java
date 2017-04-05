@@ -9,33 +9,41 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.drools.inparams.HandleVerifyInParam;
-import com.drools.outparams.HandleVerifyOutParam;
-import com.drools.taskname.TaskName;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
-import com.zdsoft.finance.common.base.ConstantParameter;
 import com.zdsoft.finance.common.exception.BusinessException;
+import com.zdsoft.finance.customer.entity.BeforeCustomer;
+import com.zdsoft.finance.customer.entity.BeforePersonalAssociation;
 import com.zdsoft.finance.customer.entity.BlanckList;
 import com.zdsoft.finance.customer.repository.BlanckListRepository;
+import com.zdsoft.finance.customer.service.BeforePersonalAssociationService;
 import com.zdsoft.finance.customer.service.BlanckListService;
 import com.zdsoft.finance.marketing.entity.CaseApplyBeforeCustomer;
+import com.zdsoft.finance.marketing.entity.HouseProperty;
+import com.zdsoft.finance.marketing.entity.PropertyOwner;
 import com.zdsoft.finance.marketing.service.CaseApplyBeforeCustomerService;
+import com.zdsoft.finance.marketing.service.HousePropertyService;
+import com.zdsoft.finance.rule.enums.RuleApprovalFinal;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
-import demo.cnfhrule.BeforeCustomer;
-import demo.cnfhrule.BeforeCustomerList;
-import demo.cnfhrule.RuleInfo;
-import sense.vitality.client.SenseClient;
-import sense.vitality.protocol.Stuff;
-import sense.vitality.text.Result;
+import cnfh.VerifyResult;
+import cnfh.cnfh_rule.BeforeCustomerList;
+import cnfh.cnfh_rule.Calldrools;
+import cnfh.cnfh_rule.PFBeforeCustomer;
 
 @Service
-public class BlanckListServiceImpl extends BaseServiceImpl<BlanckList, BlanckListRepository> 
-	implements BlanckListService {
+public class BlanckListServiceImpl extends BaseServiceImpl<BlanckList, BlanckListRepository>  implements BlanckListService {
 	
 	@Autowired
-	private CaseApplyBeforeCustomerService caseApplyBeforeCustomerService ;
+	CaseApplyBeforeCustomerService caseApplyBeforeCustomerService;
+	@Autowired
+	BeforePersonalAssociationService beforePersonalAssociationService;
+	@Autowired
+	HousePropertyService housePropertyService;
+	
+	@Autowired
+	BlanckListRepository blanckListRepository;
+	
 	
     @Override
     public List<BlanckList> findByALL() throws BusinessException {
@@ -48,52 +56,63 @@ public class BlanckListServiceImpl extends BaseServiceImpl<BlanckList, BlanckLis
     }
 
 	@Override
-	public Boolean checkBlankList(String caseApplyId) throws BusinessException {
+	public Boolean checkBlankList(String caseApplyId) throws Exception {
 		if(ObjectHelper.isEmpty(caseApplyId)){
 			throw new BusinessException("10010004", "案件id不能为空！");
 		}
 		boolean falg = false ;
-		//调用规则,调用地址和端口号建议做到配置文件里，以应对运行环境的切换和服务器迁移
-        SenseClient sc = SenseClient.instance(ConstantParameter.getRuleEngineUrl(),Integer.parseInt(ConstantParameter.getRuleEnginePort()));
-        //设置任务名（目前只有黑名单验证规则）
-        Stuff req = sc.instanceRequest(TaskName.CALL_DROOLS_TASK);
-        //设置入参（ 黑名单规则入参包括，黑名单List，客户，规则信息（组ID，构件ID，版本号））
-        HandleVerifyInParam inparam = new HandleVerifyInParam();
-        //客户关系
+		//客户关系
         List<CaseApplyBeforeCustomer> customerList = caseApplyBeforeCustomerService.queryByCaseApplyId(caseApplyId);
         //设置客户
-        List<BeforeCustomer> beforeCustomerlist= new ArrayList<BeforeCustomer>();
-        for (CaseApplyBeforeCustomer caseApplyBeforeCustomer : customerList) {
-        	 com.zdsoft.finance.customer.entity.BeforeCustomer beforeCustomer = caseApplyBeforeCustomer.getBeforeCustomer();
-        	 BeforeCustomer beCus = new BeforeCustomer();
-             //BeanUtils.copyProperties(beforeCustomer, beCus);
-        	 beCus.setCredentialNo(beforeCustomer.getCredentialNo());
-        	 beCus.setCustomerName(beforeCustomer.getCustomerName());
-             beforeCustomerlist.add(beCus);
+        List<PFBeforeCustomer> beforeCustomerlist= new ArrayList<PFBeforeCustomer>();
+        for(CaseApplyBeforeCustomer caseApplyBeforeCustomer : customerList) {
+        	BeforeCustomer beforeCustomer = caseApplyBeforeCustomer.getBeforeCustomer();
+        	PFBeforeCustomer beCus = new PFBeforeCustomer();
+			beCus.setCredentialNo(beforeCustomer.getCredentialNo());
+			beCus.setCustomerName(beforeCustomer.getCustomerName());
+			beforeCustomerlist.add(beCus);
+			//客户关系（配偶等信息）（由于规则判断只要是人都查，配偶等信息可能不是共借人和担保人，故单独查询一次）
+			List<BeforePersonalAssociation> associations = beforePersonalAssociationService.queryCustomerId(beforeCustomer.getId());
+			for(BeforePersonalAssociation association : associations){
+				BeforeCustomer customer2 = association.getBeforePersonalCusomer();
+				PFBeforeCustomer beCus2 = new PFBeforeCustomer();
+				beCus2.setCredentialNo(customer2.getCredentialNo());
+				beCus2.setCustomerName(customer2.getCustomerName());
+				beforeCustomerlist.add(beCus2);
+			}
 		}
+        //获取产权人
+		List<HouseProperty> houseProperties = housePropertyService.findByCaseApplyId(caseApplyId);
+		for(HouseProperty houseProperty:houseProperties){
+			//获取产权人信息（和上面客户信息重的几率很大 ）
+			List<PropertyOwner> owners = houseProperty.getPropertyOwnerList();
+			for(PropertyOwner owner : owners){
+				PFBeforeCustomer beCus = new PFBeforeCustomer();
+				beCus.setCredentialNo(owner.getCredentialNo());
+				beCus.setCustomerName(owner.getOwnerName());
+				beforeCustomerlist.add(beCus);
+			}
+		}
+        
         BeforeCustomerList beforeCustomers = new BeforeCustomerList();
         beforeCustomers.setBeforeCustomers(beforeCustomerlist);
-        inparam.setBeforeCustomers(beforeCustomers);
-        //设置规则组ID，构件ID，版本号 通过配置
-        RuleInfo ruleinfo = new RuleInfo();
-        ruleinfo.setGroupId(ConstantParameter.getRuleEngineGroupId());
-        ruleinfo.setArtifactId(ConstantParameter.getRuleEngineArtifactId());
-        ruleinfo.setVersionCode(ConstantParameter.getRuleEngineVersionCode());
-        inparam.setRuleInfo(ruleinfo);
-        //将设置好的入参对象inparam，set到请求对象req中
-        req.setTargetObject(inparam);
-        //发送请求并接收返回信息
-        Stuff resp = sc.send(req);
-        //固定写法，解析返回的结果对象
-        Result result = resp.getResult();
-        if(result.isSuccess()){
-            HandleVerifyOutParam outparams = resp.getTargetObject(HandleVerifyOutParam.class);
-            if("Y".equals(outparams.getVrResult())){
-            	falg = true ;
-            }
-        }else{
-        	throw new BusinessException("请求规则引擎数据异常");
-        }
-        return falg ;
+        Calldrools drools = new Calldrools();
+        VerifyResult vr1 = new VerifyResult();
+        vr1.setVrId(RuleApprovalFinal.RUN_NORMAL.getValue());
+    	VerifyResult vr = drools.getBlacklistResult(beforeCustomers,vr1);
+    	if(VerifyResult.REFUSE.equals(vr.getVrResult())){
+    		falg = true;
+		}
+        return falg;
+	}
+
+	@Override
+	public BlanckList findByCredentialNo(String credentialNo) {
+		return this.customReposity.findByCredentialNo(credentialNo);
+	}
+	
+	@Override
+	public List<BlanckList> findByCredentiaTypeAndCredentialNo(String credentiaType,String credentialNo){
+		return  blanckListRepository.findByCredentiaTypeAndCredentialNoAndIsDeleted(credentiaType, credentialNo,false);
 	}
 }

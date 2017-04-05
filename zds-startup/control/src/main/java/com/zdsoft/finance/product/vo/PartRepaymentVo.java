@@ -2,15 +2,22 @@ package com.zdsoft.finance.product.vo;
 
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.product.entity.PartRepayment;
+import com.zdsoft.framework.core.common.util.ObjectHelper;
+
 
 /**
- * 分段还款
- * @createTime 2017年1月10日 下午2:51:23
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PartRepaymentVo.java 
+ * @ClassName: PartRepaymentVo 
+ * @Description: 分段还款
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:45:55 
+ * @version V1.0
  */
 public class PartRepaymentVo extends BaseVo<PartRepayment> {
 	
+	private static final long serialVersionUID = 6496139870831689880L;
+
 	/**
 	 * 产品id
 	 */
@@ -88,11 +95,18 @@ public class PartRepaymentVo extends BaseVo<PartRepayment> {
 	
 	public PartRepaymentVo(PartRepayment po){
 		super(po,null, new String[]{"timeSection","rateUtil"});
+		if(ObjectHelper.isNotEmpty(this.getRateUtil()) && this.getRateUtil().equals("YWDM0011903")){
+			this.setRate(this.getRate() * 10);
+		}
 	}
 	
 	public PartRepayment toPO(){
 		PartRepayment po = new PartRepayment();
-		return super.toPo(this, po);
+		super.toPo(this, po);
+		if(ObjectHelper.isNotEmpty(po.getRateUtil()) && po.getRateUtil().equals("YWDM0011903")){
+			po.setRate(po.getRate() / 10);
+		}
+		return po;
 	}
 	
 }

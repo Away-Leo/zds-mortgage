@@ -53,9 +53,9 @@ public class PersonalController extends BaseController{
     
     /**
      * 
-     * 个人中心主页面
-     *
-     * @author jingjy
+     * @Title: initPersonal 
+     * @Description: 个人中心主页面
+     * @author jingjiyan 
      * @param request
      * @param response
      * @return
@@ -94,9 +94,9 @@ public class PersonalController extends BaseController{
     
     /**
      * 
-     * 修改密码
-     *
-     * @author jingjy
+     * @Title: updatePassword 
+     * @Description: 修改密码
+     * @author jingjiyan 
      * @param request
      * @param response
      * @return
@@ -133,15 +133,15 @@ public class PersonalController extends BaseController{
         return AppServerUtil.buildError(AppStatus.SystemError);
     }
     
-    /**
-     * 
-     * 个人中心-更改个人资料信息初始化
-     *
-     * @author jingjy
-     * @param request
-     * @param response
-     * @return
-     */
+   /**
+    * 
+    * @Title: initUpdateClientBaseInfo 
+    * @Description: 个人中心-更改个人资料信息初始化
+    * @author jingjiyan 
+    * @param request
+    * @param response
+    * @return
+    */
     @RequestMapping(value = "/initUpdateClientBaseInfo",produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String initUpdateClientBaseInfo(HttpServletRequest request,HttpServletResponse response){
@@ -166,15 +166,15 @@ public class PersonalController extends BaseController{
         } 
     }
     
-    /**
-     * 
-     * 个人中心-更改个人资料信息保存
-     *
-     * @author dengyy
-     * @param request
-     * @param response
-     * @return
-     */
+	/**
+	 * 
+	 * @Title: updateClientBaseInfo 
+	 * @Description: 个人中心-更改个人资料信息保存
+	 * @author jingjiyan 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
     @RequestMapping(value = "/myProfile",produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updateClientBaseInfo(HttpServletRequest request,HttpServletResponse response){
@@ -184,8 +184,8 @@ public class PersonalController extends BaseController{
         String sex = request.getParameter("gender");
         String mobile = request.getParameter("phone");
         String email = request.getParameter("email");
-        if (ObjectHelper.isEmpty(clientNm)
-                ||ObjectHelper.isEmpty(sex)||ObjectHelper.isEmpty(mobile)) {
+        String qq = request.getParameter("qq");
+        if (ObjectHelper.isEmpty(sex)||ObjectHelper.isEmpty(mobile)) {
             return AppServerUtil.buildError(AppStatus.ArgsError, "参数传入不全！");
         }
         try {
@@ -193,13 +193,11 @@ public class PersonalController extends BaseController{
             dto2.setMobile(mobile);
             dto2.setEmail(email);
             dto2.setAccountNm(clientNm);
-            boolean bool = CRA.editAccount(dto2);
-            
-            if(bool){
-                return AppServerUtil.buildJsonMessage(AppStatus.Succeed);
-            }else{
-                return AppServerUtil.buildJsonMessage(AppStatus.Succeed);
+            EmpDto employee  = CED.updateContract(mobile, email, qq);
+            if(ObjectHelper.isEmpty(employee)){
+            	 return AppServerUtil.buildError(AppStatus.SystemError);
             }
+            return AppServerUtil.buildJsonMessage(AppStatus.Succeed);
         } catch (Exception e) {
             return AppServerUtil.buildError(AppStatus.SystemError, e);
         }

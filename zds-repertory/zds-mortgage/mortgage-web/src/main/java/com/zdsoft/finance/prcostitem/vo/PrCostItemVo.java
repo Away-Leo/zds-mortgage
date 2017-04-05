@@ -1,18 +1,23 @@
 package com.zdsoft.finance.prcostitem.vo;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.prcostitem.entity.PrCostItem;
 import com.zdsoft.finance.prcostitem.entity.PrCostItemDetail;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
- * 机构产品费用
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemVo.java 
+ * @ClassName: PrCostItemVo 
+ * @Description: 机构产品费用
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:10:03 
+ * @version V1.0
  */
 public class PrCostItemVo extends BaseVo<PrCostItem> {
 
@@ -89,7 +94,15 @@ public class PrCostItemVo extends BaseVo<PrCostItem> {
 	 * 逾期收费 (%/天)
 	 */
 	private Double overdueFee;
-	
+	/**
+	 * 逾期收费单位编码
+	 */
+	private String overdueFeeUnit;
+	/**
+	 * 逾期收费单位编码名称
+	 */
+	private String overdueFeeUnitName;
+
 	/**
 	 * 展期收费
 	 */
@@ -126,6 +139,22 @@ public class PrCostItemVo extends BaseVo<PrCostItem> {
 	private Double[] detailMonth;
 	private Double[] detailCostMonth;
 	private Double[] detailReceipt;
+
+	public String getOverdueFeeUnit() {
+		return overdueFeeUnit;
+	}
+
+	public void setOverdueFeeUnit(String overdueFeeUnit) {
+		this.overdueFeeUnit = overdueFeeUnit;
+	}
+
+	public String getOverdueFeeUnitName() {
+		return overdueFeeUnitName;
+	}
+
+	public void setOverdueFeeUnitName(String overdueFeeUnitName) {
+		this.overdueFeeUnitName = overdueFeeUnitName;
+	}
 
 	public String getProductName() {
 		return productName;
@@ -362,7 +391,7 @@ public class PrCostItemVo extends BaseVo<PrCostItem> {
 	public PrCostItemVo(){}
 	
 	public PrCostItemVo(PrCostItem po){
-		super(po,null,new String[]{"periodStartUnit","periodEndUnit"});
+		super(po,null,new String[]{"periodStartUnit","periodEndUnit","overdueFeeUnit"});
 		if(ObjectHelper.isNotEmpty(po.getPrCostItemDetails())){
 			List<PrCostItemDetail> detailList = po.getPrCostItemDetails();
 			String[] detail_ids = new String[detailList.size()];

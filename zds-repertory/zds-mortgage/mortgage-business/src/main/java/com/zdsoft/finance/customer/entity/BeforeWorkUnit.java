@@ -16,79 +16,108 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
  * @version:v1.0
  */
 @Entity
-@Table(name = "cus_before_work_unit")
+@Table(name = "cust_before_work_unit")
 public class BeforeWorkUnit extends BaseEntity {
 
 	/**
-	 * 用一句话描述这个变量表示什么
+	 * 序列化
 	 */
 	private static final long serialVersionUID = 4441967909280862238L;
+	
+	/**
+	 * 职务:法人/董事/股东
+	 */
+	public static final String CHAIRMAN_OF_THE_BOARD = "YWDM008801";
+	
+	/**
+	 * 职务:公司名义控制人
+	 */
+	public static final String COMPANY_NAME_CONTROLLER = "YWDM008806";
+	
+	/**
+	 * 职务:公司实际控制人
+	 */
+	public static final String COMPANY_ACTUAL_CONTROLLER = "YWDM008807";
+	
 	/**
 	 * 客户
 	 */
 	@Column(length=32)
 	private String customerId;
+	
 	/**
 	 * 姓名
 	 */
 	@Column(length=128)
 	private  String workUnitName;
+	
 	/**
 	 * 单位名称
 	 */
 	@Column(length=128)
 	private  String companyName;
+	
 	/**
 	 * 单位电话
 	 */
 	@Column(length=15)
 	private  String phoneNumber;
+	
 	/**
 	 * 单位性质
 	 */
 	@Column(length=20)
 	private  String workUnitNature;
+	
 	/**
 	 * 工作年限
 	 */
 	@Column
 	private  Integer workYears;
+	
 	/**
 	 * 职务
 	 */
 	@Column(length=20)
 	private  String position;
+	
 	/**
 	 * 行业类型
 	 */
 	@Column(length=20)
 	private  String industryType;
+	
 	/**
 	 * 行业
 	 */
 	@Column(length=20)
 	private  String industry;
+	
 	/**
 	 * 省
 	 */
 	@Column(length=20)
 	private  String province;
+	
 	/**
 	 * 市
 	 */
 	@Column(length=20)
 	private  String city;
+	
 	/**
 	 * 区
 	 */
 	@Column(length=20)
 	private  String district;
 	
+	
 	/**
 	 * 单位地址
 	 */
 	@Column(length=500)
 	private  String workUnitAddress;
+	
 	public String getWorkUnitName() {
 		return workUnitName;
 	}

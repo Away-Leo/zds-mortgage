@@ -7,25 +7,20 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:PropertyOwner.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:产权人实体表
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:46:18
- * @version:v1.0
+ * @Title: PropertyOwner.java 
+ * @ClassName: PropertyOwner 
+ * @Description: 产权人实体表
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:48:37 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_property_owner")
+@Table(name = "mkt_property_owner")
 public class PropertyOwner extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 案件ID
-	 */
-	@Column(length = 32)
-	private String caseApplyId;
 	
 	/**
 	 * 房产
@@ -88,13 +83,6 @@ public class PropertyOwner extends BaseEntity{
 	 */
 	@Column(length = 128)
 	private String mailingAddress;
-	
-	public String getCaseApplyId() {
-		return caseApplyId;
-	}
-	public void setCaseApplyId(String caseApplyId) {
-		this.caseApplyId = caseApplyId;
-	}
 	public String getOwnerName() {
 		return ownerName;
 	}
@@ -105,7 +93,7 @@ public class PropertyOwner extends BaseEntity{
 		return credentialNo;
 	}
 	public void setCredentialNo(String credentialNo) {
-		this.credentialNo = credentialNo;
+		this.credentialNo = credentialNo.toUpperCase();
 	}
 	public Long getIdentityStartDate() {
 		return identityStartDate;
@@ -166,8 +154,5 @@ public class PropertyOwner extends BaseEntity{
 	}
 	public void setHousePropertyId(String housePropertyId) {
 		this.housePropertyId = housePropertyId;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 }

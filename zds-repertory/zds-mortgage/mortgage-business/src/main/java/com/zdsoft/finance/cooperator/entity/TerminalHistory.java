@@ -9,119 +9,150 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 合作方维护表
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: TerminalHistory.java
+ * @ClassName: TerminalHistory
+ * @Description: 终端维护记录(刘伟二次维护)
+ * @author liuwei
+ * @date 2017年2月25日 下午2:22:41
+ * @version V1.0
  */
 @Entity
-@Table(name="cpt_terminal_history")
-public class TerminalHistory extends BaseEntity{
+@Table(name = "cpt_terminal_history")
+public class TerminalHistory extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 计划时段
-	 */
-	@Column(length=64)
-	private String planTimeFrame;
+
 	/**
 	 * 维护人
 	 */
-	@Column(length=64)
-	private String maintainer;
+	@Column(length = 32)
+	private String maintainerCd;
+
+	/**
+	 * 维护人姓名
+	 */
+	@Column(length = 64)
+	private String maintainerName;
+
 	/**
 	 * 审批人
 	 */
-	@Column(length=64)
-	private String approver;
+	@Column(length = 32)
+	private String approverCd;
+
 	/**
 	 * 计划维护方式
 	 */
-	@Column(length=64)
+	@Column(length = 20)
 	private String planApproveType;
+
 	/**
 	 * 计划终端状态
 	 */
+	@Column(length = 20)
 	private String planterminalState;
+
 	/**
 	 * 计划具体维护事项
 	 */
-	@Column(length=64)
+	@Column(length = 500)
 	private String planMaintainThing;
+
 	/**
 	 * 完成是否
 	 */
-	private Boolean isDone;
+	@Column(length = 32)
+	private String isDone;
+
 	/**
 	 * 具体落实执行情况
 	 */
-	private int howThingCondition;
-	
+	@Column(length = 500)
+	private String howThingCondition;
+
 	/**
 	 * 关联的终端
 	 */
-	 @ManyToOne
-	 @JoinColumn(name="terminalId")
-	 private CooperatorTerminal cooperatorTerminal;
-	 
-	 
-	public CooperatorTerminal getCooperatorTerminal() {
-		return cooperatorTerminal;
+	@ManyToOne
+	@JoinColumn(name = "terminalId")
+	private CooperatorTerminal cooperatorTerminal;
+
+	public String getMaintainerCd() {
+		return maintainerCd;
 	}
-	public void setCooperatorTerminal(CooperatorTerminal cooperatorTerminal) {
-		this.cooperatorTerminal = cooperatorTerminal;
+
+	public void setMaintainerCd(String maintainerCd) {
+		this.maintainerCd = maintainerCd;
 	}
-	
-	public String getPlanTimeFrame() {
-		return planTimeFrame;
+
+	public String getApproverCd() {
+		return approverCd;
 	}
-	public void setPlanTimeFrame(String planTimeFrame) {
-		this.planTimeFrame = planTimeFrame;
+
+	public void setApproverCd(String approverCd) {
+		this.approverCd = approverCd;
 	}
-	public String getMaintainer() {
-		return maintainer;
-	}
-	public void setMaintainer(String maintainer) {
-		this.maintainer = maintainer;
-	}
-	public String getApprover() {
-		return approver;
-	}
-	public void setApprover(String approver) {
-		this.approver = approver;
-	}
+
 	public String getPlanApproveType() {
 		return planApproveType;
 	}
+
 	public void setPlanApproveType(String planApproveType) {
 		this.planApproveType = planApproveType;
 	}
+
 	public String getPlanterminalState() {
 		return planterminalState;
 	}
+
 	public void setPlanterminalState(String planterminalState) {
 		this.planterminalState = planterminalState;
 	}
+
 	public String getPlanMaintainThing() {
 		return planMaintainThing;
 	}
+
 	public void setPlanMaintainThing(String planMaintainThing) {
 		this.planMaintainThing = planMaintainThing;
 	}
-	public Boolean getIsDone() {
-		return isDone;
-	}
-	public void setIsDone(Boolean isDone) {
-		this.isDone = isDone;
-	}
-	public int getHowThingCondition() {
+
+	public String getHowThingCondition() {
 		return howThingCondition;
 	}
-	public void setHowThingCondition(int howThingCondition) {
+
+	public void setHowThingCondition(String howThingCondition) {
 		this.howThingCondition = howThingCondition;
 	}
-	
-	
+
+	public CooperatorTerminal getCooperatorTerminal() {
+		return cooperatorTerminal;
+	}
+
+	public void setCooperatorTerminal(CooperatorTerminal cooperatorTerminal) {
+		this.cooperatorTerminal = cooperatorTerminal;
+	}
+
+	public String getIsDone() {
+		return isDone;
+	}
+
+	public void setIsDone(String isDone) {
+		this.isDone = isDone;
+	}
+
+	public String getMaintainerName() {
+		return maintainerName;
+	}
+
+	public void setMaintainerName(String maintainerName) {
+		this.maintainerName = maintainerName;
+	}
+
 }

@@ -31,10 +31,15 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
+
 /**
- * 机构产品费用
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemController.java 
+ * @ClassName: PrCostItemController 
+ * @Description: 机构产品费用
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:09:36 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("prCostItem")
@@ -81,7 +86,7 @@ public class PrCostItemController extends BaseController {
 					Product product = productService.findOne(po.getProductId());
 					vo.setProductName(product.getProductName());
 				} catch (BusinessException e) {
-					logger.error("产品查询出错",e.getMessage());
+					logger.error("产品查询出错",e);
 					e.printStackTrace();
 				}
 				listVo.add(vo);

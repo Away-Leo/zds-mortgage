@@ -9,14 +9,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 信托计划费用项表
  * 
- * @createTime:2017年1月10日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustFeeItem.java 
+ * @ClassName: CreditEntrustFeeItem 
+ * @Description: 信托计划费用项表
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:23:23 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_fee_item")
+@Table(name = "cptl_credit_fee_item")
 public class CreditEntrustFeeItem extends BaseEntity {
 
 	/**
@@ -45,8 +48,8 @@ public class CreditEntrustFeeItem extends BaseEntity {
 	/**
 	 * 费用项金额
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal feeAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal feeAmount = BigDecimal.ZERO;
 
 	public String getBusinessId() {
 		return businessId;

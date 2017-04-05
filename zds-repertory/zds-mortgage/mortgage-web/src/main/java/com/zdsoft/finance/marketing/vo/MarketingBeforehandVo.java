@@ -12,13 +12,14 @@ import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:MarketingBeforehandVo.java
- * @Package:com.zdsoft.finance.marketing.vo
- * @Description:营销申请Vo封装
- * @author: zhoushichao
- * @date:2017年1月13日 上午10:54:52
- * @version:v1.0
+ * @Title: MarketingBeforehandVo.java 
+ * @ClassName: MarketingBeforehandVo 
+ * @Description: 营销申请Vo封装
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:49:41 
+ * @version V1.0
  */
 public class MarketingBeforehandVo {
 
@@ -58,6 +59,12 @@ public class MarketingBeforehandVo {
 	 * 产权人VoList
 	 */
 	private List<PropertyOwnerVo> propertyOwnerVoList;
+	
+	/**
+	 * 终端进件审批意见Vo
+	 */
+	private TerminalCaseApprovalOpinionVo terminalCaseApprovalOpinionVo;
+	
 	/**
 	 * 征信附件id，逗号隔开
 	 */
@@ -158,5 +165,13 @@ public class MarketingBeforehandVo {
 	public void setCreditAttachmentIds(String creditAttachmentIds) {
 		this.creditAttachmentIds = creditAttachmentIds;
 	}
+	public TerminalCaseApprovalOpinionVo getTerminalCaseApprovalOpinionVo() {
+		return terminalCaseApprovalOpinionVo;
+	}
+	public void setTerminalCaseApprovalOpinionVo(TerminalCaseApprovalOpinionVo terminalCaseApprovalOpinionVo) {
+		this.terminalCaseApprovalOpinionVo = terminalCaseApprovalOpinionVo;
+	}
+	
+	
 	
 }

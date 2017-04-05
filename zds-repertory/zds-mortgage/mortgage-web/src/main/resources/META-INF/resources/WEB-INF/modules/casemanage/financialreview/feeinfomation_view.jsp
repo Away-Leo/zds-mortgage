@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.zdsoft.cn/tags" prefix="z"%>
 <div class="frm-content" id="feeInfoDiv">
+	<c:if test="${not empty errorMsg }">页面初始化出现异常，请联系管理员！异常信息为：${errorMsg }</c:if>
+	<c:if test="${(not empty hasResultMap and not hasResultMap) or (empty feeInfoMap) }">该案件暂无对应的费用信息！</c:if>
 	<form id="feeInfoForm" class="zui-form " method="post" >
 		<c:forEach items="${feeInfoMap}" var="listInfo" varStatus="status" >
 		<div class="page-box">
@@ -69,7 +71,7 @@
 								<dl class="form-item form-auto">
 								<dd class="detail">
 			                        <label>
-			                        	<span class="f12" local="expectedAmount">${empty feeInfo.expectedAmount ? 0.00 : feeInfo.expectedAmount }</span>
+			                        	<span class="f12 amountSpan" local="expectedAmount">${empty feeInfo.expectedAmount ? 0.00 : feeInfo.expectedAmount }</span>
 			                        </label>
 			                    </dd>
 			                    </dl>
@@ -79,7 +81,7 @@
 								<dl class="form-item form-auto">
 								<dd class="detail">
 			                        <label>
-			                        	<span class="f12" local="receivedAmount">${empty feeInfo.receivedAmount ? 0.00 : feeInfo.receivedAmount }</span>
+			                        	<span class="f12 amountSpan" local="receivedAmount">${empty feeInfo.receivedAmount ? 0.00 : feeInfo.receivedAmount }</span>
 			                        </label>
 			                    </dd>
 			                    </dl>
@@ -109,7 +111,7 @@
 								<dl class="form-item form-auto">
 								<dd class="detail">
 			                        <label>
-			                        	<span class="f12" local="expectedPayableAmount">${empty feeInfo.expectedPayableAmount ? 0.00 : feeInfo.expectedPayableAmount}</span>
+			                        	<span class="f12 amountSpan" local="expectedPayableAmount">${empty feeInfo.expectedPayableAmount ? 0.00 : feeInfo.expectedPayableAmount}</span>
 			                        </label>
 			                    </dd>
 			                    </dl>
@@ -119,7 +121,7 @@
 								<dl class="form-item form-auto">
 								<dd class="detail">
 			                        <label>
-			                        	<span class="f12" local="paidAmount">${empty feeInfo.paidAmount ? 0.00 : feeInfo.paidAmount}</span>
+			                        	<span class="f12 amountSpan" local="paidAmount">${empty feeInfo.paidAmount ? 0.00 : feeInfo.paidAmount}</span>
 			                        </label>
 			                    </dd>
 			                    </dl>
@@ -129,7 +131,7 @@
 								<dl class="form-item form-auto">
 								<dd class="detail">
 			                        <label>	
-			                        	<span class="f12">${empty feeInfo.balanceAmount ? 0.00 : feeInfo.balanceAmount }</span>
+			                        	<span class="f12 amountSpan">${empty feeInfo.balanceAmount ? 0.00 : feeInfo.balanceAmount }</span>
 			                        </label>
 			                    </dd>
 			                    </dl>
@@ -148,11 +150,15 @@
 seajs.use(['jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.loading','zd/jquery.zds.message',
 	'zd/jquery.zds.validate','zd/jquery.zds.combobox',
 	'zd/jquery.zds.table', 'zd/jquery.zds.form'],
-		function ($,CALLBACK,ZTOOlS,Loading) {
+		function ($,CALLBACK,ZTools,Loading) {
 	
 	// 初始化时计算金额
 	$("div[name='feeDetailContent']").each(function(index,ele){
 		statisticAmount(ele);
+	});
+	// 初始化数据格式化
+	$(".amountSpan").each(function(index,ele){
+		$(ele).text(ZTools.formatCurrency(Number($(ele).text()).toFixed(2)+""));
 	});
 	// 计算各个板块的费用合集
 	function statisticAmount(divTarget) {
@@ -190,13 +196,13 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.load
 				}
 			});
 			// 应收合计
-			$(ele).find("span[name='totalShouldReceiveSpan']").text(Number(expectedAmount).toFixed(2));
+			$(ele).find("span[name='totalShouldReceiveSpan']").text(ZTools.formatCurrency(Number(expectedAmount).toFixed(2)+""));
 			// 实收合计
-			$(ele).find("span[name='totalTrueReceiveSpan']").text(Number(receivedAmount).toFixed(2));
+			$(ele).find("span[name='totalTrueReceiveSpan']").text(ZTools.formatCurrency(Number(receivedAmount).toFixed(2)+""));
 			// 应付合计
-			$(ele).find("span[name='totalShouldPaySpan']").text(Number(expectedPayableAmount).toFixed(2));
+			$(ele).find("span[name='totalShouldPaySpan']").text(ZTools.formatCurrency(Number(expectedPayableAmount).toFixed(2)+""));
 			// 实付合计
-			$(ele).find("span[name='totalTruePaySpan']").text(Number(paidAmount).toFixed(2));
+			$(ele).find("span[name='totalTruePaySpan']").text(ZTools.formatCurrency(Number(paidAmount).toFixed(2)+""));
 		});
 	}
 	

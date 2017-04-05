@@ -36,6 +36,17 @@ public interface FeeInfomationRepository extends CustomRepository<FeeInfomation,
 	 */
 	@Query("select fee from FeeInfomation fee where fee.caseApply.id = :caseApplyId")
 	public List<FeeInfomation> findAllyByCaseApplyId(@Param("caseApplyId")String caseApplyId);
+	/**
+	 * 
+	 * @Title: findAllyByCaseApplyId 
+	 * @Description: 根据付费对象类别 和案件过滤数据
+	 * @author xiangjx 
+	 * @param caseApplyId
+	 * @param payerType
+	 * @return
+	 */
+	@Query("select fee from FeeInfomation fee where fee.caseApply.id = :caseApplyId and fee.feeObjectType = :feeObjectType")
+	public List<FeeInfomation> findByCaseApplyIdAndPayerType(@Param("caseApplyId")String caseApplyId,@Param("feeObjectType")String payerType);
 	
 	/**
 	 * 
@@ -58,4 +69,48 @@ public interface FeeInfomationRepository extends CustomRepository<FeeInfomation,
 	 * @return
 	 */
 	public Page<Map<String, Object>> findEvaluationInfos(List<QueryObj> queryInfo, PageRequest pageReq);
+	
+	/**
+	 * 
+	 * @Title: findReviceObjTypeInfosByCaseApplyId 
+	 * @Description: 根据案件Id查询对应的收费对象类别下拉数据
+	 * @author jingyh 
+	 * @param caseApplyId
+	 * @return
+	 */
+	public List<Map<String,Object>> findReviceObjTypeInfosByCaseApplyId(String caseApplyId);
+	/**
+	 * 
+	 * @Title: findByCaseApplyId 
+	 * @Description: 根据案件Id查询对应的收费对象
+	 * @author xiangjx 
+	 * @param caseApplyId
+	 * @return
+	 */
+	public FeeInfomation findByCaseApplyId(String caseApplyId);
+	/**
+	 * 
+	 * @Title: findByCaseApplyIdAndReceiveObjTypes 
+	 * @Description: 根据案件Id和收费对象类别信息查询收费明细记录
+	 * @author jingyh 
+	 * @param caseApplyId
+	 * @param receiveObjTypes
+	 * @return
+	 */
+	@Query("select fee from FeeInfomation fee where fee.caseApply.id = :caseApplyId and fee.feeObjectType in (:receiveObjTypes)")
+	public List<FeeInfomation> findByCaseApplyIdAndReceiveObjTypes(@Param("caseApplyId")String caseApplyId,@Param("receiveObjTypes")List<String> receiveObjTypes);
+	
+	
+	/**
+	 * @Title: findByFeeItemAndFeeType 
+	 * @Description: 根据费用类型、费用项获取费用
+	 * @author jincheng 
+	 * @param feeItem
+	 * @param feeType
+	 * @return
+	 */
+	@Query("select fee from FeeInfomation fee where fee.caseApply.id =:caseApplyId and fee.feeItem =:feeItem and fee.feeType=:feeType ")
+	public  List<FeeInfomation> findByCaseApplyIdAndFeeItemAndFeeType(@Param("caseApplyId")String caseApplyId,@Param("feeItem")String feeItem, @Param("feeType")String feeType);
+	
+	
 }

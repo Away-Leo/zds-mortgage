@@ -16,42 +16,55 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
 public class BeforeCustomerVo <T extends BaseEntity> extends BaseVo<T> {
 
 	/**
-	 * 用一句话描述这个变量表示什么
+	 * 序列化
 	 */
 	private static final long serialVersionUID = -3888348610863554757L;
+	
 	/**
 	 * 姓名
 	 */
 	private String customerName;
+	
 	/**
-	 * 证件类型
+	 * 证件类型code
 	 */
 	private String credentialType;
+	
+	/**
+	 * 证件类型name
+	 */
 	private String credentialTypeName;//modify by liuhuan 2017-1-20    证件类型名称 
+	
 	/**
 	 * 证件号码
 	 */
 	private String credentialNo;
+	
 	/**
 	 * 创建人姓名
 	 */
 	private String creatorName;
+	
 	/**
 	 * 公司代码
 	 */
 	private String companyCode;
+	
 	/**
 	 * 公司名称
 	 */
 	private String companyName;
+	
 	/**
 	 * 部门代码
 	 */
 	private String departmentCode;
+	
 	/**
 	 * 部门代码
 	 */
 	private String departmentName;
+	
 	/**
 	 * 客户创建类型
 	 */

@@ -126,7 +126,7 @@ public class BeforeCustomerCreditController extends BaseController {
 			logger.info("附件类型(产品资料清单)名称={}", caseMaterialListAttaVo.getMateriaName());
 			CaseMaterialListAtta caseMaterialListAtta = caseMaterialListAttaVo.toPo();
 			//处理客户附件的集合保存，更新状态
-			creditService.saveCustomerCreditAtta(caseMaterialListAtta);
+//			creditService.saveCustomerCreditAtta(caseMaterialListAtta);
 			msg.setResultStatus(ResponseMsg.SUCCESS);
 			msg.setMsg("保存客户征信附件信息成功！");
 		} catch (Exception e) {

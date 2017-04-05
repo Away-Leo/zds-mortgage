@@ -26,10 +26,17 @@ import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
+
 /**
- * 联系人信息
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: ContactsInfoController.java
+ * @ClassName: ContactsInfoController
+ * @Description: 联系人信息Controller
+ * @author liuwei
+ * @date 2017年3月8日 上午10:12:15
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/contactsInfo")
@@ -37,27 +44,38 @@ public class ContactsInfoController extends BaseController {
 
 	@Autowired
 	ContactsInfoService contactsInfoService;
-	
+
 	@Autowired
 	CooperatorTerminalService cooperatorTerminalService;
-	
+
 	/**
-	 * 合作方联系人信息列表
+	 * 
+	 * @Title: initContactsInfo
+	 * @Description: 合作方联系人信息列表
+	 * @author liuwei
+	 * @param terminalId
+	 *            终端id
 	 * @return
 	 */
 	@RequestMapping("/initContactsInfo")
 	@UriKey(key = "com.zdsoft.finance.cooperator.initContactsInfo")
 	public ModelAndView initContactsInfo(String terminalId) {
 		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("terminalId", terminalId);
-		return new ModelAndView("/cooperator/contacts_info_list",obj);
+		obj.put("partnerId", terminalId);
+		return new ModelAndView("/cooperator/contacts_info_list", obj);
 	}
+
 	/**
-	 * 列表数据展示
+	 * 
+	 * @Title: getContactsInfo
+	 * @Description: 列表数据展示
+	 * @author liuwei
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 处理信息json
 	 */
 	@RequestMapping("/getContactsInfo")
 	@UriKey(key = "com.zdsoft.finance.cooperator.getContactsInfo")
@@ -84,79 +102,102 @@ public class ContactsInfoController extends BaseController {
 	}
 
 	/**
-	 * 编辑
 	 * 
-	 * @return
-	 * @throws BusinessException
+	 * @Title: contactsInfoEdit
+	 * @Description: 资方联系人dialog
+	 * @author liuwei
+	 * @param terminalId
+	 *            终端id
+	 * @param id
+	 *            联系人id
+	 * @param operationType
+	 *            操作类型
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/edit")
 	@UriKey(key = "com.zdsoft.finance.cooperator.contactsInfo.dialog")
-	public ModelAndView contactsInfoEdit(String terminalId, String id, String operationType)
-			throws BusinessException {
+	public ModelAndView contactsInfoEdit(String terminalId, String id, String operationType) {
 		ModelAndView modelAndView = new ModelAndView("/cooperator/contacts_edit_dialog");
 		if (!"add".equals(operationType)) {
-			ContactsInfo info = contactsInfoService.findOne(id);
-			ContactsInfoVo infoVo = new ContactsInfoVo(info);
-			modelAndView.addObject("infoVo", infoVo);
+			try {
+				ContactsInfo info = contactsInfoService.findOne(id);
+				ContactsInfoVo infoVo = new ContactsInfoVo(info);
+				modelAndView.addObject("infoVo", infoVo);
+			} catch (BusinessException e) {
+				e.printStackTrace();
+				logger.error("查询联系方式失败", e);
+			}
 		}
 		modelAndView.addObject("terminalId", terminalId);
 		modelAndView.addObject("operationType", operationType);
 		return modelAndView;
 	}
+
 	/**
-	 * 更新联系人
-	 * @param jsoncallback
+	 * 
+	 * @Title: save
+	 * @Description: 更新联系人
+	 * @author liuwei
 	 * @param infoVo
-	 * @return
-	 * @throws BusinessException
+	 *            联系人信息
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/save")
 	@UriKey(key = "com.zdsoft.finance.cooperator.contactsInfo.save")
 	@ResponseBody
-	public String save( ContactsInfoVo infoVo ) throws BusinessException {
+	public String save(ContactsInfoVo infoVo) {
 		ResponseMsg msg = new ResponseMsg();
-		if(!ObjectHelper.isEmpty(infoVo)){
-			if(ObjectHelper.isEmpty(infoVo.getId())){
-				 ContactsInfo info = infoVo.toPO();
-				 CooperatorTerminal ter = cooperatorTerminalService.findOne(infoVo.getTerminalId());
-				 info.setCooperatorTerminal(ter);
-				contactsInfoService.saveEntity(info);
-				msg.setMsg("保存成功！");
-				msg.setResultStatus(ResponseMsg.SUCCESS);
-			}else{
-				ContactsInfo info =contactsInfoService.findOne(infoVo.getId());
-				info.setContactName(infoVo.getContactName());
-				info.setContactTelNumber(infoVo.getContactTelNumber());
-				info.setRole(infoVo.getRole());
-				CooperatorTerminal ter = cooperatorTerminalService.findOne(infoVo.getTerminalId());
-				info.setCooperatorTerminal(ter);
-				contactsInfoService.updateEntity(info);
-				msg.setMsg("更新成功！");
-				msg.setResultStatus(ResponseMsg.SUCCESS);
+		if (!ObjectHelper.isEmpty(infoVo)) {
+			// 查询终端信息
+			try {
+				CooperatorTerminal ter = cooperatorTerminalService.findOne(infoVo.getPartnerId());
+				ContactsInfo info = infoVo.toPO();
+				info.setPartnerId(ter.getId());
+				try {
+					// 如果主要联系人为null，则直接将第一个联系人保存为主要联系人
+					if (ObjectHelper.isEmpty(ter.getLinkman())) {
+						info.setMainContacts(true);
+					}
+					contactsInfoService.saveOrUpdateContactsInfo(info);
+					msg.setMsg("保存成功");
+					msg.setResultStatus(ResponseMsg.SUCCESS);
+				} catch (Exception e) {
+					e.printStackTrace();
+					msg.setMsg("保存失败");
+					msg.setResultStatus(ResponseMsg.APP_ERROR);
+				}
+			} catch (BusinessException e) {
+				e.printStackTrace();
+				logger.error("查询终端信息失败", e);
 			}
-		}else{
+		} else {
 			msg.setMsg("数据为空");
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
+
 	/**
-	 * 删除
+	 * 
+	 * @Title: del
+	 * @Description: 逻辑删除联系人信息
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
-	 * @throws BusinessException 
+	 * @param id
+	 *            联系人id
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/del")
 	@UriKey(key = "com.zdsoft.finance.cooperator.contactsInfo.del")
 	@ResponseBody
-	public String del(String jsoncallback,String id) throws BusinessException {
+	public String del(String jsoncallback, String id) {
 		ResponseMsg msg = new ResponseMsg();
 		try {
 			contactsInfoService.logicDelete(id);
 			msg.setMsg("操作成功！");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
 		} catch (Exception e) {
-			msg.setMsg("操作失败！"+e.getMessage());
+			msg.setMsg("操作失败！" + e.getMessage());
 			msg.setResultStatus(ResponseMsg.SYS_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);

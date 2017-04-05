@@ -1,34 +1,32 @@
 package com.zdsoft.finance.marketing.vo;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.zdsoft.finance.casemanage.datasurvey.vo.FeeInfomationVo;
 import com.zdsoft.finance.casemanage.datasurvey.vo.RiskInformationVo;
-import com.zdsoft.finance.casemanage.receivablePlan.entity.BankAccount;
 import com.zdsoft.finance.casemanage.receivablePlan.entity.ReceivableInfo;
 import com.zdsoft.finance.casemanage.receivablePlan.vo.ReceivableInfoVo;
 import com.zdsoft.finance.common.base.BaseVo;
+import com.zdsoft.finance.common.utils.AmountConversionUtil;
+import com.zdsoft.finance.common.utils.RateUtil;
 import com.zdsoft.finance.common.utils.VoUtil;
 import com.zdsoft.finance.marketing.entity.CaseApply;
 import com.zdsoft.framework.core.common.util.DateHelper;
+import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 版权所有：重庆正大华日软件有限公司
  * 
- * @Title:CaseApplyVo.java
- * @Package:com.zdsoft.finance.marketing.vo
- * @Description:案件Vo
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:15:02
- * @version:v1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CaseApplyVo.java 
+ * @ClassName: CaseApplyVo 
+ * @Description: 案件Vo
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:48:34 
+ * @version V1.0
  */
 public class CaseApplyVo extends BaseVo<CaseApply> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2701119792964406508L;
     /**
      * 案件号
@@ -55,6 +53,10 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
      */
     private BigDecimal applyAmount;
     /**
+     * 申请金额(格式化金额，千位分隔符)
+     */
+    private String applyAmountString;
+    /**
      * 申请时间
      */
     private Long applyDate;
@@ -67,23 +69,51 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
     /**
      * 申请期限
      */
-    private Integer applyDeadline;
+    private Integer applyTerm;
     /**
      * 申请期限单位
      */
-    private String applyDeadlineUnit;
+    private String applyTermUnit;
     /**
      * 申请期限单位名称
      */
-    private String applyDeadlineUnitName;
+    private String applyTermUnitName;
     /**
      * 贷款利率
      */
     private BigDecimal applyRate;
     /**
+     * 贷款利率单位
+     */
+    private String applyRateUnit;
+    private String applyRateUnitName;
+    /**
      * 逾期利率
      */
     private BigDecimal overdueRate;
+    /**
+     * 逾期利率单位
+     */
+    private String overdueRateUnit;
+    private String overdueRateUnitName;
+    /**
+     * 综合利率
+     */
+    private BigDecimal synthesizeRate;
+    /**
+     * 综合利率单位
+     */
+    private String synthesizeRateUnit;
+    private String synthesizeRateUnitName;
+    /**
+     * 动态转换利率
+     */
+    private BigDecimal dynamicRate;
+    /**
+     * 动态转换利率单位
+     */
+    private String dynamicRateUnit;
+    private String dynamicRateUnitName;
     /**
      * 终端ID
      */
@@ -106,11 +136,11 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
      */
     private String developmentDepartmentName;
     /**
-     * 机构代码
+     * 公司代码
      */
     private String mechanismCode;
     /**
-     * 机构名称
+     * 公司名称
      */
     private String mechanismName;
     /**
@@ -144,9 +174,11 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
     private String mo;
 
     /**
-     * 案件阶段（CaseApplyStageEnum.value）
+     * 案件阶段
+     * model by liuhuan 修改为String 用SimpleCode维护
      */
-    private Integer stage;
+    private String stage;
+    private String stageName;
     /**
      * 案件是否算尾
      */
@@ -159,6 +191,7 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
      * 还款方式
      */
     private String repayMethod;
+    private String repayMethodName;
     /**
      * 每期还款日
      */
@@ -197,7 +230,19 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
      * @date 2017-01-10
      */
     private String actualLimitStatus;
-
+    /**
+     * 案件放款金额
+     * @author xj
+     * @date 2017-03-03
+     */
+    private BigDecimal loanApplyAnount;
+    /**
+     * 案件余额
+     * 
+     * @author xj
+     * @date 2017-03-03
+     */
+    private BigDecimal caseApplyBalance;
     /**
      * 资金计划名称(规则而来)
      * 
@@ -213,19 +258,6 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
      * @date 2017-01-10
      */
     private Boolean isGetLimit = false;
-
-    /**
-     * 案件是否已预约(0.否(默认);1.是)
-     * 
-     * @author xiongpan
-     * @date 2017-01-14
-     */
-    private ReceivableInfo receivableInfo;
-
-    /**
-     * 案件银行卡信息
-     */
-    private List<BankAccount> caseBankAccount = new ArrayList<BankAccount>();
 
     /**
      * 货款发放账户机构名称
@@ -261,16 +293,9 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
     private String loanBackAccount;
 
     /**
-     * 案件是否已预约(0.否(默认);1.是)
-     */
-    // private boolean isAppointment;
-
-    /**
      * 主借人联系电话
      */
     private String mainBorrowerPhone;
-
-    /* private List<FeeInfomationVo> feeInfoList; */
 
     /**
      * 费用信息
@@ -281,9 +306,6 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
 
     private RiskInformationVo riskInfoVo;
 
-    /**
-     * 还款计划信息
-     */
 
     /**
      * 主借人姓名
@@ -309,31 +331,118 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
      * 是否已获得备付资金分配(0.否,默认;1.是)
      */
     private String isGetPrepareLimit;
-    private ReceivableInfoVo receivevableInfoVo;
+    private ReceivableInfoVo receivableInfoVo;
+    
+    /**
+     * 是否是终端进件的案件(0.否(默认);1.是)
+     */
+    private Integer isTerminalCase;
+    
+    /**
+	 * 合同开始日期
+	 */
+	private Long contractStartDate;
+	/**
+	 * 合同结束日期
+	 */
+	private Long contractEndDate;
+    
 
     public CaseApplyVo() {
     }
 
     public CaseApplyVo(CaseApply po) {
-        super(po, null, new String[] {"capitalUseFor" });
-
-        // RiskInfomation riskInfomation=po.getRiskInfo();
-        // if(ObjectHelper.isNotEmpty(riskInfomation)){
-        // this.setRiskInfoId(riskInfomation.getId());
-        // }
-
-        // if( "1".equals(po.getActualLimitStatus())){
-        // this.setActualLimitStatus("已分配额度未分配资金");
-        // }else if("2".equals(po.getActualLimitStatus())){
-        // this.setActualLimitStatus("已分配额度已分配资金");
-        // }else{
-        // this.setActualLimitStatus("未分配额度");
-        // }
-
+    	super(po, null, new String[] {"capitalUseFor","applyTermUnit","repayMethod","applyRateUnit","stage","synthesizeRateUnit","overdueRateUnit" });
+    	//获取贷款成数 与 评估价抵押成数 百分比 Modify by xj
+    	String loanNumber = po.getLoanNumber();
+    	String assessedPriceMortgage = po.getAssessedPriceMortgage();
+    	if(ObjectHelper.isNotEmpty(loanNumber) && new BigDecimal(loanNumber).compareTo(BigDecimal.ZERO)>0){
+    		this.setLoanNumber(new BigDecimal(RateUtil.percentRate(Double.valueOf(loanNumber))).setScale(2, BigDecimal.ROUND_HALF_DOWN).toString());
+    	}else{
+    		this.setLoanNumber(null);
+    	}
+    	if(ObjectHelper.isNotEmpty(assessedPriceMortgage) && new BigDecimal(assessedPriceMortgage).compareTo(BigDecimal.ZERO)>0){
+    		this.setAssessedPriceMortgage(new BigDecimal(RateUtil.percentRate(Double.valueOf(assessedPriceMortgage))).setScale(2, BigDecimal.ROUND_HALF_DOWN).toString());
+    	}else{
+    		this.setAssessedPriceMortgage(null);
+    	}
+    	//贷款利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.applyRate)){
+			if(ObjectHelper.isNotEmpty(this.applyRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.applyRateUnit)){
+				this.applyRate = new BigDecimal(RateUtil.percentRate2(applyRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.applyRate = new BigDecimal(RateUtil.percentRate(applyRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+		//逾期利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.overdueRate)){
+			if(ObjectHelper.isNotEmpty(this.overdueRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.overdueRateUnit)){
+				this.overdueRate = new BigDecimal(RateUtil.percentRate2(overdueRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.overdueRate = new BigDecimal(RateUtil.percentRate(overdueRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+	    //综合利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.synthesizeRate)){
+			if(ObjectHelper.isNotEmpty(this.synthesizeRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.synthesizeRateUnit)){
+				this.synthesizeRate = new BigDecimal(RateUtil.percentRate2(synthesizeRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.synthesizeRate = new BigDecimal(RateUtil.percentRate(synthesizeRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+		//动态转换利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.dynamicRate)){
+			if(ObjectHelper.isNotEmpty(this.dynamicRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.dynamicRateUnit)){
+				this.dynamicRate = new BigDecimal(RateUtil.percentRate2(dynamicRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.dynamicRate = new BigDecimal(RateUtil.percentRate(dynamicRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
     }
 
     public CaseApplyVo(CaseApply po, String[] args, String[] simpleArgs) throws Exception {
-        VoUtil.copyPoperties(po, this, false, args, simpleArgs);
+    	VoUtil.copyPoperties(po, this, false, args, simpleArgs);
+    	//获取贷款成数 与 评估价抵押成数 百分比 Modify by xj
+    	String loanNumber = po.getLoanNumber();
+    	String assessedPriceMortgage = po.getAssessedPriceMortgage();
+    	if(ObjectHelper.isNotEmpty(loanNumber) && new BigDecimal(loanNumber).compareTo(BigDecimal.ZERO)>0){
+    		this.setLoanNumber(new BigDecimal(RateUtil.percentRate(Double.valueOf(loanNumber))).setScale(2, BigDecimal.ROUND_HALF_DOWN).toString());
+    	}
+    	if(ObjectHelper.isNotEmpty(assessedPriceMortgage) && new BigDecimal(assessedPriceMortgage).compareTo(BigDecimal.ZERO)>0){
+    		this.setAssessedPriceMortgage(new BigDecimal(RateUtil.percentRate(Double.valueOf(assessedPriceMortgage))).setScale(2, BigDecimal.ROUND_HALF_DOWN).toString());
+    	}
+    	//贷款利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.applyRate)){
+			if(ObjectHelper.isNotEmpty(this.applyRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.applyRateUnit)){
+				this.applyRate = new BigDecimal(RateUtil.percentRate2(applyRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.applyRate = new BigDecimal(RateUtil.percentRate(applyRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+		//逾期利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.overdueRate)){
+			if(ObjectHelper.isNotEmpty(this.overdueRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.overdueRateUnit)){
+				this.overdueRate = new BigDecimal(RateUtil.percentRate2(overdueRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.overdueRate = new BigDecimal(RateUtil.percentRate(overdueRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+	    //综合利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.synthesizeRate)){
+			if(ObjectHelper.isNotEmpty(this.synthesizeRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.synthesizeRateUnit)){
+				this.synthesizeRate = new BigDecimal(RateUtil.percentRate2(synthesizeRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.synthesizeRate = new BigDecimal(RateUtil.percentRate(synthesizeRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
+		//动态转换利率转换(日利率是‰号)
+		if(ObjectHelper.isNotEmpty(this.dynamicRate)){
+			if(ObjectHelper.isNotEmpty(this.dynamicRateUnit)&&ReceivableInfo.RECEIVABLEINFO_DAY.equals(this.dynamicRateUnit)){
+				this.dynamicRate = new BigDecimal(RateUtil.percentRate2(dynamicRate.doubleValue(), true)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}else{
+				this.dynamicRate = new BigDecimal(RateUtil.percentRate(dynamicRate.doubleValue())).setScale(2,BigDecimal.ROUND_HALF_UP);
+			}
+		}
     }
 
     public CaseApply toPO() {
@@ -343,7 +452,15 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         return po;
     }
 
-    public Long getApplyDate() {
+    public String getStageName() {
+		return stageName;
+	}
+
+	public void setStageName(String stageName) {
+		this.stageName = stageName;
+	}
+
+	public Long getApplyDate() {
         return applyDate;
     }
 
@@ -424,30 +541,6 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         this.applyAmount = applyAmount;
     }
 
-    public Integer getApplyDeadline() {
-        return applyDeadline;
-    }
-
-    // public String getRiskInfoId() {
-    // return riskInfoId;
-    // }
-    //
-    // public void setRiskInfoId(String riskInfoId) {
-    // this.riskInfoId = riskInfoId;
-    // }
-
-    public void setApplyDeadline(Integer applyDeadline) {
-        this.applyDeadline = applyDeadline;
-    }
-
-    public String getApplyDeadlineUnit() {
-        return applyDeadlineUnit;
-    }
-
-    public void setApplyDeadlineUnit(String applyDeadlineUnit) {
-        this.applyDeadlineUnit = applyDeadlineUnit;
-    }
-
     public BigDecimal getApplyRate() {
         return applyRate;
     }
@@ -468,7 +561,23 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         return developmentManagerCode;
     }
 
-    public void setDevelopmentManagerCode(String developmentManagerCode) {
+    public Long getContractStartDate() {
+		return contractStartDate;
+	}
+
+	public void setContractStartDate(Long contractStartDate) {
+		this.contractStartDate = contractStartDate;
+	}
+
+	public Long getContractEndDate() {
+		return contractEndDate;
+	}
+
+	public void setContractEndDate(Long contractEndDate) {
+		this.contractEndDate = contractEndDate;
+	}
+
+	public void setDevelopmentManagerCode(String developmentManagerCode) {
         this.developmentManagerCode = developmentManagerCode;
     }
 
@@ -560,15 +669,15 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         this.mo = mo;
     }
 
-    public Integer getStage() {
-        return stage;
-    }
+    public String getStage() {
+		return stage;
+	}
 
-    public void setStage(Integer stage) {
-        this.stage = stage;
-    }
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
 
-    public String getInterestType() {
+	public String getInterestType() {
         return interestType;
     }
 
@@ -780,15 +889,15 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         this.riskInfoVo = riskInfoVo;
     }
 
-    public ReceivableInfoVo getReceivevableInfoVo() {
-        return receivevableInfoVo;
-    }
+    public ReceivableInfoVo getReceivableInfoVo() {
+		return receivableInfoVo;
+	}
 
-    public void setReceivevableInfoVo(ReceivableInfoVo receivevableInfoVo) {
-        this.receivevableInfoVo = receivevableInfoVo;
-    }
+	public void setReceivableInfoVo(ReceivableInfoVo receivableInfoVo) {
+		this.receivableInfoVo = receivableInfoVo;
+	}
 
-    public String getTerminalIdName() {
+	public String getTerminalIdName() {
         return terminalIdName;
     }
 
@@ -804,12 +913,28 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         this.capitalUseForName = capitalUseForName;
     }
 
-    public String getApplyDeadlineUnitName() {
-        return applyDeadlineUnitName;
+    public Integer getApplyTerm() {
+        return applyTerm;
     }
 
-    public void setApplyDeadlineUnitName(String applyDeadlineUnitName) {
-        this.applyDeadlineUnitName = applyDeadlineUnitName;
+    public void setApplyTerm(Integer applyTerm) {
+        this.applyTerm = applyTerm;
+    }
+
+    public String getApplyTermUnit() {
+        return applyTermUnit;
+    }
+
+    public void setApplyTermUnit(String applyTermUnit) {
+        this.applyTermUnit = applyTermUnit;
+    }
+
+    public String getApplyTermUnitName() {
+        return applyTermUnitName;
+    }
+
+    public void setApplyTermUnitName(String applyTermUnitName) {
+        this.applyTermUnitName = applyTermUnitName;
     }
 
     public Boolean getIsGetLimit() {
@@ -820,22 +945,6 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
         this.isGetLimit = isGetLimit;
     }
 
-    public ReceivableInfo getReceivableInfo() {
-        return receivableInfo;
-    }
-
-    public void setReceivableInfo(ReceivableInfo receivableInfo) {
-        this.receivableInfo = receivableInfo;
-    }
-
-    public List<BankAccount> getCaseBankAccount() {
-        return caseBankAccount;
-    }
-
-    public void setCaseBankAccount(List<BankAccount> caseBankAccount) {
-        this.caseBankAccount = caseBankAccount;
-    }
-
 	public String getCapitalSourceName() {
 		return capitalSourceName;
 	}
@@ -844,4 +953,124 @@ public class CaseApplyVo extends BaseVo<CaseApply> {
 		this.capitalSourceName = capitalSourceName;
 	}
 
+	public String getApplyRateUnit() {
+		return applyRateUnit;
+	}
+
+	public void setApplyRateUnit(String applyRateUnit) {
+		this.applyRateUnit = applyRateUnit;
+	}
+
+	public String getOverdueRateUnit() {
+		return overdueRateUnit;
+	}
+
+	public void setOverdueRateUnit(String overdueRateUnit) {
+		this.overdueRateUnit = overdueRateUnit;
+	}
+
+	public BigDecimal getSynthesizeRate() {
+		return synthesizeRate;
+	}
+
+	public void setSynthesizeRate(BigDecimal synthesizeRate) {
+		this.synthesizeRate = synthesizeRate;
+	}
+
+	public String getSynthesizeRateUnit() {
+		return synthesizeRateUnit;
+	}
+
+	public void setSynthesizeRateUnit(String synthesizeRateUnit) {
+		this.synthesizeRateUnit = synthesizeRateUnit;
+	}
+
+	public BigDecimal getDynamicRate() {
+		return dynamicRate;
+	}
+
+	public void setDynamicRate(BigDecimal dynamicRate) {
+		this.dynamicRate = dynamicRate;
+	}
+
+	public String getDynamicRateUnit() {
+		return dynamicRateUnit;
+	}
+
+	public void setDynamicRateUnit(String dynamicRateUnit) {
+		this.dynamicRateUnit = dynamicRateUnit;
+	}
+
+	public String getApplyRateUnitName() {
+		return applyRateUnitName;
+	}
+
+	public void setApplyRateUnitName(String applyRateUnitName) {
+		this.applyRateUnitName = applyRateUnitName;
+	}
+
+	public String getOverdueRateUnitName() {
+		return overdueRateUnitName;
+	}
+
+	public void setOverdueRateUnitName(String overdueRateUnitName) {
+		this.overdueRateUnitName = overdueRateUnitName;
+	}
+
+	public String getSynthesizeRateUnitName() {
+		return synthesizeRateUnitName;
+	}
+
+	public void setSynthesizeRateUnitName(String synthesizeRateUnitName) {
+		this.synthesizeRateUnitName = synthesizeRateUnitName;
+	}
+
+	public String getDynamicRateUnitName() {
+		return dynamicRateUnitName;
+	}
+
+	public void setDynamicRateUnitName(String dynamicRateUnitName) {
+		this.dynamicRateUnitName = dynamicRateUnitName;
+	}
+
+	public String getRepayMethodName() {
+		return repayMethodName;
+	}
+
+	public void setRepayMethodName(String repayMethodName) {
+		this.repayMethodName = repayMethodName;
+	}
+
+	public Integer getIsTerminalCase() {
+		return isTerminalCase;
+	}
+
+	public void setIsTerminalCase(Integer isTerminalCase) {
+		this.isTerminalCase = isTerminalCase;
+	}
+
+	public BigDecimal getLoanApplyAnount() {
+		return loanApplyAnount;
+	}
+
+	public void setLoanApplyAnount(BigDecimal loanApplyAnount) {
+		this.loanApplyAnount = loanApplyAnount;
+	}
+
+	public BigDecimal getCaseApplyBalance() {
+		return caseApplyBalance;
+	}
+
+	public void setCaseApplyBalance(BigDecimal caseApplyBalance) {
+		this.caseApplyBalance = caseApplyBalance;
+	}
+
+	public String getApplyAmountString() {
+		this.applyAmountString = AmountConversionUtil.convertFormatAmount(this.applyAmount);
+		return applyAmountString;
+	}
+
+	public void setApplyAmountString(String applyAmountString) {
+		this.applyAmountString = applyAmountString;
+	}
 }

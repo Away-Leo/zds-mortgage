@@ -49,9 +49,9 @@ public class TokenSources extends BaseController{
 	
 	/**
 	 * 
-	 * 用户登录的接口
-	 *
-	 * @author jingyh
+	 * @Title: findTokenTwo 
+	 * @Description: 用户登录的接口
+	 * @author jingjiyan 
 	 * @param request
 	 * @param response
 	 * @return

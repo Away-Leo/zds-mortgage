@@ -5,104 +5,129 @@ import java.math.BigDecimal;
 
 /**
  * 
-* 版权�?有：重庆正大华日软件有限公司
-* @Title:RepayPlanDto.java
-* @Package:com.zdsoft.guarantee.dto.plan
-* @Description:
-* @author:jincheng
-* @date:2016�?5�?26�? 下午2:36:33
-* @version: V1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: RepayPlan.java
+ * @ClassName: RepayPlan
+ * @Description: 还款计划
+ * @author jincheng
+ * @date 2017年2月13日 下午4:54:32
+ * @version V1.0
  */
 public class RepayPlan implements Serializable {
-	
+
 	private static final long serialVersionUID = 7604828140818154114L;
 
 	/**
 	 * 开始日期
 	 */
-	private Long startDt;
+	private Long startDate;
 
 	/**
 	 * 结束日期
 	 */
-	private Long endDt;
+	private Long endDate;
 
-	/**
-	 * 资金类型
-	 */
-	private Integer moneyType;
 	/**
 	 * 计划到期日期
 	 */
-	private Long planDueDt;
+	private Long planRepayDate;
+
 	/**
 	 * 天数
 	 */
 	private Integer days;
+
 	/**
 	 * 期数
 	 */
-	private String periodsNo;
+	private Integer periods;
+
 	/**
-	 * 计划金额
+	 * 计划本金
 	 */
-	private BigDecimal planAmount;
+	private BigDecimal planPrincipalAmount = BigDecimal.ZERO;
+
 	/**
-	 * 罚息
+	 * 计划利息
 	 */
-	private BigDecimal penalty;
+	private BigDecimal planInterestAmount = BigDecimal.ZERO;
+
 	/**
-	 * 认定金额
+	 * 服务费
 	 */
-	private BigDecimal affirmAmount;
-	/**
-	 * 认定罚息
-	 */
-	private BigDecimal affirmPenalty;
-	/**
-	 *  结息日期
-	 */
-	private Long affirmDt;
-	/**
-	 * 还款计划id
-	 */
-	private String loanReceivableBillId;
+	private BigDecimal planServiceFee = BigDecimal.ZERO;
 	
 	/**
-     * 剩余本金
-     */
-    private BigDecimal residualprincipal;
+	 * 还款总额
+	 */
+	private BigDecimal planTotalAmount = BigDecimal.ZERO;
+
+	/**
+	 * 当期剩余本金
+	 */
+	private BigDecimal remainPrincipal = BigDecimal.ZERO;
+
+	/**
+	 * 所属机构
+	 */
+	private String orgId;
 	
-	public Long getStartDt() {
-		return startDt;
+	public RepayPlan(){
+		
 	}
 
-	public void setStartDt(Long startDt) {
-		this.startDt = startDt;
+	/**
+	 * @param startDate  当期开始日期
+	 * @param endDate  当期结束日期
+	 * @param planRepayDate 当期还款日期
+	 * @param days 当期天数
+	 * @param periods 当期 期数
+	 * @param planPrincipalAmount 当期本金
+	 * @param planInterestAmount 当期利息
+	 * @param planServiceFee 当期服务费
+	 * @param remainPrincipal 当期剩余本金
+	 * @param orgId 所属机构
+	 */
+	public RepayPlan(Long startDate, Long endDate, Long planRepayDate, Integer days, Integer periods,
+			BigDecimal planPrincipalAmount, BigDecimal planInterestAmount, BigDecimal planServiceFee,
+			BigDecimal remainPrincipal, String orgId) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.planRepayDate = planRepayDate;
+		this.days = days;
+		this.periods = periods;
+		this.planPrincipalAmount = planPrincipalAmount;
+		this.planInterestAmount = planInterestAmount;
+		this.planServiceFee = planServiceFee;
+		this.remainPrincipal = remainPrincipal;
+		this.planTotalAmount=planPrincipalAmount.add(planInterestAmount).add(planServiceFee);
+		this.orgId = orgId;
 	}
 
-	public Long getEndDt() {
-		return endDt;
+	public Long getStartDate() {
+		return startDate;
 	}
 
-	public void setEndDt(Long endDt) {
-		this.endDt = endDt;
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
 	}
 
-	public Integer getMoneyType() {
-		return moneyType;
+	public Long getEndDate() {
+		return endDate;
 	}
 
-	public void setMoneyType(Integer moneyType) {
-		this.moneyType = moneyType;
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
 	}
 
-	public Long getPlanDueDt() {
-		return planDueDt;
+	public Long getPlanRepayDate() {
+		return planRepayDate;
 	}
 
-	public void setPlanDueDt(Long planDueDt) {
-		this.planDueDt = planDueDt;
+	public void setPlanRepayDate(Long planRepayDate) {
+		this.planRepayDate = planRepayDate;
 	}
 
 	public Integer getDays() {
@@ -113,73 +138,64 @@ public class RepayPlan implements Serializable {
 		this.days = days;
 	}
 
-	public String getPeriodsNo() {
-		return periodsNo;
+	public Integer getPeriods() {
+		return periods;
 	}
 
-	public void setPeriodsNo(String periodsNo) {
-		this.periodsNo = periodsNo;
+	public void setPeriods(Integer periods) {
+		this.periods = periods;
 	}
 
-	public BigDecimal getPlanAmount() {
-		return planAmount;
+	public BigDecimal getPlanPrincipalAmount() {
+		return planPrincipalAmount;
 	}
 
-	public void setPlanAmount(BigDecimal planAmount) {
-		this.planAmount = planAmount;
+	public void setPlanPrincipalAmount(BigDecimal planPrincipalAmount) {
+		this.planPrincipalAmount = planPrincipalAmount;
 	}
 
-	public BigDecimal getPenalty() {
-		return penalty;
+	public BigDecimal getPlanInterestAmount() {
+		return planInterestAmount;
 	}
 
-	public void setPenalty(BigDecimal penalty) {
-		this.penalty = penalty;
+	public void setPlanInterestAmount(BigDecimal planInterestAmount) {
+		this.planInterestAmount = planInterestAmount;
 	}
 
-	public BigDecimal getAffirmAmount() {
-		return affirmAmount;
+	public BigDecimal getPlanServiceFee() {
+		return planServiceFee;
 	}
 
-	public void setAffirmAmount(BigDecimal affirmAmount) {
-		this.affirmAmount = affirmAmount;
+	public void setPlanServiceFee(BigDecimal planServiceFee) {
+		this.planServiceFee = planServiceFee;
 	}
 
-	public BigDecimal getAffirmPenalty() {
-		return affirmPenalty;
+	public BigDecimal getPlanTotalAmount() {
+		return planTotalAmount;
 	}
 
-	public void setAffirmPenalty(BigDecimal affirmPenalty) {
-		this.affirmPenalty = affirmPenalty;
+	public void setPlanTotalAmount(BigDecimal planTotalAmount) {
+		this.planTotalAmount = planTotalAmount;
 	}
 
-	public Long getAffirmDt() {
-		return affirmDt;
+	public BigDecimal getRemainPrincipal() {
+		return remainPrincipal;
 	}
 
-	public void setAffirmDt(Long affirmDt) {
-		this.affirmDt = affirmDt;
+	public void setRemainPrincipal(BigDecimal remainPrincipal) {
+		this.remainPrincipal = remainPrincipal;
 	}
 
+	public String getOrgId() {
+		return orgId;
+	}
 
-	public String getLoanReceivableBillId() {
-        return loanReceivableBillId;
-    }
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 
-    public void setLoanReceivableBillId(String loanReceivableBillId) {
-        this.loanReceivableBillId = loanReceivableBillId;
-    }
-
-    public static long getSerialversionuid() {
+	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-    public BigDecimal getResidualprincipal() {
-        return residualprincipal;
-    }
-
-    public void setResidualprincipal(BigDecimal residualprincipal) {
-        this.residualprincipal = residualprincipal;
-    }
 
 }

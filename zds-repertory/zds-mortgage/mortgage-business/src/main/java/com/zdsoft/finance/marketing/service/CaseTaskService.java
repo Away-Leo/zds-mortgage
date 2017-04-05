@@ -16,9 +16,20 @@ public interface CaseTaskService extends BaseService<CaseTask>{
 	
 	/**
 	 * 根据案件id 查询资信员 信息
-	 * @param caseApplyId
+	 * @param caseApplyId 案件id
 	 * @return
 	 */
 	public CaseTask findByCaseApplyId(String caseApplyId);
+	
+	/**
+	 * 
+	 * @Title: saveOrUpdateCaseTask 
+	 * @Description: 保存或提交资调员信息
+	 * @author caixiekang 
+	 * @param caseTask 资调信息Po对象
+	 * @param submitted 是否提交
+	 * @return
+	 */
+	public CaseTask saveOrUpdateCaseTask(CaseTask caseTask) throws Exception;
 	
 }

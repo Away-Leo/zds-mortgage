@@ -9,14 +9,21 @@ import com.zdsoft.finance.prcostitem.entity.PrCostItem;
 import com.zdsoft.finance.prcostitem.entity.PrCostitemApply;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 费用支拥申请
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2017-01-03
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostitemApplyVo.java 
+ * @ClassName: PrCostitemApplyVo 
+ * @Description: 费用支拥申请
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:09:44 
+ * @version V1.0
  */
 @Entity
 public class PrCostitemApplyVo extends BaseVo<PrCostitemApply> {
 	
+	private static final long serialVersionUID = -2531952698567418817L;
+
 	/**
 	 * 机构Cd
 	 */

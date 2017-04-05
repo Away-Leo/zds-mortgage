@@ -6,13 +6,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.marketing.entity.BeforehandApply;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:BeforehandApplyVo.java
- * @Package:com.zdsoft.finance.marketing.vo
- * @Description:案件预申请VO
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:14:50
- * @version:v1.0
+ * @Title: BeforehandApplyVo.java 
+ * @ClassName: BeforehandApplyVo 
+ * @Description: 案件预申请VO
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:48:13 
+ * @version V1.0
  */
 public class BeforehandApplyVo extends BaseVo<BeforehandApply>{
 
@@ -53,11 +54,11 @@ public class BeforehandApplyVo extends BaseVo<BeforehandApply>{
     /**
      * 申请期限
      */
-    private Integer applyDeadline;
+    private Integer applyTerm;
     /**
      * 申请期限单位
      */
-    private String applyDeadlineUnit;
+    private String applyTermUnit;
     /**
      * 申请费率
      */
@@ -91,11 +92,11 @@ public class BeforehandApplyVo extends BaseVo<BeforehandApply>{
 	 */
 	private String developmentDepartmentName;
 	/**
-	 * 机构代码
+	 * 公司代码
 	 */
 	private String mechanismCode;
 	/**
-	 * 机构名称
+	 * 公司名称
 	 */
 	private String mechanismName;
 	/**
@@ -134,6 +135,11 @@ public class BeforehandApplyVo extends BaseVo<BeforehandApply>{
      * 备注
      */
     private String mo;
+    
+    /**
+     * 是否是终端进件的案件(0.否(默认);1.是)
+     */
+    private Integer isTerminalCase;
     
 	public String getCaseApplyId() {
 		return caseApplyId;
@@ -182,18 +188,6 @@ public class BeforehandApplyVo extends BaseVo<BeforehandApply>{
 	}
 	public void setApplyDate(Long applyDate) {
 		this.applyDate = applyDate;
-	}
-	public Integer getApplyDeadline() {
-		return applyDeadline;
-	}
-	public void setApplyDeadline(Integer applyDeadline) {
-		this.applyDeadline = applyDeadline;
-	}
-	public String getApplyDeadlineUnit() {
-		return applyDeadlineUnit;
-	}
-	public void setApplyDeadlineUnit(String applyDeadlineUnit) {
-		this.applyDeadlineUnit = applyDeadlineUnit;
 	}
 	public BigDecimal getApplyRate() {
 		return applyRate;
@@ -321,4 +315,24 @@ public class BeforehandApplyVo extends BaseVo<BeforehandApply>{
 		BeforehandApply po = new BeforehandApply();
 		return super.toPo(this, po);
 	}
+	public Integer getIsTerminalCase() {
+		return isTerminalCase;
+	}
+	public void setIsTerminalCase(Integer isTerminalCase) {
+		this.isTerminalCase = isTerminalCase;
+	}
+    public Integer getApplyTerm() {
+        return applyTerm;
+    }
+    public void setApplyTerm(Integer applyTerm) {
+        this.applyTerm = applyTerm;
+    }
+    public String getApplyTermUnit() {
+        return applyTermUnit;
+    }
+    public void setApplyTermUnit(String applyTermUnit) {
+        this.applyTermUnit = applyTermUnit;
+    }
+	
+	
 }

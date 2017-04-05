@@ -4,12 +4,19 @@ import java.math.BigDecimal;
 
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.EvaluateCompanyRule;
+
 /**
- * 评估公司权重表
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: EvaluateCompanyRuleVo.java
+ * @ClassName: EvaluateCompanyRuleVo
+ * @Description: 评估公司权重表
+ * @author liuwei
+ * @date 2017年3月9日 上午11:27:29
+ * @version V1.0
  */
-public class EvaluateCompanyRuleVo extends BaseVo<EvaluateCompanyRule>{
+public class EvaluateCompanyRuleVo extends BaseVo<EvaluateCompanyRule> {
 
 	/**
 	 * 
@@ -20,107 +27,107 @@ public class EvaluateCompanyRuleVo extends BaseVo<EvaluateCompanyRule>{
 	 * 机构ID
 	 */
 	private BigDecimal orgId;
-	
+
 	/**
 	 * 机构名
 	 */
 	private String orgName;
-	
+
 	/**
 	 * 城市名(省)
 	 */
 	private String provinceName;
-	
+
 	/**
 	 * 城市名(市)
 	 */
 	private String cityName;
-	
+
 	/**
 	 * 城市名（区）
 	 */
 	private String districtName;
-	
+
 	/**
 	 * 城市
 	 */
 	private String city;
-	
+
 	/**
 	 * 规则
 	 */
 	private String rule;
-	
+
 	/**
 	 * 评估公司(1)
 	 */
 	private String evaluateCompanyOne;
-	
+
 	/**
 	 * 对外展示比例（%）(1)
 	 */
 	private BigDecimal outProportionOne;
-	
+
 	/**
 	 * 计算规则(1)
 	 */
 	private BigDecimal calculateRuleOne;
-	
+
 	/**
 	 * 评估公司(2)
 	 */
 	private String evaluateCompanyTwo;
-	
+
 	/**
 	 * 对外展示比例（%）(2)
 	 */
 	private BigDecimal outProportionTwo;
-	
+
 	/**
 	 * 计算规则(2)
 	 */
 	private BigDecimal calculateRuleTwo;
-	
+
 	/**
 	 * 评估公司(3)
 	 */
 	private String evaluateCompanyThree;
-	
+
 	/**
 	 * 对外展示比例（%）(3)
 	 */
 	private BigDecimal outProportionThree;
-	
+
 	/**
 	 * 计算规则(3)
 	 */
 	private BigDecimal calculateRuleThree;
-	
+
 	/**
 	 * 评估公司(4)
 	 */
 	private String evaluateCompanyFour;
-	
+
 	/**
 	 * 对外展示比例（%）(4)
 	 */
 	private BigDecimal outProportionFour;
-	
+
 	/**
 	 * 计算规则(4)
 	 */
 	private BigDecimal calculateRuleFour;
-	
+
 	/**
 	 * 评估公司(5)
 	 */
 	private String evaluateCompanyFive;
-	
+
 	/**
 	 * 对外展示比例（%）(5)
 	 */
 	private BigDecimal outProportionFive;
-	
+
 	/**
 	 * 计算规则(5)
 	 */
@@ -285,7 +292,7 @@ public class EvaluateCompanyRuleVo extends BaseVo<EvaluateCompanyRule>{
 	public void setCalculateRuleFive(BigDecimal calculateRuleFive) {
 		this.calculateRuleFive = calculateRuleFive;
 	}
-	
+
 	public String getCity() {
 		return city;
 	}
@@ -302,14 +309,15 @@ public class EvaluateCompanyRuleVo extends BaseVo<EvaluateCompanyRule>{
 		this.districtName = districtName;
 	}
 
-	public EvaluateCompanyRule toPO(){
+	public EvaluateCompanyRule toPO() {
 		EvaluateCompanyRule po = new EvaluateCompanyRule();
 		return super.toPo(this, po);
 	}
-	
-	public EvaluateCompanyRuleVo(){}
-	
-	public EvaluateCompanyRuleVo(EvaluateCompanyRule po){
+
+	public EvaluateCompanyRuleVo() {
+	}
+
+	public EvaluateCompanyRuleVo(EvaluateCompanyRule po) {
 		super(po);
 	}
 }

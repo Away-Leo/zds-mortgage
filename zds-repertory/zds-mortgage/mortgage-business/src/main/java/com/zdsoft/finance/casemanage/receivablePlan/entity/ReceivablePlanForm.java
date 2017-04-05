@@ -3,91 +3,102 @@ package com.zdsoft.finance.casemanage.receivablePlan.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.zdsoft.framework.core.common.util.ObjectHelper;
+
 /**
- * 还款计划表单vo  -- 封装还款计划生成的参�?
+ * 版权所有：重庆正大华日软件有限公司
  * 
+ * @Title: ReceivablePlanForm.java
+ * @ClassName: ReceivablePlanForm
+ * @Description: 还款计划表单参数
  * @author jincheng
- * @date 2015-09-12
- * 
+ * @date 2017年2月13日 下午4:32:43
+ * @version V1.0
  */
 public class ReceivablePlanForm implements Serializable {
-	
+
 	private static final long serialVersionUID = -3052334612139578988L;
 
-	private String projectId;//项目id
-	
-	private String projectLoanId;//放款id
+	private String caseApplyId;//案件id
 
-	private BigDecimal aMT_Page;//本金
-	
-	private BigDecimal eachAmt;//特殊还款方式：前面期数本金相同，�?后一期本�?=总本�?-前面每期本金�?
+	private String loanId;// 放款id
 
-	private Integer applyLoanDt;//放款日期
+	private BigDecimal principalAmount = BigDecimal.ZERO;// 本金
+
+	private String businessType;// 业务类型--兴业贷1、过桥贷2(只有一次付息按期还本还款方式)
+
+	private Integer term;// 期限(月)
 	
-	private Integer applyRepayDt;//到期日期
+	private String termUnit;// 期限单位(月)
 	
-	private String repayMethod;//还款方式
+	private BigDecimal rate = BigDecimal.ZERO;// 贷款利率(年)
 	
-	private String period;//还款期数
+	private String rateUnit;// 贷款利率单位(年)
 	
-	private String piecewisePeriod;//分段还款还款期数
+	private Integer spTerm;//先息后本还款期限(月)
 	
-	private String loanPeriodMonth;//期限�?
+	private BigDecimal spRate= BigDecimal.ZERO;//先息后本月利率
 	
-	private String loanPeriodDay;//期限�?
+	private Integer loanDays;//垫资天数
 	
-	private String selectFixRepaymentDt="1";//每期还款方式 1、放款日 2、指定日 3、月�?4、指�?+月末
+	private String repayMethod;// 还款方式
+
+	private String eachRepayMethod;// 每期还款方式      首月按天计息按还款日还 	对月对日还款
+
+	private String splictPeriod;// 分段还款还款期数
+
+	//季度还本比例
 	
-	private String repaymentDt;//还款指定�?
+	//第一年 2% 第二年 % 第三年 % 第四年 % 第五年 %    利率性	
+
+	private String rateNature;// 利率性质
+
+	private Long loanDate;// 放款日期
+
+	private Integer repaymentDate;// 每月还款号数
+
+	private Integer repaymentDay = 360;// 还款计算天数
 	
-	private String e_RateUnit;//贷款利率单位
-	
-	private String interestRate;//贷款利率
-	
-	private String actualRate;// 贷款利率
-	
-	private String piecewiseRate;//分段还款利率
-	
-	private boolean h_InterestType=false;//项目算尾
-	
-	private boolean h_IsTailType=true;//期限内算�?
-	
-	private String repaymentDay="360";//还款计算天数
-	
-	private boolean h_IsInterest=false;//是否提前收息
-	
-	private Integer repayDt;//还款�?
-	
-	private BigDecimal repayAmt;//还款金额
-	
-	private String repayType="1";//还款类型 1、正常还�? 2、部分还�? 3、提前结�?
-	
-	private Integer lastRepayDt;//上次还款�? 用于部分还款 提前结清
-	
-	private boolean yueLiSuanFan=false;//算利息是否用月利率算法false，天数算法true
-	
-	private int xiaoshuwei=12;//保留几位小数�?
-	
-	private String lixiRepayWay;//还款日利息的算法
-	
-	/**
-	 * 季度本金比例
-	 */
-	private String quarterlyPrincipalRatio;
-	public String getProjectId() {
-		return projectId;
+	private Integer decimalPlace=2;//小数位
+
+	public String getCaseApplyId() {
+		return caseApplyId;
 	}
 
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
 	}
 
-	public String getProjectLoanId() {
-		return projectLoanId;
+	public String getLoanId() {
+		return loanId;
 	}
 
-	public void setProjectLoanId(String projectLoanId) {
-		this.projectLoanId = projectLoanId;
+	public void setLoanId(String loanId) {
+		this.loanId = loanId;
+	}
+
+	public BigDecimal getPrincipalAmount() {
+		return principalAmount;
+	}
+
+	public void setPrincipalAmount(BigDecimal principalAmount) {
+		this.principalAmount = principalAmount;
+	}
+
+	public String getBusinessType() {
+		return businessType;
+	}
+
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType;
+	}
+
+	public Integer getTerm() {
+		return term;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
 	}
 
 	public String getRepayMethod() {
@@ -98,217 +109,114 @@ public class ReceivablePlanForm implements Serializable {
 		this.repayMethod = repayMethod;
 	}
 
-	public String getPeriod() {
-		return period;
+	public String getEachRepayMethod() {
+		return eachRepayMethod;
 	}
 
-	public void setPeriod(String period) {
-		this.period = period;
+	public void setEachRepayMethod(String eachRepayMethod) {
+		this.eachRepayMethod = eachRepayMethod;
 	}
 
-	public String getPiecewisePeriod() {
-		return piecewisePeriod;
+	public Integer getSpTerm() {
+		return spTerm;
 	}
 
-	public void setPiecewisePeriod(String piecewisePeriod) {
-		this.piecewisePeriod = piecewisePeriod;
+	public void setSpTerm(Integer spTerm) {
+		this.spTerm = spTerm;
 	}
 
-	public String getLoanPeriodMonth() {
-		return loanPeriodMonth == ""?"0":loanPeriodMonth;
+	public BigDecimal getSpRate() {
+		return spRate;
 	}
 
-	public void setLoanPeriodMonth(String loanPeriodMonth) {
-		this.loanPeriodMonth = loanPeriodMonth;
+	public void setSpRate(BigDecimal spRate) {
+		this.spRate = spRate;
 	}
 
-	public String getLoanPeriodDay() {
-		return loanPeriodDay == "" ?"0":loanPeriodDay;
+	public String getSplictPeriod() {
+		return splictPeriod;
 	}
 
-	public void setLoanPeriodDay(String loanPeriodDay) {
-		this.loanPeriodDay = loanPeriodDay;
+	public void setSplictPeriod(String splictPeriod) {
+		this.splictPeriod = splictPeriod;
 	}
 
-	public String getSelectFixRepaymentDt() {
-		return selectFixRepaymentDt;
+	public BigDecimal getRate() {
+		return rate;
 	}
 
-	public void setSelectFixRepaymentDt(String selectFixRepaymentDt) {
-		this.selectFixRepaymentDt = selectFixRepaymentDt;
+	public void setRate(BigDecimal rate) {
+		this.rate = rate;
 	}
 
-	public String getRepaymentDt() {
-		return repaymentDt;
+	public String getRateNature() {
+		return rateNature;
 	}
 
-	public void setRepaymentDt(String repaymentDt) {
-		this.repaymentDt = repaymentDt;
+	public void setRateNature(String rateNature) {
+		this.rateNature = rateNature;
 	}
 
-	public String getE_RateUnit() {
-		return e_RateUnit;
+	public Long getLoanDate() {
+		return loanDate;
 	}
 
-	public void setE_RateUnit(String e_RateUnit) {
-		this.e_RateUnit = e_RateUnit;
+	public void setLoanDate(Long loanDate) {
+		this.loanDate = loanDate;
 	}
 
-	public String getInterestRate() {
-		return interestRate;
+	public Integer getLoanDays() {
+		return loanDays;
 	}
 
-	public void setInterestRate(String interestRate) {
-		this.interestRate = interestRate;
+	public void setLoanDays(Integer loanDays) {
+		this.loanDays = loanDays;
 	}
 
-	public boolean isH_InterestType() {
-		return h_InterestType;
+	public Integer getRepaymentDate() {
+		if(ObjectHelper.isEmpty(repaymentDate)&&ObjectHelper.isNotEmpty(this.loanDate)&&Integer.parseInt((""+this.loanDate).substring(6, 8))>28){
+			repaymentDate=Integer.parseInt((""+this.loanDate).substring(6, 8));
+		}
+		return repaymentDate;
 	}
 
-	public void setH_InterestType(boolean h_InterestType) {
-		this.h_InterestType = h_InterestType;
+	public void setRepaymentDate(Integer repaymentDate) {
+		this.repaymentDate = repaymentDate;
+	}
+
+	public Integer getRepaymentDay() {
+		return repaymentDay;
+	}
+
+	public void setRepaymentDay(Integer repaymentDay) {
+		this.repaymentDay = repaymentDay;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public String getRepaymentDay() {
-		return repaymentDay== ""?"360":repaymentDay;
+	public Integer getDecimalPlace() {
+		return decimalPlace;
 	}
 
-	public void setRepaymentDay(String repaymentDay) {
-		this.repaymentDay = repaymentDay;
+	public void setDecimalPlace(Integer decimalPlace) {
+		this.decimalPlace = decimalPlace;
 	}
 
-	public boolean isH_IsTailType() {
-		return h_IsTailType;
+	public String getTermUnit() {
+		return termUnit;
 	}
 
-	public void setH_IsTailType(boolean h_IsTailType) {
-		this.h_IsTailType = h_IsTailType;
+	public void setTermUnit(String termUnit) {
+		this.termUnit = termUnit;
 	}
 
-	public boolean isH_IsInterest() {
-		return h_IsInterest;
+	public String getRateUnit() {
+		return rateUnit;
 	}
 
-	public void setH_IsInterest(boolean h_IsInterest) {
-		this.h_IsInterest = h_IsInterest;
+	public void setRateUnit(String rateUnit) {
+		this.rateUnit = rateUnit;
 	}
-
-	public String getActualRate() {
-		return actualRate;
-	}
-
-	public void setActualRate(String actualRate) {
-		this.actualRate = actualRate;
-	}
-
-	public String getPiecewiseRate() {
-		return piecewiseRate;
-	}
-
-	public void setPiecewiseRate(String piecewiseRate) {
-		this.piecewiseRate = piecewiseRate;
-	}
-
-	public String getRepayType() {
-		return repayType;
-	}
-
-	public void setRepayType(String repayType) {
-		this.repayType = repayType;
-	}
-
-	public Integer getApplyLoanDt() {
-		return applyLoanDt;
-	}
-
-	public void setApplyLoanDt(Integer applyLoanDt) {
-		this.applyLoanDt = applyLoanDt;
-	}
-
-	public Integer getApplyRepayDt() {
-		return applyRepayDt;
-	}
-
-	public void setApplyRepayDt(Integer applyRepayDt) {
-		this.applyRepayDt = applyRepayDt;
-	}
-
-	public Integer getRepayDt() {
-		return repayDt;
-	}
-
-	public void setRepayDt(Integer repayDt) {
-		this.repayDt = repayDt;
-	}
-
-	public Integer getLastRepayDt() {
-		return lastRepayDt;
-	}
-
-	public void setLastRepayDt(Integer lastRepayDt) {
-		this.lastRepayDt = lastRepayDt;
-	}
-
-	public boolean isYueLiSuanFan() {
-		return yueLiSuanFan;
-	}
-
-	public void setYueLiSuanFan(boolean yueLiSuanFan) {
-		this.yueLiSuanFan = yueLiSuanFan;
-	}
-
-	public int getXiaoshuwei() {
-		return xiaoshuwei;
-	}
-
-	public void setXiaoshuwei(int xiaoshuwei) {
-		this.xiaoshuwei = xiaoshuwei;
-	}
-
-
-	public String getLixiRepayWay() {
-		return lixiRepayWay;
-	}
-
-	public void setLixiRepayWay(String lixiRepayWay) {
-		this.lixiRepayWay = lixiRepayWay;
-	}
-
-	public BigDecimal getaMT_Page() {
-		return aMT_Page;
-	}
-
-	public void setaMT_Page(BigDecimal aMT_Page) {
-		this.aMT_Page = aMT_Page;
-	}
-
-	public BigDecimal getEachAmt() {
-		return eachAmt;
-	}
-
-	public void setEachAmt(BigDecimal eachAmt) {
-		this.eachAmt = eachAmt;
-	}
-
-	public BigDecimal getRepayAmt() {
-		return repayAmt;
-	}
-
-	public void setRepayAmt(BigDecimal repayAmt) {
-		this.repayAmt = repayAmt;
-	}
-
-	public String getQuarterlyPrincipalRatio() {
-		return quarterlyPrincipalRatio;
-	}
-
-	public void setQuarterlyPrincipalRatio(String quarterlyPrincipalRatio) {
-		this.quarterlyPrincipalRatio = quarterlyPrincipalRatio;
-	}
-	
 }

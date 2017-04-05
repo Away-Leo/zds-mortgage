@@ -7,6 +7,7 @@
         <groupId>com.zdsoft.finance</groupId>
         <artifactId>zds-core</artifactId>
         <version>1.0</version>
+        <relativePath>../zds-core</relativePath>
     </parent>
 
     <artifactId>zds-spi</artifactId>

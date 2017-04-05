@@ -29,7 +29,7 @@
                     <dd class="detail">
                         <input class="zui-combobox zui-validatebox" id="materiaTypeCode" type="hidden"
                                name="materiaTypeCode"
-                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=materiaClass"
+                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00150"
                                data-callback="materiaTypeCodeChange"
                                data-height="300"
                                data-defaultvalue="${materiaTypeCode}"
@@ -67,9 +67,9 @@
                         <th>资料类型</th>
                         <th colspan="8">资料名称</th>
                     </tr>
-                    <c:forEach items="${data['maclass1']}" var="d" varStatus="v">
+                    <c:forEach items="${data['YWDM0015001']}" var="d" varStatus="v">
                         <tr>
-                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['maclass1'])}" style="width: 11%">客户资料</td></c:if>
+                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['YWDM0015001'])}" style="width: 11%">客户资料</td></c:if>
                             <c:forEach items="${d}" var="rl" varStatus="lv">
                                 <td style="width: 9%;height: 70px">
                                     <span>${rl['name']}</span>
@@ -83,9 +83,9 @@
                             </c:if>
                         </tr>
                     </c:forEach>
-                    <c:forEach items="${data['maclass2']}" var="d" varStatus="v">
+                    <c:forEach items="${data['YWDM0015002']}" var="d" varStatus="v">
                         <tr>
-                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['maclass2'])}" style="width: 11%">合同类</td></c:if>
+                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['YWDM0015002'])}" style="width: 11%">合同类</td></c:if>
                             <c:forEach items="${d}" var="rl" varStatus="lv">
                                 <td style="width: 9%;height: 70px">
                                     <span>${rl['name']}</span>
@@ -99,9 +99,9 @@
                             </c:if>
                         </tr>
                     </c:forEach>
-                    <c:forEach items="${data['maclass3']}" var="d" varStatus="v">
+                    <c:forEach items="${data['YWDM0015003']}" var="d" varStatus="v">
                         <tr>
-                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['maclass3'])}" style="width: 11%">内审文件夹</td></c:if>
+                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['YWDM0015003'])}" style="width: 11%">内审文件夹</td></c:if>
                             <c:forEach items="${d}" var="rl" varStatus="lv">
                                 <td style="width: 9%;height: 70px">
                                     <span>${rl['name']}</span>
@@ -115,9 +115,9 @@
                             </c:if>
                         </tr>
                     </c:forEach>
-                    <c:forEach items="${data['maclass4']}" var="d" varStatus="v">
+                    <c:forEach items="${data['YWDM0015004']}" var="d" varStatus="v">
                         <tr>
-                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['maclass4'])}" style="width: 11%">权证类</td></c:if>
+                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['YWDM0015004'])}" style="width: 11%">权证类</td></c:if>
                             <c:forEach items="${d}" var="rl" varStatus="lv">
                                 <td style="width: 9%;height: 70px">
                                     <span>${rl['name']}</span>
@@ -131,9 +131,9 @@
                             </c:if>
                         </tr>
                     </c:forEach>
-                    <c:forEach items="${data['maclass5']}" var="d" varStatus="v">
+                    <c:forEach items="${data['YWDM0015005']}" var="d" varStatus="v">
                         <tr>
-                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['maclass5'])}" style="width: 11%">银行信息类</td></c:if>
+                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['YWDM0015005'])}" style="width: 11%">银行信息类</td></c:if>
                             <c:forEach items="${d}" var="rl" varStatus="lv">
                                 <td style="width: 9%;height: 70px">
                                     <span>${rl['name']}</span>
@@ -147,9 +147,9 @@
                             </c:if>
                         </tr>
                     </c:forEach>
-                    <c:forEach items="${data['maclass6']}" var="d" varStatus="v">
+                    <c:forEach items="${data['YWDM0015006']}" var="d" varStatus="v">
                         <tr>
-                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['maclass6'])}" style="width: 11%">其他</td></c:if>
+                            <c:if test="${v.index==0}"><td rowspan="${fn:length(data['YWDM0015006'])}" style="width: 11%">其他</td></c:if>
                             <c:forEach items="${d}" var="rl" varStatus="lv">
                                 <td style="width: 9%;height: 70px">
                                     <span>${rl['name']}</span>

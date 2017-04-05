@@ -1,4 +1,5 @@
-/*-------------------------------------
+/*
+/!*-------------------------------------
 zTree Style
 
 version:	3.5.19
@@ -6,7 +7,7 @@ author:		Hunter.z
 email:		hunter.z@263.net
 website:	http://code.google.com/p/jquerytree/
 
--------------------------------------*/
+-------------------------------------*!/
 
 .ztree * {
     padding: 0;
@@ -359,20 +360,20 @@ ul.ztree.zTreeDragUL {
     position: absolute
 }
 
-/* level style*/
-/*.ztree li span.button.level0 {
+/!* level style*!/
+/!*.ztree li span.button.level0 {
 	display:none;
 }
 .ztree li ul.level0 {
 	padding:0;
 	background:none;
-}*/
+}*!/
 
-/*-------------------------------------
+/!*-------------------------------------
 zTree Style
 
 author:Peony
--------------------------------------*/
+-------------------------------------*!/
 .ztree li a.curSelectedNode {
     padding-top: 0;
     background-color: #b2d9ff;
@@ -386,3 +387,4 @@ author:Peony
 
 
 
+*/

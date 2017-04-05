@@ -7,17 +7,23 @@ import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.capital.entity.CreditCostTracking;
 
 /**
- * 应付资金跟踪service
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditCostTrackingService.java
+ * @ClassName: CreditCostTrackingService
+ * @Description: 应付资金跟踪service
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:33:45
+ * @version V1.0
  */
 public interface CreditCostTrackingService extends BaseService<CreditCostTracking> {
 
 	/**
-	 * 保存或修改应付资金跟踪
 	 * 
+	 * @Title: saveOrUpdateCostTracking
+	 * @Description: 保存或修改应付资金跟踪
+	 * @author liuwei
 	 * @param creditCostTracking
 	 *            应付资金跟踪信息
 	 * @return 应付资金跟踪信息
@@ -27,8 +33,10 @@ public interface CreditCostTrackingService extends BaseService<CreditCostTrackin
 	public CreditCostTracking saveOrUpdateCostTracking(CreditCostTracking creditCostTracking) throws Exception;
 
 	/**
-	 * 通过临时uuid查找信息
 	 * 
+	 * @Title: findByTempUuid
+	 * @Description: 通过临时uuid查找信息
+	 * @author liuwei
 	 * @param tempUuid
 	 *            临时id
 	 * @return 应付资金跟踪列表
@@ -36,8 +44,10 @@ public interface CreditCostTrackingService extends BaseService<CreditCostTrackin
 	public List<CreditCostTracking> findByTempUuid(String tempUuid);
 
 	/**
-	 * 通过查询条件查询应付资金跟踪
 	 * 
+	 * @Title: findByConditions
+	 * @Description: 通过查询条件查询应付资金跟踪
+	 * @author liuwei
 	 * @param conditions
 	 *            查询条件
 	 * @return 应付资金跟踪列表

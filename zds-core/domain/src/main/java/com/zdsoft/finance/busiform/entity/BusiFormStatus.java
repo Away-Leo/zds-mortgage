@@ -29,7 +29,12 @@ public enum BusiFormStatus {
     /**
      * 审批不通过
      */
-    NOTAPPROVALED(5);
+    NOTAPPROVALED(5),
+    
+    /**
+     * 规则拒绝
+     */
+    RULESREFUSE(6);
 
     public final Integer value;
     
@@ -57,6 +62,9 @@ public enum BusiFormStatus {
 			break;
 		case 5:
 			name = "审批不通过";
+			break;
+		case 6:
+			name = "规则拒绝";
 			break;
 		default:
 			break;

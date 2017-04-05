@@ -5,8 +5,9 @@ import java.io.Serializable;
 import org.springframework.beans.BeanUtils;
 
 import com.zdsoft.finance.app.usercenter.MyBusiInfoDto;
-import com.zdsoft.finance.common.utils.AmountConversionUtil;
-import com.zdsoft.finance.marketing.entity.CaseApplyStageEnum;
+import com.zdsoft.finance.busiform.entity.BusiFormStatus;
+import com.zdsoft.finance.common.enums.busiform.ApplyModelTypeEnum;
+import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
@@ -14,7 +15,7 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
  * 版权所有：重庆正大华日软件有限公司
  * @Title:MyBusiInfoVo.java
  * @Package:com.zdsoft.finance.app.flow.vo
- * @Description:我的申请相关信息Vo
+ * @Description:我的申请相关信息Vo（APP）
  * @author: jingyh
  * @date:2017年1月13日 下午6:14:59
  * @version:v1.0
@@ -29,105 +30,50 @@ public class MyBusiInfoVo implements Serializable {
 	private String caseApplyId;
 	
 	/**
-	 * 案件编号
+	 * 具体业务表单Id
 	 */
-	private String caseCode;
+	private String businessKey;
 	
 	/**
-	 * 贷款金额
+	 * 流程实例Id
 	 */
-	private String applyAmount;
+	private String processInstanceId;
 	
 	/**
-	 * 产品名称
+	 * 标题
 	 */
-	private String productName;
+	private String applyTitle;
 	
 	/**
-	 * 综合评估价
+	 * 状态值
 	 */
-	private String estimate;
+	private Integer formStatus;
 	
 	/**
-	 * 客户姓名
+	 * 状态描述
 	 */
-	private String clientName;
+	private String formStatusName;
 	
 	/**
-	 * 联系方式
+	 * 主借人姓名
 	 */
-	private String contact;
+	private String mainCustomerName;
 	
 	/**
-	 * 审批状态
+	 * 申请时间字符串
 	 */
-	private String caseApplyStatus;
-	/**
-	 * 评估价抵押成数
-	 */
-	private String assessedPriceMortgage;
+	private String applyDateStr;
 	
 	/**
-	 * 案件阶段
+	 * 申请类型标示
 	 */
-	private String stage;
+	private String modelType;
+	
+	/**
+	 * 申请类型名称
+	 */
+	private String modelTypeName;
 
-	public String getCaseCode() {
-		return caseCode;
-	}
-
-	public void setCaseCode(String caseCode) {
-		this.caseCode = caseCode;
-	}
-
-	public String getApplyAmount() {
-		return applyAmount;
-	}
-
-	public void setApplyAmount(String applyAmount) {
-		this.applyAmount = applyAmount;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public String getEstimate() {
-		return estimate;
-	}
-
-	public void setEstimate(String estimate) {
-		this.estimate = estimate;
-	}
-
-	public String getClientName() {
-		return clientName;
-	}
-
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
-
-	public String getStage() {
-		return stage;
-	}
-
-	public void setStage(String stage) {
-		this.stage = stage;
-	}
 
 	public String getCaseApplyId() {
 		return caseApplyId;
@@ -136,21 +82,77 @@ public class MyBusiInfoVo implements Serializable {
 	public void setCaseApplyId(String caseApplyId) {
 		this.caseApplyId = caseApplyId;
 	}
-	
-	public String getCaseApplyStatus() {
-		return caseApplyStatus;
+
+	public String getBusinessKey() {
+		return businessKey;
 	}
 
-	public void setCaseApplyStatus(String caseApplyStatus) {
-		this.caseApplyStatus = caseApplyStatus;
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
 	}
 
-	public String getAssessedPriceMortgage() {
-		return assessedPriceMortgage;
+	public String getProcessInstanceId() {
+		return processInstanceId;
 	}
 
-	public void setAssessedPriceMortgage(String assessedPriceMortgage) {
-		this.assessedPriceMortgage = assessedPriceMortgage;
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
+	public String getApplyTitle() {
+		return applyTitle;
+	}
+
+	public void setApplyTitle(String applyTitle) {
+		this.applyTitle = applyTitle;
+	}
+
+	public Integer getFormStatus() {
+		return formStatus;
+	}
+
+	public void setFormStatus(Integer formStatus) {
+		this.formStatus = formStatus;
+	}
+
+	public String getMainCustomerName() {
+		return mainCustomerName;
+	}
+
+	public void setMainCustomerName(String mainCustomerName) {
+		this.mainCustomerName = mainCustomerName;
+	}
+
+	public String getApplyDateStr() {
+		return applyDateStr;
+	}
+
+	public void setApplyDateStr(String applyDateStr) {
+		this.applyDateStr = applyDateStr;
+	}
+
+	public String getModelType() {
+		return modelType;
+	}
+
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
+	}
+
+	public String getModelTypeName() {
+		return modelTypeName;
+	}
+
+	public void setModelTypeName(String modelTypeName) {
+		this.modelTypeName = modelTypeName;
+	}
+
+	public String getFormStatusName() {
+		return formStatusName;
+	}
+
+	public void setFormStatusName(String formStatusName) {
+		this.formStatusName = formStatusName;
 	}
 
 	public MyBusiInfoVo() {
@@ -165,17 +167,18 @@ public class MyBusiInfoVo implements Serializable {
 	 */
 	public MyBusiInfoVo(MyBusiInfoDto info) {
 		if (ObjectHelper.isNotEmpty(info)) {
-			BeanUtils.copyProperties(info, this,new String[]{"estimate","applyAmount","caseStage"});
-			if (ObjectHelper.isNotEmpty(info.getStage())) {
-				this.setStage(CaseApplyStageEnum.getCaseApplyStageName(info.getStage()));
+			BeanUtils.copyProperties(info, this);
+			// 状态值
+			if (ObjectHelper.isNotEmpty(info.getFormStatus())) {
+				this.setFormStatusName(BusiFormStatus.getName(info.getFormStatus()));
 			}
-			// 转换贷款金额
-			if (ObjectHelper.isNotEmpty(info.getApplyAmount())) {
-				this.setApplyAmount(AmountConversionUtil.convertToWYuan(info.getApplyAmount()).toString() + "万");
+			// 申请时间
+			if (ObjectHelper.isNotEmpty(info.getApplyDate())) {
+				this.setApplyDateStr(DateHelper.longToDate(info.getApplyDate(), DateHelper.DATE_WITHMINUTE_FORMAT));
 			}
-			// 转换估价
-			if (ObjectHelper.isNotEmpty(info.getEstimate())) {
-				this.setEstimate(AmountConversionUtil.convertToWYuan(info.getEstimate()).toString() + "万");
+			// 申请类型
+			if (ObjectHelper.isNotEmpty(info.getModelType())) {
+				this.setModelTypeName(ApplyModelTypeEnum.getName(info.getModelType()));
 			}
 		}
 	}

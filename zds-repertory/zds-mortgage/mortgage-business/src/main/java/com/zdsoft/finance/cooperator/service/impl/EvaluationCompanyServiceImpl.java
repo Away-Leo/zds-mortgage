@@ -11,6 +11,16 @@ import com.zdsoft.finance.cooperator.entity.EvaluationCompany;
 import com.zdsoft.finance.cooperator.repository.EvaluationCompanyRepository;
 import com.zdsoft.finance.cooperator.service.EvaluationCompanyService;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: EvaluationCompanyServiceImpl.java 
+ * @ClassName: EvaluationCompanyServiceImpl 
+ * @Description: 评估公司ServiceImpl
+ * @author liuwei
+ * @date 2017年3月8日 上午9:55:14 
+ * @version V1.0
+ */
 @Service("evaluationCompanyService")
 public class EvaluationCompanyServiceImpl extends BaseServiceImpl<EvaluationCompany, CustomRepository<EvaluationCompany, String>> implements EvaluationCompanyService {
 

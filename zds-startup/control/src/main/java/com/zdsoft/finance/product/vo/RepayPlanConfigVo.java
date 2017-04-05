@@ -6,61 +6,76 @@ import com.zdsoft.finance.product.entity.RepayPlanConfig;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 流程配置vo
- * @author longwei
- * @date 2016/12/29
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RepayPlanConfigVo.java 
+ * @ClassName: RepayPlanConfigVo 
+ * @Description: 还款计划配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午5:02:44 
+ * @version V1.0
  */
 public class RepayPlanConfigVo extends BaseVo<RepayPlanConfig> {
 
-	// 费用项目
-	private String feeNm;
+	private static final long serialVersionUID = -85683954887695687L;
+
+	/**
+	 * 费用项目
+	 */
+	private String feeName;
 	
-	// 费用项目
-	private String feeCd;
+	/**
+	 * 费用项目
+	 */
+	private String feeCode;
 	
 	// 收款方
-	private String receiverCd;
+	private String receiverId;
 	
-	// 收款方
-	private String receiverNm;
+	/**
+	 * 收款方名字
+	 */
+	private String receiverName;
 	
-	// 是否启用
+	/**
+	 * 是否启用
+	 */
 	private Boolean isEnable;
 	
-	// 所属产品
+	/**
+	 * 所属产品
+	 */
 	private ProductVo productVo;
 
-	public String getFeeNm() {
-		return feeNm;
+	public String getFeeName() {
+		return feeName;
 	}
 
-	public void setFeeNm(String feeNm) {
-		this.feeNm = feeNm;
+	public void setFeeName(String feeName) {
+		this.feeName = feeName;
 	}
 
-	public String getFeeCd() {
-		return feeCd;
+	public String getFeeCode() {
+		return feeCode;
 	}
 
-	public void setFeeCd(String feeCd) {
-		this.feeCd = feeCd;
+	public void setFeeCode(String feeCode) {
+		this.feeCode = feeCode;
 	}
 
-	public String getReceiverCd() {
-		return receiverCd;
+	public String getReceiverId() {
+		return receiverId;
 	}
 
-	public void setReceiverCd(String receiverCd) {
-		this.receiverCd = receiverCd;
+	public void setReceiverId(String receiverId) {
+		this.receiverId = receiverId;
 	}
 
-	public String getReceiverNm() {
-		return receiverNm;
+	public String getReceiverName() {
+		return receiverName;
 	}
 
-	public void setReceiverNm(String receiverNm) {
-		this.receiverNm = receiverNm;
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
 	}
 
 	public Boolean getIsEnable() {
@@ -93,7 +108,6 @@ public class RepayPlanConfigVo extends BaseVo<RepayPlanConfig> {
 			Product product=this.getProductVo().toPo();
 			repayPlanConfig.setProduct(product);
 		}
-		
 		return repayPlanConfig;
 	}
 	

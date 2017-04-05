@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.RepayPlanConfig;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 import com.zdsoft.framework.core.common.page.Page;
@@ -13,10 +12,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 还款计划操作仓库接口实现
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RepayPlanConfigRepositoryImpl.java 
+ * @ClassName: RepayPlanConfigRepositoryImpl 
+ * @Description: 还款计划操作仓库接口实现
+ * @author gufeng 
+ * @date 2017年3月6日 下午4:59:03 
+ * @version V1.0
  */
 public class RepayPlanConfigRepositoryImpl {
 
@@ -24,20 +26,20 @@ public class RepayPlanConfigRepositoryImpl {
 	private EntityManager em;
 	
 	@SuppressWarnings("unchecked")
-	public Page<RepayPlanConfig> findPage(RepayPlanConfig repayPlanConfig,Pageable pageable) throws BusinessException {
+	public Page<RepayPlanConfig> findPage(RepayPlanConfig repayPlanConfig,Pageable pageable){
 		
 		StringBuffer hql=new StringBuffer(" from RepayPlanConfig rp where 1=1 and rp.isDeleted=:isDeleted ");
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeNm())){
-			hql.append("and rp.feeNm like :feeNm ");
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeName())){
+			hql.append("and rp.feeName like :feeName ");
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeCd())){
-			hql.append("and rp.feeCd=:feeCd ");
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeCode())){
+			hql.append("and rp.feeCode=:feeCode ");
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverCd())){
-			hql.append("and rp.receiverCd = :receiverCd ");
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverId())){
+			hql.append("and rp.receiverId = :receiverId ");
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverNm())){
-			hql.append("and rp.receiverNm like :receiverNm ");
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverName())){
+			hql.append("and rp.receiverName like :receiverName ");
 		}
 		if(ObjectHelper.isNotEmpty(repayPlanConfig.getIsEnable())){
 			hql.append("and rp.isEnable=:isEnable ");
@@ -52,21 +54,21 @@ public class RepayPlanConfigRepositoryImpl {
 		
 		query.setParameter("isDeleted", !BaseEntity.DELETED);
 		queryC.setParameter("isDeleted", !BaseEntity.DELETED);
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeNm())){
-			query.setParameter("feeNm", "%"+repayPlanConfig.getFeeNm()+"%");
-			queryC.setParameter("feeNm", "%"+repayPlanConfig.getFeeNm()+"%");
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeName())){
+			query.setParameter("feeName", "%"+repayPlanConfig.getFeeName()+"%");
+			queryC.setParameter("feeName", "%"+repayPlanConfig.getFeeName()+"%");
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeCd())){
-			query.setParameter("feeCd", repayPlanConfig.getFeeCd());
-			queryC.setParameter("feeCd", repayPlanConfig.getFeeCd());
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeCode())){
+			query.setParameter("feeCode", repayPlanConfig.getFeeCode());
+			queryC.setParameter("feeCode", repayPlanConfig.getFeeCode());
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverNm())){
-			query.setParameter("receiverNm", "%"+repayPlanConfig.getReceiverNm()+"%");
-			queryC.setParameter("receiverNm", "%"+repayPlanConfig.getReceiverNm()+"%");
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverName())){
+			query.setParameter("receiverName", "%"+repayPlanConfig.getReceiverName()+"%");
+			queryC.setParameter("receiverName", "%"+repayPlanConfig.getReceiverName()+"%");
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverCd())){
-			query.setParameter("receiverCd", repayPlanConfig.getReceiverCd());
-			queryC.setParameter("receiverCd", repayPlanConfig.getReceiverCd());
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverId())){
+			query.setParameter("receiverId", repayPlanConfig.getReceiverId());
+			queryC.setParameter("receiverId", repayPlanConfig.getReceiverId());
 		}
 		if(ObjectHelper.isNotEmpty(repayPlanConfig.getIsEnable())){
 			query.setParameter("isEnable", repayPlanConfig.getIsEnable());

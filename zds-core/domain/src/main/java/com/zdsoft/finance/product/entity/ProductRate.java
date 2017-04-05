@@ -9,13 +9,16 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 产品贷款利率表
- * @author longwei
- * @date 2016/12/22
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductRate.java 
+ * @ClassName: ProductRate 
+ * @Description: 产品贷款利率表
+ * @author gufeng 
+ * @date 2017年3月6日 下午8:26:46 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_product_rate")
+@Table(name="prd_product_rate")
 public class ProductRate extends BaseEntity{
 	
 	private static final long serialVersionUID = 8313266067613529246L;
@@ -23,13 +26,13 @@ public class ProductRate extends BaseEntity{
 	/**
 	 * 利率
 	 */
-	@Column
+	@Column(precision = 18,scale = 6)
 	private Double rate;
 	
 	/**
 	 * 利率单位
 	 */
-	@Column(length=15)
+	@Column(length=20)
 	private String rateUnit;
 	
 	/**
@@ -41,7 +44,7 @@ public class ProductRate extends BaseEntity{
 	/**
 	 * 期限范围开始日期单位
 	 */
-	@Column(length=15)
+	@Column(length=20)
 	private String startDateUnit;
 	
 	/**
@@ -53,7 +56,7 @@ public class ProductRate extends BaseEntity{
 	/**
 	 * 期限范围结束日期单位
 	 */
-	@Column(length=15)
+	@Column(length=20)
 	private String endDateUnit;
 
 	/**

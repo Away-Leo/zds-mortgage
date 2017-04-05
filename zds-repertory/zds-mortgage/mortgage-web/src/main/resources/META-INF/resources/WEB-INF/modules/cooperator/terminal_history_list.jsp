@@ -7,14 +7,9 @@
 					<table>
 						<thead>
 		        			<tr>
-		            			<th data-options="field:planTimeFrame">计划时段</th>
-		            			<th data-options="field:maintainer">维护人</th>
-		            			<th data-options="field:approver">审批人</th>
-		            			<th data-options="field:planApproveType">计划维护方式</th>
-		            			<th data-options="field:planterminalState">计划终端状态</th>
-		            			<th data-options="field:planMaintainThing">计划具体维护事项</th>
-		            			<th data-options="field:isDoneName">是否完成</th>
-		            			<th data-options="field:howThingCondition">具体落实执行情况</th>
+		            			<th data-options="field:maintainerName">维护人</th>
+		            			<th data-options="field:createDateLong">维护时间</th>
+		            			<th data-options="field:planMaintainThing">具体维护事项</th>
 					        </tr>
 						</thead>
 					</table>

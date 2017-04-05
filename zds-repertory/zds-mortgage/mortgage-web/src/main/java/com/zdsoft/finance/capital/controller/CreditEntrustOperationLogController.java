@@ -22,11 +22,15 @@ import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
 /**
- * 信托计划操作日志controller
  * 
- * @createTime:2017年1月12日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustOperationLogController.java
+ * @ClassName: CreditEntrustOperationLogController
+ * @Description: 信托计划操作日志controller
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:11:42
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/creditOperationLog")
@@ -36,13 +40,16 @@ public class CreditEntrustOperationLogController extends BaseController {
 	CreditEntrustOperationLogService creditEntrustOperationLogService;
 
 	/**
-	 * 查询列表
 	 * 
+	 * @Title: getCreditLogs
+	 * @Description: 查询列表
+	 * @author liuwei
 	 * @param request
 	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 日志列表json
 	 */
 	@RequestMapping("/getCreditLogs")
 	@UriKey(key = "com.zdsoft.finance.capital.getCreditLogs")
@@ -68,9 +75,15 @@ public class CreditEntrustOperationLogController extends BaseController {
 				queryObjs);
 		List<CreditEntrustOperationLogVo> logsVo = new ArrayList<CreditEntrustOperationLogVo>();
 
-		for (CreditEntrustOperationLog log : logPage.getRecords()) {
-			CreditEntrustOperationLogVo logVo = new CreditEntrustOperationLogVo(log, new String[] {}, new String[] {});
-
+		for (int i = 0; i < logPage.getRecords().size(); i++) {
+			CreditEntrustOperationLogVo logVo = new CreditEntrustOperationLogVo(logPage.getRecords().get(i),
+					new String[] {}, new String[] {});
+			logVo.setOperationDateName(logVo.getOperationDate().toString().substring(0, 4) + "-"
+					+ logVo.getOperationDate().toString().substring(4, 6) + "-"
+					+ logVo.getOperationDate().toString().substring(6, 8) + " "
+					+ logVo.getOperationDate().toString().substring(8, 10) + ":"
+					+ logVo.getOperationDate().toString().substring(10, 12) + ":"
+					+ logVo.getOperationDate().toString().substring(12, 14));
 			logsVo.add(logVo);
 		}
 		ResponseMsg msg = new ResponseMsg();

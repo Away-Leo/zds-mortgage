@@ -38,7 +38,7 @@
 						<dd class="detail">
 						<label>
                               <input class="zui-combobox zui-validatebox" id="capitalistType" name="capitalistType" type="hidden" value="${infoVo.capitalistType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=zflx"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00112"
                               data-valuefield="fullcode" 
                               data-textfield="name" >
                               </label>

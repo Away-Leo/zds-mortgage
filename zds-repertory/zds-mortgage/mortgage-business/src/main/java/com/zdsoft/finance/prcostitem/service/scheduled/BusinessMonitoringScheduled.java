@@ -9,11 +9,15 @@ import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.prcostitem.service.BusinessMonitoringService;
 import com.zdsoft.framework.core.common.annotation.Log;
 
+
 /**
- * 业务检查定时任务
- * @createTime 2017-01-12
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BusinessMonitoringScheduled.java 
+ * @ClassName: BusinessMonitoringScheduled 
+ * @Description: 业务检查定时任务
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:06:26 
+ * @version V1.0
  */
 @Component
 public class BusinessMonitoringScheduled {
@@ -32,7 +36,7 @@ public class BusinessMonitoringScheduled {
 		try{
 			businessMonitoringService.monitoring();
 		}catch(BusinessException e){
-			logger.debug("业务检查定时任务出错", e.getMessage());
+			logger.debug("业务检查定时任务出错", e);
 			e.printStackTrace();
 		}
 	}

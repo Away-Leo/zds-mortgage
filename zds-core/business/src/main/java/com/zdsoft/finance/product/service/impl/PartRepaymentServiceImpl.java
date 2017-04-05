@@ -19,12 +19,15 @@ import com.zdsoft.finance.product.service.PartRepaymentService;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 分段还款
- * @createTime 2017年1月10日 下午2:49:52
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PartRepaymentServiceImpl.java 
+ * @ClassName: PartRepaymentServiceImpl 
+ * @Description: 分段还款
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:44:17 
+ * @version V1.0
  */
-@Service
+@Service("partRepaymentService")
 public class PartRepaymentServiceImpl extends BaseServiceImpl<PartRepayment, CustomRepository<PartRepayment,String>> 
 implements PartRepaymentService {
 
@@ -35,6 +38,11 @@ implements PartRepaymentService {
 	@Transactional(rollbackFor = BusinessException.class)
 	public PartRepayment saveOrUpdate(PartRepayment po) throws BusinessException {
 		PartRepayment bean = null;
+		//时间段验证
+		boolean b = this.timeSectionVerify(po);
+		if(!b){
+			throw new BusinessException("10000000001","存在相同时间段数据");
+		}
 		if(ObjectHelper.isNotEmpty(po.getId())){
 			bean = partRepaymentRepository.findOne(po.getId());
 			if(ObjectHelper.isEmpty(bean)){
@@ -46,6 +54,37 @@ implements PartRepaymentService {
 			bean = partRepaymentRepository.saveEntity(po);
 		}
 		return bean;
+	}
+	
+	/**
+	 * @Title: timeSectionVerify 
+	 * @Description: 时间断校验
+	 * @author gufeng 
+	 * @param po
+	 * @return
+	 * @throws BusinessException
+	 */
+	private boolean timeSectionVerify(PartRepayment po)throws BusinessException{
+		String timeSection = po.getTimeSection();
+		String productId = po.getProductId();
+		String id = po.getId();
+		if(ObjectHelper.isEmpty(timeSection)){
+			throw new BusinessException("10000000001","时间段为空");
+		}
+		if(ObjectHelper.isEmpty(productId)){
+			throw new BusinessException("10000000002","产品id为空");
+		}
+		List<PartRepayment> list = null;
+		if(ObjectHelper.isEmpty(id)){
+			list = partRepaymentRepository.findByTimeSectionAndProductIdAndIsDeleted(timeSection,productId,false);
+		}else{
+			list = partRepaymentRepository.findByTimeSectionAndProductIdAndIsDeletedAndIdNot(timeSection,productId,false,id);
+		}
+		if(ObjectHelper.isEmpty(list) || list.size() == 0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override

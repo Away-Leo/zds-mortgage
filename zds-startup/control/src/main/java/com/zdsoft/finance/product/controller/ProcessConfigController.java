@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.essential.dto.emp.EmpDto;
 import com.zdsoft.finance.common.exception.BusinessException;
+import com.zdsoft.finance.common.exception.CodeException;
 import com.zdsoft.finance.product.entity.ProcessConfig;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.finance.product.service.ProcessConfigService;
@@ -27,10 +28,13 @@ import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
 /**
- * 流程配置控制器
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProcessConfigController.java 
+ * @ClassName: ProcessConfigController 
+ * @Description: 流程配置控制器
+ * @author longwei 
+ * @date 2017年2月6日 上午11:04:29 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/processConfig")
@@ -46,30 +50,38 @@ public class ProcessConfigController extends BaseController{
 	private CED CED;
 	
 	/**
-	 * 审批意见配置页面
+	 * @Title: list 
+	 * @Description: 审批意见配置页面
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return 流程配置页
 	 */
 	@RequestMapping("/list")
 	@UriKey(key="com.zdsoft.finance.processConfig.list")
-	public ModelAndView list(String productId) throws BusinessException{
+	public ModelAndView list(String productId){
 		ModelAndView modelAndView=new ModelAndView("product/process_config_list");
 		if(ObjectHelper.isEmpty(productId)){
 			logger.error("参数异常");
-			throw new BusinessException("参数异常");
 		}
 		
-		Product product=productService.findOne(productId);
-		if(ObjectHelper.isEmpty(product)){
+		Product product = null;
+		try {
+			product = productService.findOne(productId);
+			modelAndView.addObject("product", new ProductVo(product));
+		} catch (BusinessException e) {
 			logger.error("主产品已不存在，请确认是否已删除");
-			throw new BusinessException("主产品已不存在，请确认是否已删除");
+			e.printStackTrace();
 		}
-		
-		modelAndView.addObject("product", new ProductVo(product));
-		
 		return modelAndView;
 	}
 	
 	/**
-	 * 获取列表
+	 * @Title: getList 
+	 * @Description: 获取列表
+	 * @author gufeng 
+	 * @param processConfigVo 条件
+	 * @param pageable 分页
+	 * @return 分页数据
 	 */
 	@ResponseBody
 	@RequestMapping("/getList")
@@ -99,26 +111,35 @@ public class ProcessConfigController extends BaseController{
 	}
 	
 	/**
-	 * 审批意见对话框
+	 * @Title: dialog 
+	 * @Description: 审批意见对话框
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @param processConfigId 流程配置id
+	 * @return dialog页面
 	 */
 	@RequestMapping("/dialog")
 	@UriKey(key="com.zdsoft.finance.processConfig.dialog")
-	public ModelAndView dialog(String productId,String processConfigId) throws BusinessException{
+	public ModelAndView dialog(String productId,String processConfigId){
 		ModelAndView modelAndView=new ModelAndView("product/process_config_dialog");
 		if(ObjectHelper.isNotEmpty(processConfigId)){
-			ProcessConfig processConfig=processConfigService.findOne(processConfigId);
-			if(ObjectHelper.isEmpty(processConfig)){
+			try {
+				ProcessConfig processConfig = processConfigService.findOne(processConfigId);
+				modelAndView.addObject("processConfig", new ProcessConfigVo(processConfig));
+			} catch (BusinessException e) {
 				logger.error("该流程不存在");
-				throw new BusinessException("该流程不存在");
 			}
-			modelAndView.addObject("processConfig", new ProcessConfigVo(processConfig));
 		}
 		modelAndView.addObject("productId", productId);
 		return modelAndView;
 	}
 	
 	/**
-	 * 添加或修改审批意见
+	 * @Title: saveOrUpdate 
+	 * @Description: 添加或修改审批意见
+	 * @author gufeng 
+	 * @param processConfigVo 数据
+	 * @return 修改信息
 	 */
 	@ResponseBody
 	@RequestMapping("/saveOrUpdate")
@@ -132,6 +153,10 @@ public class ProcessConfigController extends BaseController{
 			buildCommonField(processConfig);
 			
 			processConfigService.saveOrUpdate(processConfig);
+		}catch (CodeException e) {
+			logger.error("更新失败",e);
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+			msg.setMsg("操作失败，代码重复！");
 		}catch (Exception e) {
 			logger.error("更新失败",e);
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
@@ -142,7 +167,11 @@ public class ProcessConfigController extends BaseController{
 	}
 	
 	/**
-	 * 删除
+	 * @Title: delete 
+	 * @Description: 删除
+	 * @author gufeng 
+	 * @param processConfigId 流程配置id
+	 * @return 删除结果
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
@@ -175,13 +204,18 @@ public class ProcessConfigController extends BaseController{
 		return msg;
 	}
 	
+	/**
+	 * @Title: buildCommonField 
+	 * @Description: 数据组装
+	 * @author gufeng 
+	 * @param processConfig 配置信息
+	 * @throws Exception 组装异常
+	 */
 	private void buildCommonField(ProcessConfig processConfig) throws Exception{
-		
 		if(ObjectHelper.isEmpty(processConfig)){
 			logger.error("对象为空");
 			throw new BusinessException("对象为空");
 		}
-		
 		// 创建、更新人员
 		EmpDto empDto = CED.getLoginUser();
 		if(ObjectHelper.isEmpty(empDto)){
@@ -196,11 +230,6 @@ public class ProcessConfigController extends BaseController{
 			processConfig.setCreateBy(empDto.getEmpCd());
 			processConfig.setCreateOrgCd(empDto.getOrgCd());
 			processConfig.setCreateTime(new Date());
-		}
-		
-		// simplecode
-		if(ObjectHelper.isNotEmpty(processConfig.getProcessFormCd())){
-			processConfig.setProcessFormNm(CED.loadSimpleCodeNameByFullCode(processConfig.getProcessFormCd()));
 		}
 	}
 }

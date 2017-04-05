@@ -10,14 +10,19 @@ import com.zdsoft.finance.prcostitem.repository.PrCostItemDetailRepository;
 import com.zdsoft.finance.prcostitem.service.PrCostItemDetailService;
 
 /**
- * 费用项明细
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemDetailServiceImpl.java 
+ * @ClassName: PrCostItemDetailServiceImpl 
+ * @Description: 费用项明细
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:04:21 
+ * @version V1.0
  */
 @Service
 public class PrCostItemDetailServiceImpl extends BaseServiceImpl<PrCostItemDetail, CustomRepository<PrCostItemDetail, String>> 
 	implements PrCostItemDetailService {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private PrCostItemDetailRepository prCostItemDetailRepository;
 	

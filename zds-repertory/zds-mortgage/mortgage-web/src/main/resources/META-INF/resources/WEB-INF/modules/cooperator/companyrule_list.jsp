@@ -35,8 +35,8 @@
             </dl>
         </form>
         <div class="form-btn">
-            <button class="btn-blue" id="searchProduct">查询</button>
-            <button class="btn-gray" id="resetProduct">重置</button>
+            <button class="btn-blue" type="button" id="searchProduct">查询</button>
+            <button class="btn-gray" type="button" id="resetProduct">重置</button>
         </div>
     </div>
 </div>
@@ -135,9 +135,9 @@
 		        
 		    	//操作格式化
 		        CALLBACK.formatId=function(rowData,index){
-		        	var data='<a href="javaScript:void(0)" onclick="edit"><button class="btn-blue">编辑</button></a>&nbsp;&nbsp;'+
-		        	'<a href="javaScript:void(0)" onclick="view"><button class="btn-blue">查看</button></a>&nbsp;&nbsp;'+
-		        	'<a href="javaScript:void(0)" onclick="del"><button class="btn-blue">删除</button></a>';
+		        	var data='<a href="javaScript:void(0)" onclick="edit"><button type="button" class="btn-blue">编辑</button></a>&nbsp;&nbsp;'+
+		        	'<a href="javaScript:void(0)" onclick="view"><button type="button" class="btn-blue">查看</button></a>&nbsp;&nbsp;'+
+		        	'<a href="javaScript:void(0)" onclick="del"><button type="button" class="btn-blue">删除</button></a>';
 		        	return data;
 		        }
 		    	

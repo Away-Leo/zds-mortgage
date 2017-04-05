@@ -1,5 +1,6 @@
 package com.zdsoft.finance.marketing.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import com.zdsoft.finance.marketing.entity.PropertyOwner;
 import com.zdsoft.finance.marketing.service.PropertyOwnerService;
 import com.zdsoft.finance.marketing.vo.PropertyOwnerVo;
 import com.zdsoft.framework.core.common.dto.ResponseMsg;
-import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
@@ -27,63 +27,40 @@ import com.zdsoft.framework.core.commweb.component.BaseController;
  * @version:v1.0
  */
 @Controller
-@RequestMapping("/propertyOwner")
+@RequestMapping("marketing/propertyOwner")
 public class PropertyOwnerController extends BaseController{
 	
 	@Autowired
 	private PropertyOwnerService propertyOwnerService;
 	
 	/**
-	 * 保存产权人信息
-	 * @param propertyOwnerVo 产权人
-	 * @return
-	 */
-	@RequestMapping("/savePropertyOwner")
-	@UriKey(key = "com.zdsoft.finance.marketing.savePropertyOwner")
-	@ResponseBody
-	public ResponseMsg savePropertyOwner(PropertyOwnerVo propertyOwnerVo) {
-		
-		PropertyOwner propertyOwner = null;
-		ResponseMsg msg = new ResponseMsg();
-
-		// 将Vo转成Po
-		propertyOwner = propertyOwnerVo.toPO();
-		
-		// 执行保存
-		try {
-			propertyOwnerService.saveOrUpdateEntity(propertyOwner);
-			
-			msg.setResultStatus(ResponseMsg.SUCCESS);
-			msg.setMsg("保存抵押信息成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("beforehandApply保存失败", e);
-			msg.setResultStatus(ResponseMsg.APP_ERROR);
-			msg.setMsg("系统内部错误，请查看日志");
-		}
-		return msg;
-	}
-	
-	/**
-	 * 产权人信息查询列表
-	 * @param request 
+	 * 
+	 * @Title: getPropertyOwnerList 
+	 * @Description: 根据房产Id查询产权人信息列表
+	 * @author zhoushichao 
+	 * @param housePropertyId 房产Id
 	 * @param jsoncallback
-	 * @param pageable
 	 * @return
 	 */
 	@RequestMapping("/getPropertyOwnerList")
-	@UriKey(key = "com.zdsoft.finance.marketing.getPropertyOwnerList")
+	@UriKey(key = "com.zdsoft.finance.marketing.propertyOwner.getPropertyOwnerList")
 	@ResponseBody
-	public String getPropertyOwnerList(String housePropertyId, String jsoncallback, PageRequest pageable) {
+	public String getPropertyOwnerList(String housePropertyId, String jsoncallback) {
 		
 		ResponseMsg msg = new ResponseMsg();
-		// 分页抵押信息
+		// 产权人信息
 		List<PropertyOwner> propertyOwnerList=null;
+		List<PropertyOwnerVo> voList=new ArrayList<PropertyOwnerVo>();
 		try {
 			if (ObjectHelper.isNotEmpty(housePropertyId)) {
 				propertyOwnerList = propertyOwnerService.findByHousePropertyId(housePropertyId);
-				msg.setTotal(new Long(propertyOwnerList.size()));
-				msg.setRows(propertyOwnerList);
+				for(PropertyOwner owner:propertyOwnerList){
+					PropertyOwnerVo vo = new PropertyOwnerVo(owner);
+					voList.add(vo);
+				}
+				
+				msg.setTotal(new Long(voList.size()));
+				msg.setRows(voList);
 				msg.setMsg("抵押信息列表查询成功！");
 			}else{
 				msg.setMsg("抵押信息列表查询无数据！");
@@ -93,31 +70,35 @@ public class PropertyOwnerController extends BaseController{
 		} catch (Exception e) {
 			msg.setMsg("抵押信息列表查询失败");
 			e.printStackTrace();
+			logger.error("抵押信息列表查询失败",e);
 		}
 		
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
 	
 	/**
-	 * 逻辑删除产权人信息
-	 * @param jsoncallback
+	 * 
+	 * @Title: deletePropertyOwner 
+	 * @Description: 根据产权人id逻辑删除产权人信息
+	 * @author zhoushichao 
+	 * @param id 产权人id
 	 * @return
-	 * @throws BusinessException 
 	 */
-	@RequestMapping("/delete")
-	@UriKey(key = "com.zdsoft.finance.marketing.deletePropertyOwner")
+	@RequestMapping("/deletePropertyOwner")
+	@UriKey(key = "com.zdsoft.finance.marketing.propertyOwner.deletePropertyOwner")
 	@ResponseBody
-	public String deletePropertyOwner(String jsoncallback,String id) throws BusinessException {
+	public String deletePropertyOwner(String id){
 		ResponseMsg msg = new ResponseMsg();
 		try {
 			propertyOwnerService.logicDelete(id);
-			msg.setMsg("删除成功！");
+			msg.setMsg("删除产权人信息成功！");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
-		} catch (Exception e) {
-			msg.setMsg("删除失败！"+e.getMessage());
+		} catch (BusinessException e) {
+			msg.setMsg("删除产权人信息失败！"+e.getMessage());
 			msg.setResultStatus(ResponseMsg.SYS_ERROR);
+			logger.error("删除产权人信息失败",e);
+			
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
-
 }

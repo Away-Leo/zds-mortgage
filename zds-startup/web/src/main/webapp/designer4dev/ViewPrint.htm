@@ -1,0 +1,149 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="js/css/ViewPrint.css" rel="stylesheet" type="text/css" />
+    <link href="js/css/OnlyPrintCss.css" rel="stylesheet" media="print" type="text/css" />
+
+</head>
+
+<body>
+    <div class="screen-only">
+        <input type="button" value="全部打印" onclick="doPrint()">
+        <span id="ContractTemplateNameTip"></span>
+
+    </div>
+      
+      
+    <script src="js/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+
+    <script src="js/jquery.jqprint-0.3.js" type="text/javascript"></script>
+ <script src="js/updateTableCss.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+
+        var pageID = getParam("PageID");
+        var autoid = getParam("autoid");
+        var hidContractTemplateId = getParam("ContractTemplateId");
+        var TradeObjectID = getParam("TradeObjectID");
+        var flagName = getParam("flagName");
+        var ContractTemplates = {};
+
+        $(document).ready(
+
+
+    function() {
+
+        if ($(".jp-page").length > 0)
+            return;
+
+        if (pageID != null && pageID.length > 0) {//单页预览
+        	var urlgetPagePath= '<z:ukey key="com.zdsoft.finance.contract.getPagePathByPageID" context="admin"/>';
+            $.get("/designer4dev/SavePrintElmentHandler.ashx", { PageID: pageID, Autoid: autoid, d: escape(new Date()) }, function(result) {
+                ContractTemplates = $.parseJSON(result);
+                ShowLabelLoadcation(ContractTemplates.PageID, ContractTemplates.PageName, ContractTemplates.PagePath, ContractTemplates.TopPad, ContractTemplates.LeftPad);
+            });
+
+        }
+        else if (hidContractTemplateId != null && hidContractTemplateId.length > 0) {//全部预览
+
+            $.get("/designer4dev/SavePrintElmentHandler.ashx", { ContractTemplateId: hidContractTemplateId, Autoid: autoid, d: escape(new Date()) }, function(result) {
+                ContractTemplates = $.parseJSON(result);
+                // alert(ContractTemplates[0].ContractTemplateName);
+                $("#ContractTemplateNameTip").text('模版名：《' + ContractTemplates[0].ContractTemplateName + '》  案件号：' + autoid);
+                $(document).attr("title", ContractTemplates[0].ContractTemplateName);
+                for (k = 1; k < ContractTemplates.length; k++) {
+
+                    ShowLabelLoadcation(ContractTemplates[k].PageID, ContractTemplates[k].PageName, ContractTemplates[k].PagePath, ContractTemplates[k].TopPad, ContractTemplates[k].LeftPad);
+                }
+
+                $(".jp-content:last").css("page-break-after", "auto");
+            });
+
+        }
+
+
+      
+
+    }
+    );
+
+        //获取URL参数
+        function getParam(paramName) {
+            paramValue = "", isFound = !1;
+            if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) {
+                arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0;
+                while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++;
+            }
+            return paramValue == "" && (paramValue = null), paramValue;
+        }
+
+        //显示标签位置
+        function ShowLabelLoadcation(pageID, pageName, pagePath, topPad, leftPad) {
+
+            var vLen = $(".jp-page").length + 1;
+            var pageIDName = "page" + vLen;
+            var contantID = 'contant' + pageIDName;
+            var backgroundDiv = '<div class="jp-content" id="' + contantID + '"><div id="' + pageIDName + '" class="jp-page" style="top:' + topPad + 'px;left:' + leftPad + 'px"><img class="jp-paper-background screen-only" src="../../Common/Download.aspx?type=temp&filepath=' + pagePath + '"/></div></div>';
+
+
+            $("body").append('<div class="screen-only" style="width:200mm;text-align:right;"><span>页名：' + pageName + '</span><input  type="button" value="打印当前页" onclick="doPrintSingle(\'' + contantID + '\')"></div>');
+            $("body").append(backgroundDiv)
+
+
+
+            $.ajaxSetup({
+                async: false //取消异步
+            });
+
+            $.get("/designer4dev/SavePrintElmentHandler.ashx", { PageID: pageID, actionname: "view", Autoid: autoid,TradeObjectID: TradeObjectID,flagName:flagName, d: escape(new Date()) }, function(result) {
+
+                if (result != null && result.length > 0) {
+
+                    var listPosition = jQuery.parseJSON(result);
+                    for (i = 0; i < listPosition.length; i++) {
+                        var item = listPosition[i];
+
+                        var element = '<div class="jp-text" ' +
+        'style="top: ' + item.top + 'px; left: ' + item.left + 'px; width: ' + item.width + 'px; height: ' + item.height + 'px; z-index: 10' + i.toString() + ';">'
+
+         +
+
+
+        '<span class="jp-text-content" id="' + item.labelid + '">' + item.labelname + '</span>'
+
+
+        + '</div>';
+
+                        $("#" + pageIDName).append(element);
+
+
+                    }
+
+                }
+
+            });
+
+        }
+
+        //全部打印
+        function doPrint() {
+
+            //$("body").jqprint();
+            window.print();
+        }
+
+        //单个打印
+        function doPrintSingle(pageName) {
+            $("#" + pageName).css("page-break-after", "auto");
+            $("#" + pageName).jqprint();
+
+        }
+
+
+    
+    </script>
+ 
+</body>
+</html>

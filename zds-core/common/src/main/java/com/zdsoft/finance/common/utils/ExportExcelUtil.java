@@ -1,6 +1,7 @@
 package com.zdsoft.finance.common.utils;
 
 import com.zdsoft.finance.common.exception.BusinessException;
+import com.zdsoft.framework.core.common.configure.AppParameter;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import jxl.Workbook;
 import jxl.write.*;
@@ -24,8 +25,9 @@ import java.util.Set;
 public class ExportExcelUtil {
 
 	private static Document getDoc(String fileContent, String serverPath) throws Exception {
+	    String property = System.getProperty("file.separator");
 		// 读取模板
-		File myFile = new File(serverPath + "\\assets\\ExcelMould.html");
+		File myFile = new File(serverPath + property+"assets"+property+"ExcelMould.html");
 		// 将模板转换为jsoup文档
 		Document doc = Jsoup.parse(myFile, "UTF-8", "");
 		// 获得模板中的table
@@ -33,7 +35,14 @@ public class ExportExcelUtil {
 		// 将需要导出的数据写入
 		element.append(fileContent);
 		// 排除干扰标签
-		doc.getElementById("datagrid-header-check").remove();
+		if(doc.getElementById("datagrid-header-check")!=null){
+			doc.getElementById("datagrid-header-check").remove();
+		}
+		if(doc.select("th").last().html().contains("操作")){
+			doc.select("th").last().remove();
+			doc.select("td a").remove();
+			doc.select("td button").remove();
+		}
 		Elements elements = doc.select("td[style=\"display:none\"]").remove();
 		return doc;
 	}
@@ -172,7 +181,7 @@ public class ExportExcelUtil {
 		/// 得到列宽集合
 		Elements colgroups = table.getElementsByTag("colgroup");
 		// 文件保存到classpath目录下面
-		String path = "D:/Upload/";
+		String path = AppParameter.getUploadFolder();
 		path += fileName + ".xls";
 		System.out.println("path==============================" + path);
 		File file = new File(path);

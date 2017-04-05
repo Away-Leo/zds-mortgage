@@ -16,14 +16,18 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 应付费用跟踪
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditCostTracking.java
+ * @ClassName: CreditCostTracking
+ * @Description: 应付费用跟踪
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:22:15
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_cost_tracking")
+@Table(name = "cptl_credit_cost_tracking")
 public class CreditCostTracking extends BaseEntity {
 
 	/**
@@ -52,8 +56,8 @@ public class CreditCostTracking extends BaseEntity {
 	/**
 	 * 应付费用
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal totalAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal totalAmount = BigDecimal.ZERO;
 
 	/**
 	 * 应付日期
@@ -87,13 +91,22 @@ public class CreditCostTracking extends BaseEntity {
 	@Column
 	private Integer status;
 
+	/**
+	 * 所属信托计划
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	@JoinColumn(name = "creditEntrustId")
 	private CreditEntrust creditEntrust;
 
+	/**
+	 * 临时对象信托计划费用项
+	 */
 	private transient List<CreditEntrustFeeItem> creditEntrustFeeItems;
 
+	/**
+	 * 临时id
+	 */
 	@Column(length = 32)
 	private String tempUuid;
 

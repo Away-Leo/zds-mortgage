@@ -10,13 +10,18 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 评估公司表
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: EvaluationCompany.java
+ * @ClassName: EvaluationCompany
+ * @Description: 评估公司表
+ * @author liuwei
+ * @date 2017年3月8日 上午9:56:16
+ * @version V1.0
  */
 @Entity
-@Table(name = "zf_evaluation_company")
+@Table(name = "cpt_evaluation_company")
 public class EvaluationCompany extends BaseEntity {
 
 	/**
@@ -26,6 +31,7 @@ public class EvaluationCompany extends BaseEntity {
 	/**
 	 * 企业类型
 	 */
+	@Column(length = 20)
 	private String companyType;
 	/**
 	 * 评估公司名称
@@ -92,7 +98,7 @@ public class EvaluationCompany extends BaseEntity {
 	 */
 	@Column(length = 32)
 	private String bankAccount;
-	
+
 	/**
 	 * 行业
 	 */
@@ -119,18 +125,25 @@ public class EvaluationCompany extends BaseEntity {
 	 */
 	@Column(length = 12)
 	private String isAllowLogin;
+
 	/**
 	 * 最近登录日期
 	 */
+	@Column
 	private Long nearestLoginDate;
-
+	
+	/**
+	 * 是否删除状态
+	 */
 	@Column(length = 1)
 	private String logicDelelte;
-	
+
+	/**
+	 * 估公司联系方式表
+	 */
 	@OneToMany(mappedBy = "evaluationCompany")
 	private List<EvaluationCompanyContact> evaluationCompanyContact;
 
-	
 	public String getLogicDelelte() {
 		return logicDelelte;
 	}

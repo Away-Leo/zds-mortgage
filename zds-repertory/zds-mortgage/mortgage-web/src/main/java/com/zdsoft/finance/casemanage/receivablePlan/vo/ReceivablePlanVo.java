@@ -4,114 +4,147 @@ import java.math.BigDecimal;
 
 import com.zdsoft.finance.casemanage.receivablePlan.entity.ReceivablePlan;
 import com.zdsoft.finance.common.base.BaseVo;
-import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 还款计划Vo
- * 
- * @author zhoushichao 
- * 2017-01-06 14:43:50
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ReceivablePlanVo.java 
+ * @ClassName: ReceivablePlanVo 
+ * @Description: 还款计划Vo
+ * @author jincheng 
+ * @date 2017年2月21日 下午6:35:56 
+ * @version V1.0
  */
 public class ReceivablePlanVo extends BaseVo<ReceivablePlan> {
 
-	/**
-	 * 用一句话描述这个变量表示什么
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 期数
 	 */
-	private Integer periodsNo;
+	private Integer periods;
 
 	/**
-	 * 应还日期
+	 * 当前还款日期
 	 */
-	private Long repaymentDate;
+	private Long planRepayDate;
 
 	/**
-	 * 本金
+	 * 当前开始日期
 	 */
-	private BigDecimal repaymentAmount;
+	private Long startDate;
 
 	/**
-	 * 利息
+	 * 当前结束日期
 	 */
-	private BigDecimal interestAmount;
-	
+	private Long endDate;
+
 	/**
-	 * 罚息
+	 * 当期本金
 	 */
-	private BigDecimal affirmPenalty = new BigDecimal(0);
-	
+	private BigDecimal planPrincipalAmount;
+
 	/**
-	 * 剩余本金
+	 * 当期利息
 	 */
-	private BigDecimal surplusRepaymentAmount;
-	
+	private BigDecimal planInterestAmount;
+
 	/**
-	 * 服务费
+	 * 当期服务费
 	 */
-	private BigDecimal serviceChange;
+	private BigDecimal planServiceFee;
+
+	/**
+	 * 当期剩余本金
+	 */
+	private BigDecimal remainPrincipal;
 
 	/**
 	 * 还款计划基本信息ID
 	 */
 	private String receivableInfoId;
-	
+
+	/**
+	 * 案件id
+	 */
+	private String caseApplyId;
+
 	/**
 	 * 放款ID
 	 */
 	private String loanApplyId;
-	
-	public ReceivablePlanVo(){}
-	
-	public ReceivablePlanVo(ReceivablePlan po){
-		super(po);
-	}
-	
-	public ReceivablePlan toPO(){
-		ReceivablePlan po = new ReceivablePlan();
-		po=super.toPo(this, po);
-		return po;
+
+	/**
+	 * 所属机构
+	 */
+	private String orgId;
+
+	/**
+	 * 当期是否结清
+	 */
+	private Boolean settlement = false;
+
+	public Integer getPeriods() {
+		return periods;
 	}
 
-	public Integer getPeriodsNo() {
-		return periodsNo;
+	public void setPeriods(Integer periods) {
+		this.periods = periods;
 	}
 
-	public void setPeriodsNo(Integer periodsNo) {
-		this.periodsNo = periodsNo;
+	public Long getPlanRepayDate() {
+		return planRepayDate;
 	}
 
-	public Long getRepaymentDate() {
-		return repaymentDate;
+	public void setPlanRepayDate(Long planRepayDate) {
+		this.planRepayDate = planRepayDate;
 	}
 
-	public void setRepaymentDate(Long repaymentDate) {
-		this.repaymentDate = repaymentDate;
+	public Long getStartDate() {
+		return startDate;
 	}
 
-	public BigDecimal getRepaymentAmount() {
-		if (ObjectHelper.isNotEmpty(repaymentAmount)) {
-			return repaymentAmount.setScale(2,BigDecimal.ROUND_HALF_UP);
-		}
-		return repaymentAmount;
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
 	}
 
-	public void setRepaymentAmount(BigDecimal repaymentAmount) {
-		this.repaymentAmount = repaymentAmount;
+	public Long getEndDate() {
+		return endDate;
 	}
 
-	public BigDecimal getInterestAmount() {
-		if (ObjectHelper.isNotEmpty(interestAmount)) {
-			return interestAmount.setScale(2,BigDecimal.ROUND_HALF_UP);
-		}
-		return interestAmount;
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
 	}
 
-	public void setInterestAmount(BigDecimal interestAmount) {
-		this.interestAmount = interestAmount;
+	public BigDecimal getPlanPrincipalAmount() {
+		return planPrincipalAmount;
+	}
+
+	public void setPlanPrincipalAmount(BigDecimal planPrincipalAmount) {
+		this.planPrincipalAmount = planPrincipalAmount;
+	}
+
+	public BigDecimal getPlanInterestAmount() {
+		return planInterestAmount;
+	}
+
+	public void setPlanInterestAmount(BigDecimal planInterestAmount) {
+		this.planInterestAmount = planInterestAmount;
+	}
+
+	public BigDecimal getPlanServiceFee() {
+		return planServiceFee;
+	}
+
+	public void setPlanServiceFee(BigDecimal planServiceFee) {
+		this.planServiceFee = planServiceFee;
+	}
+
+	public BigDecimal getRemainPrincipal() {
+		return remainPrincipal;
+	}
+
+	public void setRemainPrincipal(BigDecimal remainPrincipal) {
+		this.remainPrincipal = remainPrincipal;
 	}
 
 	public String getReceivableInfoId() {
@@ -122,6 +155,14 @@ public class ReceivablePlanVo extends BaseVo<ReceivablePlan> {
 		this.receivableInfoId = receivableInfoId;
 	}
 
+	public String getCaseApplyId() {
+		return caseApplyId;
+	}
+
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
+	}
+
 	public String getLoanApplyId() {
 		return loanApplyId;
 	}
@@ -130,34 +171,33 @@ public class ReceivablePlanVo extends BaseVo<ReceivablePlan> {
 		this.loanApplyId = loanApplyId;
 	}
 
-	public BigDecimal getAffirmPenalty() {
-		if (ObjectHelper.isNotEmpty(affirmPenalty)) {
-			return affirmPenalty.setScale(2,BigDecimal.ROUND_HALF_UP);
-		}
-		return affirmPenalty;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setAffirmPenalty(BigDecimal affirmPenalty) {
-		this.affirmPenalty = affirmPenalty;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
-	public BigDecimal getSurplusRepaymentAmount() {
-		if (ObjectHelper.isNotEmpty(surplusRepaymentAmount)) {
-			return surplusRepaymentAmount.setScale(2,BigDecimal.ROUND_HALF_UP);
-		}
-		return surplusRepaymentAmount;
+	public Boolean getSettlement() {
+		return settlement;
 	}
 
-	public void setSurplusRepaymentAmount(BigDecimal surplusRepaymentAmount) {
-		this.surplusRepaymentAmount = surplusRepaymentAmount;
-	}
-
-	public BigDecimal getServiceChange() {
-		return serviceChange;
-	}
-
-	public void setServiceChange(BigDecimal serviceChange) {
-		this.serviceChange = serviceChange;
+	public void setSettlement(Boolean settlement) {
+		this.settlement = settlement;
 	}
 	
+	public ReceivablePlanVo() {
+		super();
+	}
+
+	public ReceivablePlanVo(ReceivablePlan entity) {
+		super(entity);
+	}
+
+	public ReceivablePlan toPo()  {
+		ReceivablePlan entity = new ReceivablePlan();
+		return super.toPo(this, entity);
+	}
+
 }

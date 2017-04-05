@@ -15,14 +15,18 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 信托计划本金投入
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustPrincipal.java
+ * @ClassName: CreditEntrustPrincipal
+ * @Description: 信托计划本金投入
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:24:24
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_entrust_principal")
+@Table(name = "cptl_credit_entrust_principal")
 public class CreditEntrustPrincipal extends BaseEntity {
 
 	/**
@@ -45,19 +49,19 @@ public class CreditEntrustPrincipal extends BaseEntity {
 	/**
 	 * 初始本金
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal initialPrincipal;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal initialPrincipal = BigDecimal.ZERO;
 
 	/**
 	 * 本金金额
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal principalAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal principalAmount = BigDecimal.ZERO;
 
 	/**
 	 * 合同收益率
 	 */
-	@Column(precision = 12, scale = 6)
+	@Column(precision = 18, scale = 6)
 	private Double profitRate;
 
 	/**
@@ -75,7 +79,7 @@ public class CreditEntrustPrincipal extends BaseEntity {
 	/**
 	 * 使用比率
 	 */
-	@Column(precision = 12, scale = 6)
+	@Column(precision = 18, scale = 6)
 	private Double useProp;
 
 	/**
@@ -93,13 +97,13 @@ public class CreditEntrustPrincipal extends BaseEntity {
 	/**
 	 * 使用额度
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal usedQuota;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal usedQuota = BigDecimal.ZERO;
 
 	/**
 	 * 备注
 	 */
-	@Column(length = 256)
+	@Column(length = 500)
 	private String remark;
 
 	/**
@@ -108,6 +112,9 @@ public class CreditEntrustPrincipal extends BaseEntity {
 	@Column
 	private Integer status;
 
+	/**
+	 * 提交人
+	 */
 	@Column(length = 32)
 	private String completeEmpCd;
 	@Column(length = 64)
@@ -131,13 +138,19 @@ public class CreditEntrustPrincipal extends BaseEntity {
 	@Column
 	private Long maturityDate;
 
+	/**
+	 * 信托计划临时id
+	 */
+	@Column(length = 32)
+	private String tempUuid;
+
+	/**
+	 * 所属信托计划
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	@JoinColumn(name = "creditEntrustId")
 	private CreditEntrust creditEntrust;
-
-	@Column(length = 32)
-	private String tempUuid;
 
 	public String getContribution() {
 		return contribution;

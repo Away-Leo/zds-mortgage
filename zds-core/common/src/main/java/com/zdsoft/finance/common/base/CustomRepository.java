@@ -1,5 +1,6 @@
 package com.zdsoft.finance.common.base;
 
+import com.zdsoft.essential.dto.permission.DataOperPermDto;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.Pageable;
@@ -18,6 +19,31 @@ import java.util.Map;
  **/
 @NoRepositoryBean
 public interface CustomRepository<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID> {
+    
+    /**
+     * 
+     * @Title: findByHqlPage 
+     * @Description: 分页查询
+     * @author dengyy 
+     * @param pageable 分页信息
+     * @param hql 查询hql
+     * @param condition 查询条件
+     * @param dataOperPermDto 数据权限信息
+     * @return
+     */
+    public Page<T> findByHqlPage(Pageable pageable, String hql, Map<String, Object> condition,DataOperPermDto dataOperPermDto);
+    
+    /**
+     * 
+     * @Title: findByHql 
+     * @Description: 通过HQL查找
+     * @author dengyy 
+     * @param hql  HQL语句
+     * @param condition 查询条件
+     * @param dataOperPermDto 数据权限信息
+     * @return
+     */
+    public List<T> findByHql(String hql, Map<String, Object> condition,DataOperPermDto dataOperPermDto);
 
 	/**
 	 * 通过HQL查找
@@ -62,12 +88,34 @@ public interface CustomRepository<T extends BaseEntity, ID extends Serializable>
 	public Page<T> findBySqlEntityPage(Pageable pageable, String sql, Map<String, Object> condition, Class<T> tClass) throws Exception;
 
 	/**
+	 * 多条件sql查询
+	 * @param sql
+	 * @param condition
+	 * @param tClass
+	 * @return
+	 * @throws Exception
+	 */
+	public List<T> findBySql(String sql,Map<String,Object> condition,Class<T> tClass) throws Exception;
+
+	/**
 	 * 分页查询自动封装
 	 * @param pageable
 	 * @param li
 	 * @return
 	 */
 	public Page<T> findByHqlConditions(Pageable pageable, List<QueryObj> li);
+	
+	/**
+	 * 
+	 * @Title: findByHqlConditions 
+	 * @Description: 分页查询自动封装
+	 * @author dengyy 
+	 * @param pageable 分页信息
+	 * @param li 查询条件
+	 * @param dataOperPermDto 权限信息
+	 * @return
+	 */
+    public Page<T> findByHqlConditions(Pageable pageable, List<QueryObj> li,DataOperPermDto dataOperPermDto);
 
 	/**
 	 * 获取当前查询条件下总条数

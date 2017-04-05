@@ -44,7 +44,7 @@
 				                <dt class="title">启用状态:</dt>
 				                <dd class="detail">
 				                   <input class="zui-combobox zui-validatebox" type="hidden" validate-type="" id="isValid"
-				                          data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]" value="true"
+				                          data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]"
 				                          data-valuefield="id" data-textfield="text" name="isValid">
 				                </dd>
 				            </dl>
@@ -79,8 +79,6 @@
 	</div>
 </div>
 <div id="addCategoryDialog">
-</div>
-<div id="addProductDialog">
 </div>
 <div id="copyProductDialog">
 </div>
@@ -120,12 +118,8 @@
 	     * 查询
 	     */
 	    $('#find').on('click',function(){
-	    	var flag=$.ZUI.validateForm($('#queryProductForm'));
-        	if(flag){
-            	var formArray=$("#queryProductForm").serialize();
-            	formArray=decodeURIComponent(formArray, true);
-            	$('#tb-product').ZTable("reload", formArray);
-        	}
+           	var formArray=$("#queryProductForm").serializeArray();
+           	$('#tb-product').ZTable("reload", formArray);
 	    });
 	    
 	    /**
@@ -133,12 +127,12 @@
 	     */
 	    $('#reset').on('click',function(){
 	    	$('#name').val('');
-	    	$('#isValid').ZCombobox('setValue',true);
-	    	$('#productType').ZCombobox('setValue','');
+	    	$('#isValid').ZCombobox('setValue',"");
+	    	//$('#productType').ZCombobox('setValue',getTreeNode());
+	    	$('#productType').ZCombobox('setValue',"");
 	    	var treeObj = $.fn.zTree.getZTreeObj("treeView");
-			var nodes = treeObj.getSelectedNodes();
-			var id = nodes[0].id;
-			$('#tb-product').ZTable("reload", {"categoryVo.id":id,isValid:true});
+	    	var node = treeObj.getNodeByParam("id",'0');
+	    	treeObj.selectNode(node);
 	    });
 	    
 	    //获取选择节点
@@ -229,7 +223,7 @@
 		   		var	url = '<z:ukey key="com.zdsoft.finance.product.addCategoryDialog" context="admin"/>&id='+id;
 				$('#addCategoryDialog').load(url,function(){
 					$("#categoryDialog").Zdialog({
-			             width: 700, height: 340, closed: false, title: "产品类别",isDestroy:true,
+			             width: 700, height: 150, closed: false, title: "产品类别",isDestroy:true,
 			             buttons: 
 			             [
 			                 {
@@ -248,7 +242,7 @@
 			                                 success: function (data) {
 			                                     if (data.resultStatus == 0) {
 			                                    	if(data.optional.isExist){
-			                                    		var addCategoryForm = $('#addCategoryForm').serialize();
+			                                    		var addCategoryForm = $('#addCategoryForm').serializeArray();
 				   			                             $.ajax({
 				   			                                 type: 'post',
 				   			                                 url: '<z:ukey key="com.zdsoft.finance.product.saveCategory" context="admin"/>',
@@ -366,14 +360,13 @@
                 });
 				return ;
 			}
-
-			var data='<a href="javaScript:void(0)" onclick="edit"><button class="btn-blue">编辑</button></a>';
+			var data='<a href="javaScript:void(0)" onclick="edit" class="btn-blue" title="编辑">编辑</a>';
 			/* if(isDeleted){
 				data=data+'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="restoreProduct"><button class="btn-blue">恢复</button></a>';
 			}else{
 				data=data+'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="invalidProudct"><button class="btn-blue">作废</button></a>';
 			} */
-			data=data+'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="copy"><button class="btn-blue">复制</button></a>';
+			/* data=data+'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="copy"><button class="btn-blue">复制</button></a>'; */
 			return data;
 		}
 		
@@ -453,95 +446,13 @@
 		
 		//添加产品
 		CALLBACK.addProduct=function(){
-			var url='<z:ukey key="com.zdsoft.finance.product.addProductDialog" context="admin"/>';
 			var id= getTreeNode();
 			if(!id || id=='0'){
 				$.ZMessage.warning("警告", "请选择添加产品的具体产品类别", function () {
                     $(".zd-message").ZWindow("close");
                 });
 			}else{
-				$('#addProductDialog').load(url,function(){
-					$("#productDialog").Zdialog({
-			             width: 700, height: 340, closed: false, title: "添加产品",isDestroy:true,
-			             buttons: 
-			             [
-			                 {
-			                     id: 'message-btn',
-			                     text: '确定',
-			                     buttonCls: 'btn-blue',
-			                     handler: function () {
-			                    	var flag=$.ZUI.validateForm($('#addProductForm'));
-			                     	if(flag){
-			                     		//验证产品名称
-				                    	 $.ajax({
-			                                 type: 'post',
-			                                 url: '<z:ukey key="com.zdsoft.finance.product.findProductByName" context="admin"/>',
-			                                 data: {name:$('#productName').val()},
-			                                 dataType: 'json',
-			                                 success: function (data) {
-			                                     if (data.resultStatus == 0) {
-			                                    	if(data.optional.isExist){
-			                                    		var addProductForm = $('#addProductForm').serialize();
-				   			                             $.ajax({
-				   			                                 type: 'post',
-				   			                                 url: '<z:ukey key="com.zdsoft.finance.product.saveProduct" context="admin"/>',
-				   			                                 data: addProductForm+"&categoryVo.id="+id,
-				   			                                 dataType: 'json',
-				   			                                 success: function (data) {
-				   			                                     if (data.resultStatus == 0) {
-				   			                                    	$('#tb-product').ZTable("reload", {"categoryVo.id":id,isValid:true});
-				   			                                    	$("#productDialog").Zdialog("close");
-				   			                                     	$.ZMessage.success("提示", "保存成功", function () {
-				   			                     	                    $(".zd-message").ZWindow("close");
-				   			                     	                });
-				   			                                     }else{
-				   			                                     	$.ZMessage.error("错误", data.msg, function () {
-				   			             	                            $(".zd-message").ZWindow("close");
-				   			             	                        });
-				   			                                     }
-				   			                                 },
-				   			                                 error: function () {
-				   			                                 	$.ZMessage.error("错误", "系统异常，请联系管理员", function () {
-				   			                                         $(".zd-message").ZWindow("close");
-				   			                                     });
-				   			                                 }
-				   			                             });
-			                                    	}else{
-			                                    		$.ZMessage.error("错误", "产品名称已存在", function () {
-				             	                            $(".zd-message").ZWindow("close");
-				             	                        });
-			                                    	}
-			                                     }else{
-			                                     	$.ZMessage.error("错误", data.msg, function () {
-			             	                            $(".zd-message").ZWindow("close");
-			             	                        });
-			                                     }
-			                                 },
-			                                 error: function () {
-			                                 	$.ZMessage.error("错误", "系统异常，请联系管理员", function () {
-			                                         $(".zd-message").ZWindow("close");
-			                                     });
-			                                 }
-			                             });
-				                    	 
-			                     	}else{
-			                     		$.ZMessage.error("错误", "请填入合法参数", function () {
-			                                 $(".zd-message").ZWindow("close");
-			                             });
-			                     	}
-			                     }
-			                 },
-			                 {
-			                     id: 'message-btn',
-			                     text: '取消',
-			                     buttonCls: 'btn-gray',
-			                     handler: function () {
-			                     	$("#productDialog").Zdialog("close");
-			                     }
-			                 }
-			             ]
-			         });
-				});
+				ZDS_MESSAGE_CLIENT.openMenuLink('product_add', '产品添加', '<z:ukey key="com.zdsoft.finance.product.edit" context="admin"/>&categoryId='+id);
 			}
 		}
 		
@@ -580,7 +491,7 @@
 		                                 success: function (data) {
 		                                     if (data.resultStatus == 0) {
 		                                    	if(data.optional.isExist){
-		                                    		var copyProductForm = $('#copyProductForm').serialize();
+		                                    		var copyProductForm = $('#copyProductForm').serializeArray();
 			   			                             $.ajax({
 			   			                                 type: 'post',
 			   			                                 url: '<z:ukey key="com.zdsoft.finance.product.copy" context="admin"/>',
@@ -662,6 +573,7 @@
 			if(id=='0'){
 				$('#tb-product').ZTable("reload", {isValid:true});
 			}else{
+				$('#productType').ZCombobox('setValue',id);
 				$('#tb-product').ZTable("reload", {"categoryVo.id":id,isValid:true});
 			}
 	   	}

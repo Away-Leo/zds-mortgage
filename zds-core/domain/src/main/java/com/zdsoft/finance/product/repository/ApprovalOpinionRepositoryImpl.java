@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.ApprovalOpinion;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 import com.zdsoft.framework.core.common.page.Page;
@@ -13,10 +12,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品审批配置操作仓库接口实现
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ApprovalOpinionRepositoryImpl.java 
+ * @ClassName: ApprovalOpinionRepositoryImpl 
+ * @Description: 产品审批配置操作
+ * @author gufeng 
+ * @date 2017年3月6日 下午7:24:37 
+ * @version V1.0
  */
 public class ApprovalOpinionRepositoryImpl {
 
@@ -24,14 +26,14 @@ public class ApprovalOpinionRepositoryImpl {
 	private EntityManager em;
 	
 	@SuppressWarnings("unchecked")
-	public Page<ApprovalOpinion> findPage(ApprovalOpinion approvalOpinion,Pageable pageable) throws BusinessException {
+	public Page<ApprovalOpinion> findPage(ApprovalOpinion approvalOpinion,Pageable pageable) {
 		
 		StringBuffer hql=new StringBuffer(" from ApprovalOpinion appr where 1=1 and appr.isDeleted=:isDeleted ");
-		if(ObjectHelper.isNotEmpty(approvalOpinion.getApprovalTypeNm())){
-			hql.append("and appr.approvalTypeNm like :approvalTypeNm ");
+		if(ObjectHelper.isNotEmpty(approvalOpinion.getApprovalTypeName())){
+			hql.append("and appr.approvalTypeName like :approvalTypeName ESCAPE '\\' ");
 		}
-		if(ObjectHelper.isNotEmpty(approvalOpinion.getMortgageOrderCd())){
-			hql.append("and appr.mortgageOrderCd=:mortgageOrderCd ");
+		if(ObjectHelper.isNotEmpty(approvalOpinion.getMortgageOrder())){
+			hql.append("and appr.mortgageOrder=:mortgageOrder ");
 		}
 		if(ObjectHelper.isNotEmpty(approvalOpinion.getIsEnable())){
 			hql.append("and appr.isEnable=:isEnable ");
@@ -46,13 +48,13 @@ public class ApprovalOpinionRepositoryImpl {
 		
 		query.setParameter("isDeleted", !BaseEntity.DELETED);
 		queryC.setParameter("isDeleted", !BaseEntity.DELETED);
-		if(ObjectHelper.isNotEmpty(approvalOpinion.getApprovalTypeNm())){
-			query.setParameter("approvalTypeNm", "%"+approvalOpinion.getApprovalTypeNm()+"%");
-			queryC.setParameter("approvalTypeNm", "%"+approvalOpinion.getApprovalTypeNm()+"%");
+		if(ObjectHelper.isNotEmpty(approvalOpinion.getApprovalTypeName())){
+			query.setParameter("approvalTypeName", "%"+approvalOpinion.getApprovalTypeName().replace("%", "\\%")+"%");
+			queryC.setParameter("approvalTypeName", "%"+approvalOpinion.getApprovalTypeName().replace("%", "\\%")+"%");
 		}
-		if(ObjectHelper.isNotEmpty(approvalOpinion.getMortgageOrderCd())){
-			query.setParameter("mortgageOrderCd", approvalOpinion.getMortgageOrderCd());
-			queryC.setParameter("mortgageOrderCd", approvalOpinion.getMortgageOrderCd());
+		if(ObjectHelper.isNotEmpty(approvalOpinion.getMortgageOrder())){
+			query.setParameter("mortgageOrder", approvalOpinion.getMortgageOrder());
+			queryC.setParameter("mortgageOrder", approvalOpinion.getMortgageOrder());
 		}
 		if(ObjectHelper.isNotEmpty(approvalOpinion.getIsEnable())){
 			query.setParameter("isEnable", approvalOpinion.getIsEnable());

@@ -49,7 +49,7 @@ public class CaseTask extends BaseEntity{
 	 * 派工说明
 	 */
 	@Column(length=500)
-	private String mo;
+	private String remark;
 
 
 	public String getCaseApplyId() {
@@ -84,12 +84,12 @@ public class CaseTask extends BaseEntity{
 		this.taskPersonnelCode = taskPersonnelCode;
 	}
 
-	public String getMo() {
-		return mo;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setMo(String mo) {
-		this.mo = mo;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
-	
+
 }

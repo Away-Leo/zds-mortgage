@@ -27,10 +27,13 @@ import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
 /**
- * 还款计划配置控制器
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RepayPlanConfigController.java 
+ * @ClassName: RepayPlanConfigController 
+ * @Description: 还款计划配置控制器
+ * @author gufeng 
+ * @date 2017年3月6日 下午5:01:22 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/repayPlanConfig")
@@ -46,41 +49,48 @@ public class RepayPlanConfigController extends BaseController{
 	private CED CED;
 	
 	/**
-	 * 审批意见配置页面
+	 * @Title: list 
+	 * @Description: 审批意见配置入口
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return 配置页面
 	 */
 	@RequestMapping("/list")
 	@UriKey(key="com.zdsoft.finance.repayPlanConfig.list")
-	public ModelAndView list(String productId) throws BusinessException{
+	public ModelAndView list(String productId){
 		ModelAndView modelAndView=new ModelAndView("product/repay_plan_config_list");
 		if(ObjectHelper.isEmpty(productId)){
 			logger.error("参数异常");
-			throw new BusinessException("参数异常");
 		}
-		
-		Product product=productService.findOne(productId);
+		Product product = null;
+		try {
+			product = productService.findOne(productId);
+		} catch (BusinessException e) {
+			logger.error("未找到产品",e);
+			e.printStackTrace();
+		}
 		if(ObjectHelper.isEmpty(product)){
 			logger.error("主产品已不存在，请确认是否已删除");
-			throw new BusinessException("主产品已不存在，请确认是否已删除");
 		}
-		
 		modelAndView.addObject("product", new ProductVo(product));
-		
 		return modelAndView;
 	}
 	
 	/**
-	 * 获取列表
+	 * @Title: getList 
+	 * @Description: 获取列表
+	 * @author gufeng 
+	 * @param repayPlanConfigVo 条件
+	 * @param pageable 分页
+	 * @return 分页数据
 	 */
 	@ResponseBody
 	@RequestMapping("/getList")
 	@UriKey(key="com.zdsoft.finance.repayPlanConfig.getList")
 	public ResponseMsg getList(RepayPlanConfigVo repayPlanConfigVo,PageRequest pageable) {
-
 		ResponseMsg msg=new ResponseMsg();
 		RepayPlanConfig repayPlanConfig = repayPlanConfigVo.toPo();
-		if(ObjectHelper.isEmpty(repayPlanConfig.getIsEnable())){
-			repayPlanConfig.setIsEnable(true);
-		}
+	
 		try {
 			Page<RepayPlanConfig> page=repayPlanConfigService.findPage(repayPlanConfig, pageable);
 			List<RepayPlanConfigVo> list=new ArrayList<RepayPlanConfigVo>();
@@ -99,17 +109,27 @@ public class RepayPlanConfigController extends BaseController{
 	}
 	
 	/**
-	 * 审批意见对话框
+	 * @Title: dialog 
+	 * @Description: 审批意见对话框
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @param repayPlanConfigId 还款计划配置id
+	 * @return dialog页
 	 */
 	@RequestMapping("/dialog")
 	@UriKey(key="com.zdsoft.finance.repayPlanConfig.dialog")
-	public ModelAndView dialog(String productId,String repayPlanConfigId) throws BusinessException{
+	public ModelAndView dialog(String productId,String repayPlanConfigId){
 		ModelAndView modelAndView=new ModelAndView("product/repay_plan_config_dialog");
 		if(ObjectHelper.isNotEmpty(repayPlanConfigId)){
-			RepayPlanConfig repayPlanConfig=repayPlanConfigService.findOne(repayPlanConfigId);
+			RepayPlanConfig repayPlanConfig = null;
+			try {
+				repayPlanConfig = repayPlanConfigService.findOne(repayPlanConfigId);
+			} catch (BusinessException e) {
+				logger.error("还款计划配置查询出错，", e);
+				e.printStackTrace();
+			}
 			if(ObjectHelper.isEmpty(repayPlanConfig)){
 				logger.error("还款计划配置不存在");
-				throw new BusinessException("还款计划配置不存在");
 			}
 			modelAndView.addObject("repayPlanConfig", new RepayPlanConfigVo(repayPlanConfig));
 		}
@@ -118,7 +138,11 @@ public class RepayPlanConfigController extends BaseController{
 	}
 	
 	/**
-	 * 添加或修改审批意见
+	 * @Title: saveOrUpdate 
+	 * @Description: 添加或修改审批意见
+	 * @author gufeng 
+	 * @param repayPlanConfigVo 操作保存数据
+	 * @return 保存结果
 	 */
 	@ResponseBody
 	@RequestMapping("/saveOrUpdate")
@@ -126,23 +150,24 @@ public class RepayPlanConfigController extends BaseController{
 	public ResponseMsg saveOrUpdate(RepayPlanConfigVo repayPlanConfigVo){
 		ResponseMsg msg=new ResponseMsg();
 		RepayPlanConfig repayPlanConfig = repayPlanConfigVo.toPo();
-		
 		try{
 			// 构建公共字段
 			buildCommonField(repayPlanConfig);
-			
 			repayPlanConfigService.saveOrUpdate(repayPlanConfig);
-		}catch (Exception e) {
+		}catch (BusinessException e) {
 			logger.error("更新失败",e);
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
-			msg.setMsg("更新失败");
+			msg.setMsg(e.getExceptionMessage());
 		}
-		
 		return msg;
 	}
 	
 	/**
-	 * 删除
+	 * @Title: delete 
+	 * @Description: 删除
+	 * @author gufeng 
+	 * @param repayPlanConfigId 配置id
+	 * @return 删除结果
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
@@ -154,7 +179,6 @@ public class RepayPlanConfigController extends BaseController{
 			msg.setMsg("参数为空");
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
-		
 		try {
 			RepayPlanConfig repayPlanConfig = repayPlanConfigService.findOne(repayPlanConfigId);
 			if(ObjectHelper.isEmpty(repayPlanConfig)){
@@ -169,19 +193,29 @@ public class RepayPlanConfigController extends BaseController{
 			msg.setMsg("系统异常！");
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
-		
 		return msg;
 	}
 	
-	private void buildCommonField(RepayPlanConfig repayPlanConfig) throws Exception{
-		
+	/**
+	 * @Title: buildCommonField 
+	 * @Description: 构建对象
+	 * @author gufeng 
+	 * @param repayPlanConfig 原还款假话配置
+	 * @throws Exception 构建出错
+	 */
+	private void buildCommonField(RepayPlanConfig repayPlanConfig) throws BusinessException{
 		if(ObjectHelper.isEmpty(repayPlanConfig)){
 			logger.error("对象为空");
 			throw new BusinessException("对象为空");
 		}
-		
 		// 创建、更新人员
-		EmpDto empDto = CED.getLoginUser();
+		EmpDto empDto = null;
+		try {
+			empDto = CED.getLoginUser();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("CED获取出错");
+		}
 		if(ObjectHelper.isEmpty(empDto)){
 			logger.error("获取平台资源失败，当前登录人为空");
 			throw new BusinessException("获取平台资源失败，当前登录人为空");
@@ -195,13 +229,22 @@ public class RepayPlanConfigController extends BaseController{
 			repayPlanConfig.setCreateOrgCd(empDto.getOrgCd());
 			repayPlanConfig.setCreateTime(new Date());
 		}
-		
 		// simplecode
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeCd())){
-			repayPlanConfig.setFeeNm(CED.loadSimpleCodeNameByFullCode(repayPlanConfig.getFeeCd()));
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getFeeCode())){
+			try {
+				repayPlanConfig.setFeeName(CED.loadSimpleCodeNameByFullCode(repayPlanConfig.getFeeCode()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new BusinessException("CED获取出错");
+			}
 		}
-		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverCd())){
-			repayPlanConfig.setReceiverNm(CED.loadSimpleCodeNameByFullCode(repayPlanConfig.getReceiverCd()));
+		if(ObjectHelper.isNotEmpty(repayPlanConfig.getReceiverId())){
+			try {
+				repayPlanConfig.setReceiverName(CED.loadSimpleCodeNameByFullCode(repayPlanConfig.getReceiverId()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new BusinessException("CED获取出错");
+			}
 		}
 	}
 }

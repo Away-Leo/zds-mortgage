@@ -11,16 +11,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:Collateral.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:押品类
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:45:33
- * @version:v1.0
+ * @Title: Collateral.java 
+ * @ClassName: Collateral 
+ * @Description: 押品实体类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:44:58 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_collateral")
+@Table(name = "mkt_collateral")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Collateral extends BaseEntity{
 

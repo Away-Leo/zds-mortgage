@@ -4,10 +4,15 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.EvaluationCompany;
 
 /**
- * 评估公司表
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: EvaluationCompanyVo.java
+ * @ClassName: EvaluationCompanyVo
+ * @Description: 评估公司Vo
+ * @author liuwei
+ * @date 2017年3月9日 上午11:27:49
+ * @version V1.0
  */
 public class EvaluationCompanyVo extends BaseVo<EvaluationCompany> {
 	/**

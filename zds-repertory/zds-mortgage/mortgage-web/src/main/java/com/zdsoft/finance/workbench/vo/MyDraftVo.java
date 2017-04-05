@@ -11,10 +11,13 @@ import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 我的草稿vo
- * @author longwei
- * @date 2017/01/13
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MyDraftVo.java 
+ * @ClassName: MyDraftVo 
+ * @Description: 我的草稿vo
+ * @author longwei 
+ * @date 2017年2月6日 上午11:13:01 
+ * @version V1.0
  */
 public class MyDraftVo {
 

@@ -7,6 +7,7 @@
         <groupId>com.zdsoft.finance</groupId>
         <artifactId>zds-core</artifactId>
         <version>1.0</version>
+        <relativePath>../zds-core</relativePath>
     </parent>
 
     <artifactId>zds-repertory</artifactId>
@@ -27,10 +28,10 @@
             <groupId>com.zdsoft.finance</groupId>
             <artifactId>zds-spi</artifactId>
         </dependency>
-         <dependency>
+       <!--   <dependency>
                <groupId>com.zdsoft</groupId>
     		   <artifactId>nbfscDroolsContract</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency> -->
     </dependencies>
 </project>

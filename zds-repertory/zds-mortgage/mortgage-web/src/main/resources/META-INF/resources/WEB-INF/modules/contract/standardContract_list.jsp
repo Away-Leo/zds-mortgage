@@ -18,7 +18,7 @@
 					<dl class="form-item">
 						<dt class="title">合同名称：</dt>
 						<dd class="detail">
-							<input class="zui-input" id="contractName" name="contractName|LK|S">
+							<input class="zui-input" id="contractName" name="tpl|contractName|LK|S">
 
 						</dd>
 					</dl>
@@ -26,9 +26,9 @@
 					<dl class="form-item">
 						<dt class="title">合同类型：</dt>
 						<dd class="detail">
-					<input class="zui-combobox zui-validatebox" id="contractType" name="contractType|E|S" type="hidden"
+					<input class="zui-combobox zui-validatebox" id="contractType" name="tpl|contractType|E|S" type="hidden"
 	                           data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM0066"
-	                           data-valuefield="fullcode" data-textfield="name" validate-type="Require">
+	                           data-valuefield="fullcode" data-textfield="name" >
 					</dd>
 					</dl>
 					<dl class="form-btn">
@@ -48,13 +48,13 @@
 					zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.contract.standardContractList" context="admin"/>&jsoncallback=?","singleSelect":true,"pagination":true,"idField":"id","toolbar":"#contacts_datagrid_applylist","tableCls":"table-index"}'>
 					<table>
 						<tr>
-							<th data-options="field:capitalName">资方</th>
-		            <th data-options="field:capitalistType">资方类别</th>
-		            <th data-options="field:contractName">合同名称</th>
-		            <th data-options="field:attachmentName">附件</th>
-		            <th data-options="field:contractType">合同类型</th>
-		            <th data-options="field:contractState">合同状态</th>
-		            <th data-options="field:id" formatter="contactFormat">操作</th>
+							<th data-options="field:capitalNm">资方</th>
+				            <th data-options="field:capitalistTypeNm">资方类别</th>
+				            <th data-options="field:contractName">合同名称</th>
+				            <th data-options="field:attachName">附件</th>
+				            <th data-options="field:contractTypeNm">合同类型</th>
+				            <th data-options="field:contractTplState">合同状态</th>
+				            <th data-options="field:id" formatter="contactFormat">操作</th>
 						</tr>
 					</table>
 				</div>
@@ -99,16 +99,11 @@
 								});
 								
 								CALLBACK.addStandardContract=function(){
-									var	url = '<z:ukey key="com.zdsoft.finance.contract.standardContract.dialog" context="admin"/>';
+									var	url = '<z:ukey key="com.zdsoft.finance.contract.standardContract.dialog" context="admin"/>&operationType=add';
 									$('#contactsDialog').load(url,function(){
 										
 									});
 								}
-								
-								/* CALLBACK.evaluationEdit = function(index,rowData){
-									 var changeInstitutionUrl = '<z:ukey key="com.zdsoft.finance.capital.initCasePlanDistribution" context="admin"/>&jsoncallback=?&id='+rowData.id;
-						             ZDS_MESSAGE_CLIENT.openMenuLink('changeInstitutionId','修改信托计划调配',changeInstitutionUrl + "&openMethod=tabs");
-								}; */
 								
 								CALLBACK.contactEdit=function(index,data){
 									var	url = '<z:ukey key="com.zdsoft.finance.contract.standardContract.dialog" context="admin"/>&operationType=mod&id='+data.id;
@@ -124,7 +119,7 @@
 								}
 								
 								
-								//删除公证格式化
+								//删除合同
 						         CALLBACK.deleteStandardContract=function(index,row){
 						             $.ZMessage.confirm("确认删除", "请确认是否删除此合同记录", function (r) {
 						                
@@ -156,40 +151,7 @@
 						             });
 						    	};
 								
-								/* CALLBACK.deleteStandardContractSetting = function(index,data){
-									$.ZMessage.confirm("确认删除", "请确认是否删除此公证记录", function (r) {
-						                
-						            	 if (r == 'confirm') {
-									$.ajax({
-						                type: 'post',
-						                url: '<z:ukey key="com.zdsoft.finance.contract.standardContractSetting.deleteStandardContractSetting" context="admin"/>',
-						                data: {id : row.id},
-						                dataType: 'json',
-						                success: function (data) {
-						                    if (data.resultStatus == 0) {
-						                    	$.ZMessage.success("提示", "删除成功", function () {
-						                    		$('#contacts_datagrid_view').ZTable("reload");
-						    	                });
-						                    }else{
-						                    	$.ZMessage.error("错误", data.msg, function () {
-						                            $(".zd-message").ZWindow("close");
-						                        });
-						                    }
-						                },
-						                error: function () {
-						                	$.ZMessage.error("错误", "系统异常，请联系管理员", function () {
-						                        $(".zd-message").ZWindow("close");
-						                    });
-						                }
-						                 if (r == 'cancel') {
-						                 }
-						             }, {
-						                'confirm': {id: 'confirm', text: '确定', buttonCls: 'btn-blue'},
-						            	'cancel':  {id: 'cancel', text: '取消', buttonCls: 'btn-gray'}
-						             });
-						            	 }
-						    	}
-								} */
+								
 								$.ZUI.init();
 
 							});

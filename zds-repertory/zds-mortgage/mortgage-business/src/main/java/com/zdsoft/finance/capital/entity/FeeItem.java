@@ -7,14 +7,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 费用项
  * 
- * @createTime:2017年1月10日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: FeeItem.java 
+ * @ClassName: FeeItem 
+ * @Description: 费用项
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:24:38 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_fee_item")
+@Table(name = "cptl_fee_item")
 public class FeeItem extends BaseEntity {
 
 	/**

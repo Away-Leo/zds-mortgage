@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.zdsoft.finance.marketing.entity.CaseApply;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
@@ -15,6 +16,7 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
+ * 
  * @Title:FeeInfomation.java
  * @Package:com.zdsoft.finance.casemanage.datasurvey.entity
  * @Description:费用信息
@@ -35,53 +37,53 @@ public class FeeInfomation extends BaseEntity {
 	 * 结余
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal balanceAmount;
+	private BigDecimal balanceAmount = BigDecimal.ZERO;
 	/**
 	 * 预计应收
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal expectedAmount;
+	private BigDecimal expectedAmount = BigDecimal.ZERO;
 	/**
 	 * 预计应付
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal expectedPayableAmount;
+	private BigDecimal expectedPayableAmount = BigDecimal.ZERO;
 	/**
 	 * 收费项目
 	 */
 	@Column(length = 20)
 	private String feeItem;
-	
+
 	/**
 	 * 收费项目名称
 	 */
 	@Column(length = 20)
 	private String feeItemName;
-	
+
 	/**
 	 * 收费对象
 	 */
-	@Column(length = 32)
+	@Column(length = 512)
 	private String feeObjectId;
-	
+
 	/**
 	 * 收费对象名称
 	 */
-	@Column(length = 128)
+	@Column(length = 512)
 	private String feeeObjectName;
-	
+
 	/**
 	 * 收费对象类别
 	 */
 	@Column(length = 20)
 	private String feeObjectType;
-	
+
 	/**
 	 * 费用类型
 	 */
 	@Column(length = 32)
 	private String feeType;
-	
+
 	/**
 	 * 费用类型名称
 	 */
@@ -91,37 +93,177 @@ public class FeeInfomation extends BaseEntity {
 	 * 实付
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal paidAmount;
+	private BigDecimal paidAmount = BigDecimal.ZERO;
 	/**
 	 * 付费对象
 	 */
-	@Column(length = 32)
+	@Column(length = 512)
 	private String payObjectId;
-	
+
 	/**
 	 * 付费对象名称
 	 */
-	@Column(length = 128)
+	@Column(length = 512)
 	private String payObjectName;
-	
+
 	/**
 	 * 付费对象类别
 	 */
 	@Column(length = 20)
 	private String payObjectType;
-	
+
 	/**
 	 * 实收
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal receivedAmount;
-	
+	private BigDecimal receivedAmount = BigDecimal.ZERO;
+
 	/**
 	 * 案件
 	 */
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "caseApplyId", nullable = false)
 	private CaseApply caseApply;
+
+	/*************** 案件信息 ***************************/
+
+	@Transient
+	private String productTypeName;
+
+	/**
+	 * 资金来源
+	 */
+	@Transient
+	private String capitalSource;
+
+	/**
+	 * 机构
+	 */
+	@Transient
+	private String mechanismName;
+
+	@Transient
+	private String productTypeId;
+
+	@Transient
+	private String productSubtypeId;
+
+	/**
+	 * 子产品名称
+	 */
+	@Transient
+	private String productSubtypeName;
+
+	/**
+	 * 案件状态
+	 */
+	@Transient
+	private String caseApplyStatus;
+	/**
+	 * 结余
+	 */
+	@Transient
+	private String balance;
+	/**
+	 * 案件申请日期
+	 */
+	@Transient
+	private String applyDateStr;
+	/**
+	 * 主借人
+	 */
+	@Transient
+	private String custtomerName;
+	@Transient
+	private String caseApplyCode;
+
+	public String getCaseApplyCode() {
+		return caseApplyCode;
+	}
+
+	public void setCaseApplyCode(String caseApplyCode) {
+		this.caseApplyCode = caseApplyCode;
+	}
+
+	public String getProductTypeName() {
+		return productTypeName;
+	}
+
+	public void setProductTypeName(String productTypeName) {
+		this.productTypeName = productTypeName;
+	}
+
+	public String getCapitalSource() {
+		return capitalSource;
+	}
+
+	public void setCapitalSource(String capitalSource) {
+		this.capitalSource = capitalSource;
+	}
+
+	public String getMechanismName() {
+		return mechanismName;
+	}
+
+	public void setMechanismName(String mechanismName) {
+		this.mechanismName = mechanismName;
+	}
+
+	public String getProductTypeId() {
+		return productTypeId;
+	}
+
+	public void setProductTypeId(String productTypeId) {
+		this.productTypeId = productTypeId;
+	}
+
+	public String getProductSubtypeId() {
+		return productSubtypeId;
+	}
+
+	public void setProductSubtypeId(String productSubtypeId) {
+		this.productSubtypeId = productSubtypeId;
+	}
+
+	public String getProductSubtypeName() {
+		return productSubtypeName;
+	}
+
+	public void setProductSubtypeName(String productSubtypeName) {
+		this.productSubtypeName = productSubtypeName;
+	}
+
+	public String getCaseApplyStatus() {
+		return caseApplyStatus;
+	}
+
+	public void setCaseApplyStatus(String caseApplyStatus) {
+		this.caseApplyStatus = caseApplyStatus;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getApplyDateStr() {
+		return applyDateStr;
+	}
+
+	public void setApplyDateStr(String applyDateStr) {
+		this.applyDateStr = applyDateStr;
+	}
+
+	public String getCusttomerName() {
+		return custtomerName;
+	}
+
+	public void setCusttomerName(String custtomerName) {
+		this.custtomerName = custtomerName;
+	}
 
 	public BigDecimal getBalanceAmount() {
 		return this.balanceAmount;

@@ -1,20 +1,5 @@
 package com.zdsoft.finance.prcostitem.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.zdsoft.bpm.annotation.client.FinishJob;
 import com.zdsoft.bpm.annotation.client.ManualJob;
 import com.zdsoft.essential.client.service.CED;
@@ -32,11 +17,26 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 import com.zdsoft.framework.cra.annotation.Menu;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+
 
 /**
- * 费用支拥申请
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2017-01-03
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostitemApplyController.java 
+ * @ClassName: PrCostitemApplyController 
+ * @Description: 费用支拥申请
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:09:28 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("prCostitemApply")
@@ -57,19 +57,21 @@ public class PrCostitemApplyController extends BaseController{
 	 */
 	@RequestMapping("/init")
     @UriKey(key = "com.zdsoft.finance.prCostitemApply.init")
-    @Menu(resource = "com.zdsoft.finance.prCostItem.init", label = "收费支拥管理", group = "businessSetting", order = 1)
+    @Menu(resource = "com.zdsoft.finance.prCostItem.init", label = "收费支佣管理", group = "businessSetting", order = 1)
 	public String init(){
 		return "prcostitem/prCostitemApply_init";
 	}
-	
+
 	/**
-	 * 收费支拥申请查询
-	 * @param pageable
-	 * @param param 参数
-	 * @param jsoncallback
-	 * @return
+	 * @Title: listData
+	 * @Description: 收费支佣管理列表数据
+	 * @author liaoguowei
+	 * @param pageable 分页参数
+	 * @param jsoncallback json回调
+	 * @return java.lang.String
+	 * @throws
 	 */
-	@RequestMapping("/listData")
+	@RequestMapping(value = "/listData",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@UriKey(key = "com.zdsoft.finance.prCostitemApply.listData")
 	@ResponseBody
 	public String listData(PageRequest pageable,String jsoncallback) {
@@ -81,6 +83,12 @@ public class PrCostitemApplyController extends BaseController{
 		List<PrCostitemApplyVo> listVo = new ArrayList<>();
 		for (PrCostitemApply po : list) {
 			PrCostitemApplyVo vo = new PrCostitemApplyVo(po);
+			try{
+				vo.setApplyDepNm(CED.loadOrganizationByCode(po.getApplyDepCd()).getOrgNm());
+			}catch (Exception e){
+				e.printStackTrace();
+				logger.error("收费支佣申请列表查询获取申请人部门出错",e);
+			}
 			listVo.add(vo);
 		}
 		msg.setRows(listVo);
@@ -106,7 +114,7 @@ public class PrCostitemApplyController extends BaseController{
 				vo.setStatus(BusiFormStatus.DRAFT.value);
 				vo.setStatusNm(BusiFormStatus.getName(BusiFormStatus.DRAFT.value));
 			} catch (Exception e) {
-				logger.error("CED错误",e.getMessage());
+				logger.error("CED错误",e);
 				e.printStackTrace();
 			}
 		}else{
@@ -115,7 +123,7 @@ public class PrCostitemApplyController extends BaseController{
 				vo = new PrCostitemApplyVo(apply);
 			} catch (BusinessException e) {
 				e.printStackTrace();
-				logger.error("查询出错",e.getMessage());
+				logger.error("查询出错",e);
 			}
 		}
 		map.put("vo", vo);
@@ -170,7 +178,7 @@ public class PrCostitemApplyController extends BaseController{
 			map.put("vo", vo);
 		} catch (BusinessException e) {
 			e.printStackTrace();
-			logger.error("查询出错",e.getMessage());
+			logger.error("查询出错",e);
 		}
 		ModelAndView model = new ModelAndView("prcostitem/prCostitemApply_detail");
 		model.addAllObjects(map);
@@ -255,7 +263,7 @@ public class PrCostitemApplyController extends BaseController{
 			bean = prCostitemApplyService.findOne(projectId);
 		} catch (BusinessException e) {
 			e.printStackTrace();
-			logger.error("查询数据错误",e.getMessage());
+			logger.error("查询数据错误",e);
 		}
 		if(ObjectHelper.isNotEmpty(bean)){
 			PrCostitemApplyVo vo = new PrCostitemApplyVo(bean);
@@ -317,7 +325,7 @@ public class PrCostitemApplyController extends BaseController{
 			model.put("vo", vo);
 		} catch (BusinessException e) {
 			e.printStackTrace();
-			logger.error("查询出错",e.getMessage());
+			logger.error("查询出错",e);
 		}
 		return new ModelAndView("prcostitem/prCostitemApply_job_detail", model);
 	}

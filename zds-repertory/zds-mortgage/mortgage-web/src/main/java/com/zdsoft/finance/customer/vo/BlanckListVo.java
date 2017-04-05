@@ -5,12 +5,22 @@ import com.zdsoft.finance.customer.entity.BlanckList;
 
 /**
  * 黑名单
- * @author zhangchao
- * 2016/12/21
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BlanckListVo.java 
+ * @ClassName: BlanckListVo 
+ * @Description: 
+ * @author zhangchao 
+ * @date 2017年2月6日 上午11:12:05 
+ * @version V1.0
  */
 public class BlanckListVo extends BaseVo<BlanckList> {
 
 	
+	/**   
+	 * @Fields serialVersionUID : TODO   
+	 */ 
+	private static final long serialVersionUID = 1L;
+
 	/**
      * 姓名
      */
@@ -32,11 +42,6 @@ public class BlanckListVo extends BaseVo<BlanckList> {
     private String reasonType;
     
     /**
-     * 创建人id
-     */
-    private String creatorId;
-    
-    /**
      * 公司代码
      */
     private String companyCode;
@@ -55,6 +60,31 @@ public class BlanckListVo extends BaseVo<BlanckList> {
      * 结束日期
      */
     private Long endDate;
+    
+    /**
+     * 工作单位
+     */
+    private String workUnit;
+    
+    /**
+     * 工作电话
+     */
+    private String workContact;
+    
+    /**
+     * 家庭电话
+     */
+    private String familyContact;
+    
+    /**
+     * 备注
+     */
+    private String remark;
+    
+    /**
+     * 关联客户
+     */
+    private String relationCustomerId;
 
 	public String getBlackName() {
 		return blackName;
@@ -88,14 +118,6 @@ public class BlanckListVo extends BaseVo<BlanckList> {
 		this.reasonType = reasonType;
 	}
 
-	public String getCreatorId() {
-		return creatorId;
-	}
-
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
-	}
-
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -126,6 +148,46 @@ public class BlanckListVo extends BaseVo<BlanckList> {
 
 	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getWorkUnit() {
+		return workUnit;
+	}
+
+	public void setWorkUnit(String workUnit) {
+		this.workUnit = workUnit;
+	}
+
+	public String getWorkContact() {
+		return workContact;
+	}
+
+	public void setWorkContact(String workContact) {
+		this.workContact = workContact;
+	}
+
+	public String getFamilyContact() {
+		return familyContact;
+	}
+
+	public void setFamilyContact(String familyContact) {
+		this.familyContact = familyContact;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getRelationCustomerId() {
+		return relationCustomerId;
+	}
+
+	public void setRelationCustomerId(String relationCustomerId) {
+		this.relationCustomerId = relationCustomerId;
 	}
 
 	public BlanckListVo(){}

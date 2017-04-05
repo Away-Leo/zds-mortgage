@@ -26,11 +26,17 @@ import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
+
 /**
- * 评估公司联系方式表
- * Evaluation Contact
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: EvaluationCompanyContactController.java
+ * @ClassName: EvaluationCompanyContactController
+ * @Description: 评估公司联系方式Controller
+ * @author liuwei
+ * @date 2017年3月9日 上午11:07:10
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/evaluationContact")
@@ -40,25 +46,38 @@ public class EvaluationCompanyContactController extends BaseController {
 	EvaluationCompanyContactService evaluationCompanyContactService;
 	@Autowired
 	EvaluationCompanyService evaluationCompanyService;
-	
+
 	/**
-	 * 评估公司联系列表
-	 * @return
+	 * 
+	 * @Title: initContact
+	 * @Description: 评估公司联系列表
+	 * @author liuwei
+	 * @param evaluationId
+	 *            评估公司id
+	 * @param operationType
+	 *            操作类型
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initContactsInfo")
 	@UriKey(key = "com.zdsoft.finance.cooperator.evaluation.initContact")
-	public ModelAndView initContact(String evaluationId,String operationType) {
+	public ModelAndView initContact(String evaluationId, String operationType) {
 		ModelAndView model = new ModelAndView("/cooperator/evaluation_contact_list");
 		model.addObject("evaluationId", evaluationId);
 		model.addObject("operationType", operationType);
 		return model;
 	}
+
 	/**
-	 * 评估公司列表数据展示
+	 * 
+	 * @Title: getContactsInfo
+	 * @Description: 评估公司联系人列表数据展示
+	 * @author liuwei
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/getContactsInfo")
 	@UriKey(key = "com.zdsoft.finance.cooperator.evaluation.getContact")
@@ -83,29 +102,36 @@ public class EvaluationCompanyContactController extends BaseController {
 		msg.setRows(listVo);
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
-	
+
 	/**
-	 * 更新联系人
-	 * @param jsoncallback
+	 * 
+	 * @Title: save
+	 * @Description: 更新联系人
+	 * @author liuwei
 	 * @param infoVo
-	 * @return
+	 *            联系人Vo
+	 * @return 处理消息msg json
 	 * @throws BusinessException
 	 */
 	@RequestMapping("/save")
 	@UriKey(key = "com.zdsoft.finance.cooperator.evaluation.contact.save")
 	@ResponseBody
-	public String save(EvaluationCompanyContactVo infoVo ) throws BusinessException {
+	public String save(EvaluationCompanyContactVo infoVo) throws BusinessException {
 		ResponseMsg msg = new ResponseMsg();
-		if(!ObjectHelper.isEmpty(infoVo)){
-			if(ObjectHelper.isEmpty(infoVo.getId())){
+		if (!ObjectHelper.isEmpty(infoVo)) {
+			if (ObjectHelper.isEmpty(infoVo.getId())) {
 				EvaluationCompanyContact info = infoVo.toPO();
-				EvaluationCompany eval =evaluationCompanyService.findOne(infoVo.getEvaluationId());
+				EvaluationCompany eval = evaluationCompanyService.findOne(infoVo.getEvaluationId());
 				info.setEvaluationCompany(eval);
 				evaluationCompanyContactService.saveEntity(info);
 				msg.setMsg("保存成功！");
 				msg.setResultStatus(ResponseMsg.SUCCESS);
-			}else{
-				EvaluationCompanyContact info =evaluationCompanyContactService.findOne(infoVo.getId());
+			} else {
+
+				// 查询评估公司联系信息
+				EvaluationCompanyContact info = evaluationCompanyContactService.findOne(infoVo.getId());
+
+				// 设置新值
 				info.setContactName(infoVo.getContactName());
 				info.setContactTelNumber(infoVo.getContactTelNumber());
 				info.setContactType(infoVo.getContactType());
@@ -115,68 +141,106 @@ public class EvaluationCompanyContactController extends BaseController {
 				msg.setMsg("更新成功！");
 				msg.setResultStatus(ResponseMsg.SUCCESS);
 			}
-		}else{
+		} else {
 			msg.setMsg("数据为空");
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
-	
+
 	/**
 	 * 
+	 * @Title: dialog
+	 * @Description: 评估公司联系方式dialog
+	 * @author liuwei
+	 * @param evaluationId
+	 *            评估公司id
+	 * @param id
+	 *            评估公司联系方式id
+	 * @param operationType
+	 *            操作类型
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/dialog")
-	@UriKey(key="com.zdsoft.finance.cooperator.evaluation.contact.dialog")
-	public ModelAndView dialog(String evaluationId,String id,String operationType) throws BusinessException{
-		ModelAndView modelAndView=new ModelAndView("/cooperator/evaluation_contact_dialog");
-		if("mod".equals(operationType)){
-			EvaluationCompanyContact info = evaluationCompanyContactService.findOne(id);
-			EvaluationCompanyContactVo infoVo = new EvaluationCompanyContactVo(info);
-			modelAndView.addObject("infoVo", infoVo);
+	@UriKey(key = "com.zdsoft.finance.cooperator.evaluation.contact.dialog")
+	public ModelAndView dialog(String evaluationId, String id, String operationType) {
+		ModelAndView modelAndView = new ModelAndView("/cooperator/evaluation_contact_dialog");
+		if ("mod".equals(operationType)) {
+
+			try {
+				EvaluationCompanyContact info = evaluationCompanyContactService.findOne(id);
+				EvaluationCompanyContactVo infoVo = new EvaluationCompanyContactVo(info);
+				modelAndView.addObject("infoVo", infoVo);
+			} catch (BusinessException e) {
+				e.printStackTrace();
+				logger.error("查询评估公司联系方式失败", e);
+			}
+
 		}
-			modelAndView.addObject("evaluationId", evaluationId);
+		modelAndView.addObject("evaluationId", evaluationId);
 		return modelAndView;
 	}
+
 	/**
-	 * 删除
+	 * 
+	 * @Title: del
+	 * @Description: 删除评估公司联系方式
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
-	 * @throws BusinessException 
+	 * @param id
+	 *            评估公司联系方式id
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/del")
 	@UriKey(key = "com.zdsoft.finance.cooperator.evaluation.contact.del")
 	@ResponseBody
-	public String del(String jsoncallback,String id) throws BusinessException {
+	public String del(String jsoncallback, String id) {
 		ResponseMsg msg = new ResponseMsg();
 		try {
 			evaluationCompanyContactService.logicDelete(id);
 			msg.setMsg("操作成功！");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
 		} catch (Exception e) {
-			msg.setMsg("操作失败！"+e.getMessage());
+			msg.setMsg("操作失败！" + e.getMessage());
 			msg.setResultStatus(ResponseMsg.SYS_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
-	
+
 	/**
-	 * 联系人编辑
-	 * @return
-	 * @throws BusinessException 
+	 * 
+	 * @Title: companyEdit
+	 * @Description: 联系人编辑
+	 * @author liuwei
+	 * @param id
+	 *            联系人id
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/edit")
 	@UriKey(key = "com.zdsoft.finance.cooperator.evaluation.contact.edit")
 	@ResponseBody
-	public String companyEdit(String id) throws BusinessException {
+	public String companyEdit(String id) {
+
 		Map<String, Object> obj = new HashMap<String, Object>();
-		EvaluationCompanyContact info = evaluationCompanyContactService.findOne(id);
-		EvaluationCompanyContactVo infoVo = new EvaluationCompanyContactVo(info);
-		obj.put("infoVo", infoVo);
 		ResponseMsg msg = new ResponseMsg();
-		msg.setMsg("操作成功");
-		msg.setResultStatus(ResponseMsg.SUCCESS);
-		msg.setTotal(0L);
-		msg.setOptional(obj);
+		try {
+			// 查询评估公司联系方式信息
+			EvaluationCompanyContact info = evaluationCompanyContactService.findOne(id);
+
+			// 转换Vo
+			EvaluationCompanyContactVo infoVo = new EvaluationCompanyContactVo(info);
+			obj.put("infoVo", infoVo);
+			msg.setMsg("操作成功");
+			msg.setResultStatus(ResponseMsg.SUCCESS);
+			msg.setTotal(0L);
+			msg.setOptional(obj);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			logger.error("查询评估公司联系方式失败", e);
+			msg.setMsg("查询评估公司联系方式失败");
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+		}
+
 		return ObjectHelper.objectToJson(msg);
 	}
 }

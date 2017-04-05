@@ -35,7 +35,7 @@
                 <dt class="title">教育程度:</dt>
                 <dd class="detail">
                     <input class="zui-combobox zui-validatebox" validate-type="Length[0-15]" id="degree" type="hidden" name="degree|E|S" value=""
-			                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=e030300"
+			                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00115"
 			                           data-valuefield="fullcode" data-textfield="name" >
                 </dd>
             </dl>
@@ -50,19 +50,19 @@
 <div class="page-box">
     <div class="page-title">客户列表</div>
     <div class="p10">
-        <div id="tb-product" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.cnfh.customer.getCustomers" context="admin"/>&jsoncallback=?&createBy|E|S=${EmpCd }","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#btn-function"}'>
+        <div id="tb-product" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.cnfh.customer.getCustomers" context="admin"/>&jsoncallback=?&createBy|E|S=${EmpCd }&birthdayDate|R|L=99","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#btn-function"}'>
 		    <table>
 		        <thead>
 		        <tr>
 		            <th data-options="field:customerName,width:5%">姓名</th>
-		            <th data-options="field:credentiaType,width:10%">证件类型</th>
+		            <th data-options="field:credentialType,width:10%">证件类型</th>
 		            <th data-options="field:credentialNo,width:15%">证件号码</th>
 		            <th data-options="field:gender,width:5%">性别</th>
 		            <th data-options="field:degree,width:8%">教育程度</th>
 		            <th data-options="field:maritalStatus,width:5%">婚况</th>
-		            <th data-options="field:careerType,width:10%">职业类型</th>
-		            <th data-options="field:address,width:30%,align:left">家庭住址</th>
-		            <th data-options="field:id,width:20%" formatter="formatId">操作</th>
+		            <th data-options="field:careerType,width:15%">职业类型</th>
+		            <th data-options="field:homeAddressStr,width:22%,align:left">家庭住址</th>
+		            <th data-options="field:id,width:12%" formatter="formatId">操作</th>
 		        </tr>
 		        </thead>
 		    </table>
@@ -109,8 +109,8 @@
 		        
 		    	//操作格式化
 		        CALLBACK.formatId=function(rowData,index){
-		        	var data='<a class="icon-btn22 handler-icon c-green" title="编辑" onclick="editCrm"></a>&nbsp;&nbsp;'+
-		        	'<a class="icon-btn31 handler-icon c-orange" title="查看" onclick="viewCrm"></a>';
+		        	var data='<a onclick="editCrm"><button class="btn-blue">编辑</button></a>&nbsp;&nbsp;'+
+		        	'<a onclick="viewCrm"><button class="btn-blue">查看</button></a>';
 		        	return data;
 		        }
 		    	
@@ -128,6 +128,12 @@
 		    	
 		    	//导出客户列表
 		        CALLBACK.exports=function(){
+		        	var rows=$('#tb-product').ZTable("getRows");
+		    		if(rows.length==0){
+		    			$.ZMessage.warning("警告", "查询列表为空，无法导出", function () {
+	                    });
+		    			return ;
+		    		}
 		        	var url="<z:ukey key="com.zdsoft.finance.toExcel" context="admin"/>&jsoncallback=?&fileName=客户列表导出文档";
                     var param=$("table").html();
 					$("form").remove("#exportFrom");

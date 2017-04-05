@@ -6,17 +6,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+
 /**
- * request参数
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-04-14
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: HttpServletRequestParams.java 
+ * @ClassName: HttpServletRequestParams 
+ * @Description: request参数
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:11:15 
+ * @version V1.0
  */
 public class HttpServletRequestParams {
 
+	
 	/**
-	 * 获取所有request参数
-	 * @param request
-	 * @return
+	 * @Title: setBusiForm 
+	 * @Description: 获取所有request参数
+	 * @author gufeng 
+	 * @param request 请求
 	 */
 	 public static Set<Map.Entry<String, String>> getPrams(HttpServletRequest request) {
 	        Map<String,String> map = new HashMap<String,String>();

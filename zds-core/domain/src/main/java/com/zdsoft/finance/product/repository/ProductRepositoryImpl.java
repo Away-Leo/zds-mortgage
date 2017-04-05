@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.Category;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
@@ -16,10 +15,14 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品主表操作仓库实现
- * @author longwei
- * @date 2016/12/23
- * @version 1.0
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductRepositoryImpl.java 
+ * @ClassName: ProductRepositoryImpl 
+ * @Description: 产品
+ * @author gufeng 
+ * @date 2017年2月16日 下午5:47:01 
+ * @version V1.0
  */
 public class ProductRepositoryImpl {
 
@@ -48,8 +51,17 @@ public class ProductRepositoryImpl {
 		return query.getResultList();
 	}
 	
+	/**
+	 * @Title: find 
+	 * @Description: 根据对象查询分页
+	 * @author gufeng 
+	 * @param product 查询对象
+	 * @param empType 类型
+	 * @param pageable 分页
+	 * @return 分页数据
+	 */
 	@SuppressWarnings("unchecked")
-	public Page<Product> find(Product product,String empType,Pageable pageable) throws BusinessException{
+	public Page<Product> find(Product product,String empType,Pageable pageable){
 		//hql
 		StringBuffer hql = new StringBuffer("from Product p where 1=1 ");
 		
@@ -97,20 +109,17 @@ public class ProductRepositoryImpl {
 		return pager;
 	}
 	
-	public Product findByProductCode(String productCode) throws BusinessException{
-		//hql
-		StringBuffer hql = new StringBuffer("from Product p where 1=1 and p.isDeleted=:isDeleted and p.productCode=:productCode ");
-		
-		Query query = em.createQuery(hql.toString());
-		
-		query.setParameter("isDeleted", !BaseEntity.DELETED);
-		query.setParameter("productCode", productCode);
-		
-		return (Product) query.getSingleResult();
-	}
-	
+	/**
+	 * @Title: findByCategoryIdAndOrgCd 
+	 * @Description: 通过产品分类和机构查询产品
+	 * @author gufeng 
+	 * @param CategoryId 类别id
+	 * @param orgCd 部门编号
+	 * @param nowDate 现在
+	 * @return 产品数据
+	 */
 	@SuppressWarnings("unchecked")
-	public List<Product> findByCategoryIdAndOrgCd(String categoryId,String orgCd){
+	public List<Product> findByCategoryIdAndOrgCd(String categoryId,String orgCd,Long nowDate){
 		//hql
 		StringBuffer hql = new StringBuffer("select p from Category ca,Product p,CompanyProduct cp,Company c where 1=1 and p.isDeleted=:isDeleted ");
 		hql.append("and p.isValid=:isValid ");
@@ -119,12 +128,15 @@ public class ProductRepositoryImpl {
 		hql.append("and cp.company.id=c.id ");
 		hql.append("and ca.id=:categoryId ");
 		hql.append("and c.code=:orgCd ");
+		hql.append("and p.startTime<=:nowDate ");
+		hql.append("and p.endTime>=:nowDate ");
 		
 		Query query=em.createQuery(hql.toString());
 		query.setParameter("isDeleted", !BaseEntity.DELETED);
 		query.setParameter("isValid", true);
 		query.setParameter("categoryId", categoryId);
 		query.setParameter("orgCd", orgCd);
+		query.setParameter("nowDate", nowDate);
 		
 		return query.getResultList();
 	}

@@ -10,12 +10,12 @@
 	                <dt class="title"><b class="c-red mr5">*</b>协议名称:</dt>
 	                <dd class="detail">
 	                    <label>
-	                    	<input class="zui-input" name="agreementName"  id="agreementName" value="${infoVo.agreementName}" >
+	                    	<input class="zui-input  zui-validatebox" validate-type="Require" name="agreementName"  id="agreementName" value="${infoVo.agreementName}" >
 	                    </label>
 	                </dd>
 	            </dl>
 	            <dl class="form-item block">
-	            <input type="" name="attachmentId"  id="attachmentId" value="${infoVo.attachmentId}" >
+	            <input type="hidden" name="attachmentId"  id="attachmentId" value="${infoVo.attachmentId}" />
 					<dt class="title">
 						附件信息:
 					</dt>
@@ -53,28 +53,42 @@
                     text: '确定',
                     buttonCls: 'btn-blue',
                     handler: function () {
-                    	var contactForm = $('#contactForm').serialize();
-                            $.ajax({
-                                type: 'post',
-                                url: '<z:ukey key="com.zdsoft.finance.cooperator.idea.save" context="admin"/>',
-                                data: contactForm,
-                                dataType: 'json',
-                                success: function (data) {
-                                    if (data.resultStatus == 0) {
-                                    	$.ZMessage.success("提示", "保存成功", function () {
-                    	                    $(".zd-message").ZWindow("close");
-                    	                });
-                                    	$('#idea_datagrid_table').ZTable("reload", {});
-                                    	$("#ideaDialogDiv").Zdialog("close");
-                                    }
-                                },
-                                error: function () {
-                                	$.ZMessage.error("错误", "系统异常，请联系管理员", function () {
-                                        $(".zd-message").ZWindow("close");
-                                    });
-                                	$("#ideaDialogDiv").Zdialog("close");
-                                }
-                            });
+                    	var attachmentId = $('#attachmentId').val();
+                    	if(!attachmentId){
+                    		$.ZMessage.warning("提示", "请上传附件", function () {
+                    			
+                    		});
+                    	}else{
+                    		var isValidate = $.ZUI.validateForm($('#contactForm'));
+                    		if(isValidate){
+	                    		var contactForm = $('#contactForm').serialize();
+	                            $.ajax({
+	                                type: 'post',
+	                                url: '<z:ukey key="com.zdsoft.finance.cooperator.idea.save" context="admin"/>',
+	                                data: contactForm,
+	                                dataType: 'json',
+	                                success: function (data) {
+	                                    if (data.resultStatus == 0) {
+	                                    	$.ZMessage.success("提示", "保存成功", function () {
+	                    	                    $(".zd-message").ZWindow("close");
+	                    	                });
+	                                    	$('#idea_datagrid_table').ZTable("reload", {});
+	                                    	$("#ideaDialogDiv").Zdialog("close");
+	                                    }
+	                                },
+	                                error: function () {
+	                                	$.ZMessage.error("错误", "系统异常，请联系管理员", function () {
+	                                        $(".zd-message").ZWindow("close");
+	                                    });
+	                                	$("#ideaDialogDiv").Zdialog("close");
+	                                }
+	                            });
+                    		}else{
+                    			$.ZMessage.warning("提示", "数据验证失败", function () {
+                        			
+                        		});
+                    		}
+                    	}
                     }
                 },
                 {
@@ -121,16 +135,6 @@
     function initUpload() {
     	// 上传相关js
     	var upload_url = '<z:ukey key="public.ess.upload"   context="admin"/>';
-    	//模拟环境
-    	var i = 1;
-    	$.ajax({
-    		type :'post',
-    		url : upload_url+"&jsoncallback=?",
-    		dataType : 'jsonp',
-    		success : function(result) {
-
-    		}
-    	});
 
     	$('#file_upload').uploadify({
     		'multi': true,

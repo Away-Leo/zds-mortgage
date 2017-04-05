@@ -1,10 +1,8 @@
 package com.zdsoft.finance.marketing.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
 import com.zdsoft.finance.marketing.entity.PledgeInfo;
@@ -14,35 +12,18 @@ import com.zdsoft.framework.core.common.exception.BusinessException;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:PledgeInfoServiceImpl.java
- * @Package:com.zdsoft.finance.marketing.service.impl
- * @Description:抵押服务实现类
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:51:45
- * @version:v1.0
+ * @Title: PledgeInfoServiceImpl.java 
+ * @ClassName: PledgeInfoServiceImpl 
+ * @Description: 抵押服务实现类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:32:33 
+ * @version V1.0
  */
 @Service("pledgeInfoService")
 public class PledgeInfoServiceImpl extends BaseServiceImpl<PledgeInfo, PledgeInfoRepository>
 implements PledgeInfoService{
-
-
-	@Override
-	@Transactional
-	public List<PledgeInfo> saveOrUpdatePledgeInfo(List<PledgeInfo> pledgeInfos, String housePropertyId)
-			throws Exception {
-		List<PledgeInfo> lists = new ArrayList<PledgeInfo>();
-		//添加或保存
-		if(ObjectHelper.isNotEmpty(pledgeInfos)){
-			for (PledgeInfo pledgeInfo : pledgeInfos) {
-				//设置房产Id
-				pledgeInfo.setHousePropertyId(housePropertyId);
-				pledgeInfo = this.saveOrUpdateEntity(pledgeInfo);
-				lists.add(pledgeInfo);
-			}
-		}
-		return lists;
-	}
 	
 	@Override
 	public List<PledgeInfo> findByHouseId(String houseId) {
@@ -59,4 +40,9 @@ implements PledgeInfoService{
         }
         return this.customReposity.findByHouseIdAndPledgeType(houseId,pledgeType);
     }
+
+	@Override
+	public List<PledgeInfo> findPledgeInfoByCaseApplyId(String caseApplyId) {
+		return this.customReposity.findPledgeInfoByCaseApplyId(caseApplyId);
+	}
 }

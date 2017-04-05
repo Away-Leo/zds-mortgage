@@ -1,5 +1,14 @@
 package com.zdsoft.finance.app.repaymenttrial.vo;
-
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: TrialRepayPlanVo.java 
+ * @ClassName: TrialRepayPlanVo 
+ * @Description: 还款试算计划vo
+ * @author jingjiyan 
+ * @date 2017年3月7日 上午10:04:48 
+ * @version V1.0
+ */
 public class TrialRepayPlanVo {
 
 	/**

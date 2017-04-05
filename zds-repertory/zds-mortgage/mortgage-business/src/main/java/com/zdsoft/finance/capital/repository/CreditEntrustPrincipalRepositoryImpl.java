@@ -11,11 +11,15 @@ import com.zdsoft.finance.capital.entity.CreditEntrustPrincipal;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 信托计划本金投入RepositoryImpl
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustPrincipalRepositoryImpl.java
+ * @ClassName: CreditEntrustPrincipalRepositoryImpl
+ * @Description: 信托计划本金投入RepositoryImpl
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:27:43
+ * @version V1.0
  */
 public class CreditEntrustPrincipalRepositoryImpl {
 
@@ -23,10 +27,19 @@ public class CreditEntrustPrincipalRepositoryImpl {
 	private EntityManager em;
 
 	/**
-	 * 通过查询条件查询本金投入列表
+	 * 
 	 * 
 	 * @param conditions
 	 * @return
+	 */
+	/**
+	 * 
+	 * @Title: findByConditions
+	 * @Description: 通过查询条件查询本金投入集合
+	 * @author liuwei
+	 * @param conditions
+	 *            查询条件
+	 * @return 信托计划本金投入集合
 	 */
 	@SuppressWarnings("unchecked")
 	public List<CreditEntrustPrincipal> findByConditions(Map<String, Object> conditions) {
@@ -44,6 +57,8 @@ public class CreditEntrustPrincipalRepositoryImpl {
 				hql.append(" and t.creditEntrust.id = :creditEntrustId ");
 			}
 		}
+
+		hql.append(" order by t.createTime desc ");
 		Query query = em.createQuery(hql.toString());
 
 		if (ObjectHelper.isNotEmpty(conditions)) {

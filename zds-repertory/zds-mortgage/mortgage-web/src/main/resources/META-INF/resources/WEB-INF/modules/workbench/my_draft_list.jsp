@@ -35,7 +35,7 @@
 					<dt class="title">申请单:</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" type="hidden" validate-type="" id="applayFormCode"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=processFormCd"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00126"
 	                        data-valuefield="fullcode" data-textfield="name" name="applayFormCode">
 					</dd>
 				</dl>

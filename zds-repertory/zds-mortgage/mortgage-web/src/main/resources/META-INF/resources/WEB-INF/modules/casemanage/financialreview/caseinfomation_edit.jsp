@@ -49,14 +49,14 @@
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text"
-										value="${caseApply.applyDeadline }" class="zui-input nwidth2"
+										value="${caseApply.applyTerm }" class="zui-input nwidth2"
 										readonly validate-type="Require" disabled="disabled" />
 									</label>
 								</dd>
 								<dd class="detail">
 									<input class="zui-combobox " type="hidden"
-										name="applyDeadlineUnit" data-width="94"
-										value="${caseApply.applyDeadlineUnit }"
+										name="applyTermUnit" data-width="94"
+										value="${caseApply.applyTermUnit }"
 										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0003"
 										data-valuefield="fullcode" data-textfield="name"
 										data-choose="disable">

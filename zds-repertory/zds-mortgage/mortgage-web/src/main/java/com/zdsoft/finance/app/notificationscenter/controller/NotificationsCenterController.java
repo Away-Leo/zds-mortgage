@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zdsoft.bpm.dto.TaskInstanceQueryDto;
 import com.zdsoft.bpm.service.client.BPM;
+import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.common.utils.AppStatus;
 import com.zdsoft.finance.common.utils.app.AppServerUtil;
 import com.zdsoft.framework.core.common.page.Page;
@@ -23,13 +24,33 @@ import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: NotificationsCenterController.java 
+ * @ClassName: NotificationsCenterController 
+ * @Description: app 消息中心
+ * @author dengyy 
+ * @date 2017年3月3日 上午10:04:34 
+ * @version V1.0
+ */
 @RequestMapping("/server/notificationsCenter")
 @Controller
 public class NotificationsCenterController extends BaseController {
 
     @Autowired
     private BPM BPM ;
-    
+    @Autowired
+    private CED CED ;
+
+    /**
+     * 
+     * @Title: NotificationsCenterIndex 
+     * @Description: app 消息中心
+     * @author dengyy 
+     * @param request
+     * @return
+     */
     @RequestMapping("/index")
     @ResponseBody
     public String NotificationsCenterIndex(HttpServletRequest request){
@@ -38,7 +59,9 @@ public class NotificationsCenterController extends BaseController {
         try {
             Map<String, Object> rtMap = new HashMap<>();
             //待办任务
-            Page<TaskInstanceQueryDto> page = BPM.findMyPendingTasks(pageable);
+            Map<String, Object> params = new HashMap<String, Object>();
+			params.put("empDto", CED.getLoginUser());
+			Page<TaskInstanceQueryDto> page = BPM.findMyPendingTasks(params,pageable,true);
             Map<String, Object> myJobsMap = new HashMap<>();
             if(ObjectHelper.isNotEmpty(page.getRecords())){
                 List<TaskInstanceQueryDto> records = page.getRecords();

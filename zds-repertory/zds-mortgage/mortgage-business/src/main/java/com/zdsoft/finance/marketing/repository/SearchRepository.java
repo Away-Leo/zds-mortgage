@@ -1,31 +1,27 @@
 package com.zdsoft.finance.marketing.repository;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.marketing.entity.Search;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:SearchRepository.java
- * @Package:com.zdsoft.finance.marketing.repository
- * @Description:房产产权实现类
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:05:39
- * @version:v1.0
+ * @Title: SearchRepository.java 
+ * @ClassName: SearchRepository 
+ * @Description: 房产产权状态repository
+ * @author zhoushichao 
+ * @date 2017年3月8日 下午4:52:19 
+ * @version V1.0
  */
 public interface SearchRepository extends CustomRepository<Search, String>{
-    
-    /**
-     * 
-     * 通过housePropertyId查找Search
-     *
-     * @author caixiekang
-     * @param housePropertyId
-     * @return
-     */
-    @Query(" from Search where isDeleted=0 and housePropertyId=:housePropertyId ")
-    public Search findByHouseProperyId(@Param(value="housePropertyId")String housePropertyId);
 
+	/**
+	 * 
+	 * @Title: findByHouseProperyId 
+	 * @Description: 通过房产Id查找房产产权状态
+	 * @author zhoushichao 
+	 * @param housePropertyId 房产Id
+	 * @return
+	 */			  
+    public Search findByHousePropertyId(String housePropertyId);
 }

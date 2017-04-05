@@ -17,16 +17,15 @@
 							<input type="hidden" id="creditAttachment" name="creditAttachment" value="${attachmentIds }"/>
 							<div>
 								<span id="creditUploadFile" class="f12">
-								<c:if test="${empty caseMaterialListAttaVos }">注：未上传附件</c:if>
-								<c:if test="${not empty caseMaterialListAttaVos }">
-								<c:forEach var="c" items="${caseMaterialListAttaVos }">
-								<div id="fileDiv_ff${c.attachmentId }">${c.attachmentName }  
-								<a class="ml5 c-blue" name="deleteLink" data-id="ff${c.attachmentId }">删除</a>
-								<a class="ml5 c-blue" name="downLink" data-id="ff${c.attachmentId }">下载</a></div>
-								</c:forEach>
-								
-								</c:if>
-								
+									<c:if test="${empty fileStoreVos }">注：未上传附件</c:if>
+									<c:if test="${not empty fileStoreVos }">
+										<c:forEach var="c" items="${fileStoreVos }">
+											<div id="fileDiv_${c.attachmentId }" >${c.fileName }
+												<a class='ml5 c-blue'  name='deleteLink' data-id="${c.attachmentId }" data-filefiled='creditAttachment'>删除</a>
+												<a class='ml5 c-blue'  name='downLink'  data-id="${c.attachmentId }" >下载</a>
+											</div>
+										</c:forEach>
+									</c:if>
 								</span>
 							</div>
 						</dd>
@@ -51,8 +50,9 @@
 			</tr>
 		</table>
 	</div>
-</div>	
+	</div>	
 </form>
+<!-- 上传征信弹窗 -->
 <div id="creditFileInfo" style="display: none">
 	<form id="credit_file_form" class="zui-form" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="creditId" id="creditId" /> 
@@ -70,10 +70,8 @@
 	</form>
 </div>
 
-
 <script type="text/javascript">
 seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.table'], function($, CALLBACK) {
-	
 	//初始化部署流程dialog
 	$("#creditFileInfo").Zdialog({width: 500, height: 280, closed: true,title:'上传征信文件',
         buttons: [
@@ -91,6 +89,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.table'], functi
                 	if(creditUploadFile=="注：未上传附件"){
                 		$("#creditUploadFile").html("");
                 	}
+                	$("#creditFileUploadStatus").find("a[name='deleteLink']").attr("data-filefiled","creditAttachment");
                 	$("#creditUploadFile").append($("#creditFileUploadStatus").html());
                 	var creditAttachments=$("#creditAttachment").val();
                 	if(creditAttachments!=""){
@@ -114,7 +113,6 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.table'], functi
             }
         ]
     });
-
 	//部署流程
 	window.addFile = function() {
 		$("#creditId").val("");
@@ -127,9 +125,9 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.table'], functi
    	 *@param multi 上传类型,true 多个上传
    	 *@param objId 回调函数名称拼接
    	 */
-	 window.initCommonUpload(true);
+   	 var fileTypes="*.bmp;*.jpg;*.gif;*.wmf;*.png";
+	 window.initCommonUpload(true,"",fileTypes);
 }); 
-	
 /**
  *普通上传回调函数
  */
@@ -146,7 +144,7 @@ window.uploadFileCallback=function (file, data, response){
 	 * @param showId 传入需要显示的地方id
 	 * @param single true 当个文件
 	 */
-	showFileContent(attachements,"creditFileUploadStatus");
+	showFileContent(attachements,"creditFileUploadStatus",false,"creditId");
 	var creditId = $("#creditId").val();
 	if(creditId==""){
 		creditId = attachementsId;
@@ -155,5 +153,4 @@ window.uploadFileCallback=function (file, data, response){
 	}
 	$("#creditId").val(creditId);
 }
-    
 </script>

@@ -6,64 +6,83 @@ import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 审批意见vo
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ApprovalOpinionVo.java 
+ * @ClassName: ApprovalOpinionVo 
+ * @Description: 审批意见vo
+ * @author gufeng 
+ * @date 2017年3月6日 下午7:22:40 
+ * @version V1.0
  */
 public class ApprovalOpinionVo extends BaseVo<ApprovalOpinion>{
 
-	// 审批类型
-	private String approvalTypeCd;
+	private static final long serialVersionUID = -246637072671722909L;
+
+	/**
+	 * 审批类型
+	 */
+	private String approvalType;
 	
-	// 审批类型
-	private String approvalTypeNm;
+	/**
+	 * 审批类型
+	 */
+	private String approvalTypeName;
 	
-	// 抵押顺序
-	private String mortgageOrderCd;
+	/**
+	 * 抵押顺序
+	 */
+	private String mortgageOrder;
 	
-	// 抵押顺序
-	private String mortgageOrderNm;
+	/**
+	 * 抵押顺序
+	 */
+	private String mortgageOrderName;
 	
-	// 是否启用
+	/**
+	 * 是否启用
+	 */
 	private Boolean isEnable;
 	
-	// 审批用语
+	/**
+	 * 审批用语
+	 */
 	private String remark;
 	
-	// 所属产品
+	/**
+	 * 所属产品
+	 */
 	private ProductVo productVo;
 
-	public String getApprovalTypeCd() {
-		return approvalTypeCd;
+	public String getApprovalType() {
+		return approvalType;
 	}
 
-	public void setApprovalTypeCd(String approvalTypeCd) {
-		this.approvalTypeCd = approvalTypeCd;
+	public void setApprovalType(String approvalType) {
+		this.approvalType = approvalType;
 	}
 
-	public String getApprovalTypeNm() {
-		return approvalTypeNm;
+	public String getApprovalTypeName() {
+		return approvalTypeName;
 	}
 
-	public void setApprovalTypeNm(String approvalTypeNm) {
-		this.approvalTypeNm = approvalTypeNm;
+	public void setApprovalTypeName(String approvalTypeName) {
+		this.approvalTypeName = approvalTypeName;
 	}
 
-	public String getMortgageOrderCd() {
-		return mortgageOrderCd;
+	public String getMortgageOrder() {
+		return mortgageOrder;
 	}
 
-	public void setMortgageOrderCd(String mortgageOrderCd) {
-		this.mortgageOrderCd = mortgageOrderCd;
+	public void setMortgageOrder(String mortgageOrder) {
+		this.mortgageOrder = mortgageOrder;
 	}
 
-	public String getMortgageOrderNm() {
-		return mortgageOrderNm;
+	public String getMortgageOrderName() {
+		return mortgageOrderName;
 	}
 
-	public void setMortgageOrderNm(String mortgageOrderNm) {
-		this.mortgageOrderNm = mortgageOrderNm;
+	public void setMortgageOrderName(String mortgageOrderName) {
+		this.mortgageOrderName = mortgageOrderName;
 	}
 
 	public Boolean getIsEnable() {
@@ -104,7 +123,6 @@ public class ApprovalOpinionVo extends BaseVo<ApprovalOpinion>{
 			Product product=this.getProductVo().toPo();
 			approvalOpinion.setProduct(product);
 		}
-		
 		return approvalOpinion;
 	}
 }

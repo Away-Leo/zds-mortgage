@@ -15,14 +15,18 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 备付资金跟踪
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: SpareCapital.java
+ * @ClassName: SpareCapital
+ * @Description: 备付资金跟踪
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:24:57
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_spare_capital")
+@Table(name = "cptl_credit_spare_capital")
 public class SpareCapital extends BaseEntity {
 
 	/**
@@ -39,8 +43,8 @@ public class SpareCapital extends BaseEntity {
 	/**
 	 * 请款金额
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal applyAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal applyAmount = BigDecimal.ZERO;
 
 	/**
 	 * 用款日期
@@ -75,14 +79,14 @@ public class SpareCapital extends BaseEntity {
 	/**
 	 * 实际到账金额
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal actualAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal actualAmount = BigDecimal.ZERO;
 
 	/**
 	 * 未分配到账金额
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal distributionAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal distributionAmount = BigDecimal.ZERO;
 
 	/**
 	 * 确认到账备注
@@ -102,18 +106,27 @@ public class SpareCapital extends BaseEntity {
 	@Column
 	private Integer actualStatus;
 
+	/**
+	 * 提交人
+	 */
 	@Column(length = 32)
 	private String completeEmpCd;
 	@Column(length = 64)
 	private String completeEmpName;
 
+	/**
+	 * 信托计划临时id
+	 */
+	@Column(length = 32)
+	private String tempUuid;
+
+	/**
+	 * 所属信托计划
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	@JoinColumn(name = "creditEntrustId")
 	private CreditEntrust creditEntrust;
-
-	@Column(length = 32)
-	private String tempUuid;
 
 	public String getOperationType() {
 		return operationType;

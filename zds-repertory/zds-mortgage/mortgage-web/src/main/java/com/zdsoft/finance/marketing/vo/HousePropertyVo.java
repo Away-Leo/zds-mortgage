@@ -7,14 +7,14 @@ import com.zdsoft.finance.common.utils.VoUtil;
 import com.zdsoft.finance.marketing.entity.HouseProperty;
 
 /**
- * 版权所有：重庆正大华日软件有限公司
  * 
- * @Title:HousePropertyVo.java
- * @Package:com.zdsoft.finance.marketing.vo
- * @Description:房产Vo类
- * @author: zhoushichao
- * @date:2017年1月13日 下午10:09:56
- * @version:v1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: HousePropertyVo.java 
+ * @ClassName: HousePropertyVo 
+ * @Description: 房产Vo类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午7:49:27 
+ * @version V1.0
  */
 public class HousePropertyVo extends BaseVo<HouseProperty> {
 
@@ -43,7 +43,7 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
     /**
      * 是否仲裁
      */
-    private Boolean isArbitration = false;
+    private Boolean isArbitration;
     /**
      * 小区名称
      */
@@ -61,20 +61,24 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
      */
     private String area;
     /**
-     * 房产性质
+     * 房产性质Code
      */
     private String estateProperties;
-
+    /**
+     * 房产性质名称
+     */
     private String estatePropertiesName;
-
     /**
      * 房产性质（其它）
      */
     private String estatePropertiessOther;
     /**
-     * 房产权属
+     * 房产权属Code
      */
     private String estateOwnership;
+    /**
+     * 房产权属名称
+     */
     private String estateOwnershipName;
     /**
      * 中介询价
@@ -89,6 +93,15 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
      */
     private BigDecimal controlPrice;
     /**
+     * 风控复议价  model by liuhuan 2017-2-16
+     */
+    private BigDecimal controlReviewPrice;
+    /**
+     * 居住状态  model by liuhuan 2017-2-16
+     */
+    private String livingState;
+    private String livingStateName;
+    /**
      * 评估价
      */
     private BigDecimal evaluatingPrice;
@@ -98,46 +111,91 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
     private BigDecimal synthesizePrice;
     /**
      * 是否有装修
+     * model by liuhuan 2017-2-16 类型转换为String
      */
-    private Boolean isRenovation = false;
+    private String isRenovation;
+    private String isRenovationName;
     /**
      * 是否有电梯
+     * model by liuhuan 2017-2-16 类型转换为String
      */
-    private Boolean isElevator = false;
+    private String isElevator;
+    private String isElevatorName;
     /**
      * 楼龄
      */
     private String floorAge;
     /**
-     * 省
+     * 省Code
      */
     private String province;
     /**
-     * 市
+     * 省名称
+     */
+    private String provinceName;
+    /**
+     * 市Code
      */
     private String city;
     /**
-     * 区
+     * 市名称
+     */
+    private String cityName;
+    /**
+     * 区Code
      */
     private String district;
-
-    private String provinceName;
-    private String cityName;
+    /**
+     * 区名称
+     */
     private String districtName;
 
     /**
      * 详细地址
      */
     private String mailingAddress;
+
     /**
-     * 抵押情况
+     * 综合详细地址
+     */
+    private String totalMailingAddress;
+    /**
+     * 抵押情况Code
      */
     private String mortgageSituation;
+    /**
+     * 抵押情况名称
+     */
     private String mortgageSituationName;
     /**
      * 产权情况
      */
     private SearchVo searchVo;
+    
+    
+    /**
+     * (合同补充)债权数额
+     */
+    private BigDecimal creditorsAmount;
+	/**
+     * (合同补充)土地使用权面积
+     */
+    private String landUseArea;
+    
+    /**
+     * (合同补充)土地证编号
+     */
+    private String landCertificateNo;
+    
+    /**
+     * (合同补充)抵押物价值(苏州)/估价(中山)/剩余价值(江阴二抵)
+     */
+    private BigDecimal mortgageAmount1;
+    
+    /**
+     * (合同补充)抵押金额(无锡)
+     */
+    private BigDecimal mortgageAmount2;
 
     public String getCaseApplyId() {
         return caseApplyId;
@@ -146,8 +204,24 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
     public void setCaseApplyId(String caseApplyId) {
         this.caseApplyId = caseApplyId;
     }
+    
+    public String getLivingState() {
+		return livingState;
+	}
 
-    public String getHouseNo() {
+	public void setLivingState(String livingState) {
+		this.livingState = livingState;
+	}
+
+	public BigDecimal getControlReviewPrice() {
+		return controlReviewPrice;
+	}
+
+	public void setControlReviewPrice(BigDecimal controlReviewPrice) {
+		this.controlReviewPrice = controlReviewPrice;
+	}
+
+	public String getHouseNo() {
         return houseNo;
     }
 
@@ -219,23 +293,23 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
         this.synthesizePrice = synthesizePrice;
     }
 
-    public Boolean getIsRenovation() {
-        return isRenovation;
-    }
+    public String getIsRenovation() {
+		return isRenovation;
+	}
 
-    public void setIsRenovation(Boolean isRenovation) {
-        this.isRenovation = isRenovation;
-    }
+	public void setIsRenovation(String isRenovation) {
+		this.isRenovation = isRenovation;
+	}
 
-    public Boolean getIsElevator() {
-        return isElevator;
-    }
+	public String getIsElevator() {
+		return isElevator;
+	}
 
-    public void setIsElevator(Boolean isElevator) {
-        this.isElevator = isElevator;
-    }
+	public void setIsElevator(String isElevator) {
+		this.isElevator = isElevator;
+	}
 
-    public String getCommunityName() {
+	public String getCommunityName() {
         return communityName;
     }
 
@@ -402,27 +476,95 @@ public class HousePropertyVo extends BaseVo<HouseProperty> {
 	public void setMortgageSituationName(String mortgageSituationName) {
 		this.mortgageSituationName = mortgageSituationName;
 	}
+    public String getTotalMailingAddress() {
+		return totalMailingAddress;
+	}
 
-	public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
+	public void setTotalMailingAddress(String totalMailingAddress) {
+		this.totalMailingAddress = totalMailingAddress;
+	}
 
-    public HousePropertyVo() {
+	public String getIsRenovationName() {
+		return isRenovationName;
+	}
+
+	public void setIsRenovationName(String isRenovationName) {
+		this.isRenovationName = isRenovationName;
+	}
+	
+	public BigDecimal getCreditorsAmount() {
+		return creditorsAmount;
+	}
+
+	public void setCreditorsAmount(BigDecimal creditorsAmount) {
+		this.creditorsAmount = creditorsAmount;
+	}
+
+	public String getLandUseArea() {
+		return landUseArea;
+	}
+
+	public void setLandUseArea(String landUseArea) {
+		this.landUseArea = landUseArea;
+	}
+
+	public String getLandCertificateNo() {
+		return landCertificateNo;
+	}
+
+	public void setLandCertificateNo(String landCertificateNo) {
+		this.landCertificateNo = landCertificateNo;
+	}
+
+	public BigDecimal getMortgageAmount1() {
+		return mortgageAmount1;
+	}
+
+	public void setMortgageAmount1(BigDecimal mortgageAmount1) {
+		this.mortgageAmount1 = mortgageAmount1;
+	}
+
+	public BigDecimal getMortgageAmount2() {
+		return mortgageAmount2;
+	}
+
+	public void setMortgageAmount2(BigDecimal mortgageAmount2) {
+		this.mortgageAmount2 = mortgageAmount2;
+	}
+
+	public HousePropertyVo() {
         super();
     }
 
     public HousePropertyVo(HouseProperty po) {
-        super(po,null,new String[]{"estateProperties","estateOwnership","province","city","district","mortgageSituation"});
+        super(po,null,new String[]{"livingState","isElevator","isRenovation","estateProperties","estateOwnership","province","city","district","mortgageSituation"});
         this.caseApplyId = po.getCaseApply().getId();
+        this.totalMailingAddress = this.provinceName+"/"+this.cityName+"/"+this.districtName+"/"+this.mailingAddress;
     }
 
     public HousePropertyVo(HouseProperty po, String[] args, String[] simpleArgs) throws Exception {
         VoUtil.copyPoperties(po, this, false, args, simpleArgs);
     }
 
-    public HouseProperty toPO() {
+    public HouseProperty toPo() {
         HouseProperty po = new HouseProperty();
         return super.toPo(this, po);
     }
+
+	public String getIsElevatorName() {
+		return isElevatorName;
+	}
+
+	public void setIsElevatorName(String isElevatorName) {
+		this.isElevatorName = isElevatorName;
+	}
+
+	public String getLivingStateName() {
+		return livingStateName;
+	}
+
+	public void setLivingStateName(String livingStateName) {
+		this.livingStateName = livingStateName;
+	}
 
 }

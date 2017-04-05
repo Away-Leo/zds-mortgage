@@ -9,10 +9,15 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 费用支拥申请
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2017-01-03
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostitemApply.java 
+ * @ClassName: PrCostitemApply 
+ * @Description: 费用支拥申请
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:49:30 
+ * @version V1.0
  */
 @Entity
 @Table(name = "pr_cost_item_apply")

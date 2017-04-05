@@ -19,7 +19,7 @@
 					<dt class="title">费用项目:</dt>
 					<dd class="detail">
 						<label> 
-							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="feeNm" name="feeNm">
+							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="feeName" name="feeName">
 						</label>
 					</dd>
 				</dl>
@@ -27,7 +27,7 @@
 					<dt class="title">收款方:</dt>
 					<dd class="detail">
 						<label> 
-							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="receiverNm" name="receiverNm">
+							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="receiverName" name="receiverName">
 						</label>
 					</dd>
 				</dl>
@@ -53,10 +53,10 @@
 			<div id="tb-repayPlanConfig" class="zui-datagrid" zdata-options='{"url":"<z:ukey key='com.zdsoft.finance.repayPlanConfig.getList' context='admin'/>&productVo.id=${product.id }","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index","toolbar":"#repayPlanConfig_toolbar"}'>
 				<table>
         			<tr>
-            			<th data-options="field:feeNm,width:30%">费用项目</th>
-            			<th data-options="field:receiverNm,width:30%">收款方</th>
+            			<th data-options="field:feeName,width:30%">费用项目</th>
+            			<th data-options="field:receiverName,width:30%">收款方</th>
             			<th data-options="field:isEnable,width:15%" formatter="formatIsEnable">是否启用</th>
-            			<th data-options="field:id,width:25%" formatter="formatId">操作</th>
+            			<th data-options="field:id,width:25%" formatter="planconfigFunction">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -82,17 +82,13 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	}
 
 	$('#searchRepayPlanConfig').on('click',function(){
-		var flag=$.ZUI.validateForm($('#queryRepayPlanConfig'));
-    	if(flag){
-        	var formArray=$("#queryRepayPlanConfig").serialize();
-        	formArray=decodeURIComponent(formArray, true);
-        	$('#tb-repayPlanConfig').ZTable("reload", formArray);
-    	}
+       	var formArray=$("#queryRepayPlanConfig").serializeArray();
+       	$('#tb-repayPlanConfig').ZTable("reload", formArray);
 	});
 	
 	$('#resetRepayPlanConfig').on('click',function(){
-    	$('#feeNm').val('');
-    	$('#receiverNm').val('');
+    	$('#feeName').val('');
+    	$('#receiverName').val('');
     	$('#repayPlanConfigIsEnable').ZCombobox('setValue',true);
 		$('#tb-repayPlanConfig').ZTable("reload", {isEnable:true});
     });
@@ -105,7 +101,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		}
 	}
 	
-	CALLBACK.formatId=function(rowData,index){
+	CALLBACK.planconfigFunction=function(rowData,index){
 		var id=rowData.id;
 		if(!id){
 			$.ZMessage.error("错误", "未获取到主键", function () {
@@ -113,10 +109,9 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
             });
 			return ;
 		}
-		
-		return '<a href="javaScript:void(0)" onclick="editRepayPlanConfig"><button class="btn-blue">编辑</button></a>'
-    	+
-    	'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="deleteRepayPlanConfig"><button class="btn-blue">删除</button></a>';
+		var str = "<a title='修改' class='btn-blue' onclick='editRepayPlanConfig'>修改</a>" +
+	    	"&nbsp;&nbsp;<a title='删除' class='btn-blue' onclick='deleteRepayPlanConfig'>删除</a>";
+		return str;
 	}
 	
 	CALLBACK.editRepayPlanConfig=function(index,rowData){

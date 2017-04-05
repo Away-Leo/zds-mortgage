@@ -16,7 +16,7 @@
 	                <dt class="title"><b class="c-red mr5">*</b>资方类型:</dt>
 	               <dd class="detail">
                               <input class="zui-combobox zui-validatebox" id="capitalistType" name="capitalistType" type="hidden" value="${infoVo.capitalistType }"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=zflx"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00112"
                               data-valuefield="fullcode" 
                               data-textfield="name" validate-type="Require">
 	                </dd>
@@ -41,9 +41,26 @@
                     	var contactForm = $('#contactForm').serialize();
                     	var isValidate = $.ZUI.validateForm($('#InfoDialog'));
         				if(isValidate){
-	                    	$("#capitalistDialogDiv").Zdialog("close");
-	                    	var url = '<z:ukey key="com.zdsoft.finance.cooperator.capitalist.tab" context="admin"/>&operationType=add&'+contactForm
-	                    	ZDS_MESSAGE_CLIENT.openMenuLink('capitalist123_edit', '资方编辑', url);
+        					$.ajax({
+    	                        type: 'post',
+    	                        url: '<z:ukey key="com.zdsoft.finance.cooperator.capitalist.validateOnlyName" context="admin"/>',
+    	                        data: contactForm,
+    	                        dataType: 'json',
+    	                        success: function (data) {
+    	                            if (data.resultStatus == 0) {
+    	                            	$("#capitalistDialogDiv").Zdialog("close");
+    	    	                    	var url = '<z:ukey key="com.zdsoft.finance.cooperator.capitalist.tab" context="admin"/>&operationType=add&'+contactForm
+    	    	                    	ZDS_MESSAGE_CLIENT.openMenuLink('capitalist123_edit', '资方编辑', url);
+    	                            }else{
+    	                            	$.ZMessage.error("错误", data.msg, function () {
+    			                        });
+    	                            }
+    	                        },
+    	                        error: function () {
+    	                        	$.ZMessage.error("错误", "保存信息系统异常，请联系管理员", function () {
+    		                        });
+    	                        }
+    	                    });
         				}
                     }
                 },

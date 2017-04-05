@@ -10,7 +10,7 @@
                 <dt class="title"><b class="c-red mr5">*</b>开户银行:</dt>
                <dd class="detail">
                 	 <label>
-                    	<input class="zui-input zui-validatebox" validate-type="Require,Length[0-20]" name="bankName"  id="bankName" value="${infoVo.bankName}" >
+                    	<input class="zui-input zui-validatebox" validate-type="Require,Length[1-20]" name="bankName"  id="bankName" value="${infoVo.bankName}" >
                     </label>
                 </dd>
             </dl>
@@ -18,7 +18,7 @@
                 <dt class="title"><b class="c-red mr5">*</b>开户名:</dt>
                 <dd class="detail">
                 	 <label>
-                    	<input class="zui-input zui-validatebox" validate-type="Require,Length[0-20]" name="accountName"  id="accountName" value="${infoVo.accountName}" >
+                    	<input class="zui-input zui-validatebox" validate-type="Require,Length[1-20]" name="accountName"  id="accountName" value="${infoVo.accountName}" >
                     </label>
                 </dd>
             </dl>
@@ -26,7 +26,7 @@
                 <dt class="title"><b class="c-red mr5">*</b>帐号/卡号:</dt>
                 <dd class="detail">
                 	 <label>
-                    	<input class="zui-input zui-validatebox" validate-type="Require,Number,Length[0-20]" name="accountNumber"  id="accountNumber" value="${infoVo.accountNumber}" >
+                    	<input class="zui-input zui-validatebox" validate-type="Require,Number,Length[1-20]" name="bankAccount"  id="bankAccount" value="${infoVo.bankAccount}" >
                     </label>
                 </dd>
             </dl>
@@ -34,7 +34,7 @@
                 <dt class="title"><b class="c-red mr5">*</b>返佣收款人姓名:</dt>
                 <dd class="detail">
                 	 <label>
-                    	<input class="zui-input zui-validatebox" name="receiverName"  validate-type="Require,Length[0-20]" id="receiverName" value="${infoVo.receiverName}" >
+                    	<input class="zui-input zui-validatebox" name="brokeragePersonName"  validate-type="Require,Length[1-20]" id="brokeragePersonName" value="${infoVo.brokeragePersonName}" >
                     </label>
                 </dd>
             </dl>
@@ -42,16 +42,16 @@
                 <dt class="title">账户描述:</dt>
                 <dd class="detail">
                     <label>
-                    	<input class="zui-input zui-validatebox" validate-type="Length[0-32]" name="accountDescribe"  id="accountDescribe" value="${infoVo.accountDescribe}" >
+                    	<input class="zui-input zui-validatebox" validate-type="Length[0-32]" name="accountDetail"  id="accountDetail" value="${infoVo.accountDetail}" >
                     </label>
                 </dd>
             </dl>
             <dl class="form-item">
-                <dt class="title">审批状态:</dt>
+                <dt class="title">账户状态:</dt>
                 <dd class="detail">
                 	 <label>
-                    	<input class="zui-combobox zui-validatebox" id="approveState123123" name="approveState" type="hidden" value="${infoVo.approveState }"
-		                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=zdzt"
+                    	<input class="zui-combobox zui-validatebox" id="approveType" name="approveType" type="hidden" value="${infoVo.approveType }"
+		                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00163"
 		                              data-valuefield="fullcode"  data-textfield="name" >
                     </label>
                 </dd>
@@ -83,7 +83,7 @@
         				if(isValidate){
                             $.ajax({
                                 type: 'post',
-                                url: '<z:ukey key="com.zdsoft.finance.cooperator.receiveAccount.save" context="admin"/>',
+                                url: '<z:ukey key="com.zdsoft.finance.cooperator.brokerageAccount.save" context="admin"/>',
                                 data: contactForm,
                                 dataType: 'json',
                                 success: function (data) {
@@ -120,12 +120,12 @@
         	if(type == 'view'){
         		$('#message-btn').hide();
         		$('#aliveAccount').attr("disabled","disabled");
-        		$('#receiverName').attr("disabled","disabled");
-        		$('#accountNumber').attr("disabled","disabled");
+        		$('#brokeragePersonName').attr("disabled","disabled");
+        		$('#bankAccount').attr("disabled","disabled");
         		$('#accountName').attr("disabled","disabled");
         		$('#bankName').attr("disabled","disabled");
-        		$('#accountDescribe').attr("disabled","disabled");
-        		$("#approveState123123").data("choose","disable");
+        		$('#accountDetail').attr("disabled","disabled");
+        		$("#approveType").data("choose","disable");
         		$("#zds_btn_message-btn").hide();
         	}
     	});

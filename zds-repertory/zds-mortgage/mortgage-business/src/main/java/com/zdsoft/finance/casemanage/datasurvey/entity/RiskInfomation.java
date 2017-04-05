@@ -24,6 +24,11 @@ public class RiskInfomation extends BaseEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 预计查册时间
+	 */
+	private String caseApplyId;
 
 	/**
 	 * 预计查册时间
@@ -90,7 +95,7 @@ public class RiskInfomation extends BaseEntity {
 	 * 其他
 	 */
 	@Column(length = 500)
-	private String mo;
+	private String remark;
 
 	public Long getExpectSearchDate() {
 		return expectSearchDate;
@@ -196,12 +201,21 @@ public class RiskInfomation extends BaseEntity {
 		this.workSituation = workSituation;
 	}
 
-	public String getMo() {
-		return mo;
+	public String getCaseApplyId() {
+		return caseApplyId;
 	}
 
-	public void setMo(String mo) {
-		this.mo = mo;
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
 	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 
 }

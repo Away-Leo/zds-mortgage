@@ -12,18 +12,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 /**
- * 版权所有：重庆正大华日软件有限公司
  * 
- * @Title:HouseProperty.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:房产实体类
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:45:49
- * @version:v1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: HouseProperty.java 
+ * @ClassName: HouseProperty 
+ * @Description: 房产实体类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:45:38 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_house_property")
+@Table(name = "mkt_house_property")
 public class HouseProperty extends Collateral {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +46,11 @@ public class HouseProperty extends Collateral {
     @Column
     private Long transactDate;
     /**
+     * 抵押权人ID
+     */
+    @Column(length = 32)
+    private String mortgageeId;
+    /**
      * 抵押权人名称
      */
     @Column(length = 128)
@@ -51,8 +58,9 @@ public class HouseProperty extends Collateral {
     /**
      * 是否仲裁
      */
-    @Column(length = 10)
-    private Boolean isArbitration = false;
+    @Column
+    @Type(type = "true_false")
+    Boolean isArbitration = Boolean.valueOf(false);
     /**
      * 小区名称
      */
@@ -93,37 +101,47 @@ public class HouseProperty extends Collateral {
      * 中介询价
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal intermediaryInquiry;
+    private BigDecimal intermediaryInquiry=BigDecimal.ZERO;
     /**
      * 网络询价
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal networkInquiry;
+    private BigDecimal networkInquiry=BigDecimal.ZERO;
     /**
      * 风控核定价
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal controlPrice;
+    private BigDecimal controlPrice=BigDecimal.ZERO;
+    /**
+     * 风控复议价  model by liuhuan 2017-2-16
+     */
+    @Column(precision = 18, scale = 2)
+    private BigDecimal controlReviewPrice=BigDecimal.ZERO;
+    /**
+     * 居住状态  model by liuhuan 2017-2-16
+     */
+    @Column(length = 20)
+    private String livingState;
     /**
      * 评估价
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal evaluatingPrice;
+    private BigDecimal evaluatingPrice=BigDecimal.ZERO;
     /**
      * 综合评估价
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal synthesizePrice;
+    private BigDecimal synthesizePrice=BigDecimal.ZERO;
     /**
      * 是否有装修
      */
-    @Column(length = 10)
-    private Boolean isRenovation = false;
+    @Column(length=20)
+    private String isRenovation;
     /**
      * 是否有电梯
      */
-    @Column(length = 10)
-    private Boolean isElevator = false;
+    @Column(length=20)
+    private String isElevator;
     /**
      * 楼龄
      */
@@ -155,8 +173,44 @@ public class HouseProperty extends Collateral {
     /**
      * 抵押情况
      */
-    @Column(length = 3000)
+    @Column(length = 20)
     private String mortgageSituation;
+    /**
+     * 居住状态
+     */
+    @Column(length = 32)
+    private String liveStuts;
+    
+    /**
+     * (合同补充)债权数额
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal creditorsAmount=BigDecimal.ZERO;
+    
+	/**
+     * (合同补充)土地使用权面积
+     */
+    @Column(length = 32)
+    private String landUseArea;
+    
+    /**
+     * (合同补充)土地证编号
+     */
+    @Column(length = 32)
+    private String landCertificateNo;
+    
+    /**
+     * (合同补充)抵押物价值(苏州)/估价(中山)/剩余价值(江阴二抵)
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal mortgageAmount1=BigDecimal.ZERO;
+    
+    /**
+     * (合同补充)抵押金额(无锡)
+     */
+    @Column(precision = 18, scale = 6)
+    private BigDecimal mortgageAmount2=BigDecimal.ZERO;
+    
     /**
      * 产权状态情况
      */
@@ -191,8 +245,24 @@ public class HouseProperty extends Collateral {
     public void setHouseNo(String houseNo) {
         this.houseNo = houseNo;
     }
+    
+    public String getLivingState() {
+		return livingState;
+	}
 
-    public Long getExpectedDate() {
+	public void setLivingState(String livingState) {
+		this.livingState = livingState;
+	}
+
+	public BigDecimal getControlReviewPrice() {
+		return controlReviewPrice;
+	}
+
+	public void setControlReviewPrice(BigDecimal controlReviewPrice) {
+		this.controlReviewPrice = controlReviewPrice;
+	}
+
+	public Long getExpectedDate() {
         return expectedDate;
     }
 
@@ -208,7 +278,15 @@ public class HouseProperty extends Collateral {
         this.transactDate = transactDate;
     }
 
-    public String getMortgageeName() {
+    public String getMortgageeId() {
+		return mortgageeId;
+	}
+
+	public void setMortgageeId(String mortgageeId) {
+		this.mortgageeId = mortgageeId;
+	}
+
+	public String getMortgageeName() {
         return mortgageeName;
     }
 
@@ -256,23 +334,24 @@ public class HouseProperty extends Collateral {
         this.synthesizePrice = synthesizePrice;
     }
 
-    public Boolean getIsRenovation() {
-        return isRenovation;
-    }
 
-    public void setIsRenovation(Boolean isRenovation) {
-        this.isRenovation = isRenovation;
-    }
+    public void setIsRenovation(String isRenovation) {
+		this.isRenovation = isRenovation;
+	}
 
-    public Boolean getIsElevator() {
-        return isElevator;
-    }
+	public void setIsElevator(String isElevator) {
+		this.isElevator = isElevator;
+	}
 
-    public void setIsElevator(Boolean isElevator) {
-        this.isElevator = isElevator;
-    }
+	public String getIsRenovation() {
+		return isRenovation;
+	}
 
-    public String getCommunityName() {
+	public String getIsElevator() {
+		return isElevator;
+	}
+
+	public String getCommunityName() {
         return communityName;
     }
 
@@ -415,4 +494,54 @@ public class HouseProperty extends Collateral {
     public void setPledgeInfoList(List<PledgeInfo> pledgeInfoList) {
         this.pledgeInfoList = pledgeInfoList;
     }
+
+	public String getLiveStuts() {
+		return liveStuts;
+	}
+
+	public void setLiveStuts(String liveStuts) {
+		this.liveStuts = liveStuts;
+	}
+	
+	public BigDecimal getCreditorsAmount() {
+		return creditorsAmount;
+	}
+
+	public void setCreditorsAmount(BigDecimal creditorsAmount) {
+		this.creditorsAmount = creditorsAmount;
+	}
+
+	public String getLandUseArea() {
+		return landUseArea;
+	}
+
+	public void setLandUseArea(String landUseArea) {
+		this.landUseArea = landUseArea;
+	}
+
+	public String getLandCertificateNo() {
+		return landCertificateNo;
+	}
+
+	public void setLandCertificateNo(String landCertificateNo) {
+		this.landCertificateNo = landCertificateNo;
+	}
+
+	public BigDecimal getMortgageAmount1() {
+		return mortgageAmount1;
+	}
+
+	public void setMortgageAmount1(BigDecimal mortgageAmount1) {
+		this.mortgageAmount1 = mortgageAmount1;
+	}
+
+	public BigDecimal getMortgageAmount2() {
+		return mortgageAmount2;
+	}
+
+	public void setMortgageAmount2(BigDecimal mortgageAmount2) {
+		this.mortgageAmount2 = mortgageAmount2;
+	}
+
+    
 }

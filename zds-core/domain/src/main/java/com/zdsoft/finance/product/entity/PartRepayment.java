@@ -6,14 +6,18 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 分段还款
- * @createTime 2017年1月10日 下午2:47:28
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PartRepayment.java 
+ * @ClassName: PartRepayment 
+ * @Description: 分段还款
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:46:25 
+ * @version V1.0
  */
 @Entity
-@Table(name = "prct_part_repayment")
+@Table(name = "prd_part_repayment")
 public class PartRepayment extends BaseEntity {
 
 	private static final long serialVersionUID = -8539960295684534969L;
@@ -27,19 +31,19 @@ public class PartRepayment extends BaseEntity {
 	/**
 	 * 时间
 	 */
-	@Column(length = 32)
+	@Column(length = 20)
 	private String timeSection;
 	
 	/**
 	 * 利率
 	 */
-	@Column(precision = 30,scale = 12)
+	@Column(precision = 18,scale = 6)
 	private Double rate;
 	
 	/**
 	 * 利率单位
 	 */
-	@Column(length = 32)
+	@Column(length = 20)
 	private String rateUtil;
 
 	public String getRateUtil() {

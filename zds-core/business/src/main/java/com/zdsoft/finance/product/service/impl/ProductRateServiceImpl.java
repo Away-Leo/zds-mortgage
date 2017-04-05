@@ -25,10 +25,13 @@ import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品利率操作实现
- * @author longwei
- * @date 2016/12/26
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductRateServiceImpl.java 
+ * @ClassName: ProductRateServiceImpl 
+ * @Description: 产品利率
+ * @author gufeng 
+ * @date 2017年3月6日 下午8:27:57 
+ * @version V1.0
  */
 @Service("productRateService")
 public class ProductRateServiceImpl extends BaseServiceImpl<ProductRate, CustomRepository<ProductRate,String>> implements ProductRateService{
@@ -47,12 +50,17 @@ public class ProductRateServiceImpl extends BaseServiceImpl<ProductRate, CustomR
 		return productRateRepository.findByProductId(productId);
 	}
 	
-	/**
-	 * @author jingjiyan
-	 */
+	@Override
+	public List<ProductRate> findByProductIdAndIdNot(String productId, String rateId) throws BusinessException {
+		if(ObjectHelper.isEmpty(productId) || ObjectHelper.isEmpty(rateId)){
+			throw new BusinessException("传入productId为空或rateId为空");
+		}
+		return productRateRepository.findByProductIdAndIdNotAndIsDeleted(productId,rateId,false);
+	}
+	
     @Override
-    public  Page<Map<String, Object>> findBySqlProductRate(PageRequest pageable,List<QueryObj> queryObjs) {
-        return productRateRepository.getListObjectBySql(pageable, queryObjs, ProductRateRepository.sql, ProductRateRepository.extendSql);
+    public  Page<Map<String, Object>> findBySqlProductRate(PageRequest pageable,List<QueryObj> queryObjs,String orgCd,String companyCd) {
+    	 return productRateRepository.getProductList(pageable, queryObjs,orgCd,companyCd);
     }
 
 	@Override
@@ -76,4 +84,5 @@ public class ProductRateServiceImpl extends BaseServiceImpl<ProductRate, CustomR
 			}
 		}
 	}
+
 }

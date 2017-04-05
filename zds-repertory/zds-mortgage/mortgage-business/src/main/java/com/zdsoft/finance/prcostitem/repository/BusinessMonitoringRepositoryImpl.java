@@ -6,22 +6,21 @@ import javax.persistence.Query;
 
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 业务监控
- * @createTime 2017-01-12
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BusinessMonitoringRepositoryImpl.java 
+ * @ClassName: BusinessMonitoringRepositoryImpl 
+ * @Description: 业务监控
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:01:08 
+ * @version V1.0
  */
 public class BusinessMonitoringRepositoryImpl{
 	
 	@PersistenceContext
 	private EntityManager em;
 	
-	/**
-	 * 逾期特批按键条数
-	 * @param overdueDays 逾期天数
-	 * @return 条数
-	 */
 	public Long overdueSpecialCount(Integer overdueDays){
 		StringBuffer sb = new StringBuffer("select count(pl.id) from zf_test_post_loan pl where pl.isDeleted = 0 and EXISTS(select ps.id from zf_test_project_special ps where ps.isDeleted = 0 and ps.projectCd = pl.projectCd)");
 		if(ObjectHelper.isNotEmpty(overdueDays)){
@@ -34,10 +33,6 @@ public class BusinessMonitoringRepositoryImpl{
 		return Long.parseLong(query.getSingleResult().toString());
 	}
 	
-	/**
-	 * 特批按键总条数
-	 * @return 条数
-	 */
 	public Long specialCount(){
 		String sql = "select count(id) from zf_test_project_special where isDeleted = 0";
 		Query queryCount = (Query) em.createNativeQuery(sql);

@@ -8,16 +8,22 @@ import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.PartRepayment;
 import com.zdsoft.finance.product.entity.Product;
 
+
 /**
- * 分段还款
- * @createTime 2017年1月10日 下午2:48:43
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PartRepaymentService.java 
+ * @ClassName: PartRepaymentService 
+ * @Description: 分段还款
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:44:49 
+ * @version V1.0
  */
 public interface PartRepaymentService extends BaseService<PartRepayment>{
 
 	/**
-	 * 保存或更新
+	 * @Title: saveOrUpdate 
+	 * @Description: 保存或更新
+	 * @author gufeng 
 	 * @param po 需要保存的对象
 	 * @return 保存后的对象
 	 * @throws BusinessException 异常
@@ -25,25 +31,32 @@ public interface PartRepaymentService extends BaseService<PartRepayment>{
 	public PartRepayment saveOrUpdate(PartRepayment po)throws BusinessException;
 
 	/**
-	 * 删除
+	 * @Title: deleteByProductId 
+	 * @Description: 删除
+	 * @author gufeng 
 	 * @param productId 产品id
 	 * @throws BusinessException 异常
 	 */
 	public void deleteByProductId(String productId)throws BusinessException;
 	
 	/**
-	 * 查询
-	 * @param productId
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findByProductId 
+	 * @Description: 查询
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @return 条件数据
+	 * @throws BusinessException 异常
 	 */
 	public List<PartRepayment> findByProductId(String productId) throws BusinessException;
 	
 	/**
-	 * 复制
-	 * @param product
-	 * @param empDto
-	 * @throws BusinessException
+	 * @Title: copy 
+	 * @Description: 复制
+	 * @author gufeng 
+	 * @param oldProduct 旧产品
+	 * @param newProduct 新产品
+	 * @param empDto 员工
+	 * @throws BusinessException 异常
 	 */
 	public void copy(Product oldProduct,Product newProduct ,EmpDto empDto) throws BusinessException;
 }

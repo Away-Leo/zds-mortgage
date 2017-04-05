@@ -27,74 +27,88 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @version:v1.0
  */
 @Entity
-@Table(name = "cus_before_personal")
+@Table(name = "cust_before_personal")
 @DiscriminatorValue("PERS")
 public class BeforePersonalCustomer extends BeforeCustomer {
-
+	
     /**
-     * 用一句话描述这个变量表示什么
+     * 序列化
      */
     private static final long serialVersionUID = 42199098559332684L;
+    
     /**
      * 曾用名
      */
     @Column(length = 128)
     private String formerName;
+    
     /**
      * 出生日期
      */
     @Column
     private Long birthdayDate;
+    
     /**
      * 性别
      */
     @Column(length = 20)
     private String gender;
+    
 
     /**
      * 个人年收入
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal annualIncomeAmmount;
+    private BigDecimal annualIncomeAmmount = BigDecimal.ZERO;
+    
     /**
      * 婚姻状况
      */
     @Column(length = 20)
     private String maritalStatus;
-
+    
     /**
      * 职业类型
      */
     @Column(length = 20)
     private String careerType;
+    
     /**
      * 受教育程度
      */
     @Column(length = 20)
     private String degree;
+    
     /**
      * 居住年限
      */
     @Column(length = 20)
     private String liveAge;
+    
     /**
      * 邮箱地址
      */
     @Column(length = 50)
     private String email;
+    
     /**
      * 是否是实际用款人
      */
     @Column(length = 50)
     private String actualUsePerson;
+    
     /**
      * 头像id
      */
+    @Column(length = 32)
     private String attachmentId;
+    
     /**
      * app上传的扫描证件图片(附件id)
      */
+    @Column(length = 32)
     private String credentialAttachmentId;
+    
     /**
      * 客户关联关系
      */
@@ -102,6 +116,7 @@ public class BeforePersonalCustomer extends BeforeCustomer {
     @JoinColumn(name = "customerId")
     @LazyCollection(LazyCollectionOption.TRUE)
     private List<BeforePersonalAssociation> beforePersonalAssociations = new ArrayList<BeforePersonalAssociation>();
+    
     /**
      * 单位
      */
@@ -109,6 +124,7 @@ public class BeforePersonalCustomer extends BeforeCustomer {
     @JoinColumn(name = "customerId")
     @LazyCollection(LazyCollectionOption.TRUE)
     private List<BeforeWorkUnit> beforeWorkUnits = new ArrayList<BeforeWorkUnit>();
+    
     /**
      * 与主借人关系（亲戚朋友同事）
      */
@@ -120,11 +136,13 @@ public class BeforePersonalCustomer extends BeforeCustomer {
      */
     @Transient
     private String relationshipName;
+    
     /**
      * 配偶id 用于app
      */
     @Transient
     private String spouseId;
+    
     /**
      * 参与类型 共借人、担保人
      */
@@ -142,6 +160,7 @@ public class BeforePersonalCustomer extends BeforeCustomer {
      */
     @Transient
     private BeforePersonalCustomer spouse;
+    
     /**
      * 地址
      */

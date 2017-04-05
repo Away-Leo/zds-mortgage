@@ -7,17 +7,26 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.zdsoft.essential.dto.basedata.AttachmentDto;
 
 /**
- * app附件操作
- * @author xj
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: AppAttachmentService.java 
+ * @ClassName: AppAttachmentService 
+ * @Description: app附件操作
+ * @author xj 
+ * @date 2017年3月13日 上午9:16:47 
+ * @version V1.0
  */
 public interface AppAttachmentService {
+	
 	/**
-	 * 附件批量上传
-	 * @param token 
-	 * @param request
+	 * 
+	 * @Title: saveAttachment 
+	 * @Description: 附件批量上传
+	 * @author xj 
+	 * @param files 文件
+	 * @param token 登录token
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public List<AttachmentDto> saveAttachment(CommonsMultipartFile[] files, String token) throws Exception;
 }

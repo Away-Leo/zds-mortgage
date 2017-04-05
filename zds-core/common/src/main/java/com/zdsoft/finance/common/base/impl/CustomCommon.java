@@ -13,10 +13,15 @@ import org.apache.commons.beanutils.ConvertUtils;
 import com.zdsoft.finance.common.base.QueryObj;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 组合查询工具类
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-02
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CustomCommon.java 
+ * @ClassName: CustomCommon 
+ * @Description: 组合查询工具类
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:11:03 
+ * @version V1.0
  */
 public class CustomCommon {
 

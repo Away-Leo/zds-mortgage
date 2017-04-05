@@ -1,10 +1,13 @@
 package com.zdsoft.finance.product.entity;
 
 /**
- * 流程配置代码code
- * @author longwei
- * @date 2017/01/16
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProcessConfigCode.java 
+ * @ClassName: ProcessConfigCode 
+ * @Description: 流程配置代码code
+ * @author gufeng 
+ * @date 2017年3月6日 下午6:04:35 
+ * @version V1.0
  */
 public enum ProcessConfigCode {
 

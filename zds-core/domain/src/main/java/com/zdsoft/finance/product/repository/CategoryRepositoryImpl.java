@@ -11,10 +11,13 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品类别操作仓库实现
- * @author longwei
- * @date 2016/01/10
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CategoryRepositoryImpl.java 
+ * @ClassName: CategoryRepositoryImpl 
+ * @Description: 产品类别操作仓库实现
+ * @author gufeng 
+ * @date 2017年2月6日 上午11:07:15 
+ * @version V1.0
  */
 public class CategoryRepositoryImpl {
 
@@ -28,7 +31,7 @@ public class CategoryRepositoryImpl {
 		if(!isTree){
 			hql.append(" and c.id!='0'");
 		}
-		hql.append(" order by orderNumber desc");
+		hql.append(" order by orderNumber,name");
 		
 		Query query=em.createQuery(hql.toString());
 		
@@ -36,6 +39,14 @@ public class CategoryRepositoryImpl {
 		return query.getResultList();
 	}
 	
+	/**
+	 * @Title: findByName 
+	 * @Description: 通过名称查询
+	 * @author gufeng 
+	 * @param name 产品名称
+	 * @return 是否存在
+	 */
+	@SuppressWarnings("unchecked")
 	public boolean findByName(String name){
 		// hql
 		StringBuffer hql=new StringBuffer(" from Category c where 1=1 and c.isDeleted=:isDeleted and c.name=:name ");

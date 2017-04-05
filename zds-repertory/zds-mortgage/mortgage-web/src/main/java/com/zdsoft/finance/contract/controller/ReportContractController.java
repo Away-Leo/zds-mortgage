@@ -21,7 +21,6 @@ import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
-import com.zdsoft.framework.cra.annotation.Menu;
 
 /**
  * 合同管理
@@ -38,16 +37,18 @@ public class ReportContractController extends BaseController{
 	private HttpServletRequest request;
 	
 	
-	/**
-	 * 机构合同报备入口
-	 * @return 机构合同报备列表
-	 */
-	@RequestMapping("/initReportContract")
-	@UriKey(key = "com.zdsoft.finance.contract.initReportContract")
-	@Menu(resource = "com.zdsoft.finance.contract.initReportContract", label = "机构合同报备", group = "contract", order = 2)
-	public ModelAndView initContract() {
-		return new ModelAndView("/contract/reportContract_list");
-	}
+    /**
+     * 机构合同报备入口
+     * @return 机构合同报备列表
+     * 
+     * 2017.3.11 功能重复注释 dengyy
+     */
+//  @RequestMapping("/initReportContract")
+//  @UriKey(key = "com.zdsoft.finance.contract.initReportContract")
+//  @Menu(resource = "com.zdsoft.finance.contract.initReportContract", label = "机构合同报备", group = "contract", order = 2)
+//  public ModelAndView initContract() {
+//      return new ModelAndView("/contract/reportContract_list");
+//  }
 	
 	
 	/**

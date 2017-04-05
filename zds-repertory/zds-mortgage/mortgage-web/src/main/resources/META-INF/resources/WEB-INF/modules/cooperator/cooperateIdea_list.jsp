@@ -14,7 +14,7 @@
 					</table>
 				</div>
 				<div id="idea_datagrid_applylist">
-				    <a class="zui-toolbar"  id="btn-add" text="增加" iconCls="icon-add" buttonCls="btn-blue" handler="ideaAdd"></a>
+				    <a class="zui-toolbar"  id="btn-add" text="新增" iconCls="icon-add" buttonCls="btn-blue" handler="ideaAdd"></a>
 				</div>
 	</div>
 	<div id="ideaDialog">
@@ -26,9 +26,9 @@
 		CALLBACK.contactFormat = function(row,value){
 			var html = '';
 			if("${operationType }" != "view"){
-				html = "<a title='编辑' class='icon-btn22 handler-icon c-green'  onclick='ideaEdit'></a>";
-				html += "<a title='下载' class='icon-btn37 handler-icon c-blue' onclick='attrDown'></a>";
-				html += "<a title='删除' class='icon-btn12 handler-icon c-gray' onclick='ideaDel'></a>";
+				html = "<a title='编辑' class='btn-blue mr5'  onclick='ideaEdit'>编辑</a>";
+				html += "<a title='下载' class='btn-blue mr5' onclick='attrDown'>下载</a>";
+				html += "<a title='删除' class='btn-blue' onclick='ideaDel'>删除</a>";
 			}
 			return html;
 		};

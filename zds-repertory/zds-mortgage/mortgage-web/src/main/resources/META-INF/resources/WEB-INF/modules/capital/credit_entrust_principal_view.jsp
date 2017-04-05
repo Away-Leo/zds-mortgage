@@ -33,7 +33,7 @@
 		                    <td class="pct20">${creditEntrustPrincipalVo.profitRate }</td>
 		                    <td class="td-title pct10">追加日期</td>
 		                    <td class="pct20">${creditEntrustPrincipalVo.addDate }</td>
-		                    <td class="td-title pct10">使用比率(%)</td>
+		                    <td class="td-title pct10">信托保障基金比率(%)</td>
 		                    <td class="pct20">${creditEntrustPrincipalVo.useProp }</td>
 		                </tr>
 		                 <tr>
@@ -70,7 +70,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>

@@ -15,21 +15,24 @@ import com.zdsoft.finance.customer.entity.BeforeContact;
  * @version:v1.0
  */
 public interface BeforeContactRepository extends CustomRepository<BeforeContact, String> {
+	
 	/**
 	 * 
-	 * 通过贷前客户id查询联系方式
-	 *
-	 * @author xj
-	 * @param beforeCustomerId
+	 * @Title: findByCustomerId 
+	 * @Description: 通过贷前客户id查询联系方式
+	 * @author xj 
+	 * @param customerId 客户id
 	 * @return
 	 */
 	public List<BeforeContact> findByCustomerId(String customerId);
+	
 	/**
 	 * 
-	 * 通过案件id和联系类型查询联系方式
-	 *
-	 * @author xj
-	 * @param beforeCustomerId
+	 * @Title: findByCustomerIdAndContactType 
+	 * @Description: 通过案件id和联系类型查询联系方式
+	 * @author xj 
+	 * @param customerId 客户id
+	 * @param contactType 联系类型
 	 * @return
 	 */
 	public List<BeforeContact> findByCustomerIdAndContactType(String customerId,String contactType);

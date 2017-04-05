@@ -7,11 +7,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 
 /**
- * 专户贷方资金跟踪Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: LoanCapitalVo.java 
+ * @ClassName: LoanCapitalVo 
+ * @Description: 专户贷方资金跟踪Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:20:50 
+ * @version V1.0
  */
 public class LoanCapitalVo extends BaseVo<LoanCapital> {
 

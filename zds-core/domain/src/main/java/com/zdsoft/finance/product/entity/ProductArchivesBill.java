@@ -6,14 +6,18 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 档案清单
- * @createTime 2017年1月10日 上午11:33:06
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductArchivesBill.java 
+ * @ClassName: ProductArchivesBill 
+ * @Description: 档案清单
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:46:37 
+ * @version V1.0
  */
 @Entity
-@Table(name = "prct_archives_bill")
+@Table(name = "prd_archives_bill")
 public class ProductArchivesBill extends BaseEntity{
 
 	private static final long serialVersionUID = 987658391285820857L;
@@ -21,19 +25,19 @@ public class ProductArchivesBill extends BaseEntity{
 	/**
 	 * 档案名称
 	 */
-	@Column(length = 200)
+	@Column(length = 64)
 	private String archivesName;
 	
 	/**
 	 * 档案等级
 	 */
-	@Column(length = 15)
+	@Column(length = 20)
 	private String archivesLevel;
 	
 	/**
 	 * 原件/复印件/照片件
 	 */
-	@Column(length = 15)
+	@Column(length = 128)
 	private String archivesType;
 	
 	/**

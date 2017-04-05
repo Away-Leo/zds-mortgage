@@ -1,15 +1,34 @@
 package com.zdsoft.finance.contract.vo;
 
-import com.zdsoft.finance.common.base.BaseVo;
-import com.zdsoft.finance.contract.entity.CoactContractTpl;
+import javax.persistence.Column;
 
-public class StandardContractVo extends BaseVo<CoactContractTpl>{
+import com.zdsoft.finance.common.base.BaseVo;
+import com.zdsoft.finance.contract.entity.ConContractTpl;
+
+public class StandardContractVo extends BaseVo<ConContractTpl>{
 
 	/**
 	 * id
 	 */
 	private String id;
-
+	/**
+	 * 资方类型
+	 */
+	private String capitalistType;
+	/*
+	 * 资方类别名称
+	 */
+	private String capitalistTypeNm;
+	/**
+	 * 资方ID
+	 */
+	private String capitalId;
+	private String capitalNm;
+	/**
+	 * 合同类型
+	 */
+	private String contractType;
+	private String contractTypeNm;
 	/**
 	 * 合同编号
 	 */
@@ -19,15 +38,7 @@ public class StandardContractVo extends BaseVo<CoactContractTpl>{
 	 */
 	private String contractName;
 	/**
-	 * 合同类型
-	 */
-	private String contractType;
-	/**
-	 * 合同模板类型
-	 */
-	private String contractTplType;
-	/**
-	 * 合同模板状态
+	 * 合同状态
 	 */
 	private String contractTplState;
 	/**
@@ -35,25 +46,21 @@ public class StandardContractVo extends BaseVo<CoactContractTpl>{
 	 */
 	private String remark;
 	/**
-	 * 模板申请单ID
-	 */
-	private String tplApplyId;
-	/**
-	 * 资方ID
-	 */
-	private String capitalId;
-	/**
-	 * 附件ID
+	 * 合同模板附件ID
 	 */
 	private String attachmentId;
+	private String attachName;
+	/**
+	 * 机构合同报备ID
+	 */
+	private String orgCantractApplyId;
 	
-	public StandardContractVo() {
-		super();
-	}
-
+	
 	public String getId() {
 		return id;
 	}
+
+
 
 
 	public void setId(String id) {
@@ -61,74 +68,34 @@ public class StandardContractVo extends BaseVo<CoactContractTpl>{
 	}
 
 
-	public String getContractNo() {
-		return contractNo;
+
+
+	public String getCapitalistType() {
+		return capitalistType;
 	}
 
 
-	public void setContractNo(String contractNo) {
-		this.contractNo = contractNo;
+
+
+	public void setCapitalistType(String capitalistType) {
+		this.capitalistType = capitalistType;
 	}
 
 
-	public String getContractName() {
-		return contractName;
+
+
+	public String getCapitalistTypeNm() {
+		return capitalistTypeNm;
 	}
 
 
-	public void setContractName(String contractName) {
-		this.contractName = contractName;
+
+
+	public void setCapitalistTypeNm(String capitalistTypeNm) {
+		this.capitalistTypeNm = capitalistTypeNm;
 	}
 
 
-	public String getContractType() {
-		return contractType;
-	}
-
-
-	public void setContractType(String contractType) {
-		this.contractType = contractType;
-	}
-
-
-	public String getContractTplType() {
-		return contractTplType;
-	}
-
-
-	public void setContractTplType(String contractTplType) {
-		this.contractTplType = contractTplType;
-	}
-
-
-	public String getContractTplState() {
-		return contractTplState;
-	}
-
-
-	public void setContractTplState(String contractTplState) {
-		this.contractTplState = contractTplState;
-	}
-
-
-	public String getRemark() {
-		return remark;
-	}
-
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-
-	public String getTplApplyId() {
-		return tplApplyId;
-	}
-
-
-	public void setTplApplyId(String tplApplyId) {
-		this.tplApplyId = tplApplyId;
-	}
 
 
 	public String getCapitalId() {
@@ -136,9 +103,111 @@ public class StandardContractVo extends BaseVo<CoactContractTpl>{
 	}
 
 
+
+
 	public void setCapitalId(String capitalId) {
 		this.capitalId = capitalId;
 	}
+
+
+
+
+	public String getCapitalNm() {
+		return capitalNm;
+	}
+
+
+
+
+	public void setCapitalNm(String capitalNm) {
+		this.capitalNm = capitalNm;
+	}
+
+
+
+
+	public String getContractType() {
+		return contractType;
+	}
+
+
+
+
+	public void setContractType(String contractType) {
+		this.contractType = contractType;
+	}
+
+
+
+
+	public String getContractTypeNm() {
+		return contractTypeNm;
+	}
+
+
+
+
+	public void setContractTypeNm(String contractTypeNm) {
+		this.contractTypeNm = contractTypeNm;
+	}
+
+
+
+
+	public String getContractNo() {
+		return contractNo;
+	}
+
+
+
+
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
+	}
+
+
+
+
+	public String getContractName() {
+		return contractName;
+	}
+
+
+
+
+	public void setContractName(String contractName) {
+		this.contractName = contractName;
+	}
+
+
+
+
+	public String getContractTplState() {
+		return contractTplState;
+	}
+
+
+
+
+	public void setContractTplState(String contractTplState) {
+		this.contractTplState = contractTplState;
+	}
+
+
+
+
+	public String getRemark() {
+		return remark;
+	}
+
+
+
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+
 
 
 	public String getAttachmentId() {
@@ -146,23 +215,56 @@ public class StandardContractVo extends BaseVo<CoactContractTpl>{
 	}
 
 
+
+
 	public void setAttachmentId(String attachmentId) {
 		this.attachmentId = attachmentId;
 	}
 
-	
-	
-	public StandardContractVo(CoactContractTpl CoactContractTpl, String[] args, String[] simpleArgs) {
-		super(CoactContractTpl, args, simpleArgs);
-	}
-	
-	public CoactContractTpl toPo() {
-		CoactContractTpl coactContractTpl = new CoactContractTpl();
-		return (CoactContractTpl)super.toPo(this, coactContractTpl);
+
+
+
+	public String getAttachName() {
+		return attachName;
 	}
 
-	public StandardContractVo(CoactContractTpl coactContractTpl) {
-		super(coactContractTpl);
+
+
+
+	public void setAttachName(String attachName) {
+		this.attachName = attachName;
+	}
+
+
+
+
+	public String getOrgCantractApplyId() {
+		return orgCantractApplyId;
+	}
+
+
+
+
+	public void setOrgCantractApplyId(String orgCantractApplyId) {
+		this.orgCantractApplyId = orgCantractApplyId;
+	}
+	
+	public StandardContractVo() {
+		super();
+	}
+
+	
+	public StandardContractVo(ConContractTpl ConContractTpl, String[] args, String[] simpleArgs) {
+		super(ConContractTpl, args, simpleArgs);
+	}
+	
+	public ConContractTpl toPo() {
+		ConContractTpl conContractTpl = new ConContractTpl();
+		return (ConContractTpl)super.toPo(this, conContractTpl);
+	}
+
+	public StandardContractVo(ConContractTpl conContractTpl) {
+		super(conContractTpl);
 	}
 	
 }

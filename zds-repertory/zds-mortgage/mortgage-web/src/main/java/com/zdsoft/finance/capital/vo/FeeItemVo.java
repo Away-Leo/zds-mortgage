@@ -4,11 +4,14 @@ import com.zdsoft.finance.capital.entity.FeeItem;
 import com.zdsoft.finance.common.base.BaseVo;
 
 /**
- * 费用项Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: FeeItemVo.java 
+ * @ClassName: FeeItemVo 
+ * @Description: 费用项Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:20:37 
+ * @version V1.0
  */
 public class FeeItemVo extends BaseVo<FeeItem> {
 	/**

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1" metadata-complete="true">
-	
+
 	<display-name>finance-mortgage</display-name>
 
 	<context-param>
@@ -18,7 +18,7 @@
 	<servlet-mapping>
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
-	</servlet-mapping> 
+	</servlet-mapping>
 -->
 	<filter>
 		<filter-name>0encoding</filter-name>
@@ -171,7 +171,7 @@
 		<filter-name>WorkflowFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
-	
+
 	<!-- API create by jingyh 20170114 -->
 	<filter>
 		<filter-name>apiInterfaceFilter</filter-name>
@@ -181,7 +181,7 @@
 		<filter-name>apiInterfaceFilter</filter-name>
 		<url-pattern>/spi/*</url-pattern>
 	</filter-mapping>
-		
+
 
 	<servlet>
 		<servlet-name>spring-mvc</servlet-name>
@@ -199,7 +199,7 @@
 	<servlet-mapping>
 		<servlet-name>spring-mvc</servlet-name>
 		<url-pattern>/spi/*</url-pattern>
-	</servlet-mapping>	
+	</servlet-mapping>
     <session-config>
 	    <!-- default 24 hours -->
 		<session-timeout>1480</session-timeout>

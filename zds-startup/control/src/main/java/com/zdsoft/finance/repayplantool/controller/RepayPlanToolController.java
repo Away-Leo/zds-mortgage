@@ -26,10 +26,13 @@ import com.zdsoft.framework.cra.annotation.Menu;
 
 
 /**
- * 还款计划工具控制器
- * @author longwei
- * @date 2016/11/22
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RepayPlanToolController.java 
+ * @ClassName: RepayPlanToolController 
+ * @Description: 还款计划工具控制器
+ * @author longwei 
+ * @date 2017年2月6日 上午11:05:23 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/tool")

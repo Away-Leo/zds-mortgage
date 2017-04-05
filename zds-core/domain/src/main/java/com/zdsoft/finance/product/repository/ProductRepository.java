@@ -6,68 +6,80 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.zdsoft.finance.common.base.CustomRepository;
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.product.entity.Category;
 import com.zdsoft.finance.product.entity.Product;
 import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.Pageable;
 
 /**
- * 产品主表操作仓库
- * @author longwei
- * @date 2016/12/22
- * @version 1.0
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductRepository.java 
+ * @ClassName: ProductRepository 
+ * @Description: 产品
+ * @author gufeng 
+ * @date 2017年2月16日 下午5:46:52 
+ * @version V1.0
  */
 public interface ProductRepository extends CustomRepository<Product, String>{
 
 	
 	/**
-	 * 根据对象查询分页
+	 * @Title: find 
+	 * @Description: 根据对象查询分页
+	 * @author gufeng 
 	 * @param product 查询对象
+	 * @param empType 类型
 	 * @param pageable 分页
-	 * @return 分页信息
-	 * @throws BusinessException
+	 * @return 分页数据
 	 */
-	public Page<Product> find(Product product,String empType,Pageable pageable) throws BusinessException;
+	public Page<Product> find(Product product,String empType,Pageable pageable);
 	
 	/**
-	 * 验证产品名称唯一性
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findByName 
+	 * @Description: 验证产品名称唯一性
+	 * @author gufeng 
+	 * @param productName 产品名字
+	 * @return 数据
 	 */
-	@Query("select p from Product p where 1=1 and p.isDeleted = false and p.productName=:productName ")
-	public Product findByName(@Param("productName")String productName) throws BusinessException;
+	@Query("select p from Product p where 1=1 and p.isDeleted = false and p.productName=:productName and category.id=:categoryId")
+	public List<Product> findByName(@Param("productName")String productName,@Param("categoryId")String categoryId);
 	
 	/**
-	 * 通过产品分类查询产品
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findByCategory 
+	 * @Description: 通过产品分类查询产品
+	 * @author gufeng 
+	 * @param category 类别
+	 * @return 产品数据
 	 */
-	public List<Product> findByCategory(Category category) throws BusinessException ;
+	public List<Product> findByCategory(Category category);
 
 	/**
 	 * 根据父产品查找产品
 	 * @param parentId
 	 * @return
-	 * @throws BusinessException
 	 */
 	/*@Query(" select p from Product p where  p.isDeleted = false and p.parent.id = :parentId")
-	public List<Product> findWithParentId(@Param("parentId")String parentId) throws BusinessException;*/
+	public List<Product> findWithParentId(@Param("parentId")String parentId);*/
 
 	/**
-	 * 查找所有有效产品
-	 * @return
-	 * @throws BusinessException
+	 * @Title: findAllProduct 
+	 * @Description: 查找所有有效产品
+	 * @author gufeng 
+	 * @return 产品数据
 	 */
 	@Query(" select p from Product p where p.isDeleted = false ")
-	public List<Product> findAllProduct() throws BusinessException;
+	public List<Product> findAllProduct();
 	
 	/**
-	 * 通过产品分类和机构查询产品
-	 * @param CategoryId
-	 * @param orgCd
-	 * @return
+	 * @Title: findByCategoryIdAndOrgCd 
+	 * @Description: 通过产品分类和机构查询产品
+	 * @author gufeng 
+	 * @param CategoryId 类别id
+	 * @param orgCd 部门编号
+	 * @param nowDate 现在的日期
+	 * @return 产品数据
 	 */
-	public List<Product> findByCategoryIdAndOrgCd(String CategoryId,String orgCd);
+	public List<Product> findByCategoryIdAndOrgCd(String categoryId,String orgCd,Long nowDate);
 	
 }

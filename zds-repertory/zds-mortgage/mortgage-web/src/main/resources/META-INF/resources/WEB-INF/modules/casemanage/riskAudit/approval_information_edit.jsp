@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.zdsoft.cn/tags" prefix="z"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="page-box">
 	<h1 class="page-title">审批意见</h1>
 	<div id="opinionForm" class="p5">
@@ -39,8 +39,8 @@
 					<dl class="form-item block">
 						<dd class="detail">
 							<label>
-	                            <textarea id="opinioncontentApproval"  class="zui-area zui-validatebox" validate-type="Require"
-							  placeholder="最多可以输入3000个字符" style="height: 100px;"></textarea>
+	                            <textarea id="opinioncontentApproval"  class="zui-area row-width zui-validatebox" validate-type="Length[0-3000]"
+							  placeholder="最多可以输入3000个字符"></textarea>
 							</label>
 						</dd>
 					</dl>
@@ -54,10 +54,10 @@
 		//设置自定义审批意见
 		isCustomOpinion_=true;
 		
-		//$("#opinionApproval").val(opinionId);
+		$("#opinionApproval").val(opinionId);
 		
 		//加载保存签批意见
-		//$("#opinioncontentApproval").val($("#opinion_content").val());
+		$("#opinioncontentApproval").val($("#opinion_content").val());
 		
 		//是否加载过历史意见
 		var historyFlag = false;
@@ -159,5 +159,11 @@
 		//历史意见
 		CALLBACK.loadHistory2();
 		$.ZUI.initForms("#opinionForm");
+		// 选中设置
+		<c:if test="${not empty checkOpinions}">
+			<c:forEach items="${checkOpinions}" var="opinions" >
+			 	$("#approvalOpinion").ZCheckbox('setValue',"${opinions}");
+			</c:forEach>
+		</c:if>
 	});
 </script>

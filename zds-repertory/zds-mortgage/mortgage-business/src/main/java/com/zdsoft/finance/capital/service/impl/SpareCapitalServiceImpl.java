@@ -17,6 +17,7 @@ import com.zdsoft.finance.capital.entity.SpareCapital;
 import com.zdsoft.finance.capital.repository.SpareCapitalRepository;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
 import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.capital.service.SpareCapitalService;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.spi.common.dto.OperationTypeNm;
@@ -24,6 +25,17 @@ import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: SpareCapitalServiceImpl.java
+ * @ClassName: SpareCapitalServiceImpl
+ * @Description: 备付资金跟踪ServiceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:40:56
+ * @version V1.0
+ */
 @Service("spareCapitalService")
 public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, CustomRepository<SpareCapital, String>>
 		implements SpareCapitalService {
@@ -38,6 +50,9 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 	CreditEntrustService creditEntrustService;
 
 	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
+
+	@Autowired
 	CED CED;
 
 	@Override
@@ -49,6 +64,13 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 		if (ObjectHelper.isNotEmpty(spareCapital.getId())) {// id存在
 			SpareCapital oldSpareCapital = spareCapitalRepository.findOne(spareCapital.getId());
 			actualAmount = oldSpareCapital.getDistributionAmount();
+
+			// 缓存未分配金额以及实际到账金额
+			BigDecimal distributionAmount = oldSpareCapital.getDistributionAmount() == null ? BigDecimal.ZERO
+					: oldSpareCapital.getDistributionAmount();
+			BigDecimal spareActualAmount = oldSpareCapital.getActualAmount() == null ? BigDecimal.ZERO
+					: oldSpareCapital.getActualAmount();
+
 			// 设置基本信息
 			oldSpareCapital.setUpdateBy(CED.getLoginUser().getEmpCd());
 			oldSpareCapital.setUpdateTime(new Date());
@@ -57,23 +79,17 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 			// 保存跟踪信息
 			oldSpareCapital.setOperationType(spareCapital.getOperationType());
 			oldSpareCapital.setApplyAmount(spareCapital.getApplyAmount());
-			oldSpareCapital.setUseDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT));
+			oldSpareCapital.setUseDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			oldSpareCapital.setApplyRemark(spareCapital.getApplyRemark());
 			oldSpareCapital.setActualAmount(spareCapital.getActualAmount());
-			oldSpareCapital
-					.setActualArrivalDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT));
+			oldSpareCapital.setActualArrivalDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			oldSpareCapital.setActualRemark(spareCapital.getActualRemark());
 
 			// 计算未分配到账金额
-			BigDecimal distributionAmount = oldSpareCapital.getDistributionAmount();
-			BigDecimal spareActualAmount = oldSpareCapital.getActualAmount();
-			if (distributionAmount.compareTo(spareActualAmount) != 0) {
-				BigDecimal lastAmount = spareActualAmount.subtract(distributionAmount);
+			BigDecimal lastAmount = spareActualAmount.subtract(distributionAmount);
 
-				// 备付金实际余额 = 备付金到账金额 - 已分配备付金金额
-				oldSpareCapital.setDistributionAmount(spareCapital.getActualAmount().subtract(lastAmount));
-			}
-
+			// 备付金实际余额 = 备付金到账金额 - 已分配备付金金额
+			oldSpareCapital.setDistributionAmount(spareCapital.getActualAmount().subtract(lastAmount));
 			// 判断是否添加到账日志
 			if (ObjectHelper.isNotEmpty(spareCapital.getStatus())) {
 				oldSpareCapital.setStatus(spareCapital.getStatus());
@@ -83,10 +99,8 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 				operationLog.setOperationContent("信托计划备付金跟踪确认到账");
 				operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 				operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-				operationLog.setOperationDate(
-						DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-				operationLog.setActualDate(
-						DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+				operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+				operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 				// operationLog.setStatus();
 				operationLog.setBusinessId(oldSpareCapital.getId());
 				creditEntrustOperationLogService.saveEntity(operationLog);
@@ -106,8 +120,7 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 			// 提交人/提交时间
 			spareCapital.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			spareCapital.setCompleteEmpName(CED.getLoginUser().getEmpNm());
-			spareCapital
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			spareCapital.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 计算未分配到账金额
 			spareCapital.setDistributionAmount(spareCapital.getActualAmount());
@@ -120,15 +133,13 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 			operationLog.setOperationContent("备付资金跟踪");
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+			operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(spareCapital.getId());
 			creditEntrustOperationLogService.saveEntity(operationLog);
 
-			actualAmount = spareCapital.getDistributionAmount();
+			actualAmount = BigDecimal.ZERO;
 		}
 
 		// 修改信托计划的备付金资金池
@@ -144,6 +155,10 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 					.add(spareCapital.getDistributionAmount() == null ? BigDecimal.ZERO
 							: spareCapital.getDistributionAmount());
 			creditEntrust.setPaymentBalance(paymentBalance);
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
+
+			// 重新填充列表统计数据
+			creditEntrust = creditEntrustToolService.listFill(creditEntrust);
 			creditEntrustService.updateEntity(creditEntrust);
 		}
 
@@ -163,6 +178,21 @@ public class SpareCapitalServiceImpl extends BaseServiceImpl<SpareCapital, Custo
 	@Override
 	public List<SpareCapital> findByCreditEntrustIdAndOrderByCreteTime(String creditEntrustId) {
 		return spareCapitalRepository.findByCreditEntrustIdAndOrderByCreteTime(creditEntrustId);
+	}
+
+	@Override
+	@Transactional
+	public SpareCapital saveOrUpdateSpareCapitalAndMatch(SpareCapital spareCapital) throws Exception {
+
+		// 保存备付金跟踪信息
+		spareCapital = this.saveOrUpdateSpareCapital(spareCapital);
+
+		// 判断信托计划是否存在,并且已经开启自动分配
+		if (ObjectHelper.isNotEmpty(spareCapital.getCreditEntrust())
+				&& spareCapital.getCreditEntrust().getIsAutoMatch()) {
+			creditEntrustService.oneKeyFundMatching(spareCapital.getCreditEntrust().getId(), "YWDM0051057");
+		}
+		return spareCapital;
 	}
 
 }

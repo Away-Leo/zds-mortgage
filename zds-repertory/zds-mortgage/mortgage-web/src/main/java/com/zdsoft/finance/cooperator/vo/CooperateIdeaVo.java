@@ -4,10 +4,14 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.CooperateIdea;
 
 /**
- * 合作协议表
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CooperateIdeaVo.java 
+ * @ClassName: CooperateIdeaVo 
+ * @Description: 合作协议Vo
+ * @author liuwei
+ * @date 2017年3月9日 上午11:27:00 
+ * @version V1.0
  */
 public class CooperateIdeaVo extends BaseVo<CooperateIdea> {
 
@@ -23,7 +27,10 @@ public class CooperateIdeaVo extends BaseVo<CooperateIdea> {
 	 * 附件
 	 */
 	private String attachmentId;
-
+	
+	/**
+	 * 附件名称
+	 */
 	private String attachName;
 	/**
 	 * 对应的资方

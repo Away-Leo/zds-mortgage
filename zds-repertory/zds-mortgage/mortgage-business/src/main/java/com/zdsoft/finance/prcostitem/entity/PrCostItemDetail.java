@@ -8,10 +8,15 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 费用项明细
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItemDetail.java 
+ * @ClassName: PrCostItemDetail 
+ * @Description: 费用项明细
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:49:38 
+ * @version V1.0
  */
 @Entity
 @Table(name = "pr_cost_item_detail")

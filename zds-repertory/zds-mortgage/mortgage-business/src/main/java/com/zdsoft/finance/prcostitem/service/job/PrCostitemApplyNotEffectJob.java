@@ -16,13 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zdsoft.framework.core.common.dto.DelegateExecution;
 import com.zdsoft.framework.core.common.service.JavaDelegate;
 
+
 /**
- * 费用支拥审批不通过
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2017-01-05
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostitemApplyNotEffectJob.java 
+ * @ClassName: PrCostitemApplyNotEffectJob 
+ * @Description: 费用支拥审批不通过
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:06:17 
+ * @version V1.0
  */
 @Service
-@AutoJob(label = "费用支拥审批不通过", resource = "com.zdsoft.finance.prCostitemApply.prCostitemApplyNotEffectJob")
+@AutoJob(label = "费用支佣审批不通过", resource = "com.zdsoft.finance.prCostitemApply.prCostitemApplyNotEffectJob")
 @Lazy(false)
 public class PrCostitemApplyNotEffectJob implements JavaDelegate{
 
@@ -43,7 +48,7 @@ public class PrCostitemApplyNotEffectJob implements JavaDelegate{
 		prCostitemApplyService.updateEntity(bean);
 		String businessKey = (String) execution.getVariable("businessKey");
 		BusiForm busiForm = busiFormService.findById(businessKey);
-		busiForm.setStatus(BusiFormStatus.NOTAPPROVALED.value);
+		busiForm.setFormStatus(BusiFormStatus.NOTAPPROVALED.value);
 		busiFormService.updateBusiForm(busiForm);
 	}
 	

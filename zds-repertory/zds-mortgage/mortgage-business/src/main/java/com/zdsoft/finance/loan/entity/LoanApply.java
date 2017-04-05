@@ -7,41 +7,43 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.zdsoft.finance.busiform.entity.BusiForm;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 放款申请
- * 
- * @author laijun
- * @create 2017-01-05 20:11
- **/
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: LoanApply.java 
+ * @ClassName: LoanApply 
+ * @Description: 放款申请实体类
+ * @author huangwei 
+ * @date 2017年2月22日 上午11:07:49 
+ * @version V1.0
+ */
 @Entity
 @Table(name = "loan_apply")
 public class LoanApply extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
+	public static final String processCode = "YWDM0012605";
 	/**
 	 * 请款金额
 	 */
 	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal applyAmount;
+	private BigDecimal applyAmount = BigDecimal.ZERO;
 	/**
 	 * 申请时间
 	 */
 	@Column(nullable = false)
 	private Long applyDate;
 	/**
-	 * 贷款金额
-	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal applyLoanAmount;
-	/**
 	 * 批次号
 	 */
-	@Column(nullable = false, length = 32)
+	@Column( length = 32)
 	private String batchNumber;
 	/**
 	 * 所在分部
@@ -54,11 +56,6 @@ public class LoanApply extends BaseEntity {
 	@Column(nullable = false, length = 32)
 	private String companyId;
 	/**
-	 * 合同Id
-	 */
-	@Column(nullable = false, length = 32)
-	private String contractId;
-	/**
 	 * 申请人部门
 	 */
 	@Column(nullable = false, length = 32)
@@ -69,54 +66,24 @@ public class LoanApply extends BaseEntity {
 	@Column(nullable = false, length = 32)
 	private String empId;
 	/**
-	 * 预计回收时间
-	 */
-	@Column(nullable = false)
-	private Long expectedRecyclingDate;
-	/**
 	 * 放款金额
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal loanAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal loanAmount=BigDecimal.ZERO;
 	/**
-	 * 申请单
+	 * 申请单号
 	 */
 	@Column(nullable = false, length = 32)
 	private String loanApplyCode;
 	/**
-	 * 贷款时间
-	 */
-	@Column(nullable = false)
-	private Long loanDate;
-	/**
-	 * 贷款天数
-	 */
-	@Column(nullable = false)
-	private Integer loanDays;
-	/**
-	 * 贷款收款金额
-	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal loanReceiveAmount;
-	/**
-	 * 收益率
-	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal productRate;
-	/**
-	 * 贷款类型
-	 */
-	@Column(nullable = false, length = 32)
-	private String productType;
-	/**
 	 * 准放款金额
 	 */
-	@Column(nullable = false, precision = 18, scale = 6)
-	private BigDecimal quasiLoanAmount;
+	@Column( precision = 18, scale = 6)
+	private BigDecimal quasiLoanAmount = BigDecimal.ZERO;
 	/**
 	 * 准放款时间
 	 */
-	@Column(nullable = false)
+	@Column
 	private Long quasiLoanDate;
 	/**
 	 * 收款帐号
@@ -134,7 +101,7 @@ public class LoanApply extends BaseEntity {
 	@Column(nullable = false, length = 32)
 	private String receiveBankName;
 	/**
-	 * 放款状态
+	 * 放款状态(1.待放款,2.准放款，3.已放款,4.审批中,5.未提交审批,6。审批未通过)
 	 */
 	@Column(nullable = false, length = 20)
 	private String status;
@@ -143,9 +110,36 @@ public class LoanApply extends BaseEntity {
 	 */
 	@OneToMany(mappedBy = "loanApply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<LoanRecord> loanRecords;
-
+	/**
+	 * 案件id
+	 */
+	@Column(nullable = false, length = 32)
+	private String caseApplyId;
+	/**
+	 * 准放款备注
+	 */
+	@Column(length = 512)
+	private String remark;
+	
+	/**
+	 * 流程基础信息
+	 */
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JoinColumn(name = "busiFormId")
+	private BusiForm busiForm ;
+	
 	public LoanApply() {
 	}
+	
+	
+	public BusiForm getBusiForm() {
+		return busiForm;
+	}
+
+	public void setBusiForm(BusiForm busiForm) {
+		this.busiForm = busiForm;
+	}
+
 
 	public BigDecimal getApplyAmount() {
 		return applyAmount;
@@ -163,13 +157,6 @@ public class LoanApply extends BaseEntity {
 		this.applyDate = applyDate;
 	}
 
-	public BigDecimal getApplyLoanAmount() {
-		return applyLoanAmount;
-	}
-
-	public void setApplyLoanAmount(BigDecimal applyLoanAmount) {
-		this.applyLoanAmount = applyLoanAmount;
-	}
 
 	public String getBatchNumber() {
 		return batchNumber;
@@ -195,13 +182,6 @@ public class LoanApply extends BaseEntity {
 		this.companyId = companyId;
 	}
 
-	public String getContractId() {
-		return contractId;
-	}
-
-	public void setContractId(String contractId) {
-		this.contractId = contractId;
-	}
 
 	public String getDeptId() {
 		return deptId;
@@ -219,13 +199,6 @@ public class LoanApply extends BaseEntity {
 		this.empId = empId;
 	}
 
-	public Long getExpectedRecyclingDate() {
-		return expectedRecyclingDate;
-	}
-
-	public void setExpectedRecyclingDate(Long expectedRecyclingDate) {
-		this.expectedRecyclingDate = expectedRecyclingDate;
-	}
 
 	public BigDecimal getLoanAmount() {
 		return loanAmount;
@@ -243,45 +216,6 @@ public class LoanApply extends BaseEntity {
 		this.loanApplyCode = loanApplyCode;
 	}
 
-	public Long getLoanDate() {
-		return loanDate;
-	}
-
-	public void setLoanDate(Long loanDate) {
-		this.loanDate = loanDate;
-	}
-
-	public Integer getLoanDays() {
-		return loanDays;
-	}
-
-	public void setLoanDays(Integer loanDays) {
-		this.loanDays = loanDays;
-	}
-
-	public BigDecimal getLoanReceiveAmount() {
-		return loanReceiveAmount;
-	}
-
-	public void setLoanReceiveAmount(BigDecimal loanReceiveAmount) {
-		this.loanReceiveAmount = loanReceiveAmount;
-	}
-
-	public BigDecimal getProductRate() {
-		return productRate;
-	}
-
-	public void setProductRate(BigDecimal productRate) {
-		this.productRate = productRate;
-	}
-
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
-	}
 
 	public BigDecimal getQuasiLoanAmount() {
 		return quasiLoanAmount;
@@ -338,5 +272,27 @@ public class LoanApply extends BaseEntity {
 	public void setLoanRecords(Set<LoanRecord> loanRecords) {
 		this.loanRecords = loanRecords;
 	}
+
+
+	public String getCaseApplyId() {
+		return caseApplyId;
+	}
+
+
+	public void setCaseApplyId(String caseApplyId) {
+		this.caseApplyId = caseApplyId;
+	}
+
+
+	public String getRemark() {
+		return remark;
+	}
+
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	
 
 }

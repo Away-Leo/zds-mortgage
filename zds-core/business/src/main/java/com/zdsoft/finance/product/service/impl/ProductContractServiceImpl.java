@@ -22,13 +22,17 @@ import com.zdsoft.framework.core.common.page.Page;
 import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+
 /**
- * 产品合同关联关系 
- * @createTime 2017年1月10日 下午3:53:55
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductContractServiceImpl.java 
+ * @ClassName: ProductContractServiceImpl 
+ * @Description: 产品合同关联关系
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:44:38 
+ * @version V1.0
  */
-@Service
+@Service("productContractService")
 public class ProductContractServiceImpl extends BaseServiceImpl<ProductContract, CustomRepository<ProductContract,String>> 
 	implements ProductContractService{
 

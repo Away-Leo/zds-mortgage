@@ -7,17 +7,23 @@ import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.capital.entity.CreditEntrustAttom;
 
 /**
- * 信托计划转让Service
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustAttomService.java
+ * @ClassName: CreditEntrustAttomService
+ * @Description: 信托计划转让Service
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:33:59
+ * @version V1.0
  */
 public interface CreditEntrustAttomService extends BaseService<CreditEntrustAttom> {
 
 	/**
-	 * 新增或修改计划转让信息
 	 * 
+	 * @Title: saveOrUpdateEntrustAttom
+	 * @Description: 新增或修改计划转让信息
+	 * @author liuwei
 	 * @param creditEntrustAttom
 	 *            计划转让信息
 	 * @return 计划转让信息
@@ -26,8 +32,10 @@ public interface CreditEntrustAttomService extends BaseService<CreditEntrustAtto
 	public CreditEntrustAttom saveOrUpdateEntrustAttom(CreditEntrustAttom creditEntrustAttom) throws Exception;
 
 	/**
-	 * 根据tempId查询计划转让信息
 	 * 
+	 * @Title: findByTempUuid
+	 * @Description: 根据tempId查询计划转让信息
+	 * @author liuwei
 	 * @param tempUuid
 	 *            临时id
 	 * @return 计划转让列表
@@ -35,8 +43,10 @@ public interface CreditEntrustAttomService extends BaseService<CreditEntrustAtto
 	public List<CreditEntrustAttom> findByTempUuid(String tempUuid);
 
 	/**
-	 * 根据查询条件查询计划转让信息
 	 * 
+	 * @Title: findByConditions
+	 * @Description: 根据查询条件查询计划转让信息
+	 * @author liuwei
 	 * @param conditions
 	 *            查询条件
 	 * @return 计划转让信息

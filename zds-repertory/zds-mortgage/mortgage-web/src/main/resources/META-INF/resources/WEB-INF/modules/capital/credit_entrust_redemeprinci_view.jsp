@@ -17,7 +17,7 @@
 			<input type="hidden" id="creditEntrustId" name="creditEntrustId" value="${creditEntrustId}"/>
 			
 			<div class="page-box">
-		        <div class="page-title">本金投入信息</div>
+		        <div class="page-title">本金赎回信息</div>
 		        <div class="p5">
 		            <table class="table-detail">
 		                <tr>
@@ -45,7 +45,7 @@
 			            			<th data-options="field:operationContent">操作内容</th>
 			            			<th data-options="field:operationEmpName">处理人</th>
 			            			<!-- <th data-options="field:remark">备注</th> -->
-			            			<th data-options="field:operationDate">操作时间</th>
+			            			<th data-options="field:operationDateName">操作时间</th>
 						        </tr>
 							</thead>
 						</table>

@@ -9,16 +9,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:BeforehandApply.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:案件预申请实体类
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:44:09
- * @version:v1.0
+ * @Title: BeforehandApply.java 
+ * @ClassName: BeforehandApply 
+ * @Description: 案件预申请实体类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:41:34 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_beforehand_apply")
+@Table(name = "mkt_beforehand_apply")
 public class BeforehandApply extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
@@ -60,7 +61,7 @@ public class BeforehandApply extends BaseEntity{
      * 申请金额
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal applyAmount;
+    private BigDecimal applyAmount = BigDecimal.ZERO;
     /**
      * 申请时间
      */
@@ -70,24 +71,24 @@ public class BeforehandApply extends BaseEntity{
      * 申请期限
      */
     @Column
-    private Integer applyDeadline;
+    private Integer applyTerm;
     /**
      * 申请期限单位
      */
     @Column(length = 20)
-    private String applyDeadlineUnit;
+    private String applyTermUnit;
     /**
      * 贷款利率
      */
     @Column(precision = 18, scale = 6)
-    private BigDecimal applyRate;
+    private BigDecimal applyRate = BigDecimal.ZERO;
     /**
      * 逾期利率
      */
     @Column(precision = 18, scale = 6)
-    private BigDecimal overdueRate;
+    private BigDecimal overdueRate = BigDecimal.ZERO;
     /**
-	 * 案件阶段（CaseApplyStageEnum.value）
+	 * 案件阶段
 	 */
 	@Column
 	private Integer stage;
@@ -117,12 +118,12 @@ public class BeforehandApply extends BaseEntity{
 	@Column(length = 128)
 	private String developmentDepartmentName;
 	/**
-	 * 机构代码
+	 * 公司代码
 	 */
 	@Column(length = 128)
 	private String mechanismCode;
 	/**
-	 * 机构名称
+	 * 公司名称
 	 */
 	@Column(length = 128)
 	private String mechanismName;
@@ -149,7 +150,7 @@ public class BeforehandApply extends BaseEntity{
     /**
      * 资金来源
      */
-    @Column(length = 20)
+    @Column(length = 32)
     private String capitalSource;
     /**
      * 贷款用途
@@ -173,6 +174,11 @@ public class BeforehandApply extends BaseEntity{
     @Column(length = 20)
     private String caseApplyStatus;
     
+    /**
+     * 是否是终端进件的案件(0.否(默认);1.是)
+     */
+    @Column
+    private Integer isTerminalCase;
     
 	public String getCaseApplyId() {
 		return caseApplyId;
@@ -216,19 +222,20 @@ public class BeforehandApply extends BaseEntity{
 	public void setApplyDate(Long applyDate) {
 		this.applyDate = applyDate;
 	}
-	public Integer getApplyDeadline() {
-		return applyDeadline;
-	}
-	public void setApplyDeadline(Integer applyDeadline) {
-		this.applyDeadline = applyDeadline;
-	}
-	public String getApplyDeadlineUnit() {
-		return applyDeadlineUnit;
-	}
-	public void setApplyDeadlineUnit(String applyDeadlineUnit) {
-		this.applyDeadlineUnit = applyDeadlineUnit;
-	}
-	public BigDecimal getApplyRate() {
+	
+	public Integer getApplyTerm() {
+        return applyTerm;
+    }
+    public void setApplyTerm(Integer applyTerm) {
+        this.applyTerm = applyTerm;
+    }
+    public String getApplyTermUnit() {
+        return applyTermUnit;
+    }
+    public void setApplyTermUnit(String applyTermUnit) {
+        this.applyTermUnit = applyTermUnit;
+    }
+    public BigDecimal getApplyRate() {
 		return applyRate;
 	}
 	public void setApplyRate(BigDecimal applyRate) {
@@ -342,7 +349,10 @@ public class BeforehandApply extends BaseEntity{
 	public void setCaseApplyStatus(String caseApplyStatus) {
 		this.caseApplyStatus = caseApplyStatus;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Integer getIsTerminalCase() {
+		return isTerminalCase;
+	}
+	public void setIsTerminalCase(Integer isTerminalCase) {
+		this.isTerminalCase = isTerminalCase;
 	}
 }

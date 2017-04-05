@@ -7,7 +7,9 @@ var fileTypeSimple;
  * 创建一个新的空白文档
  */
 function createNewDocument(){
-	OFFICE_CONTROL_OBJ = document.all("TANGER_OCX");
+	OFFICE_CONTROL_OBJ = document.getElementById("TANGER_OCX");
+	OFFICE_CONTROL_OBJ.activate(true);
+	OFFICE_CONTROL_OBJ.AddDocTypePlugin(".pdf","PDF.NtkoDocument","4.0.0.1",localServer_offControll+"/online/officecontrol/ntkooledocall.cab",51,true);	
 	var officeVer = OFFICE_CONTROL_OBJ.GetOfficeVer();
 	var wpsVer = OFFICE_CONTROL_OBJ.GetWPSVer();
 	var offDocype = "";
@@ -24,7 +26,9 @@ function createNewDocument(){
 function intializePage(fileUrl)
 {
 	
-	OFFICE_CONTROL_OBJ = document.all("TANGER_OCX");
+	OFFICE_CONTROL_OBJ = document.getElementById("TANGER_OCX");
+	OFFICE_CONTROL_OBJ.activate(true);
+	OFFICE_CONTROL_OBJ.AddDocTypePlugin(".pdf","PDF.NtkoDocument","4.0.0.1",localServer_offControll+"/online/officecontrol/ntkooledocall.cab",51,true);	
 	NTKO_OCX_OpenDoc(fileUrl);
 }
 function onPageClose()
@@ -114,7 +118,6 @@ function saveFileToUrl(url,op,mode,actInsId)
  */
 function saveFileToUrl(url,data)
 {
-	
 	var myUrl =url ;
 	var result  ;
 	if(IsFileOpened)
@@ -146,14 +149,22 @@ function saveFileToUrl(url,data)
 				fileType = "unkownfiletype";
 		}
 		result = OFFICE_CONTROL_OBJ.saveToURL(myUrl,//提交到的url地址
-		"upLoadFile",//文件域的id，类似<input type=file id=upLoadFile 中的id
-		"fileType="+fileType+"&data="+data,          //与控件一起提交的参数如："p1=a&p2=b&p3=c"
+		"officecontrol",//文件域的id，类似<input type=file id=upLoadFile 中的id
+		"fileType="+fileType+"%26data="+data,          //与控件一起提交的参数如："p1=a&p2=b&p3=c"
 		"",    //上传文件的名称，类似<input type=file 的value
-		"form1"    //与控件一起提交的表单id，也可以是form的序列号，这里应该是0.
+		"form1",    //与控件一起提交的表单id，也可以是form的序列号，这里应该是0.
+		true
 		);
 		var res = null;
 		if(result != "" && result!=null){
-			res = eval("(" + result + ")");  
+			res = JSON.parse(result);  
+			if (!res.resultStatus) {
+				// 保存失败
+				alert("文档保存失败，请截图并联系管理员！");
+			}else{
+				alert("已成功保存文档！");
+				window.close();
+			}
 		}
 		return res;
 	}
@@ -563,58 +574,19 @@ function hiddenOffControlScrollBar(x_hidden,y_hidden)
  */
 function CopyTextToBookMark(inputname,BookMarkName)
 {
-	try
-	{	
-		var inputValue="";
-		var j,optionItem;
-		var elObj = document.forms[0].elements(inputname);		 
-		if (!elObj)
-		{
-			alert("HTML的FORM中没有此输入域："+ inputname);
-			return;
+	try{
+		var inputObj=document.getElementById(inputname);
+		if(inputObj!=null){
+			OFFICE_CONTROL_OBJ.SetBookmarkValue(BookMarkName,inputObj.value);
+		}else if(browser=="IE"){
+			inputObj = document.forms[0].elements(inputname);
+			if(inputObj!=null){
+				OFFICE_CONTROL_OBJ.SetBookmarkValue(BookMarkName,inputObj.value);
+			}
 		}
-		switch(elObj.type)
-		{
-				case "select-one":
-					inputValue = elObj.options[elObj.selectedIndex].text;
-					break;
-				case "select-multiple":
-					var isFirst = true;
-					for(j=0;j<elObj.options.length;j++)
-					{
-						optionItem = elObj.options[j];					
-						if (optionItem.selected)
-						{
-							if(isFirst)
-							{
-								inputValue = optionItem.text;
-								isFirst = false;
-							}
-							else
-							{
-								inputValue += "  " + optionItem.text;
-							}
-						}
-					}
-					
-					break;
-				default: // text,Areatext,selecte-one,password,submit,etc.
-					inputValue = elObj.value;
-					break;
-		}
-		//do copy
-		var bkmkObj = OFFICE_CONTROL_OBJ.ActiveDocument.BookMarks(BookMarkName);	
-		if(!bkmkObj)
-		{
-			alert("Word 文档中中不存在名称为：\""+BookMarkName+"\"的书签！");
-		}
-		var saverange = bkmkObj.Range;
-		saverange.Text = inputValue;
-		OFFICE_CONTROL_OBJ.ActiveDocument.Bookmarks.Add(BookMarkName,saverange);
+	}catch(e){
+		
 	}
-	catch(err){}
-	finally{
-	}		
 }
 
 

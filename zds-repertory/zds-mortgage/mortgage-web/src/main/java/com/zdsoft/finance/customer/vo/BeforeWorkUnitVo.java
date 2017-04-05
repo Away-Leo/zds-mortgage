@@ -3,6 +3,7 @@ package com.zdsoft.finance.customer.vo;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.customer.entity.BeforePersonalCustomer;
 import com.zdsoft.finance.customer.entity.BeforeWorkUnit;
+import com.zdsoft.framework.core.common.util.ObjectHelper;
 /**
  * 
  * 版权所有：重庆正大华日软件有限公司
@@ -14,97 +15,146 @@ import com.zdsoft.finance.customer.entity.BeforeWorkUnit;
  * @version:v1.0
  */
 public class BeforeWorkUnitVo extends BaseVo<BeforeWorkUnit>{
+	
+	/**
+	 * 职务:法人/董事/股东
+	 */
+	public static final String CHAIRMAN_OF_THE_BOARD = "YWDM008801";
+	
+	/**
+	 * 职务:公司实际控制人
+	 */
+	public static final String BENEFICIAL_CONTROLLING_OWNER = "YWDM008807";
+	
+	/**
+	 * 公司名义控制人
+	 */
+	public static final String FORMAT_CONTROLLING_OWNER = "YWDM008806";
+	
 	/**
 	 * 用一句话描述这个变量表示什么
 	 */
 	private static final long serialVersionUID = 2947673647436815084L;
+	
 	/**
 	 * 客户
 	 */
 	private BeforePersonalCustomer beforeCustomer;
+	
 	/**
 	 * 姓名
 	 */
 	private  String workUnitName;
+	
 	/**
 	 * 单位名称
 	 */
 	private  String companyName;
+	
 	/**
 	 * 单位电话
 	 */
 	private  String phoneNumber;
+	
 	/**
-	 * 单位性质名称
+	 * 单位性质名称code
 	 */
 	private  String workUnitNature;
-	private String workUnitNatureName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 单位性质
+	 * 单位性质名称name
 	 */
-	private  String workUnitNatureNm;
+	private String workUnitNatureName;
+	
 	/**
 	 * 工作年限
 	 */
 	private  Integer workYears;
+	
 	/**
-	 * 职务
+	 * 职务code
 	 */
 	private  String position;
-	private String positionName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 职务名称
+	 * 职务name
 	 */
-	private  String positionNm;
+	private String positionName;
+	
 	/**
-	 * 行业类型
+	 * 行业类型code
 	 */
 	private  String industryType;
-	private String industryTypeName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 行业类型名称
+	 * 行业类型name
 	 */
-	private  String industryTypeNm;
+	private String industryTypeName;
+	
 	/**
-	 * 行业
+	 * 行业code
 	 */
 	private  String industry;
-	private String industryName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 行业名称
+	 * 行业name
 	 */
-	private  String industryNm;
+	private String industryName;
+	
 	/**
-	 * 省
+	 * 省code
 	 */
 	private  String province;
-	private  String provinceName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 市
+	 * 省name
+	 */
+	private  String provinceName;
+	
+	/**
+	 * 市code
 	 */
 	private  String city;
-	private  String cityName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 区
+	 * 市name
+	 */
+	private  String cityName;
+	
+	/**
+	 * 区code
 	 */
 	private  String district;
-	private  String districtName;//modify by liuhuan 2017-1-21
+	
+	/**
+	 * 区name
+	 */
+	private  String districtName;
+	
 	/**
 	 * 单位地址
 	 */
 	private  String workUnitAddress;
+	
 	/**
 	 * 单位地址 拼接地址
 	 */
 	private  String workUnitAddressName;
+	
 	/**
 	 * 所属客户id
 	 */
 	private String customerId;
+	
 	public BeforeWorkUnitVo(){}
 	
 	public BeforeWorkUnitVo(BeforeWorkUnit po){
 		super(po,null,new String[]{"industryType","industry", "workUnitNature","position","district","city","province"});
+		if(ObjectHelper.isEmpty(provinceName)&&ObjectHelper.isEmpty(cityName)&&ObjectHelper.isEmpty(districtName)&&ObjectHelper.isEmpty(workUnitAddress)){
+			this.workUnitAddressName = "";
+		}else{
+			this.workUnitAddressName = provinceName+"/"+cityName+"/"+districtName+"/"+(ObjectHelper.isEmpty(workUnitAddress)?"":workUnitAddress);
+		}
 	}
 	
 	public BeforeWorkUnit toPO(){
@@ -263,44 +313,10 @@ public class BeforeWorkUnitVo extends BaseVo<BeforeWorkUnit>{
 	}
 
 	public String getWorkUnitAddressName() {
-		workUnitAddressName = provinceName+" "+cityName+" "+districtName+" "+workUnitAddress;
 		return workUnitAddressName;
 	}
 
 	public void setWorkUnitAddressName(String workUnitAddressName) {
 		this.workUnitAddressName = workUnitAddressName;
 	}
-
-	public String getWorkUnitNatureNm() {
-		return workUnitNatureNm;
-	}
-
-	public void setWorkUnitNatureNm(String workUnitNatureNm) {
-		this.workUnitNatureNm = workUnitNatureNm;
-	}
-
-	public String getPositionNm() {
-		return positionNm;
-	}
-
-	public void setPositionNm(String positionNm) {
-		this.positionNm = positionNm;
-	}
-
-	public String getIndustryTypeNm() {
-		return industryTypeNm;
-	}
-
-	public void setIndustryTypeNm(String industryTypeNm) {
-		this.industryTypeNm = industryTypeNm;
-	}
-
-	public String getIndustryNm() {
-		return industryNm;
-	}
-
-	public void setIndustryNm(String industryNm) {
-		this.industryNm = industryNm;
-	}
-	
 }

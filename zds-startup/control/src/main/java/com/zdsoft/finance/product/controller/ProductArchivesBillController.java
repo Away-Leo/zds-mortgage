@@ -27,11 +27,15 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
+
 /**
- * 档案清单
- * @createTime 2017年1月10日 上午11:49:15
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductArchivesBillController.java 
+ * @ClassName: ProductArchivesBillController 
+ * @Description: 档案清单
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:45:33 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("productArchivesBill")
@@ -46,26 +50,27 @@ public class ProductArchivesBillController extends BaseController{
 	private CED CED;
 	
 	/**
-	 * 档案清单入口
+	 * @Title: initArchivesBill 
+	 * @Description: 档案清单入口
+	 * @author gufeng 
+	 * @param productId 产品id
 	 * @return 档案清单页面
 	 */
 	@RequestMapping("/initArchivesBill")
 	@UriKey(key = "com.zdsoft.finance.productArchivesBill.initArchivesBill")
 	public ModelAndView initArchivesBill(String productId) {
 		ModelMap map = new ModelMap();
-		//TODO 自测
-//		if(ObjectHelper.isEmpty(product_id)){
-//			product_id = "TODO1";
-//		}
 		map.put("productId", productId);
 		return new ModelAndView("/product/archives_bill_list",map);
 	}
 	
 	/**
-	 * 档案清单查询
-	 * @param pageable
-	 * @param jsoncallback
-	 * @return
+	 * @Title: archivesBillList 
+	 * @Description: 档案清单查询
+	 * @author gufeng 
+	 * @param pageable 分页
+	 * @param jsoncallback 跨域
+	 * @return 数据
 	 */
 	@RequestMapping("/archivesBillList")
 	@UriKey(key = "com.zdsoft.finance.productArchivesBill.archivesBillList")
@@ -80,7 +85,7 @@ public class ProductArchivesBillController extends BaseController{
 		if(ObjectHelper.isNotEmpty(list) && list.size() > 0){
 			for (ProductArchivesBill productArchivesBill : list) {
 				ProductArchivesBillVo vo = new ProductArchivesBillVo(productArchivesBill);
-				listVo.add(vo);
+				listVo.add(archivesValue(vo));
 			}
 		}
 		msg.setResultStatus(ResponseMsg.SUCCESS);
@@ -91,10 +96,41 @@ public class ProductArchivesBillController extends BaseController{
 	}
 	
 	/**
-	 * 保存
-	 * @param vo
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: archivesValue 
+	 * @Description: 数据转换
+	 * @author gufeng 
+	 * @param vo 需要转换的数据
+	 */
+	private ProductArchivesBillVo archivesValue(ProductArchivesBillVo vo){
+		String archivesTypeName = vo.getArchivesTypeName();
+		String[] types = null;
+		if(ObjectHelper.isNotEmpty(archivesTypeName)){
+			types = archivesTypeName.split(",");
+		}
+		archivesTypeName = "";
+		for (String type : types) {
+			try {
+				String name = CED.loadSimpleCodeNameByFullCode(type);
+				archivesTypeName += name + ",";
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("CED",e);
+			}
+		}
+		if(ObjectHelper.isNotEmpty(archivesTypeName)){
+			archivesTypeName = archivesTypeName.substring(0,archivesTypeName.length() - 1);
+		}
+		vo.setArchivesTypeName(archivesTypeName);
+		return vo;
+	}
+	
+	/**
+	 * @Title: save 
+	 * @Description: 保存
+	 * @author gufeng 
+	 * @param vo 数据
+	 * @param jsoncallBack 跨域
+	 * @return 保存结果
 	 */
 	@RequestMapping("/save")
     @UriKey(key = "com.zdsoft.finance.archivesBill.save")
@@ -123,11 +159,16 @@ public class ProductArchivesBillController extends BaseController{
         }
         return ObjectHelper.objectToJson(map, jsoncallBack);
 	}
+
 	/**
-	 * 批量设置档案等级
-	 * @param vo
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: sets 
+	 * @Description: 批量设置档案等级
+	 * @author gufeng 
+	 * @param ids 多个id ， 分割
+	 * @param archivesLevel 档案等级
+	 * @param archivesType 档案类型
+	 * @param jsoncallBack 跨域
+	 * @return 设置结果
 	 */
 	@RequestMapping("/sets")
 	@UriKey(key = "com.zdsoft.finance.archivesBill.sets")
@@ -146,11 +187,14 @@ public class ProductArchivesBillController extends BaseController{
 		}
 		return ObjectHelper.objectToJson(map, jsoncallBack);
 	}
-	/**                
-	 * 删除
-	 * @param id
-	 * @param jsoncallBack
-	 * @return
+
+	/**
+	 * @Title: deleted 
+	 * @Description: 删除
+	 * @author gufeng 
+	 * @param id 主键id
+	 * @param jsoncallBack 跨域
+	 * @return 删除结果
 	 */
 	@RequestMapping("/deleted")
 	@UriKey(key = "com.zdsoft.finance.archivesBill.deleted")

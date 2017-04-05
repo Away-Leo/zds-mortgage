@@ -4,55 +4,59 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.cooperator.entity.ContactsInfo;
 
 /**
- * 合作方联系人
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: ContactsInfoVo.java
+ * @ClassName: ContactsInfoVo
+ * @Description: 联系方式Vo
+ * @author liuwei
+ * @date 2017年3月2日 上午11:22:53
+ * @version V1.0
  */
 public class ContactsInfoVo extends BaseVo<ContactsInfo> {
 
 	/**
-	 * 
+	 * @Fields serialVersionUID
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1079362372294550327L;
+
 	/**
-	 * 联系人姓名
+	 * 联系人
 	 */
-	private String contactName;
+	private String linkman;
+
 	/**
 	 * 联系类型
 	 */
 	private String contactType;
+
+	/**
+	 * 联系类型名称
+	 */
 	private String contactTypeName;
+
 	/**
 	 * 电话号码
 	 */
-	private String contactTelNumber;
+	private String contactNumber;
+
 	/**
 	 * 职务
 	 */
-	private String role;
-	/**
-	 * 关联的终端
-	 */
-	private String terminalId;
-	/**
-	 * 关联资方信息
-	 */
-	private String capitalistId;
+	private String duty;
 
-	private String foxNumber;
 	/**
-	 * 邮编
+	 * 合作方id
 	 */
-	private String postalCode;
+	private String partnerId;
 
-	public String getContactTypeName() {
-		return contactTypeName;
+	public String getLinkman() {
+		return linkman;
 	}
 
-	public void setContactTypeName(String contactTypeName) {
-		this.contactTypeName = contactTypeName;
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
 	}
 
 	public String getContactType() {
@@ -63,60 +67,36 @@ public class ContactsInfoVo extends BaseVo<ContactsInfo> {
 		this.contactType = contactType;
 	}
 
-	public String getFoxNumber() {
-		return foxNumber;
+	public String getContactNumber() {
+		return contactNumber;
 	}
 
-	public void setFoxNumber(String foxNumber) {
-		this.foxNumber = foxNumber;
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
-	public String getPostalCode() {
-		return postalCode;
+	public String getDuty() {
+		return duty;
 	}
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
+	public void setDuty(String duty) {
+		this.duty = duty;
 	}
 
-	public String getCapitalistId() {
-		return capitalistId;
+	public String getPartnerId() {
+		return partnerId;
 	}
 
-	public void setCapitalistId(String capitalistId) {
-		this.capitalistId = capitalistId;
+	public void setPartnerId(String partnerId) {
+		this.partnerId = partnerId;
 	}
 
-	public String getContactName() {
-		return contactName;
+	public String getContactTypeName() {
+		return contactTypeName;
 	}
 
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
-
-	public String getContactTelNumber() {
-		return contactTelNumber;
-	}
-
-	public void setContactTelNumber(String contactTelNumber) {
-		this.contactTelNumber = contactTelNumber;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getTerminalId() {
-		return terminalId;
-	}
-
-	public void setTerminalId(String terminalId) {
-		this.terminalId = terminalId;
+	public void setContactTypeName(String contactTypeName) {
+		this.contactTypeName = contactTypeName;
 	}
 
 	public ContactsInfoVo() {

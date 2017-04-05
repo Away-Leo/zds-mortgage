@@ -2,6 +2,7 @@ package com.zdsoft.finance.base.service;
 
 import java.util.List;
 
+import com.zdsoft.essential.dto.permission.DataOperPermDto;
 import com.zdsoft.finance.common.base.QueryObj;
 import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
@@ -20,6 +21,18 @@ public interface BaseService<T extends BaseEntity> {
 	 * @return 分页信息
 	 */
 	Page<T> findByHqlConditions(Pageable pageable, List<QueryObj> li);
+	
+	/**
+	 * 
+	 * @Title: findByHqlConditions 
+	 * @Description: 自动分页查询 
+	 * @author dengyy 
+	 * @param pageable  分页信息
+	 * @param li 查询条件 
+	 * @param dataOperPermDto 数据权限新
+	 * @return
+	 */
+    Page<T> findByHqlConditions(Pageable pageable, List<QueryObj> li,DataOperPermDto dataOperPermDto);
 	
 	/**
 	 * 保存域对象

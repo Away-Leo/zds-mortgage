@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.zdsoft.cn/tags" prefix="z"%>
-<div class="frm-content frm-bottom" id="opinionDiv">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<div class="frm-content frm-bottom" id="receivablePlanDiv">
 	<form id="receivablePlanForm" class="zui-form" action="javascript:void(0);">
 		<div class="page-box">
 			<input type="hidden" value="${caseApply.id }" name="caseApplyId"/>
@@ -16,23 +17,22 @@
 						<td class="td-title pct10">主借人</td>
 						<td class="pct20">${caseApply.customerName }</td>
 						<td class="td-title pct10">贷款金额(元)</td>
-						<td class="pct30">${caseApply.applyAmount }</td>
+						<td class="pct30"><fmt:formatNumber value="${caseApply.applyAmount }" pattern="#,##0.00#"/></td>
 					</tr>
 					<tr>
-						<td class="td-title pct10">贷款期限</td>
+						<td class="td-title pct10"><b class="c-red mr5">*</b>贷款期限</td>
 						<td class="pct20">
 							<dl class="form-item form-auto">
 								<dd class="detail">
-									<label> <input type="text" value="${caseApply.applyDeadline }"
-										class="zui-input nwidth2 zui-validatebox" readonly
-										validate-type="Require" />
+									<label> <input type="text" value="${caseApply.applyTerm }" name="applyTerm" style="width:130Px"
+										class="zui-input zui-validatebox" validate-type="Require,Integer" />
 									</label>
 								</dd>
 								<dd class="detail">
-									<input class="zui-combobox zui-validatebox" type="hidden" name="applyDeadlineUnit"
-										data-width="94" value="${caseApply.applyDeadlineUnit }"
-										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=rateUtil"
-										data-valuefield="fullcode" data-textfield="name" data-choose="disable">
+									<input class="zui-combobox zui-validatebox" type="hidden" name="applyTermUnit"
+										data-width="120" value="${caseApply.applyTermUnit }"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=0931"
+										data-valuefield="fullcode" data-textfield="name" >
 								</dd>
 							</dl>
 						</td>
@@ -40,33 +40,31 @@
 						<td class="pct20">
 							<dl class="form-item form-auto">
 								<dd class="detail">
-									<label> <input type="text" value="${receivableInfo.loanMonthRate }"
-										class="zui-input nwidth2 zui-validatebox" name="loanMonthRate"
-										validate-type="Require" />
+									<label> <input type="text" value="${receivableInfo.loanMonthRate }" style="width:130Px"
+										class="zui-input zui-validatebox" name="loanMonthRate" id="loanMonthRate"
+										validate-type="Require,Digital[4-4]" validate-false="|请输入正确的利率" onchange="changeRate()" />
 									</label>
-								</dd>
+								</dd> 
 								<dd class="detail">
-									<input class="zui-combobox zui-validatebox" type="hidden" name="loanMonthRateUnit" value="${receivableInfo.loanMonthRateUnit }"
-										data-width="94" validate-type="Require"
-										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=rateUtil"
-										data-valuefield="fullcode" data-textfield="name">
+									<input class="zui-combobox zui-validatebox" type="hidden" id="loanMonthRateUnit" name="loanMonthRateUnit" validate-type="Require" data-width="120">
+									
 								</dd>
 							</dl>
 						</td>
 						<td class="td-title pct10"><b class="c-red mr5">*</b>还款方式</td>
-						<td class="pct30">
+						<td class="pct20">
 							<dl class="form-item form-auto">
-								<dd class="detail">
-									<input class="zui-combobox" type="hidden" name="repaymentType" value="${receivableInfo.repaymentType }"
-										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0051"
-										data-valuefield="fullcode" data-textfield="name">
+								<dd class="detail">  
+									<input class="zui-combobox zui-validatebox" type="hidden" name="repaymentType" value="${receivableInfo.repaymentType }"
+										data-width="150"        
+										 data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0051"
+										data-valuefield="fullcode" data-textfield="name"  validate-type="Require">	
 								</dd>
-							</dl>
-							<dl class="form-item form-auto">
 								<dd class="detail">
-									<input class="zui-combobox" type="hidden" name="repaymentTypeTwo" value="${receivableInfo.repaymentTypeTwo }"
-										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0051"
-										data-valuefield="fullcode" data-textfield="name">
+									<input class="zui-combobox zui-validatebox" type="hidden" name="repaymentTypeTwo" value="${receivableInfo.repaymentTypeTwo }"
+										data-width="130" data-callback="validateRepayment"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00161"
+										data-valuefield="fullcode" data-textfield="name"  validate-type="Require">
 								</dd>
 							</dl>
 						</td>
@@ -77,19 +75,17 @@
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<input class="zui-combobox zui-validatebox" type="hidden" name="rateNature" value="${receivableInfo.rateNature }"
-										data-width="150"
-										data-data="[{'id':'0','text':'自动转为银行利率','isDefault':'true'},{'id':'1','text':'填写固定利率'},{'id':'2','text':'%/日'}]"
+										data-width="130"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00159"
 										data-callback="change" data-id="isAgriculture"
-										data-valuefield="id" data-textfield="text"
-										validate-type="Require">
+										data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 								</dd>
-								<dd class="detail" id="">
-									<input class="zui-combobox zui-validatebox" type="hidden"
-										data-width="150"
-										data-data="[{'id':'0','text':'放款即收第一期','isDefault':'true'}]"
+								<dd class="detail">
+									<input class="zui-combobox zui-validatebox" type="hidden" name="rateNatureTwo" value="${receivableInfo.rateNatureTwo }"
+										data-width="120"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00160"
 										data-callback="change" data-id="isAgriculture"
-										data-valuefield="id" data-textfield="text"
-										validate-type="Require">
+										data-valuefield="fullcode" data-textfield="name" validate-type="Require">
 								</dd>
 							</dl>
 						</td>
@@ -98,15 +94,15 @@
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text"
-										class="zui-input nwidth2 zui-validatebox" name="overdueDailyRate" value="${receivableInfo.overdueDailyRate }"
-										validate-type="Require" />
+										class="zui-input zui-validatebox"  style="width:130Px" name="overdueDailyRate" value="${receivableInfo.overdueDailyRate }"
+										validate-type="Require,Digital[4-4]" validate-false="|请输入正确的利率" />
 									</label>
 								</dd>
 								<dd class="detail">
 									<input class="zui-combobox zui-validatebox" type="hidden" name="overdueDailyRateUnit" value="${receivableInfo.overdueDailyRateUnit }"
-										data-width="94" validate-type="Require"
-										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=rateUtil"
-										data-valuefield="fullcode" data-textfield="name">
+										data-width="120" validate-type="Require"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00119"
+										data-valuefield="fullcode" data-textfield="name" data-defaultValue='YWDM0011903'>
 								</dd>
 							</dl>
 						</td>
@@ -123,39 +119,36 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="td-title pct10"><b class="c-red mr5">*</b>还款日</td>
+						<td class="td-title pct10"><b id="validateView" class="c-red mr5">*</b>还款日</td>
 						<td class="pct20">
 							<dl class="form-item form-auto">
 								<dd class="detail">
-									<label> <input type="text" value="${receivableInfo.repaymentDate }"
-										class="zui-input nwidth2 zui-validatebox" name="repaymentDate"
-										validate-type="Require" />
+									<label> <input type="text" value="${receivableInfo.repaymentDate }"  style="width:130Px"
+										class="zui-input zui-validatebox" id="repaymentDate" name="repaymentDate" validate-type="Require,Number,Size[1-31]" />
 									</label>
 								</dd>
 								<dd class="detail">
-									<input class="zui-combobox zui-validatebox" type="hidden" 
-										data-width="94"
+									<input class="zui-combobox zui-validatebox" type="hidden" data-width="120"
 										data-data="[{'id':'0','text':'日','isDefault':'true'}]"
-										data-callback="change" data-id="isAgriculture"
+										data-id="isAgriculture"
 										data-valuefield="id" data-textfield="text" data-choose="disable"
 										validate-type="Require">
 								</dd>
 							</dl>
 						</td>
-						<td class="td-title pct10"><b class="c-red mr5">*</b>综合利率</td>
+						<td class="td-title pct10">综合利率</td>
 						<td class="pct20">
 							<dl class="form-item form-auto">
 								<dd class="detail">
-									<label> <input type="text" name="syntheticalRate" value="${receivableInfo.syntheticalRate }"
-										class="zui-input nwidth2 zui-validatebox"
-										validate-type="Require" />
+									<label> <input type="text"  style="width:130Px" id="syntheticalRate" name="syntheticalRate" value="${receivableInfo.syntheticalRate }"
+										class="zui-input zui-validatebox zui-disabled" readonly/>
 									</label>
 								</dd>
 								<dd class="detail">
-									<input class="zui-combobox zui-validatebox" type="hidden" name="syntheticalRateUnit" validate-type="Require"
-										data-width="94" value="${receivableInfo.syntheticalRateUnit }"
-										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=rateUtil"
-										data-valuefield="fullcode" data-textfield="name">
+									<input class="zui-combobox" type="hidden" name="syntheticalRateUnit"
+										data-width="120" value="YWDM0011901"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00119"
+										data-valuefield="fullcode" data-textfield="name" data-choose="disable">
 								</dd>
 							</dl>
 						</td>
@@ -163,18 +156,15 @@
 						<td class="pct30">
 							<dl class="form-item form-auto">
 								<dd class="detail">
-									<label> <input type="text"
-										class="zui-input nwidth2 zui-validatebox"
-										validate-type="Require" />
+									<label> <input type="text" id="internalRateReturn" name="internalRateReturn" value="${receivableInfo.internalRateReturn }"
+										class="zui-input zui-validatebox zui-disabled"  style="width:150Px" readonly/>
 									</label>
 								</dd>
 								<dd class="detail">
-									<input class="zui-combobox zui-validatebox" type="hidden"
-										data-width="94"
-										data-data="[{'id':'0','text':'%/年','isDefault':'true'},{'id':'1','text':'%/月'},{'id':'2','text':'%/日'}]"
-										data-callback="change" data-id="isAgriculture"
-										data-valuefield="id" data-textfield="text"
-										validate-type="Require">
+									<input class="zui-combobox" type="hidden" name="internalRateReturnUnit"
+										data-width="130" value="YWDM0011901"
+										data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00119"
+										data-valuefield="fullcode" data-textfield="name" data-choose="disable">	
 								</dd>
 							</dl>
 						</td>
@@ -193,23 +183,12 @@
 								</dd>
 							</dl>
 						</td>
-						<td class="td-title pct10">逾期天数（天）</td>
-						<td class="pct20">
-							<dl class="form-item form-auto">
-								<dd class="detail">
-									<label> <input type="text"
-										class="zui-input nwidth2 zui-validatebox"
-										validate-type="Require" />
-									</label>
-								</dd>
-							</dl>
-						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 	</form>
-	<form id="bankAccountForm">
+	<form id="bankAccountForm" class="zui-form">
 		<div class="page-box">
 			<div class="page-title">收款账户</div>
 			<input type="hidden" name="loanAccountVo.id" value="${loanAccountVo.id }"/>
@@ -221,17 +200,18 @@
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text" value="${loanAccountVo.bankAccount }" 
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-64]" name="loanAccountVo.bankAccount"/>
+										class="zui-input zui-validatebox" validate-type="Require,Length[1-64]" name="loanAccountVo.bankAccount"/>
 									</label>
 								</dd>
 							</dl>
 						</td>
-						<td class="td-title pct10"><b class="c-red mr5">*</b>银行代码</td>
+						<td class="td-title pct10">银行代码</td>
 						<td class="pct20">
 							<dl class="form-item form-auto">
-								<dd class="detail">
-									<label> <input type="text" value="${loanAccountVo.bankCode }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-32]" name="loanAccountVo.bankCode"/>
+								<dd class="detail" id="receivablesBankCode">
+									<label> 
+									<input  value="${loanAccountVo.bankCode }"
+										class="zui-input" id="bankCode1"  name="loanAccountVo.bankCode"/>
 									</label>
 								</dd>
 							</dl>
@@ -241,7 +221,7 @@
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text" value="${loanAccountVo.cardholderName }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-64]" name="loanAccountVo.cardholderName"/>
+										class="zui-input zui-validatebox" validate-type="Require,Length[1-64]" name="loanAccountVo.cardholderName"/>
 									</label>
 								</dd>
 							</dl>
@@ -253,7 +233,7 @@
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text" value="${loanAccountVo.bankNo }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-50]" name="loanAccountVo.bankNo"/>
+										class="zui-input zui-validatebox" validate-type="Require,Length[1-50]" name="loanAccountVo.bankNo"/>
 									</label>
 								</dd>
 							</dl>
@@ -270,44 +250,44 @@
 			<div class="p5">
 				<table class="table-detail">
 					<tr>
-						<td class="td-title pct10"><b class="c-red mr5">*</b>开户行</td>
+						<td class="td-title pct10">开户行</td>
 						<td class="pct20">
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text" value="${receivableAccountVo.bankAccount }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-64]" name="recAccountVo.bankAccount"/>
+										class="zui-input zui-validatebox" validate-type="Length[1-64]" name="recAccountVo.bankAccount"/>
 									</label>
 								</dd>
 							</dl>
 						</td>
-						<td class="td-title pct10"><b class="c-red mr5">*</b>银行代码</td>
+						<td class="td-title pct10">银行代码</td>
 						<td class="pct20">
 							<dl class="form-item form-auto">
-								<dd class="detail">
+                                <dd class="detail" id="repaymentBankCode">
 									<label> <input type="text" value="${receivableAccountVo.bankCode }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-32]"  name="recAccountVo.bankCode"/>
+										class="zui-input zui-validatebox" id="bankCode2" validate-type="Length[0-32]"  name="recAccountVo.bankCode"/>
 									</label>
 								</dd>
 							</dl>
 						</td>
-						<td class="td-title pct10"><b class="c-red mr5">*</b>账户名</td>
+						<td class="td-title pct10">账户名</td>
 						<td class="pct30">
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text" value="${receivableAccountVo.cardholderName }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-64]"  name="recAccountVo.cardholderName"/>
+										class="zui-input zui-validatebox" validate-type="Length[1-64]"  name="recAccountVo.cardholderName"/>
 									</label>
 								</dd>
 							</dl>
 						</td>
 					</tr>
 					<tr>
-						<td class="td-title"><b class="c-red mr5">*</b>账号</td>
+						<td class="td-title">账号</td>
 						<td>
 							<dl class="form-item form-auto">
 								<dd class="detail">
 									<label> <input type="text" value="${receivableAccountVo.bankNo }"
-										class="zui-input zui-validatebox" validate-type="Require,Length[0-50]"  name="recAccountVo.bankNo"/>
+										class="zui-input zui-validatebox" validate-type="Length[1-50]"  name="recAccountVo.bankNo"/>
 									</label>
 								</dd>
 							</dl>
@@ -317,7 +297,20 @@
 
 			</div>
 		</div>
-		
+		<div class="page-box">
+			<div class="page-title">备注说明</div>
+			<div class="p5">
+				<table class="table-detail">
+					<tr>
+						<td class="td-title pct15">备注说明</td>
+						<td colspan="5">
+						<label> <textarea class="zui-area zui-validatebox row-width" validate-type="Length[0-500]" 
+						name="remark" placeholder="最多可以输入500个字符">${receivableInfo.remark}</textarea>
+						</label></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 		<div class="page-box">
 			<div id="receivableEditPage"></div>
 		</div>
@@ -325,50 +318,117 @@
 
 </div>
 <script>
-	seajs.use([ 'jquery', 'zd/iframe', 'zd/tools','zd/jquery.zds.button', 'zd/jquery.zds.seleter','zd/jquery.zds.address','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/make-first-py', 'zd/jquery.zds.form' ], function($,
-		IFRAME, ZTOOlS,CALLBACK, Loading, Switch, Zdialog, ZUI_MESSAGE_CLIENT) {
-		$.ZUI.initForms('#opinionDiv');
+	seajs.use([ 'jquery','zd/jquery.zds.page.callback','zd/jquery.zds.seleter','zd/completer','zd/jquery.zds.form' ], function($,CALLBACK) {
+		CALLBACK.validateRepayment = function(val){
+			validateRepaymentFun(val);
+		}
+		$.ZUI.init('#receivablePlanDiv');
+		//根据还款方式中的是否对日对月更改还款日得验证
+		function validateRepaymentFun(val){
+			if("YWDM0016102"==val){
+				$("#validateView").html("");
+				$("#repaymentDate").removeClass("zui-validatebox").removeAttr("validate-type");
+			}else{
+				$("#validateView").html("*");
+				$("#repaymentDate").addClass("zui-validatebox").attr({"validate-type": "Require,Number,Size[1-31]"});
+			}
+		}
+		//初始化还款方式中的是否对日对月更改还款日得验证
+		validateRepaymentFun("${receivableInfo.repaymentTypeTwo }");
 		
 		var url = '<z:ukey key="com.zdsoft.finance.casemanage.datasurvey.receivablePlanGeneratePage" context="admin"/>&jsoncallback=?&caseApplyId=${caseApply.id }';
 		$('#receivableEditPage').load(url);
+		//第一次进入页面计算综合利率
+		if('${receivableInfo.loanMonthRate }' && '${receivableInfo.syntheticalRate }'==''){ 
+			calculateOtherRate('${receivableInfo.loanMonthRateUnit }');
+		}
+		//利率变动事件
+		window.changeRate=function(v){
+			var loanMonthRateUnit=$("#loanMonthRateUnit").ZCombobox("getValue");
+			calculateOtherRate(loanMonthRateUnit);
+		}
 		
-		//保存还款计划
-		window.saveData = function(){
-			var status = false;
-			var validationRe = $.ZUI.validateForm($('#receivablePlanForm'))
-			var validationBank = $.ZUI.validateForm($('#bankAccountForm'))
-			if(!validationRe || !validationBank){
-				return false;
+		//回调函数
+        $("#loanMonthRateUnit").ZCombobox({       
+			valueField: "fullcode",      
+			textField: "name",         
+			url: "<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00119",
+			value:'${receivableInfo.loanMonthRateUnit }',
+			onSelect: function(value, text, index, data) {
+				calculateOtherRate(value);
+			}  
+		});  
+        
+      	//计算综合利率和实际利率
+        function calculateOtherRate(v){
+        	var loanMonthRate=$("#loanMonthRate").val();
+			var loanMonthRateUnit=v;
+			var caseApplyId = '${caseApply.id }';
+			if(loanMonthRate==null||loanMonthRate==""||loanMonthRate.length<=0){
+				return
 			}
-			//获取所有还款计划
-			var rowsData = $('#receivablePlanEdit').ZTable("getRows");
-			var receivablePlan=$('#receivablePlanForm').serialize();
-			var bankAccountForm=$('#bankAccountForm').serialize();
-			bankAccountForm += "&" + receivablePlan;
-			bankAccountForm += "&" + 'receivablePlanJson=' + JSON.stringify(rowsData);
-			console.log(JSON.stringify(bankAccountForm));
+			if(loanMonthRateUnit==null||loanMonthRateUnit==""||loanMonthRateUnit.length<=0){
+				return
+			}
+			if(caseApplyId==null||caseApplyId==""||caseApplyId.length<=0){
+				return
+			}
 			$.ajax({
 	            type: 'post',
-	            url: '<z:ukey key="com.zdsoft.finance.casemanage.receivablePlanManager.saveReceivableInfo" context="admin"/>&jsoncallback=?',
-	            data : bankAccountForm,
+	            url: '<z:ukey key="com.zdsoft.finance.casemanage.datasurvey.calculateOtherRate" context="admin"/>&jsoncallback=?',
+	            data : {"loanMonthRate":loanMonthRate,"loanMonthRateUnit":loanMonthRateUnit,"caseApplyId":caseApplyId},
 	            dataType: 'json',
 	            success: function (data) {
 	            	console.log(data);
 	                if (data.resultStatus == 0) {
-	                	$.ZMessage.success("成功", "保存还款计划成功", function () {
-	                		status = true;
-	                  	 });
+	                	$("#syntheticalRate").val(data.optional.syntheticalRate);
+	                	$("#internalRateReturn").val(data.optional.internalRateReturn);
 	                }else{
-	                	status = false;
+	                	$.ZMessage.error("错误", data.msg, function () {
+	                        $(".zd-message").ZWindow("close");
+	                    });
 	                }
 	            },
 		        error: function () {
-		           	status = false;
+		        	$.ZMessage.error("错误", "查询错误", function () {
+	                    $(".zd-message").ZWindow("close");
+	                });
 	            }
 	        });
-			
-			return status;
-		}
-		
+        }
+      	
+      	//联想银行数据
+    	$("#bankCode1").completer({
+            suggest: true,//默认false
+            idField: 'bankCode',//默认id,唯一标识字段
+            nameField: 'bankName',//默认name,下拉列表展示数据的字段
+            valueField: 'bankName',//默认value,根据值查询数据的字段
+            placeObj:$("#receivablesBankCode"),//悬浮框需要定位到的对象
+            url:'<z:ukey key="com.cnfh.rms.casemanage.interview.findBankByLikeName" context="admin"/>' ,//请求数据地址
+            writable: false,//默认false，是否可自定义输入
+            complete: function (data) {
+            	$("#bankCode1").val(data.bankCode);
+            },
+            filter: function (val) {
+                return val;//过滤输入的value值
+            }
+		});
+    	
+    	//联想银行数据
+    	$("#bankCode2").completer({
+            suggest: true,//默认false
+            idField: 'bankCode',//默认id,唯一标识字段
+            nameField: 'bankName',//默认name,下拉列表展示数据的字段
+            valueField: 'bankName',//默认value,根据值查询数据的字段
+            placeObj:$("#repaymentBankCode"),//悬浮框需要定位到的对象
+            url:'<z:ukey key="com.cnfh.rms.casemanage.interview.findBankByLikeName" context="admin"/>' ,//请求数据地址
+            writable: false,//默认false，是否可自定义输入
+            complete: function (data) {
+            	$("#bankCode2").val(data.bankCode);
+            },
+            filter: function (val) {
+                return val;//过滤输入的value值
+            }
+		});
 	});
 </script>

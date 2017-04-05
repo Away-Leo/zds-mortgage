@@ -18,7 +18,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>资方：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-disabled zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-disabled zui-validatebox" readonly="readonly" validate-type="Require"
 							 id="cooperatorName" value="${cooperatorName }">
 							 <input type="hidden" id="capitalistId" name="capitalistId" value="${capitalistId }"/>
 						</label>
@@ -28,7 +28,7 @@
 					<dt class="title"><b class="c-red mr5">*</b>成立时间：</dt>
 					<dd class="detail">
 						<label>
-							 <input type="text" id="establishmentDateLocal" class="zui-input  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'establishmentDate'})">
+							 <input type="text" id="establishmentDateLocal" class="zui-input  zui-validatebox" validate-type="Require" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'establishmentDate',maxDate:'${maxDate}'})">
                              <input type="hidden" name="establishmentDate"  id="establishmentDate" />
 						</label>
 					</dd>
@@ -36,11 +36,9 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>是否主计划：</dt>
 					<dd class="detail">
-						<label> 
 							<input class="zui-combobox zui-validatebox" id="isMasterPlan" name="isMasterPlan" type="hidden" 
                               data-data="[{'id':'0','text':'否'},{'id':'1','text':'是'}]"
                               data-valuefield="id" data-textfield="text" validate-type="Require">
-						</label>
 					</dd>
 				</dl>
 				
@@ -48,14 +46,14 @@
 					<dt class="title"><b class="c-red mr5">*</b>信托类型：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="trustType" name="trustType" type="hidden"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=tttp"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00134"
                               data-valuefield="fullcode"  data-textfield="name" validate-type="Require">
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>计划名称：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]"
 							 id="creditEntrustName" name="creditEntrustName">
 						</label>
 					</dd>
@@ -63,23 +61,28 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>本金规模(元)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-disabled zui-validatebox" validate-type="Require" 
-							 id="principaScale" disabled name="principaScale">
+						<label> <input class="zui-input zui-disabled zui-validatebox" readonly="readonly" validate-type="Require,Length[1-16]" 
+							 id="principaScale" name="principaScale">
 						</label>
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>转让状态：</dt>
 					<dd class="detail">
-						<input class="zui-combobox zui-validatebox" id="assignmentState" name="assignmentState" type="hidden"
-                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=tsst"
-                              data-valuefield="fullcode" data-textfield="name" validate-type="Require">
+						<input class="zui-combobox zui-validatebox" id="assignmentState" data-width="94" name="assignmentState" type="hidden"
+                              data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00135"
+                              data-valuefield="fullcode" data-textfield="name" validate-type="Require" data-callback="checkValue">
+                    </dd>
+                    <dd class="detail" id="transferPlanIdDd" style="display:none">
+                        <input class="zui-combobox" id="transferPlanId" data-width="94" name="transferPlanId" type="hidden"
+                              data-url="<z:ukey key="com.zdsoft.finance.capital.getCreditEntrustListByCapitalistId" context="admin"/>&jsoncallback=?&capitalistId=${capitalistId}"
+                              data-valuefield="id" value="${creditEntrustVo.transferPlanId }" data-textfield="creditEntrustName" >
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>转让规模(元)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]"
 							 id="assignmentScale" name="assignmentScale">
 						</label>
 					</dd>
@@ -87,7 +90,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>最低限额(元)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-2]"
 							 id="minQuota" name="minQuota">
 						</label>
 					</dd>
@@ -95,7 +98,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>服务费率(%)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-4]" validate-false="|请输入正确的利率"
 							 id="severRate" name="severRate">
 						</label>
 					</dd>
@@ -103,7 +106,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>保管费率(%)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-4]" validate-false="|请输入正确的利率"
 							 id="keepRate" name="keepRate">
 						</label>
 					</dd>
@@ -111,23 +114,23 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>管理费率(%)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-4" validate-false="|请输入正确的利率"
 							 id="managerRate" name="managerRate">
 						</label>
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>待拨户开户行：</dt>
-					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
-							 id="waitApprBank" name="waitApprBank">
+					<dd class="detail" id="ddwaitApprBank">
+						<label> <input class="zui-input  zui-validatebox" validate-type="Require" 
+						id="waitApprBank" name="waitApprBank">
 						</label>
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>待拨户账户名：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]"
 							 id="waitApprName" name="waitApprName">
 						</label>
 					</dd>
@@ -135,15 +138,15 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>待拨户账号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Length[1-32]"
 							 id="waitApprNo" name="waitApprNo">
 						</label>
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>归集户开户行：</dt>
-					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+					<dd class="detail" id="ddcollectionAccountBank">
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]"
 							 id="collectionAccountBank" name="collectionAccountBank">
 						</label>
 					</dd>
@@ -151,7 +154,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>归集户账户名：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]"
 							 id="collectionAccountName" name="collectionAccountName">
 						</label>
 					</dd>
@@ -159,15 +162,15 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>归集户账号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Length[1-32]"
 							 id="collectionAccountNo" name="collectionAccountNo">
 						</label>
 					</dd>
 				</dl>	
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>专户开户行：</dt>
-					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+					<dd class="detail" id="ddspecialAccountBank">
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]"
 							 id="specialAccountBank" name="specialAccountBank">
 						</label>
 					</dd>
@@ -175,7 +178,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>专户账户名：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]"
 							 id="specialAccountName" name="specialAccountName">
 						</label>
 					</dd>
@@ -183,15 +186,15 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>专户账号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Length[1-32]"
 							 id="specialAccountNo" name="specialAccountNo">
 						</label>
 					</dd>
 				</dl>
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>备付户开户行：</dt>
-					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+					<dd class="detail" id="ddspareAccountBank">
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-64]"
 							 id="spareAccountBank" name="spareAccountBank">
 						</label>
 					</dd>
@@ -199,7 +202,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>备付户账户名：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]"
 							 id="spareAccountName" name="spareAccountName">
 						</label>
 					</dd>
@@ -207,7 +210,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>备付户账号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require,Digital[18-12]"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Length[1-32]"
 							 id="spareAccountNo" name="spareAccountNo">
 						</label>
 					</dd>
@@ -215,7 +218,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>清分账号：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Number,Length[1-32]"
 							 id="clearingAccount" name="clearingAccount">
 						</label>
 					</dd>
@@ -223,7 +226,7 @@
 				<dl class="form-item">
 					<dt class="title"><b class="c-red mr5">*</b>商户ID：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]"
 							 id="merchantID" name="merchantID">
 						</label>
 					</dd>
@@ -232,18 +235,19 @@
                 	<dt class="title">备注：</dt>
 	                <dd class="detail">
 		                <label>
-		                	<textarea class="zui-area zui-validatebox" id="remark" name="remark" validate-type="Length[0-200]" placeholder="最多可以输入200个字符"></textarea>
+		                	<textarea class="zui-area zui-validatebox" id="remark" name="remark" validate-type="Length[0-500]" placeholder="最多可以输入500个字符"></textarea>
 		                </label>
 	                </dd>
                 </dl>							
 			</div>
+			
 			<div class="page-title">资金计划操作</div>
 			<div class="form-item">
 				<dl class="form-item">
 					<dt class="title sptitle"><b class="c-red mr5">*</b>是否开放额度申请：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="isOpenApply" name="isOpenApply" type="hidden"
-                              data-data="[{'id':'0','text':'是'},{'id':'1','text':'否'}]"
+                              data-data="[{'id':'1','text':'是'},{'id':'0','text':'否'}]"
                               data-valuefield="id"  data-textfield="text" validate-type="Require">
 					</dd>
 				</dl>
@@ -251,14 +255,14 @@
 					<dt class="title sptitle"><b class="c-red mr5">*</b>是否资金自动匹配：</dt>
 					<dd class="detail">
 						<input class="zui-combobox zui-validatebox" id="isAutoMatch" name="isAutoMatch" type="hidden"
-                             data-data="[{'id':'0','text':'是'},{'id':'1','text':'否'}]"
+                             data-data="[{'id':'1','text':'是'},{'id':'0','text':'否'}]"
                               data-valuefield="id" data-textfield="text" validate-type="Require">
 					</dd>
 				</dl>
 				<dl class="form-item">
-					<dt class="title"><b class="c-red mr5">*</b>截留额度(元)：</dt>
+					<dt class="title">截留额度(元)：</dt>
 					<dd class="detail">
-						<label> <input class="zui-input zui-validatebox" validate-type="Require"
+						<label> <input class="zui-input zui-validatebox" validate-type="Digital[18-12]" onblur="countValue();"
 							 id="retain" name="retain">
 						</label>
 					</dd>
@@ -295,12 +299,12 @@
 			            			<th data-options="field:lenderTypeName">贷方类型</th>
 			            			<th data-options="field:lenderName">名称</th>
 			            			<th data-options="field:totalAmount">发生总金额</th>
-			            			<th data-options="field:happenDate">实际日期</th>
+			            			<th data-options="field:happenDate" formatter="changeDate">实际日期</th>
 			            			<th data-options="field:completeEmpName">提交人</th>
-			            			<th data-options="field:completeDate">提交日期</th>
+			            			<th data-options="field:completeDate" formatter="changeDate">提交日期</th>
 			            			<th data-options="field:statusName">处理状态</th>
 			            			<th data-options="field:capitalStateName">状态</th>
-			            			<th data-options="field:remark">备注</th>
+			            			<th data-options="field:remark,width:10%" width>备注</th>
 			            			<th data-options="field:id" formatter="fundTracking">操作</th>
 						        </tr>
 							</thead>
@@ -322,11 +326,11 @@
 			            			<th data-options="field:expenditureTypeName">对象类型</th>
 			            			<th data-options="field:costName">名称</th>
 			            			<th data-options="field:totalAmount">应付总金额</th>
-			            			<th data-options="field:payDate">应付日期</th>
+			            			<th data-options="field:payDate" formatter="changeDate">应付日期</th>
 			            			<th data-options="field:completeEmpName">提交人</th>
-			            			<th data-options="field:completeDate">提交日期</th>
+			            			<th data-options="field:completeDate" formatter="changeDate">提交日期</th>
 			            			<th data-options="field:statusName">状态</th>
-			            			<th data-options="field:remark">备注</th>
+			            			<th data-options="field:remark,width:10%">备注</th>
 			            			<th data-options="field:id" formatter="formatTracking">操作</th>
 						        </tr>
 							</thead>
@@ -348,12 +352,12 @@
 			            			<th data-options="field:debitTypeName">支出类型</th>
 			            			<th data-options="field:objectName">名称</th>
 			            			<th data-options="field:totalAmount">发生总金额</th>
-		            				<th data-options="field:actualOutDate">实际日期</th>
+		            				<th data-options="field:actualOutDate" formatter="changeDate">实际日期</th>
 		            				<th data-options="field:completeEmpName">提交人</th>
-			            			<th data-options="field:completeDate">提交日期</th>
+			            			<th data-options="field:completeDate" formatter="changeDate">提交日期</th>
 			            			<th data-options="field:statusName">处理状态</th>
 			            			<th data-options="field:capitalStateName">状态</th>
-			            			<th data-options="field:remark">备注</th>
+			            			<th data-options="field:remark,width:10%">备注</th>
 			            			<th data-options="field:id" formatter="formatFeeTracking">操作</th>
 						        </tr>
 							</thead>
@@ -376,7 +380,7 @@
 			            			<th data-options="field:applyAmount">申请金额</th>
 			            			<th data-options="field:actualAmount">到账金额</th>
 			            			<th data-options="field:distributionAmount">未分配到账金额</th>
-			            			<th data-options="field:completeDate">提交日期</th>
+			            			<th data-options="field:completeDate" formatter="changeDate">提交日期</th>
 			            			<th data-options="field:statusName">状态</th>
 			            			<th data-options="field:id" formatter="standbyTracking">操作</th>
 						        </tr>
@@ -401,8 +405,8 @@
 			            			<th data-options="field:acceptAmount">受让金额</th>
 			            			<th data-options="field:contractProfitRate">合同收益率%</th>
 			            			<th data-options="field:mobile">移动电话</th>
-			            			<th data-options="field:attomEffect">转让日期</th>
-			            			<th data-options="field:attomEndDate">截止日期</th>
+			            			<th data-options="field:attomEffect" formatter="changeDate">转让日期</th>
+			            			<th data-options="field:attomEndDate" formatter="changeDate">截止日期</th>
 			            			<th data-options="field:attomStateName">转让状态</th>
 			            			<th data-options="field:id" formatter="formatAssignment">操作</th>
 						        </tr>
@@ -426,13 +430,13 @@
 			            			<th data-options="field:contributionTypeName">类型</th>
 			            			<th data-options="field:principalAmount">本金金额</th>
 			            			<th data-options="field:usedQuota">使用额度</th>
-			            			<th data-options="field:useProp">使用比率%</th>
+			            			<th data-options="field:useProp">信托保障基金比率%</th>
 			            			<th data-options="field:profitRate">合同收益率%</th>
-			            			<th data-options="field:addDate">追加日期</th>
-			            			<th data-options="field:expectDate">预计到账日期</th>
-			            			<th data-options="field:actualDate">到账日期</th>
+			            			<th data-options="field:addDate" formatter="changeDate">追加日期</th>
+			            			<th data-options="field:expectDate" formatter="changeDate">预计到账日期</th>
+			            			<th data-options="field:actualDate" formatter="changeDate">到账日期</th>
 			            			<th data-options="field:statusName">状态</th>
-			            			<th data-options="field:remark">备注</th>
+			            			<th data-options="field:remark,width:10%">备注</th>
 			            			<th data-options="field:id" formatter="investmentFormat">操作</th>
 						        </tr>
 							</thead>
@@ -455,7 +459,7 @@
 			            			<th data-options="field:contributionTypeName">类型</th>
 			            			<th data-options="field:redemptionAmount">赎回金额</th>
 			            			<th data-options="field:statusName">状态</th>
-			            			<th data-options="field:remark">备注</th>
+			            			<th data-options="field:remark,width:10%">备注</th>
 			            			<th data-options="field:id" formatter="redemPrincipalFormat">操作</th>
 						        </tr>
 							</thead>
@@ -463,17 +467,19 @@
 					</div>
 				</div>
 			</div>
-            <div class="form-btn">
-               	<button id="cancelBtn" type="button" class="btn-gray">取消</button>
-               	<button id="saveBtn" type="button" class="btn-blue">保存</button>
-            </div>
 		</form>
 	</div>
 </div>
+<div  class="save">
+   	<button id="cancelBtn" type="button" class="btn-gray">取消</button>
+   	<button id="saveBtn" type="button" class="btn-blue">保存</button>
+</div>
+
 <div id="zds_btn_selecter"></div>
 <div id="chooseMember"></div>
 <script type="text/javascript">
-	seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter'], function($, CALLBACK) {
+	seajs.use(['jquery','zd/jquery.zds.page.callback','zd/tools','zd/jquery.zds.form','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter', 'zd/completer'], function($, CALLBACK, TOOL) {
+	
 		
 		// 专户贷方资金（非本金）跟踪打开menuLink
 		CALLBACK.fundTrackingAdd = function(index,rowData){
@@ -600,6 +606,19 @@
             }); 
 		};
 		
+		CALLBACK.checkValue = function(index,rowData){
+			if('YWDM0013501' == index){
+				$('#transferPlanIdDd').show();
+			}else{
+				$('#transferPlanIdDd').hide();
+				$('#transferPlanId').ZCombobox('setValue', '');
+			}
+		};
+		
+		CALLBACK.changeDate = function(index,rowData){
+			return TOOL.strToDate(index.completeDate);
+		}
+		
 		// 初始化
 		$.ZUI.init();
 		
@@ -646,6 +665,9 @@
 	                    });
 	                }
 	            }); 
+			}else{
+				$.ZMessage.error("错误", "页面验证失败", function () {
+                });
 			}
         });
         
@@ -654,6 +676,102 @@
         	 ZDS_MESSAGE_CLIENT.closeSelf();
         });
         
+        
+        
+        var data = '${data}';
+     	// 待拨户开户行模糊搜索
+		$("#waitApprBank").completer({
+            suggest: true,//默认false
+            idField: 'code',//默认id,唯一标识字段
+            nameField: 'name',//默认name,下拉列表展示数据的字段
+            valueField: 'py',//默认value,根据值查询数据的字段
+            source: data,
+            writable: false,//默认false，是否可自定义输入
+            placeObj:$("#ddwaitApprBank"),//悬浮框需要定位到的对象
+            complete: function (data) {
+                $('#waitApprBank').val(data.name);
+            },
+            filter: function (val) {
+                return val;//过滤输入的value值
+            }
+
+        });
+     	
+		// 归集户开户行模糊搜索
+		$("#collectionAccountBank").completer({
+            suggest: true,//默认false
+            idField: 'code',//默认id,唯一标识字段
+            nameField: 'name',//默认name,下拉列表展示数据的字段
+            valueField: 'py',//默认value,根据值查询数据的字段
+            source: data,
+            writable: false,//默认false，是否可自定义输入
+            placeObj:$("#ddcollectionAccountBank"),//悬浮框需要定位到的对象
+            complete: function (data) {
+                $('#collectionAccountBank').val(data.name);
+            },
+            filter: function (val) {
+                return val;//过滤输入的value值
+            }
+
+        });
+		
+		// 专户开户行模糊搜索
+		$("#specialAccountBank").completer({
+            suggest: true,//默认false
+            idField: 'code',//默认id,唯一标识字段
+            nameField: 'name',//默认name,下拉列表展示数据的字段
+            valueField: 'py',//默认value,根据值查询数据的字段
+            source: data,
+            writable: false,//默认false，是否可自定义输入
+            placeObj:$("#ddspecialAccountBank"),//悬浮框需要定位到的对象
+            complete: function (data) {
+                $('#specialAccountBank').val(data.name);
+            },
+            filter: function (val) {
+                return val;//过滤输入的value值
+            }
+
+        });
+		
+		// 备付户开户行模糊搜索
+		$("#spareAccountBank").completer({
+            suggest: true,//默认false
+            idField: 'code',//默认id,唯一标识字段
+            nameField: 'name',//默认name,下拉列表展示数据的字段
+            valueField: 'py',//默认value,根据值查询数据的字段
+            source: data,
+            writable: false,//默认false，是否可自定义输入
+            placeObj:$("#ddspareAccountBank"),//悬浮框需要定位到的对象
+            complete: function (data) {
+                $('#spareAccountBank').val(data.name);
+            },
+            filter: function (val) {
+                return val;//过滤输入的value值
+            }
+        });
+		
+		window.countValue = function(){
+        	var tempUuid = $('#tempUuid').val();
+        	var retain = $('#retain').val();
+        	$.ajax({
+                type: 'post',
+                url: '<z:ukey key="com.zdsoft.finance.capital.getPrincipalAmounts" context="admin"/>&jsoncallback=?',
+                data: {'tempUuid':tempUuid},
+                dataType: 'json',
+                success: function (data) {
+               		if(retain > data){
+               			$.ZMessage.error("错误", '截留额度不能大于本金投入总金额', function () {
+               				$('#retain').val('');
+                        });
+               		}
+                },
+                error: function () {
+                	$.ZMessage.error("错误", '计算本金投入总金额失败', function () {
+                        $(".zd-message").ZWindow("close");
+                    });
+                }
+            }); 
+        };
 	});
 </script>
 </body>

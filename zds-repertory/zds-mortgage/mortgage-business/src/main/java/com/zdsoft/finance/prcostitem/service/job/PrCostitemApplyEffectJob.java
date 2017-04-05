@@ -16,13 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zdsoft.framework.core.common.dto.DelegateExecution;
 import com.zdsoft.framework.core.common.service.JavaDelegate;
 
+
 /**
- * 费用支拥审批通过
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2017-01-05
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostitemApplyEffectJob.java 
+ * @ClassName: PrCostitemApplyEffectJob 
+ * @Description: 费用支拥审批通过
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:05:18 
+ * @version V1.0
  */
 @Service
-@AutoJob(label = "费用支拥审批通过", resource = "com.zdsoft.finance.prCostitemApply.prCostitemApplyEffectJob")
+@AutoJob(label = "费用支佣审批通过", resource = "com.zdsoft.finance.prCostitemApply.prCostitemApplyEffectJob")
 @Lazy(false)
 public class PrCostitemApplyEffectJob implements JavaDelegate{
 
@@ -43,7 +48,7 @@ public class PrCostitemApplyEffectJob implements JavaDelegate{
 		prCostitemApplyService.updateEntity(bean);
 		String businessKey = (String) execution.getVariable("businessKey");
 		BusiForm busiForm = busiFormService.findById(businessKey);
-		busiForm.setStatus(BusiFormStatus.THROUAPPROVAL.value);
+		busiForm.setFormStatus(BusiFormStatus.THROUAPPROVAL.value);
 		busiFormService.updateBusiForm(busiForm);
 	}
 	

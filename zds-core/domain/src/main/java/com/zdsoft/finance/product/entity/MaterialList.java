@@ -1,97 +1,89 @@
 package com.zdsoft.finance.product.entity;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 /**
- * 资料清单域对象
- * @author LiaoGuoWei
- * @create 2016-12-23 17:20
- **/
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: MaterialList.java 
+ * @ClassName: MaterialList 
+ * @Description: 资料清单域对象
+ * @author gufeng 
+ * @date 2017年3月2日 下午4:08:47 
+ * @version V1.0
+ */
 @Entity
-@Table(name = "prct_materialList")
+@Table(name = "prd_materialList")
 public class MaterialList extends BaseEntity{
 
-    /**
+	private static final long serialVersionUID = 2498742413144500732L;
+
+	/**
      * 资料大类编号
      */
-    @Column(length = 36)
+    @Column(length = 32)
     private String materiaTypeCode;
 
     /**
      * 资料大类名称
      */
-    @Column(length = 255)
+    @Column(length = 64)
     private String materiaTypeName;
 
     /**
      * 所属产品编号
      */
-    @Column(length = 255)
-    private String productCode;
+    @Column(length = 32)
+    private String productId;
     /**
      * 所属产品名称
      */
-    @Column(length = 255)
+    @Column(length = 64)
     private String productName;
 
     /**
      * 显示顺序
      */
-    @Column(length = 9)
-    private Integer showOrder=0;
+    @Column
+    private Integer showOrder;
 
     /**
      * 资料编号（小类编号）
      */
-    @Column(length = 36)
+    @Column(length = 32)
     private String materiaCode;
     /**
      * 资料名称（小类名称）
      */
-    @Column(length = 255)
+    @Column(length = 64)
     private String materiaName;
 
     /**
      * 助记码
      */
-    @Column(length = 255)
+    @Column(length = 32)
     private String rememberCode;
 
     /**
      * 数字助记码
      */
-    @Column(length = 19)
+    @Column
     private Long rememberNo;
 
     /**
      * 资料证明
      */
-    @Column(length = 255)
+    @Column(length = 128)
     private String materiaIdentify;
 
     /**
      * 资料证明名称
      */
-    @Column(length = 255)
+    @Column(length = 128)
     private String materiaIdentifyName;
-
-    /**
-     * 拥有的流程权限节点
-     */
-    @OneToMany(mappedBy = "materialList")
-    @LazyCollection(LazyCollectionOption.TRUE)
-    @Cascade({ CascadeType.ALL })
-    private List<MateriaListAuth> materiaListAuth;
 
     public String getMateriaTypeCode() {
         return materiaTypeCode;
@@ -109,12 +101,12 @@ public class MaterialList extends BaseEntity{
         this.materiaTypeName = materiaTypeName;
     }
 
-    public String getProductCode() {
-        return productCode;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -183,11 +175,4 @@ public class MaterialList extends BaseEntity{
         this.materiaIdentify = materiaIdentify;
     }
 
-    public List<MateriaListAuth> getMateriaListAuth() {
-        return materiaListAuth;
-    }
-
-    public void setMateriaListAuth(List<MateriaListAuth> materiaListAuth) {
-        this.materiaListAuth = materiaListAuth;
-    }
 }

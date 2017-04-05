@@ -7,11 +7,15 @@ import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 
 /**
- * 备付资金跟踪
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: SpareCapitalVo.java
+ * @ClassName: SpareCapitalVo
+ * @Description: 备付资金跟踪Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:20:56
+ * @version V1.0
  */
 public class SpareCapitalVo extends BaseVo<SpareCapital> {
 

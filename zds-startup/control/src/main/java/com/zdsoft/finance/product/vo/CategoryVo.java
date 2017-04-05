@@ -5,18 +5,41 @@ import com.zdsoft.finance.product.entity.Category;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品树vo
- * @author longwei
- * @date 2016/12/23
- * @version 1.0
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CategoryVo.java 
+ * @ClassName: CategoryVo 
+ * @Description: 产品树vo
+ * @author gufeng 
+ * @date 2017年2月13日 上午10:24:21 
+ * @version V1.0
  */
 public class CategoryVo extends BaseVo<Category>{
 
-	// 产品名称
+	private static final long serialVersionUID = -7711062728683931300L;
+
+	/**
+	 * 产品名称
+	 */
 	private String name;
 	
-	// 父产品id
+	/**
+	 * 父产品id
+	 */
 	private String parentId;
+	
+	/**
+	 * 顺序
+	 */
+	private Integer orderNumber;
+
+	public Integer getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(Integer orderNumber) {
+		this.orderNumber = orderNumber;
+	}
 
 	public String getName() {
 		return name;

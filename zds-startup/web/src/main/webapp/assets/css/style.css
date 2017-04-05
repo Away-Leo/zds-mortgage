@@ -565,6 +565,8 @@ td, th { padding: 0; }
 [class^="icon-"], [class*=" icon-"] { /* use !important to prevent issues with browser extensions that change fonts */ font-family: 'iconfont' !important; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 /*引入sass变量混合器等*/
+* { outline: none; }
+
 body { box-sizing: border-box; word-break: break-all; font: 12px Helvetica Neue,Helvetica,PingFang SC,微软雅黑,Tahoma,Arial,sans-serif; }
 
 body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, form { margin: 0; }
@@ -735,7 +737,7 @@ i { display: inline-block; vertical-align: middle; margin-bottom: -1px; margin-b
 /*引入zui*/
 .zui-iframe { position: relative; border: 0; background-color: transparent; width: 100%; height: 100%; }
 
-.frm-content { position: relative; margin: 5px; background-color: #efefef; }
+.frm-content { position: relative; margin: 5px; background-color: #efefef; height: 90%; }
 
 .frm-bottom { padding-bottom: 40px; }
 
@@ -784,7 +786,7 @@ i { display: inline-block; vertical-align: middle; margin-bottom: -1px; margin-b
 .todo-tab .tabs .tabs-on i { position: absolute; left: 0; display: block; width: 100%; height: 4px; background-color: #ffffff; }
 .todo-tab .tabs i { margin-right: 5px; margin-bottom: 3px; }
 .todo-tab .tabcontents { padding: 10px; margin-top: -8px; }
-
+.tab-gou{display:inline-block;width: 16px;height: 16px;background: url(img/tab_gou.png) no-repeat;vertical-align:top;margin:0 0 0 6px;}
 .form-search { border: 1px solid #eee; padding-top: 5px; margin-bottom: 10px; }
 
 .form-btn { background-color: #f9f9f9; border-top: 1px solid #eee; margin-top: 5px; padding: 4px; text-align: right; }

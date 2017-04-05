@@ -6,19 +6,25 @@ import com.zdsoft.finance.base.service.BaseService;
 import com.zdsoft.finance.capital.entity.CreditEntrustFeeItem;
 
 /**
- * 信托计划费用项Service
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustFeeItemService.java
+ * @ClassName: CreditEntrustFeeItemService
+ * @Description: 信托计划费用项Service
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:36:42
+ * @version V1.0
  */
 public interface CreditEntrustFeeItemService extends BaseService<CreditEntrustFeeItem> {
 
 	/**
-	 * 根据业务标识查询信托计划费用项
 	 * 
+	 * @Title: findByBusinessId
+	 * @Description: 根据业务标识查询信托计划费用项
+	 * @author liuwei
 	 * @param businessId
-	 *            业务表示
+	 *            业务标识
 	 * @return 信托计划费用列表
 	 */
 	public List<CreditEntrustFeeItem> findByBusinessId(String businessId);

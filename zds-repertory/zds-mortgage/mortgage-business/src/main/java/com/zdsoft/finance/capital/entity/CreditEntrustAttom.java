@@ -15,14 +15,17 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 信托计划转让
  * 
- * @createTime:2017年1月10日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustAttom.java 
+ * @ClassName: CreditEntrustAttom 
+ * @Description: 信托计划转让
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:23:09 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_entrust_attorm")
+@Table(name = "cptl_credit_entrust_attorm")
 public class CreditEntrustAttom extends BaseEntity {
 
 	/**
@@ -69,25 +72,25 @@ public class CreditEntrustAttom extends BaseEntity {
 	/**
 	 * 固定费用
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal fixedFee;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal fixedFee = BigDecimal.ZERO;
 
 	/**
 	 * 财务费用
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal financeFee;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal financeFee = BigDecimal.ZERO;
 
 	/**
 	 * 受让金额
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal acceptAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal acceptAmount = BigDecimal.ZERO;
 
 	/**
 	 * 合同收益率
 	 */
-	@Column(precision = 12, scale = 6)
+	@Column(precision = 18, scale = 6)
 	private Double contractProfitRate;
 
 	/**

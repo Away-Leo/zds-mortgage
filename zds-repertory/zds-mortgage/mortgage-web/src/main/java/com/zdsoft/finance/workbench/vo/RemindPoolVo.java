@@ -3,11 +3,15 @@ package com.zdsoft.finance.workbench.vo;
 import com.zdsoft.finance.common.base.BaseVo;
 import com.zdsoft.finance.workbench.entity.RemindPool;
 
+
 /**
- * 提醒池
- * @createTime 2017-01-17
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RemindPoolVo.java 
+ * @ClassName: RemindPoolVo 
+ * @Description: 提醒池
+ * @author gufeng 
+ * @date 2017年3月13日 下午5:10:19 
+ * @version V1.0
  */
 public class RemindPoolVo extends BaseVo<RemindPool> {
 
@@ -34,6 +38,41 @@ public class RemindPoolVo extends BaseVo<RemindPool> {
 	 */
 	private String projectId;
 
+	/**
+	 * 案件号
+	 */
+	private String projectCode;
+	
+	/**
+	 * 主借人cd
+	 */
+	private String customerCode;
+	
+	/**
+	 * 主借人name
+	 */
+	private String customerName;
+	
+	/**
+	 * 提醒内容
+	 */
+	private String content;
+	
+	/**
+	 * 开始日期
+	 */
+	private Long startDate;
+	
+	/**
+	 * 状态
+	 */
+	private String status;
+	
+	/**
+	 * 结束日期
+	 */
+	private Long endDate;
+	
 	public String getCategory() {
 		return category;
 	}
@@ -66,6 +105,62 @@ public class RemindPoolVo extends BaseVo<RemindPool> {
 		this.projectId = projectId;
 	}
 	
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
+
+	public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Long getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Long getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
+	}
+
 	public RemindPoolVo(){}
 	
 	public RemindPoolVo(RemindPool po){

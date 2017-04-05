@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zdsoft.essential.client.service.CED;
+import com.zdsoft.essential.dto.basedata.AttachmentDto;
+import com.zdsoft.essential.dto.basedata.SimpleCodeDto;
 import com.zdsoft.finance.common.base.QueryObj;
 import com.zdsoft.finance.product.service.ProductContractService;
 import com.zdsoft.finance.product.vo.ProductContractVo;
@@ -25,11 +27,15 @@ import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
 
+
 /**
- * 产品合同关联关系
- * @createTime 2017年1月10日 下午7:30:04
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductContractController.java 
+ * @ClassName: ProductContractController 
+ * @Description: 产品合同关联关系
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:45:44 
+ * @version V1.0
  */
 @Controller
 @RequestMapping("productContract")
@@ -44,26 +50,27 @@ public class ProductContractController extends BaseController {
 	private HttpServletRequest request;
 	
 	/**
-	 * 合同模版入口
+	 * @Title: init 
+	 * @Description: 合同模版入口
+	 * @author gufeng 
+	 * @param productId 产品id
 	 * @return 档案清单页面
 	 */
 	@RequestMapping("/init")
 	@UriKey(key = "com.zdsoft.finance.productContract.init")
 	public ModelAndView init(String productId) {
 		ModelMap map = new ModelMap();
-		//TODO 自测
-//		if(ObjectHelper.isEmpty(productId)){
-//			productId = "TODO1";
-//		}
 		map.put("productId", productId);
 		return new ModelAndView("/product/product_contract_list",map);
 	}
 	
 	/**
-	 * 合同模版查询
-	 * @param pageable
-	 * @param jsoncallback
-	 * @return
+	 * @Title: list 
+	 * @Description: 合同模版查询
+	 * @author gufeng 
+	 * @param pageable 分页
+	 * @param jsoncallback 跨域
+	 * @return 模版数据
 	 */
 	@RequestMapping("/list")
 	@UriKey(key = "com.zdsoft.finance.productContract.list")
@@ -73,6 +80,36 @@ public class ProductContractController extends BaseController {
 		@SuppressWarnings("unchecked")
 		List<QueryObj> queryObjs = (List<QueryObj>) request.getAttribute("listObj");
 		Page<Map<String,Object>> pageData = productContractService.getProductContractPage(pageable, queryObjs);
+		for (Map<String, Object> map : pageData.getRecords()) {
+			//附件
+			String attrId = (String) map.get("ATTACHMENTID");
+			AttachmentDto attDto = null;
+			if(ObjectHelper.isNotEmpty(attrId)){
+				try {
+					attDto = CED.findAttachmentById(attrId);
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("附件查询出错,attrId:" + attrId,e);
+				}
+			}
+			if(ObjectHelper.isNotEmpty(attDto)){
+				map.put("ATTACHMENTNAME", attDto.getFileLabel());
+			}
+			//合同类型
+			String contractType = (String) map.get("CONTRACTTYPE");
+			SimpleCodeDto simple = null;
+			if(ObjectHelper.isNotEmpty(contractType)){
+				try {
+					simple = CED.loadSimpleCodeByFullCode(contractType);
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("合同类型,contractType:" + contractType , e);
+				}
+			}
+			if(ObjectHelper.isNotEmpty(simple)){
+				map.put("CONTRACTTYPENAME", simple.getName());
+			}
+		}
 		msg.setResultStatus(ResponseMsg.SUCCESS);
 		msg.setMsg("列表查询成功");
 		msg.setRows(pageData.getRecords());
@@ -81,10 +118,12 @@ public class ProductContractController extends BaseController {
 	}
 	
 	/**
-	 * 查询添加列表
-	 * @param id
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: selectContract 
+	 * @Description: 查询添加列表
+	 * @author gufeng 
+	 * @param productId 产品id
+	 * @param jsoncallBack 跨域
+	 * @return 数据
 	 */
 	@RequestMapping("/selectContract")
 	@UriKey(key = "com.zdsoft.finance.productContract.selectContract")
@@ -105,10 +144,12 @@ public class ProductContractController extends BaseController {
 	}
 	
 	/**
-	 * 保存
-	 * @param vo
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: save 
+	 * @Description: 保存
+	 * @author gufeng 
+	 * @param vo 数据
+	 * @param jsoncallBack 跨域
+	 * @return 保存结果
 	 */
 	@RequestMapping("/save")
     @UriKey(key = "com.zdsoft.finance.productContract.save")
@@ -138,10 +179,12 @@ public class ProductContractController extends BaseController {
 	}
 	
 	/**
-	 * 删除
-	 * @param id
-	 * @param jsoncallBack
-	 * @return
+	 * @Title: deleted 
+	 * @Description: 删除
+	 * @author gufeng 
+	 * @param id 主键
+	 * @param jsoncallBack 跨域
+	 * @return 删除结果
 	 */
 	@RequestMapping("/deleted")
 	@UriKey(key = "com.zdsoft.finance.productContract.deleted")

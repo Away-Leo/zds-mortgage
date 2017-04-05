@@ -11,40 +11,89 @@ import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品主表vo
- * @author longwei
- * @date 2016/12/23
- * @version 1.0
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ProductVo.java 
+ * @ClassName: ProductVo 
+ * @Description: 产品VO
+ * @author gufeng 
+ * @date 2017年2月16日 下午5:48:57 
+ * @version V1.0
  */
 public class ProductVo extends BaseVo<Product> {
 
-	// 产品名称
+	private static final long serialVersionUID = -2712433620147374931L;
+
+	/**
+	 * 产品名称
+	 */
 	private String productName;
 	
-	// 是否有效
+	/**
+	 * 是否有效
+	 */
 	private Boolean isValid;
 	
-	// 开始日期
+	/**
+	 * 开始日期
+	 */
 	private String startTime;
 	
-	// 结束日期
+	/**
+	 * 结束日期
+	 */
 	private String endTime;
 	
-	// 产品编号
+	/**
+	 * 产品编号
+	 */
 	private String productCode;
 	
-	// 产品编号-自定义
+	/**
+	 * 产品编号-自定义
+	 */
 	private String customCode;
 	
-	// 面签资料
+	/**
+	 * 面签资料
+	 */
 	private String faceData;
 	
-	// 产品类别
+	/**
+	 * 产品类别
+	 */
 	private CategoryVo categoryVo;
 	
-	//资方
-	private String capitalistId;
+	/**
+	 * 类别id
+	 */
+	private String categoryId;
 	
+	/**
+	 * 资方
+	 */
+	private String capitalistId;
+	/**
+	 * 资方名字
+	 */
+	private String capitalistName;
+	
+	public String getCapitalistName() {
+		return capitalistName;
+	}
+
+	public void setCapitalistName(String capitalistName) {
+		this.capitalistName = capitalistName;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public String getProductName() {
 		return productName;
 	}

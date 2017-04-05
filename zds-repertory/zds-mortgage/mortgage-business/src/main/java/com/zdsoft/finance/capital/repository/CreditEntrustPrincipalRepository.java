@@ -10,17 +10,23 @@ import com.zdsoft.finance.capital.entity.CreditEntrustPrincipal;
 import com.zdsoft.finance.common.base.CustomRepository;
 
 /**
- * 信托计划本金投入Repository
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustPrincipalRepository.java
+ * @ClassName: CreditEntrustPrincipalRepository
+ * @Description: 信托计划本金投入Repository
  * @author liuwei
- * @version 1.0
+ * @date 2017年2月8日 上午10:27:36
+ * @version V1.0
  */
 public interface CreditEntrustPrincipalRepository extends CustomRepository<CreditEntrustPrincipal, String> {
 
 	/**
-	 * 根据临时id查询信托计划本金投入
 	 * 
+	 * @Title: findByTempUuid
+	 * @Description: 根据临时id查询信托计划本金投入
+	 * @author liuwei
 	 * @param tempUuid
 	 *            临时id
 	 * @return 信托计划本金投入列表
@@ -29,10 +35,13 @@ public interface CreditEntrustPrincipalRepository extends CustomRepository<Credi
 	public List<CreditEntrustPrincipal> findByTempUuid(@Param("tempUuid") String tempUuid);
 
 	/**
-	 * 通过查询条件查询本金投入列表
 	 * 
+	 * @Title: findByConditions
+	 * @Description: 通过查询条件查询本金投入集合
+	 * @author liuwei
 	 * @param conditions
-	 * @return
+	 *            查询条件
+	 * @return 本金投入集合
 	 */
 	public List<CreditEntrustPrincipal> findByConditions(Map<String, Object> conditions);
 

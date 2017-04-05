@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zdsoft.finance.common.base.QueryObj;
-import com.zdsoft.finance.common.exception.BusinessException;
 import com.zdsoft.finance.cooperator.entity.CooperatorBank;
 import com.zdsoft.finance.cooperator.entity.CooperatorTerminal;
 import com.zdsoft.finance.cooperator.service.CooperatorBankService;
@@ -27,37 +26,56 @@ import com.zdsoft.framework.core.common.page.PageRequest;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.core.commweb.annotation.UriKey;
 import com.zdsoft.framework.core.commweb.component.BaseController;
+
 /**
- * 合作银行
- * @author Hisa
- *
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CooperatorBankController.java
+ * @ClassName: CooperatorBankController
+ * @Description: 合作方银行controller
+ * @author liuwei
+ * @date 2017年3月8日 上午10:18:47
+ * @version V1.0
  */
 @Controller
 @RequestMapping("/cooperatorBank")
 public class CooperatorBankController extends BaseController {
-	
+
 	@Autowired
 	CooperatorBankService cooperatorBankService;
-	
+
 	@Autowired
 	CooperatorTerminalService cooperatorTerminalService;
+
 	/**
-	 * 合作方联系人信息列表
-	 * @return
+	 * 
+	 * @Title: initCooperatorBank
+	 * @Description: 合作方银行列表
+	 * @author liuwei
+	 * @param terminalId
+	 *            终端id
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/initCooperatorBank")
 	@UriKey(key = "com.zdsoft.finance.cooperator.initCooperatorBank")
 	public ModelAndView initCooperatorBank(String terminalId) {
 		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("terminalId", terminalId);
-		return new ModelAndView("/cooperator/cooperator_bank_list",obj);
+		return new ModelAndView("/cooperator/cooperator_bank_list", obj);
 	}
+
 	/**
-	 * 列表数据展示
+	 * 
+	 * @Title: getCooperatorBank
+	 * @Description: 列表数据展示
+	 * @author liuwei
 	 * @param request
+	 *            请求
 	 * @param jsoncallback
 	 * @param pageable
-	 * @return
+	 *            分页信息
+	 * @return 处理消息msg
 	 */
 	@RequestMapping("/getCooperatorBank")
 	@UriKey(key = "com.zdsoft.finance.cooperator.getCooperatorBank")
@@ -67,7 +85,7 @@ public class CooperatorBankController extends BaseController {
 		// 获取页面封装的查询参数
 		@SuppressWarnings("unchecked")
 		List<QueryObj> queryObjs = (List<QueryObj>) request.getAttribute("listObj");
-		// 分页查询会议
+		// 分页查询合作方银行信息
 		Page<CooperatorBank> banks = cooperatorBankService.findByHqlConditions(pageable, queryObjs);
 		List<CooperatorBank> list = banks.getRecords();
 		List<CooperatorBankVo> listVo = new ArrayList<CooperatorBankVo>();
@@ -83,80 +101,107 @@ public class CooperatorBankController extends BaseController {
 		msg.setRows(listVo);
 		return ObjectHelper.objectToJson(msg, jsoncallback);
 	}
-	
+
 	/**
-	 * 保存数据
-	 * @param jsoncallback
+	 * 
+	 * @Title: save
+	 * @Description: 保存数据
+	 * @author liuwei
 	 * @param cooperatorBank
-	 * @return
-	 * @throws BusinessException
+	 *            合作方银行信息
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/save")
 	@UriKey(key = "com.zdsoft.finance.cooperator.cooperatorBank.save")
 	@ResponseBody
-	public String save(CooperatorBankVo cooperatorBank ) throws BusinessException {
+	public String save(CooperatorBankVo cooperatorBank) {
 		ResponseMsg msg = new ResponseMsg();
-		if(!ObjectHelper.isEmpty(cooperatorBank)){
-			if(ObjectHelper.isEmpty(cooperatorBank.getId())){
-				CooperatorTerminal ter = cooperatorTerminalService.findOne(cooperatorBank.getTerminalId());
-				CooperatorBank bank = cooperatorBank.toPO();
-				bank.setCooperatorTerminal(ter);
-				cooperatorBankService.saveEntity(bank);
-				msg.setMsg("保存成功！");
-				msg.setResultStatus(ResponseMsg.SUCCESS);
-			}else{
-				logger.info("===============================ID:"+cooperatorBank.getId());
-				CooperatorBank terminal =cooperatorBankService.findOne(cooperatorBank.getId());
-				terminal.setBankName(cooperatorBank.getBankName());
-				CooperatorTerminal ter = cooperatorTerminalService.findOne(cooperatorBank.getTerminalId());
-				terminal.setCooperatorTerminal(ter);
-				cooperatorBankService.updateEntity(terminal);
-				msg.setMsg("更新成功！");
-				msg.setResultStatus(ResponseMsg.SUCCESS);
+		try {
+			if (!ObjectHelper.isEmpty(cooperatorBank)) {
+				if (ObjectHelper.isEmpty(cooperatorBank.getId())) { // 判断id是否存在
+					// 不存在,则新增
+					CooperatorTerminal ter = cooperatorTerminalService.findOne(cooperatorBank.getTerminalId());
+					CooperatorBank bank = cooperatorBank.toPO();
+					bank.setCooperatorTerminal(ter);
+					cooperatorBankService.saveEntity(bank);
+					msg.setMsg("保存成功！");
+					msg.setResultStatus(ResponseMsg.SUCCESS);
+				} else {
+					// 存在则修改
+					logger.info("===============================ID:" + cooperatorBank.getId());
+					CooperatorBank terminal = cooperatorBankService.findOne(cooperatorBank.getId());
+					terminal.setBankName(cooperatorBank.getBankName());
+					CooperatorTerminal ter = cooperatorTerminalService.findOne(cooperatorBank.getTerminalId());
+					terminal.setCooperatorTerminal(ter);
+					cooperatorBankService.updateEntity(terminal);
+					msg.setMsg("更新成功！");
+					msg.setResultStatus(ResponseMsg.SUCCESS);
+				}
+			} else {
+				msg.setMsg("数据为空");
+				msg.setResultStatus(ResponseMsg.APP_ERROR);
 			}
-		}else{
-			msg.setMsg("数据为空");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("保存合作方银行失败", e);
+			msg.setMsg("保存合作方银行失败");
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
+
 	/**
-	 * 删除
+	 * 
+	 * @Title: del
+	 * @Description: 逻辑删除合作方银行信息
+	 * @author liuwei
 	 * @param jsoncallback
-	 * @return
-	 * @throws BusinessException 
+	 * @param id
+	 *            合作方银行信息id
+	 * @return 处理消息msg json
 	 */
 	@RequestMapping("/del")
 	@UriKey(key = "com.zdsoft.finance.cooperator.cooperatorBank.del")
 	@ResponseBody
-	public String del(String jsoncallback,String id) throws BusinessException {
+	public String del(String jsoncallback, String id) {
 		ResponseMsg msg = new ResponseMsg();
 		try {
 			cooperatorBankService.logicDelete(id);
 			msg.setMsg("操作成功！");
 			msg.setResultStatus(ResponseMsg.SUCCESS);
 		} catch (Exception e) {
-			msg.setMsg("操作失败！"+e.getMessage());
+			msg.setMsg("操作失败！" + e.getMessage());
 			msg.setResultStatus(ResponseMsg.SYS_ERROR);
 		}
 		return ObjectHelper.objectToJson(msg);
 	}
-	
+
 	/**
-	 * 编辑
 	 * 
-	 * @return
-	 * @throws BusinessException
+	 * @Title: contactsInfoEdit
+	 * @Description: 合作方银行dialog
+	 * @author liuwei
+	 * @param terminalId
+	 *            终端id
+	 * @param id
+	 *            合作方银行id
+	 * @param operationType
+	 *            操作方式
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/edit")
 	@UriKey(key = "com.zdsoft.finance.cooperator.cooperatorBank.dialog")
-	public ModelAndView contactsInfoEdit(String terminalId, String id, String operationType)
-			throws BusinessException {
+	public ModelAndView contactsInfoEdit(String terminalId, String id, String operationType) {
 		ModelAndView modelAndView = new ModelAndView("/cooperator/cooperator_bank_dialog");
-		if (!"add".equals(operationType)) {
-			CooperatorBank bank = cooperatorBankService.findOne(id);
-			CooperatorBankVo infoVo = new CooperatorBankVo(bank);
-			modelAndView.addObject("infoVo", infoVo);
+		try {
+			if (!"add".equals(operationType)) {
+				CooperatorBank bank = cooperatorBankService.findOne(id);
+				CooperatorBankVo infoVo = new CooperatorBankVo(bank);
+				modelAndView.addObject("infoVo", infoVo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("查询合作方银行失败", e);
 		}
 		modelAndView.addObject("terminalId", terminalId);
 		modelAndView.addObject("operationType", operationType);

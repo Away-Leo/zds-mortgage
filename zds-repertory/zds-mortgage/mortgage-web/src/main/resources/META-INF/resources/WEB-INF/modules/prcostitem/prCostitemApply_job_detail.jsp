@@ -36,7 +36,7 @@
 	           		</tbody>
 	            </table>
 			</div>
-			<h1 class="page-title">收费支拥</h1>
+			<h1 class="page-title">收费支佣</h1>
 			<div class="p5">
 				<div id="costitemTable" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.prCostItem.listData" context="admin"/>&jsoncallback=?&id|IN|S=${vo.items}","singleSelect":true,"pagination":true,"idField":"id","tableCls":"table-index"}'>
 					<table>
@@ -285,12 +285,6 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 	
 	$.ZUI.init();
 	//保存
-    ZDS_WORKFLOW_CLIENT.saveFunction = function (datas) {
-    	var WORKFLOW_FLAG=ZDS_WORKFLOW_PARAM._STATUS_SUCCESS;
-		return WORKFLOW_FLAG;
-    };
-    //提交方法
-    ZDS_WORKFLOW_CLIENT.submitFunction = ZDS_WORKFLOW_CLIENT.saveFunction;
 });
 </script> 
 </html>

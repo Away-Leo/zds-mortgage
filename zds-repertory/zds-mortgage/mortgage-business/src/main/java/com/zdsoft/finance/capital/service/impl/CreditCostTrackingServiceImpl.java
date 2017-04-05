@@ -11,18 +11,32 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
 import com.zdsoft.finance.capital.entity.CreditCostTracking;
+import com.zdsoft.finance.capital.entity.CreditEntrust;
 import com.zdsoft.finance.capital.entity.CreditEntrustFeeItem;
 import com.zdsoft.finance.capital.entity.CreditEntrustOperationLog;
 import com.zdsoft.finance.capital.repository.CreditCostTrackingRepository;
 import com.zdsoft.finance.capital.service.CreditCostTrackingService;
 import com.zdsoft.finance.capital.service.CreditEntrustFeeItemService;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
+import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.spi.common.dto.OperationTypeNm;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditCostTrackingServiceImpl.java
+ * @ClassName: CreditCostTrackingServiceImpl
+ * @Description: 应付资金跟踪serviceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:38:07
+ * @version V1.0
+ */
 @Service("creditCostTrackingService")
 public class CreditCostTrackingServiceImpl
 		extends BaseServiceImpl<CreditCostTracking, CustomRepository<CreditCostTracking, String>>
@@ -36,9 +50,15 @@ public class CreditCostTrackingServiceImpl
 
 	@Autowired
 	CreditEntrustFeeItemService creditEntrustFeeItemService;
-	
+
 	@Autowired
 	CreditEntrustOperationLogService creditEntrustOperationLogService;
+
+	@Autowired
+	CreditEntrustService creditEntrustService;
+
+	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
 
 	@Override
 	@Transactional
@@ -65,14 +85,17 @@ public class CreditCostTrackingServiceImpl
 			// 将原有费用逻辑删除
 			List<CreditEntrustFeeItem> oldFeeItems = creditEntrustFeeItemService
 					.findByBusinessId(oldCostTracking.getId());
-			for (CreditEntrustFeeItem creditEntrustFeeItem : oldFeeItems) {
+
+			for (int i = 0; i < oldFeeItems.size(); i++) {
+				CreditEntrustFeeItem creditEntrustFeeItem = oldFeeItems.get(i);
 				creditEntrustFeeItemService.logicDelete(creditEntrustFeeItem);
 			}
 
 			// 持久最新的费用
-			for (CreditEntrustFeeItem creditEntrustFeeItem : feeItems) {
-				creditEntrustFeeItem.setBusinessId(oldCostTracking.getId());
-				creditEntrustFeeItemService.saveEntity(creditEntrustFeeItem);
+			for (int i = 0; i < feeItems.size(); i++) {
+				CreditEntrustFeeItem feeItem = feeItems.get(i);
+				feeItem.setBusinessId(oldCostTracking.getId());
+				creditEntrustFeeItemService.saveEntity(feeItem);
 			}
 
 			creditCostTracking = creditCostTrackingRepository.updateEntity(oldCostTracking);
@@ -89,17 +112,17 @@ public class CreditCostTrackingServiceImpl
 			// 提交人/提交时间
 			creditCostTracking.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			creditCostTracking.setCompleteEmpName(CED.getLoginUser().getEmpNm());
-			creditCostTracking
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			creditCostTracking.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 保存应付费用信息
 			creditCostTracking = creditCostTrackingRepository.saveEntity(creditCostTracking);
 
 			// 保存特有费用
 			List<CreditEntrustFeeItem> feeItems = creditCostTracking.getCreditEntrustFeeItems();
-			for (CreditEntrustFeeItem creditEntrustFeeItem : feeItems) {
-				creditEntrustFeeItem.setBusinessId(creditCostTracking.getId());
-				creditEntrustFeeItemService.saveEntity(creditEntrustFeeItem);
+			for (int i = 0; i < feeItems.size(); i++) {
+				CreditEntrustFeeItem feeItem = feeItems.get(i);
+				feeItem.setBusinessId(creditCostTracking.getId());
+				creditEntrustFeeItemService.saveEntity(feeItem);
 			}
 
 			CreditEntrustOperationLog operationLog = new CreditEntrustOperationLog();
@@ -107,13 +130,17 @@ public class CreditCostTrackingServiceImpl
 			operationLog.setOperationContent("应付资金跟踪");
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+			operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(creditCostTracking.getId());
 			creditEntrustOperationLogService.saveEntity(operationLog);
+		}
+
+		// 重新填充列表信息
+		if (ObjectHelper.isNotEmpty(creditCostTracking.getCreditEntrust())) {
+			CreditEntrust creditEntrust = creditEntrustToolService.listFill(creditCostTracking.getCreditEntrust());
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
 		}
 
 		return creditCostTracking;

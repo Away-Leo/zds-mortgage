@@ -10,7 +10,8 @@
 
 <link rel="stylesheet" type="text/css" href="<%=localServer %>/assets/css/style.css">
 <script>
-	var resServer = "<%=resServer %>";	
+	var resServer = "<%=resServer %>";
+	var againLogin="<%=portalServer %>"+"/page/againLogin.jsp";
 </script>
 <script type="text/javascript" src="<%=resServer %>/assets/js/vendor-modules/sea.js"></script>
 <script type="text/javascript" src="<%=resServer %>/assets/js/vendor-modules/sea.config.js"></script>
@@ -37,6 +38,11 @@
 		//当敲Backspace键时，事件源类型非密码或单行、多行文本的，则退格键失效
 		var flag2 = (ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea") ? true : false;
 
+		//捕捉回车事件
+	    if(ev.keyCode == 13 && (t == "password" || t == "text")) {
+	        return false;//禁用回车事件
+	    }
+		
 		//判断
 		if (flag2) {
 			return false;

@@ -12,14 +12,17 @@ import com.zdsoft.finance.cooperator.entity.Capitalist;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 机构资金配置表
  * 
- * @createTime:2017年1月10日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: InstitutionFunds.java 
+ * @ClassName: InstitutionFunds 
+ * @Description: 机构资金配置表
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:24:45 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_institution_funds")
+@Table(name = "cptl_institution_funds")
 public class InstitutionFunds extends BaseEntity {
 
 	/**
@@ -43,13 +46,13 @@ public class InstitutionFunds extends BaseEntity {
 	 * 资方
 	 */
 	@ManyToMany
-	@JoinTable(name = "caal_funds_capitalist")
+	@JoinTable(name = "cptl_funds_capitalist")
 	private List<Capitalist> capitalists;
 
 	/**
 	 * 备注
 	 */
-	@Column(length = 255)
+	@Column(length = 500)
 	private String remark;
 
 	public String getOrgCd() {

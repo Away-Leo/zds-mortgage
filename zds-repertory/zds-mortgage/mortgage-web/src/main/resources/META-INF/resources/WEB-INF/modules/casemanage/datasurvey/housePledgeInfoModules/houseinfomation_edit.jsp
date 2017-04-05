@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!--抵押信息开始-->
+<!--抵押信息编辑-->
 <div class="opinionDiv">
 	<!-- 房产信息 -->
 	<%@ include file="collateral_info_edit.jsp" %>
@@ -13,6 +13,4 @@
 	
 	<!--  产权人信息 -->
 	<%@ include file="../../../marketing/beforehandapply/property_owner_edit.jsp"%>
-	
 </div>
-<!--抵押信息结束-->

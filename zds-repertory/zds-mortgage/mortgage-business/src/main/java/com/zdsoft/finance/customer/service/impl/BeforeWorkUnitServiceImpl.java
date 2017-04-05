@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.essential.dto.emp.EmpDto;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
-import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.customer.entity.BeforePersonalCustomer;
 import com.zdsoft.finance.customer.entity.BeforeWorkUnit;
 import com.zdsoft.finance.customer.repository.BeforeWorkUnitRepository;
@@ -20,16 +19,25 @@ import com.zdsoft.finance.customer.service.BeforeWorkUnitService;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.cra.client.service.CRA;
 import com.zdsoft.framework.cra.dto.AccountDTO;
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BeforeWorkUnitServiceImpl.java 
+ * @ClassName: BeforeWorkUnitServiceImpl 
+ * @Description: 工作单位
+ * @author xj 
+ * @date 2017年3月6日 下午6:17:08 
+ * @version V1.0
+ */
 @Service("beforeWorkUnitService")
-public class BeforeWorkUnitServiceImpl extends BaseServiceImpl<BeforeWorkUnit, CustomRepository<BeforeWorkUnit, String>>  implements BeforeWorkUnitService {
-	@Autowired
-	private BeforeWorkUnitRepository beforeWorkUnitRepository;
+public class BeforeWorkUnitServiceImpl extends BaseServiceImpl<BeforeWorkUnit,BeforeWorkUnitRepository>  implements BeforeWorkUnitService {
 	@Autowired
 	private BeforePersonalCustomerService beforePersonalCustomerService;
 	@Autowired
 	private CRA CRA;
 	@Autowired
 	private CED CED;
+	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public BeforeWorkUnit saveOrUpdateWorkUnit(BeforeWorkUnit beforeWorkUnit,String customerId) throws Exception {
@@ -52,17 +60,18 @@ public class BeforeWorkUnitServiceImpl extends BaseServiceImpl<BeforeWorkUnit, C
 			work.setCreateBy(loginUser.getEmpCd());
 			work.setCreateOrgCd(loginUser.getOrgCd());
 			beforePersonalCustomer.getBeforeWorkUnits().add(work);
-			work = beforeWorkUnitRepository.saveEntity(work);
+			work = this.customReposity.saveEntity(work);
 			return work;
 		}else{
 			//修改
-			BeforeWorkUnit work = beforeWorkUnitRepository.getOne(beforeWorkUnit.getId());
+			BeforeWorkUnit work = this.customReposity.getOne(beforeWorkUnit.getId());
 			BeanUtils.copyProperties(beforeWorkUnit, work,new String[]{"id","version","createTime","updateTime","createBy","createOrgCd","updateBy","updateOrgCd"});
 			work.setUpdateBy(loginUser.getEmpCd());
-			work = beforeWorkUnitRepository.updateEntity(work);
+			work = this.customReposity.updateEntity(work);
 			return work;
 		}
 	}
+	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public List<BeforeWorkUnit> saveOrUpdateWorkUnit(List<BeforeWorkUnit> beforeWorkUnits,String customerId,String token) throws Exception {
@@ -95,23 +104,25 @@ public class BeforeWorkUnitServiceImpl extends BaseServiceImpl<BeforeWorkUnit, C
 				work.setCreateBy(loginUser.getEmpCd());
 				work.setCreateOrgCd(loginUser.getOrgCd());
 				beforePersonalCustomer.getBeforeWorkUnits().add(work);
-				work = beforeWorkUnitRepository.saveEntity(work);
+				work = this.customReposity.saveEntity(work);
 				resuts.add(work);
 			}
 		}
 		
 		return resuts;
 	}
+	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public void deleteById(String id) throws Exception {
-		beforeWorkUnitRepository.delete(id);
+		this.customReposity.delete(id);
 		
 	}
+	
 	@Override
 	public List<BeforeWorkUnit> queryByCustomerId(String customerId) {
 		
-		return beforeWorkUnitRepository.findByCustomerId(customerId);
+		return this.customReposity.findByCustomerId(customerId);
 	}
 
 }

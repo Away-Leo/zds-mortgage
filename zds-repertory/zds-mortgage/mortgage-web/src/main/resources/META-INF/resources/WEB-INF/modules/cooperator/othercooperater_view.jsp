@@ -18,19 +18,19 @@
 						<dl class="form-item">
 							<dt class="title">企业类型：</dt>
 							<dd class="detail">
-									<input class="zui-input" value="${otherCooperaterVo.companyType }" disabled="disabled"
-									id="companyType" name="companyType" >
+									<input class="zui-input" value="${otherCooperaterVo.enterpriseTypeName }" disabled="disabled"
+									id="enterpriseType" name="enterpriseType" >
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">合作单位名称：</dt>
 							<dd class="detail">
-									<input class="zui-input" value="${otherCooperaterVo.contactCompanyName }" disabled="disabled"
-									id="contactCompanyName" name="contactCompanyName" >
+									<input class="zui-input" value="${otherCooperaterVo.companyName }" disabled="disabled"
+									id="companyName" name="companyName" >
 							</dd>
 						</dl>
 						<dl class="form-item">
-			                <dt class="title">简称:</dt>
+			                <dt class="title">简称：</dt>
 			                <dd class="detail">
 			                    <input class="zui-input" value="${otherCooperaterVo.shortName }" disabled="disabled"
 									id="shortName" name="shortName" >
@@ -39,45 +39,45 @@
 						<dl class="form-item">
 							<dt class="title">类别：</dt>
 							<dd class="detail">
-								<input class="zui-input" value="${otherCooperaterVo.type }" disabled="disabled"
-									id="type" name="type" >
+								<input class="zui-input" value="${otherCooperaterVo.companyTypeName }" disabled="disabled"
+									id="companyType" name="companyType" >
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">上级名称：</dt>
 							<dd class="detail">
-									<input class="zui-input" value="${otherCooperaterVo.fatherName }" disabled="disabled"
-									id="fatherName" name="fatherName" >
+									<input class="zui-input" value="${otherCooperaterVo.parentOrg }" disabled="disabled"
+									id="parentOrg" name="parentOrg" >
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">合作单位归属：</dt>
 							<dd class="detail">
-								<input class="zui-input" value="${otherCooperaterVo.contactCompanyBelong }" disabled="disabled"
+								<input class="zui-input" value="${otherCooperaterVo.companyBelongName }" disabled="disabled"
 									id="contactCompanyBelong" name="contactCompanyBelong" style="width:94px">
-			                    <input class="zui-input nwidth2" value="${otherCooperaterVo.contactCompanyBelongName }" disabled="disabled"
-									id="contactCompanyBelongName" name="contactCompanyBelongName" >
+			                    <input class="zui-input nwidth2" disabled="disabled"
+									id="companyBelongRelevanceName" name="companyBelongRelevanceName" value="${otherCooperaterVo.companyBelongRelevanceName }" >
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">电话：</dt>
 							<dd class="detail">
-                               		<input class="zui-input" value="${otherCooperaterVo.callNumber }" disabled="disabled"
-									id="callNumber" name="callNumber" >
+                               		<input class="zui-input" value="${otherCooperaterVo.telephone }" disabled="disabled"
+									id="telephone" name="telephone" >
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">传真：</dt>
 							<dd class="detail">
-                               		<input class="zui-input" value="${otherCooperaterVo.foxNumber }" disabled="disabled"
-									id="foxNumber" name="foxNumber" >
+                               		<input class="zui-input" value="${otherCooperaterVo.fax }" disabled="disabled"
+									id="fax" name="fax" >
 							</dd>
 						</dl>
 						<dl class="form-item">
 							<dt class="title">邮政编码：</dt>
 							<dd class="detail">
-									<input class="zui-input" value="${otherCooperaterVo.postalCode }" disabled="disabled"
-									id="postalCode" name="postalCode" >
+									<input class="zui-input" value="${otherCooperaterVo.zipCode }" disabled="disabled"
+									id="zipCode" name="zipCode" >
 							</dd>
 						</dl>
 						<dl class="form-item">
@@ -90,7 +90,7 @@
 						<dl class="form-item">
 							<dt class="title">是否停用：</dt>
 							<dd class="detail">
-									<input class="zui-input" value="${otherCooperaterVo.isStop }" disabled="disabled"
+									<input class="zui-input" value="${otherCooperaterVo.isStopName }" disabled="disabled"
 									id="isStop" name="isStop" >
 							</dd>
 						</dl>
@@ -98,13 +98,12 @@
 						<dl class="form-item">
 							<dt class="title">地址：</dt>
                              <dd class="detail">
-                             	<input type="hidden" id="detailedProvince" name="detailedProvince" value="${otherCooperaterVo.detailedProvince }"/>
-	                            <input type="hidden" id="detailedCity" name="detailedCity" value="${otherCooperaterVo.detailedCity }"/>
-	                            <input type="hidden" id="detailedDistrict" name="detailedDistrict" value="${otherCooperaterVo.detailedDistrict }"/>
-                             	<div id="selectAddress" data-code="${otherCooperaterVo.detailedDistrict }">
+                             	<input type="hidden" id="addProvince" name="addProvince" value="${otherCooperaterVo.addProvince }"/>
+	                            <input type="hidden" id="addCity" name="addCity" value="${otherCooperaterVo.addCity }"/>
+	                            <input type="hidden" id="addCountry" name="addCountry" value="${otherCooperaterVo.addCountry }"/>
+                             	<div id="selectAddress" data-code="${otherCooperaterVo.addCountry }">
                              		<label>
 			                            <input id="region" class="zui-input zui-validatebox"  type="text" disabled="disabled" style="width: 190px;" validate-type="Require"/>
-			                            <%-- <input id="detailedCode" type="hidden" name="detailedCode" value="${otherCooperaterVo.detailedCode }"/> --%>
 		                            </label>
 		                        </div>
                              </dd>
@@ -131,10 +130,10 @@
 							</dd>
 						</dl>
 						<dl class="form-item">
-			                <dt class="title">税号:</dt>
+			                <dt class="title">税号：</dt>
 			                <dd class="detail">
-			                    <input class="zui-input" value="${otherCooperaterVo.dutyParagraph }" disabled="disabled"
-									id="dutyParagraph" name="dutyParagraph" >
+			                    <input class="zui-input" value="${otherCooperaterVo.taxNo }" disabled="disabled"
+									id="taxNo" name="taxNo" >
 			                </dd>
 			            </dl>
 						<dl class="form-item">
@@ -147,7 +146,7 @@
 						<dl class="form-item">
 							<dt class="title">行业：</dt>
 							<dd class="detail">
-			                    <input class="zui-input" value="${otherCooperaterVo.industry }" disabled="disabled"
+			                    <input class="zui-input" value="${otherCooperaterVo.industryName }" disabled="disabled"
 									id="industry" name="industry" >
 							</dd>
 						</dl>

@@ -17,6 +17,16 @@ import com.zdsoft.framework.core.common.domain.BaseEntity;
 public class BankAccount extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
+	
+	 /**
+     * 收款
+     */   
+    public static final Integer RECEIVABLES = 0;
+    
+    /**
+     * 还款
+     */
+    public static final Integer REPAYMENT = 1;
 
 	/**
 	 * 账户类型（0:收款 1：还款 2:贷款发放账户）

@@ -1,6 +1,7 @@
 package com.zdsoft.finance.app.attachment.service.impl;
 
 import java.io.File;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +30,16 @@ import com.zdsoft.framework.core.common.annotation.Log;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 import com.zdsoft.framework.cra.client.service.CRA;
 import com.zdsoft.framework.cra.dto.AccountDTO;
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: AppAttachmentServiceImpl.java 
+ * @ClassName: AppAttachmentServiceImpl 
+ * @Description: app附件操作
+ * @author xj 
+ * @date 2017年3月13日 上午9:16:55 
+ * @version V1.0
+ */
 @Service("appAttachmentService")
 public class AppAttachmentServiceImpl implements AppAttachmentService {
 	private static final String defaultUploadFolder = "/mnt/upload/";
@@ -61,10 +72,7 @@ public class AppAttachmentServiceImpl implements AppAttachmentService {
 	@Override
 	public List<AttachmentDto> saveAttachment(CommonsMultipartFile[] files,String token) throws Exception {
 		List<AttachmentDto> result = new ArrayList<AttachmentDto>();
-	/*	List<MultipartFile> files = multipartRequest.getFiles("file");*/
 		for (MultipartFile file:files) {
-			/*String key = it.next();
-			MultipartFile file = multipartRequest.getFile(key);*/
 			if (file != null && !file.isEmpty()) {
 				AttachmentDto dto = new AttachmentDto();
 				dto.setFileLabel(file.getOriginalFilename());

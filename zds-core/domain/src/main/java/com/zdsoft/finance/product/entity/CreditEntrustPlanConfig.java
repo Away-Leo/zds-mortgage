@@ -13,14 +13,19 @@ import org.hibernate.annotations.Type;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 资金计划配置
- * @author longwei
- * @date 2017/01/17
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustPlanConfig.java 
+ * @ClassName: CreditEntrustPlanConfig 
+ * @Description: 资金计划配置
+ * @author gufeng 
+ * @date 2017年3月6日 下午7:48:07 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_credit_plan_config")
+@Table(name="prd_credit_plan_config")
 public class CreditEntrustPlanConfig extends BaseEntity{
+
+	private static final long serialVersionUID = 1824649797504722758L;
 
 	/**
 	 * 资方id
@@ -31,32 +36,32 @@ public class CreditEntrustPlanConfig extends BaseEntity{
 	/**
 	 * 资方name
 	 */
-	@Column(length=255)
+	@Column(length=64)
 	private String capitalistName;
 	
 	/**
 	 * 资金id
 	 */
 	@Column(length=32)
-	private String creditEntrustId;
+	private String capitalPlanId;
 	
 	/**
 	 * 资金name
 	 */
-	@Column(length=255)
-	private String creditEntrustName;
+	@Column(length=64)
+	private String capitalPlanName;
 	
 	/**
 	 * 最低评估成数
 	 */
-	@Column(precision=0,scale=2)
-	private BigDecimal minEvaluateNum;
+	@Column(precision=18,scale=6)
+	private BigDecimal minPercentage = BigDecimal.ZERO;
 	
 	/**
 	 * 最高评估成数
 	 */
-	@Column
-	private BigDecimal maxEvaluateNum;
+	@Column(precision=18,scale=6)
+	private BigDecimal maxPercentage = BigDecimal.ZERO;
 	
 	/**
 	 * 是否启用
@@ -87,37 +92,13 @@ public class CreditEntrustPlanConfig extends BaseEntity{
 	public void setCapitalistName(String capitalistName) {
 		this.capitalistName = capitalistName;
 	}
-
-	public String getCreditEntrustId() {
-		return creditEntrustId;
+	
+	public String getCapitalPlanName() {
+		return capitalPlanName;
 	}
 
-	public void setCreditEntrustId(String creditEntrustId) {
-		this.creditEntrustId = creditEntrustId;
-	}
-
-	public String getCreditEntrustName() {
-		return creditEntrustName;
-	}
-
-	public void setCreditEntrustName(String creditEntrustName) {
-		this.creditEntrustName = creditEntrustName;
-	}
-
-	public BigDecimal getMinEvaluateNum() {
-		return minEvaluateNum;
-	}
-
-	public void setMinEvaluateNum(BigDecimal minEvaluateNum) {
-		this.minEvaluateNum = minEvaluateNum;
-	}
-
-	public BigDecimal getMaxEvaluateNum() {
-		return maxEvaluateNum;
-	}
-
-	public void setMaxEvaluateNum(BigDecimal maxEvaluateNum) {
-		this.maxEvaluateNum = maxEvaluateNum;
+	public void setCapitalPlanName(String capitalPlanName) {
+		this.capitalPlanName = capitalPlanName;
 	}
 
 	public Boolean getIsEnable() {
@@ -134,6 +115,30 @@ public class CreditEntrustPlanConfig extends BaseEntity{
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getCapitalPlanId() {
+		return capitalPlanId;
+	}
+
+	public void setCapitalPlanId(String capitalPlanId) {
+		this.capitalPlanId = capitalPlanId;
+	}
+
+	public BigDecimal getMinPercentage() {
+		return minPercentage;
+	}
+
+	public void setMinPercentage(BigDecimal minPercentage) {
+		this.minPercentage = minPercentage;
+	}
+
+	public BigDecimal getMaxPercentage() {
+		return maxPercentage;
+	}
+
+	public void setMaxPercentage(BigDecimal maxPercentage) {
+		this.maxPercentage = maxPercentage;
 	}
 	
 }

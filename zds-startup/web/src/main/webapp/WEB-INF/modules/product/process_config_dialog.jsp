@@ -8,7 +8,7 @@
         <form id="addProcessConfigForm" class="zui-form mt15" action="javascript:void(0);"
               zdata-options="{}">
             <input type="hidden" id="productId" name="productVo.id" value="${productId }">
-            <input type="hidden" id="processConfigId" name="id" value="${processConfig.id }">
+            <input type="hidden" id="processConfigId" name="id" value="${processConfig.id}">
             <dl class="form-item">
 	             <dt class="title"><b class="c-red mr5">*</b>流程名称:</dt>
 	             <dd class="detail">
@@ -20,9 +20,9 @@
             <dl class="form-item">
 	             <dt class="title"><b class="c-red mr5">*</b>代码:</dt>
 	             <dd class="detail">
-	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${processConfig.processFormCd }"
-	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=processFormCd"
-	                        data-valuefield="fullcode" data-textfield="name" name="processFormCd">
+	                 <input class="zui-combobox zui-validatebox" type="hidden" validate-type="Require" value="${processConfig.processCode }"
+	             	          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00126"
+	                        data-valuefield="fullcode" data-textfield="name" name="processCode">
 	             </dd>
 	         </dl>
 	         <dl class="form-item">
@@ -71,7 +71,7 @@
                     handler: function () {
                    	var flag=$.ZUI.validateForm($('#addProcessConfigForm'));
                     	if(flag){
-                    		var addProcessConfigForm = $('#addProcessConfigForm').serialize();
+                    		var addProcessConfigForm = $('#addProcessConfigForm').serializeArray();
                             $.ajax({
                                 type: 'post',
                                 url: '<z:ukey key="com.zdsoft.finance.processConfig.saveOrUpdate" context="admin"/>',
@@ -82,9 +82,7 @@
                                     	$.ZMessage.success("提示", "保存成功", function () {
                     	                    $(".zd-message").ZWindow("close");
                     	                });
-                                    	var formArray=$("#queryProcessConfigForm").serialize();
-                                    	formArray=decodeURIComponent(formArray, true);
-                                    	$('#tb-processConfig').ZTable("reload", formArray);
+                                    	$('#tb-processConfig').ZTable("reload",{});
                                     	$("#processConfigDialog").Zdialog("close");
                                     }else{
                                     	$.ZMessage.error("错误", data.msg, function () {

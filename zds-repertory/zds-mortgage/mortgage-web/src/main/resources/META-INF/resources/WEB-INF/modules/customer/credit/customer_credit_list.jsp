@@ -71,7 +71,6 @@
 		
 		//上传
 		CALLBACK.doUpload=function(index,row){
-			alert(row.id);
 			//打开dialog
 			$('#uploadAtta_customer_credit').Zdialog('open');
 			$("#creditId").val(row.id);

@@ -21,26 +21,29 @@
                 </dd>
             </dl>
             <dl class="form-item">
-                <dt class="title">联系方式:</dt>
-                <dd class="detail">
-                    <input class="zui-input" id="customerId" type="text" name="customerId|E|S">
-                </dd>
-            </dl>
-            <dl class="form-item">
-                <dt class="title">产品分类:</dt>
-                <dd class="detail">
-                    <input class="zui-combobox zui-validatebox" id="productTypeId" type="text" name="productTypeId|E|S" value=""
-			                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=e030300"
-			                           data-valuefield="fullcode" data-textfield="name" >
-                </dd>
-            </dl>
-            <dl class="form-item">
+       			<dt class="title">产品:</dt>
+				<dd class="detail">  
+					<input class="zui-combobox zui-validatebox" type="hidden" name="c|productTypeId|E|S" id ="productTypeId"
+						data-width="150"
+						data-url="<z:ukey key='com.zdsoft.finance.authGrade.getParentProduct' context='admin'/>&jsoncallback=?"
+						data-callback="productTypeChange" data-id="isAgriculture" 
+						data-defaultvalue=""
+						data-valuefield="id" data-textfield="text">
+				</dd>
+				<dd class="detail">
+					<input class=" zui-combobox zui-validatebox" type="hidden" id="productSubtypeId" name="c|productSubtypeId|E|S"
+						data-width="150">
+				</dd>
+			</dl>
+			
+            <dl class="form-item" style="margin-left: 109px;">
                 <dt class="title">终端:</dt>
                 <dd class="detail">
-                    <input class="zui-combobox zui-validatebox" id="productTypeId" type="text" name="productTypeId|E|S" value=""
-			                          data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=e030300"
-			                           data-valuefield="fullcode" data-textfield="name" >
-                </dd>
+					<input class="zui-combobox zui-validatebox" type="hidden" name="c|terminalId|E|S"
+						data-url="<z:ukey key='com.zdsoft.finance.cooperator.cooperatorSimpleCode' context='admin'/>&jsoncallback=?&createOrgCd=${empDto.orgCd}"
+						data-valuefield="id" data-textfield="terminalFullName" 
+						data-defaultvalue="" id="terminalId">
+				</dd>
             </dl>
         </form>
         <div class="form-btn">
@@ -57,14 +60,14 @@
 		    <table>
 		        <thead>
 		        <tr>
-		            <th data-options="field:CUSTOMERNAME,width:5%">主借人</th>
-		            <th data-options="field:APPLYAMOUNT,width:10%">申请金额（元）</th>
-		            <th data-options="field:PRODUCTTYPENAME,width:5%">产品父类</th>
-		            <th data-options="field:PRODUCTSUBTYPENAME,width:5%">子产品</th>
-		            <th data-options="field:AREA,width:10%">面积</th>
+		            <th data-options="field:CUSTOMERNAME,width:10%">主借人</th>
+		            <th data-options="field:APPLYAMOUNT,width:5%" formatter="formatCurrency">申请金额（元）</th>
+		            <th data-options="field:PRODUCTTYPENAME,width:10%">产品父类</th>
+		            <th data-options="field:PRODUCTSUBTYPENAME,width:10%">子产品</th>
+		            <th data-options="field:AREA,width:10%">面积(㎡)</th>
 		            <th data-options="field:MAILINGADDRESS,width:20%">押品地址</th>
-		            <th data-options="field:EVALUATINGPRICE,width:10%">评估价</th>
-		            <th data-options="field:TERMINALFULLNAME,width:15%">终端</th>
+		            <th data-options="field:SYNTHESIZEPRICE,width:5%" formatter="formatCurrency">综合评估价（元）</th>
+		            <th data-options="field:TERMINALFULLNAME,width:10%">终端</th>
 		            <th data-options="field:ID,width:20%" formatter="formatId">操作</th>
 		        </tr>
 		        </thead>
@@ -78,10 +81,9 @@
 </div>
 
 <script type="text/javascript">
-    seajs.use(['jquery', 'zd/jquery.zds.page.callback', 'zd/jquery.zds.combobox', 'zd/jquery.zds.loading', 'zd/switch', 'zd/jquery.zds.dialog', 'zd/jquery.zds.message', 'zd/jquery.zds.form', 'datepicker', 'zd/jquery.zds.table', 'zd/jquery.zds.seleter'
-            ]
-            , function ($, CALLBACK, Loading, Switch, Zdialog, ZUI_MESSAGE_CLIENT) {
-    	
+    seajs.use(['jquery', 'zd/jquery.zds.page.callback','zd/tools', 'zd/jquery.zds.combobox', 'zd/jquery.zds.loading', 'zd/switch', 'zd/jquery.zds.dialog', 'zd/jquery.zds.message', 'zd/jquery.zds.form', 'datepicker', 'zd/jquery.zds.table', 'zd/jquery.zds.seleter'
+            ], function ($, CALLBACK,ZTOOL,Loading, Switch, Zdialog, ZUI_MESSAGE_CLIENT) {
+    	var productUrl =  '<z:ukey key="com.cnfh.rms.businessProduct.findByCategoryIdAndOrgCd" context="admin"/>&jsoncallback=?';
 		    	//查询回调
 		        $('#searchBeforehandApplyList').on('click',function(){
 		        	var flag=$.ZUI.validateForm($('#searchBeforehandApplyListForm'));
@@ -93,22 +95,29 @@
 		        
 		        //重置回调
 		        $('#resetBeforehandApplyList').on('click',function(){
-		        	$('#customerId').val('');
+		        	$('#customerName').val('');
+		        	$('#productSubtypeId').ZCombobox('setValue', '');
+		    		$('#productTypeId').ZCombobox('setValue', '');
+		    		$('#terminalId').ZCombobox('setValue', '');
 		        	var flag=$.ZUI.validateForm($('#searchBeforehandApplyListForm'));
 		        	if(flag){
 		            	var formArray=$("#searchBeforehandApplyListForm").serializeArray();
 		            	$('#tb-BeforehandApplyList').ZTable("reload", formArray);
 		        	}
 		        });
-    			
+				CALLBACK.productTypeChange = function(v,t){
+					$("#productSubtypeId").ZCombobox({
+		       		 	valueField: "id",
+		                textField: "value",
+		                url: productUrl+"&categoryId="+v
+		       		});
+				}
 		    	//操作格式化
 		        CALLBACK.formatId=function(rowData,index){
 		        	var data = '<a href="javaScript:void(0)" onclick="viewBeforehand"><button class="btn-blue">详情</button></a>&nbsp;&nbsp';
-	        		data +=  '<a href="javaScript:void(0)" onclick="viewCrm"><button class="btn-blue">营销跟踪</button></a>&nbsp;&nbsp';
-	        		if(rowData.STATUS='0'){
+	        			data +=  '<a href="javaScript:void(0)" onclick="viewCrm"><button class="btn-blue">营销跟踪</button></a>&nbsp;&nbsp';
 	        			data +=  '<a href="javaScript:void(0)" onclick="editorBeforehand"><button class="btn-blue">编辑</button></a>';
-	        		}
-	        	return data;
+	        		return data;
 		        }
 		        //新增贷款申请
 		        CALLBACK.addBeforehandApply=function(){
@@ -123,17 +132,20 @@
                 	var editClientUrl = '<z:ukey key="com.zdsoft.finance.marketing.viewBeforehandApply" context="admin"/>&caseApplyId='+row.ID;
     	            ZDS_MESSAGE_CLIENT.openMenuLink('贷款申请详情'+index,'贷款申请详情',editClientUrl + "&openMethod=tabs");
                 }
-		         
-		    	
+		    	//营销跟踪
+		        CALLBACK.viewCrm=function(index,row){  
+                	var editClientUrl = '<z:ukey key="com.zdsoft.finance.marketing.viewCaseTail" context="admin"/>&caseApplyId='+row.ID;
+    	            ZDS_MESSAGE_CLIENT.openMenuLink('营销跟踪'+index,'营销跟踪',editClientUrl + "&openMethod=tabs");
+                }
 		    	//导出
 		        CALLBACK.exports=function(){
-		        	var url="<z:ukey key="com.zdsoft.finance.toExcel" context="admin"/>&jsoncallback=?&fileName=客户列表导出文档";
+		        	var url="<z:ukey key="com.zdsoft.finance.toExcel" context="admin"/>&jsoncallback=?&fileName=营销登记列表导出文档";
                     var param=$("table").html();
 					$("form").remove("#exportFrom");
                     $("body").append("<form id='exportFrom' class='zui-form mt15' method='post' action='"+url+"' accept-charset='utf-8'><input type='hidden' id='htmlContent' name='htmlContent' value='"+param+"' /></form>");
                     $("#exportFrom").submit();
                 }
-		      //刷新
+		        //刷新
                 function doSearch() {
     				$('#tb-BeforehandApplyList').ZTable("reload",{});
     			};
@@ -141,6 +153,10 @@
                 ZDS_MESSAGE_CLIENT.refreshThis=function(){
             		doSearch();
                 };
+                //金额分隔符
+                CALLBACK.formatCurrency=function(row, value) {
+                    return ZTOOL.formatCurrency(value+""); 
+                }
                 //初始化
                 $.ZUI.init();
             });

@@ -9,16 +9,17 @@ import javax.persistence.Table;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
+ * 
  * 版权所有：重庆正大华日软件有限公司
- * @Title:PledgeInfo.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:抵押实体类
- * @author: zhoushichao
- * @date:2017年1月10日 下午9:46:04
- * @version:v1.0
+ * @Title: PledgeInfo.java 
+ * @ClassName: PledgeInfo 
+ * @Description: 抵押实体类
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:45:54 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_pledge_info")
+@Table(name = "mkt_pledge_info")
 public class PledgeInfo extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,19 @@ public class PledgeInfo extends BaseEntity{
      * 其他
      */
     public static final String PLEDGETYPE_OTH = "YWDM0051014" ;
+    
+    /**
+     * 普通抵押   model by liuhuan 2017-2-16
+     */
+    public static final String TYPE_BASE = "YWDM0051039" ;
+    /**
+     * 最高额抵押   model by liuhuan 2017-2-16
+     */
+    public static final String TYPE_HEIGHEST = "YWDM0051040" ;
+    /**
+     * 可循环支用   model by liuhuan 2017-2-16
+     */
+    public static final String TYPE_LOOP = "YWDM0051041" ;
     
   
 	/**
@@ -79,22 +93,22 @@ public class PledgeInfo extends BaseEntity{
 	 * 贷款余额
 	 */
 	@Column(precision = 18, scale = 2)
-    private BigDecimal loanBalance;
+    private BigDecimal loanBalance=BigDecimal.ZERO;
 	/**
 	 * 抵押金额
 	 */
 	@Column(precision = 18, scale = 2)
-    private BigDecimal pledgeAmout;
+    private BigDecimal pledgeAmout=BigDecimal.ZERO;
 	/**
 	 * 成数
 	 */
 	@Column(precision = 18, scale = 6)
-	private BigDecimal percentage;
+	private BigDecimal percentage=BigDecimal.ZERO;
 	/**
 	 * 前抵押贷款余额
 	 */
 	@Column(precision = 18, scale = 2)
-	private BigDecimal frontLoanBalance;
+	private BigDecimal frontLoanBalance=BigDecimal.ZERO;
 	
 	public String getHousePropertyId() {
 		return housePropertyId;
@@ -155,8 +169,5 @@ public class PledgeInfo extends BaseEntity{
 	}
 	public void setFrontLoanBalance(BigDecimal frontLoanBalance) {
 		this.frontLoanBalance = frontLoanBalance;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 }

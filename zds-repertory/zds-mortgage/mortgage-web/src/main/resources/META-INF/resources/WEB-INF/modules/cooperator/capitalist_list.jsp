@@ -18,7 +18,7 @@
                 <dl class="form-item">
                     <dt class="title">资方名称：</dt>
                     <dd class="detail">
-                        <label> <input class="zui-input" id="cooperatorName" name="cooperatorName|LK|S">
+                        <label> <input class="zui-input" id="capitalName" name="capitalName|LK|S">
                         </label>
                     </dd>
                 </dl>
@@ -27,7 +27,7 @@
                     <dd class="detail">
                         <input class="zui-combobox zui-validatebox" id="capitalistType" name="capitalistType|E|S"
                                type="hidden"
-                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=zflx"
+                               data-url="<z:res resource="public.simplecode.selector" isDefault="true"/>&jsoncallback=?&target=true&categoryCd=YWDM00112"
                                data-valuefield="fullcode" data-callback="reloadMeetingProject" data-textfield="name">
                     </dd>
                 </dl>
@@ -45,9 +45,9 @@
                 <table>
                     <thead>
                     <tr>
-                        <th data-options="field:cooperatorName">资方名称</th>
+                        <th data-options="field:capitalName">资方名称</th>
                         <th data-options="field:capitalistTypeName">资方类型</th>
-                        <th data-options="field:id" formatter="operate">操作</th>
+                        <th data-options="field:id,width:20%" formatter="operate">操作</th>
                     </tr>
                     </thead>
                 </table>
@@ -67,9 +67,9 @@
     seajs.use(['jquery', 'zd/jquery.zds.page.callback', 'zd/jquery.zds.form', 'zd/jquery.zds.message', 'zd/jquery.zds.dialog', 'zd/jquery.zds.combobox', 'zd/jquery.zds.table', 'zd/jquery.zds.seleter'], function ($, CALLBACK) {
         //操作
         CALLBACK.operate = function (row, value) {
-            var html = "<a title='编辑' class='icon-btn22 handler-icon c-green' onclick='capitalistEdit'></a>";
-            html += "<a title='查看' class='icon-btn31 handler-icon c-orange' onclick='capitalistView'></a>";
-            html += "<a title='删除' class='icon-btn12 handler-icon c-gray' onclick='capitalistDel'></a>";
+            var html = "<a title='编辑' class='btn-blue mr5' onclick='capitalistEdit'>编辑</a>";
+            html += "<a title='查看' class='btn-blue mr5' onclick='capitalistView'>查看</a>";
+            html += "<a title='删除' class='btn-blue' onclick='capitalistDel'>删除</a>";
             return html;
         };
 
@@ -116,15 +116,23 @@
         CALLBACK.doExport = function (index, data) {
             var url = "<z:ukey key="com.zdsoft.finance.toExcel" context="admin"/>&jsoncallback=?&fileName=资方列表";
             var param = $("table").html();
+            //去除多余的列,修改导出数据问题的bug
+            var table=$(param);
+            var head=$(table).children();
+            for(var i=0;i<head.length;i++){
+            	$($(head[i]).children()[0]).remove();
+            	$($(head[i]).children()[3]).remove();
+            }
+            var p=table[0].outerHTML+table[1].outerHTML;
             $("form").remove("#exportFrom");
-            $("body").append("<form id='exportFrom' class='zui-form mt15' method='post' action='" + url + "' accept-charset='utf-8'><input type='hidden' id='htmlContent' name='htmlContent' value='" + param + "' /></form>");
+            $("body").append("<form id='exportFrom' class='zui-form mt15' method='post' action='" + url + "' accept-charset='utf-8'><input type='hidden' id='htmlContent' name='htmlContent' value='" + p + "' /></form>");
             $("#exportFrom").submit();
         };
         $('#btn-search').click(function () {
             doSearch();
         });
         $('#btn-reset').click(function () {
-            $('#cooperatorName').val('');
+            $('#capitalName').val('');
             $("#capitalistType").ZCombobox('setValue', '');
         });
 

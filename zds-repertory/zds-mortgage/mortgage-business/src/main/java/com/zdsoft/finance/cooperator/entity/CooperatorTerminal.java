@@ -1,42 +1,32 @@
 package com.zdsoft.finance.cooperator.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.zdsoft.framework.core.common.domain.BaseEntity;
+
 /**
- * 合作方终端信息
  * 
- * @author Hisa
- *
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CooperatorTerminal.java
+ * @ClassName: CooperatorTerminal
+ * @Description: 终端实体类(刘伟二次修改)
+ * @author liuwei
+ * @date 2017年2月25日 上午10:56:52
+ * @version V1.0
  */
 @Entity
 @Table(name = "cpt_terminal")
-public class CooperatorTerminal extends BaseCooperator {
+public class CooperatorTerminal extends BaseEntity {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 编码
-	 */
-	@Column(length = 64)
-	private String autoCode;
-	/**
-	 * 终端全称
-	 */
-	@Column(length = 64)
-	private String terminalFullName;
-	/**
-	 * 终端类别
-	 */
-	@Column(length = 64)
-	private String terminalType;
 	/**
 	 * 终端编码
 	 */
@@ -44,209 +34,233 @@ public class CooperatorTerminal extends BaseCooperator {
 	private String terminalCode;
 
 	/**
+	 * 终端全称
+	 */
+	@Column(length = 64)
+	private String terminalFullName;
+
+	/**
+	 * 终端类别
+	 */
+	@Column(length = 20)
+	private String terminalType;
+
+	/**
+	 * 协议编号
+	 */
+	@Column(length = 64)
+	private String dealNumber;
+
+	/**
 	 * 公司电话
 	 */
 	@Column(length = 15)
 	private String companyTel;
+
 	/**
 	 * 终端月均产能总量预测
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal monthOutAvgPredict;
-	/**
-	 * 终端上月业务量
-	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal lastMonthBusiness;
-	/**
-	 * 终端平均每单贷款额度
-	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal oneBillAvgVaule;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal monthOutAvgPredict = BigDecimal.ZERO;
+
 	/**
 	 * 终端状态
 	 */
 	@Column(length = 20)
 	private String terminalStatus;
+
 	/**
 	 * 终端等级
 	 */
-	private Integer grade;
+	@Column(length = 32)
+	private String grade;
+
 	/**
-	 * 创建时间
+	 * 终端归属类型
 	 */
-	private Long nowDate;
-	/**
-	 * 终端归属
-	 */
-	@Column(length = 8)
+	@Column(length = 20)
 	private String belongType;
 
 	/**
-	 * 终端归属输入框
+	 * 终端归属关联
+	 */
+	@Column(length = 32)
+	private String belongRelevanceCode;
+
+	/**
+	 * 终端归属名称
+	 */
+	@Column(length = 128)
+	private String belongRelevanceName;
+
+	/**
+	 * 主要联系人名称
 	 */
 	@Column(length = 64)
-	private String belongTypeName;
+	private String linkman;
+
 	/**
 	 * 是否机构公用
 	 */
-	@Column(length = 15)
+	@Column(length = 20)
 	private String isBelongOrg;
-	/**
-	 * 协议编号
-	 */
-	@Column(length = 32)
-	private String dealNumber;
+
 	/**
 	 * 返佣类型
 	 */
-	@Column(length = 15)
+	@Column(length = 20)
 	private String rebateType;
+
 	/**
-	 * 返佣比例
+	 * 返佣类型值
 	 */
-	@Column(precision = 16, scale = 4)
+	@Column(length = 32)
 	private String returnRate;
-	/**
-	 * 返佣金额
-	 */
-	@Column(precision = 16, scale = 4)
-	private String returnAmount;
+
 	/**
 	 * 是否允许发送手机短信
 	 */
-	@Column(length = 14)
+	@Column(length = 20)
 	private String isAllowPhoneMsg;
+
 	/**
 	 * 可接受的返佣方式
 	 */
-	@Column(length = 128)
+	@Column(length = 20)
 	private String acceptRebateType;
+
+	/**
+	 * 终端地址省
+	 */
+	@Column(length = 32)
+	private String addProvince;
+
+	/**
+	 * 终端地址市
+	 */
+	@Column(length = 32)
+	private String addCity;
+
+	/**
+	 * 终端地址区
+	 */
+	@Column(length = 32)
+	private String addCounty;
+
+	/**
+	 * 终端地址
+	 */
+	@Column(length = 128)
+	private String address;
+
 	/**
 	 * 涉及业务
 	 */
-	@Column(length = 128)
+	@Column(length = 20)
 	private String businessScope;
+
 	/**
 	 * 合作的要求和建议
 	 */
-	@Column(length = 500)
+	@Column(length = 512)
 	private String cooperateSuggest;
+
 	/**
 	 * 没有继续合作原因
 	 */
-	@Column(length = 500)
+	@Column(length = 512)
 	private String onContinueReason;
+
 	/**
 	 * 该终端的特殊说明
 	 */
-	@Column(length = 500)
+	@Column(length = 512)
 	private String specialInstruction;
-	/**
-	 * 最后来案时间
-	 */
-	private Long lastinDate;
 
 	/**
-	 * 添加状态
+	 * 成立时间
 	 */
-	@Column(length = 1)
-	private String logicDelelte;
-	/**
-	 * 启用禁用状态
-	 */
-	@Column(length = 32)
-	private String status;
+	@Column
+	private Long foundDate;
 
 	/**
 	 * 主要出资人及股东
 	 */
 	@Column(length = 128)
 	private String mainShareholder;
+
 	/**
 	 * 员工数
 	 */
+	@Column
 	private Integer staffNumber;
+
 	/**
 	 * 员工流动性
 	 */
 	@Column(length = 20)
 	private String staffTurnover;
+
 	/**
 	 * 返佣是否给员工集体提成
 	 */
 	@Column(length = 20)
 	private String isGiveDeductMoney;
+
 	/**
-	 * 发放工资日期
+	 * 发放工资日期每月几日
 	 */
-	private Long wageday;
+	@Column
+	private Integer wageday;
+
 	/**
 	 * 月均经营成本
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal monthManageCost;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal monthManageCost = BigDecimal.ZERO;
+
 	/**
 	 * 注册资本
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal registeredCapital;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal registeredCapital = BigDecimal.ZERO;
+
 	/**
 	 * 办公场所面积
 	 */
-	@Column(precision = 16, scale = 4)
-	private BigDecimal workArea;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal workArea = BigDecimal.ZERO;
+
 	/**
-	 * 返佣账户
+	 * 上级机构
 	 */
-	@OneToMany(mappedBy = "cooperatorTerminal")
-	private List<ReceiveAccount> receiveAccount;
+	@Column(length = 32)
+	private String parentOrg;
+
 	/**
-	 * 终端维护记录
+	 * 维护次数
 	 */
-	@OneToMany(mappedBy = "cooperatorTerminal")
-	private List<TerminalHistory> terminalHistory;
+	@Column
+	private Integer maintenanceTimes;
+
 	/**
-	 * 联系人资料
+	 * 成立时间Long型
 	 */
-	@OneToMany(mappedBy = "cooperatorTerminal")
-	private List<ContactsInfo> contactsInfo;
+	@Column
+	private Long createDateLong;
+
 	/**
-	 * 合作银行
+	 * 共用机构Code
 	 */
-	@OneToMany(mappedBy = "cooperatorTerminal")
-	private List<CooperatorBank> cooperatorBank;
+	@Column(length = 32)
+	private String shareOrgCode;
 
-	public String getStatus() {
-		return status;
+	public String getTerminalCode() {
+		return terminalCode;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getBelongTypeName() {
-		return belongTypeName;
-	}
-
-	public Long getNowDate() {
-		return nowDate;
-	}
-
-	public void setNowDate(Long nowDate) {
-		this.nowDate = nowDate;
-	}
-
-	public void setBelongTypeName(String belongTypeName) {
-		this.belongTypeName = belongTypeName;
-	}
-
-	public String getAutoCode() {
-		return autoCode;
-	}
-
-	public void setAutoCode(String autoCode) {
-		this.autoCode = autoCode;
+	public void setTerminalCode(String terminalCode) {
+		this.terminalCode = terminalCode;
 	}
 
 	public String getTerminalFullName() {
@@ -265,12 +279,12 @@ public class CooperatorTerminal extends BaseCooperator {
 		this.terminalType = terminalType;
 	}
 
-	public String getTerminalCode() {
-		return terminalCode;
+	public String getDealNumber() {
+		return dealNumber;
 	}
 
-	public void setTerminalCode(String terminalCode) {
-		this.terminalCode = terminalCode;
+	public void setDealNumber(String dealNumber) {
+		this.dealNumber = dealNumber;
 	}
 
 	public String getCompanyTel() {
@@ -289,27 +303,19 @@ public class CooperatorTerminal extends BaseCooperator {
 		this.monthOutAvgPredict = monthOutAvgPredict;
 	}
 
-	public BigDecimal getLastMonthBusiness() {
-		return lastMonthBusiness;
+	public String getTerminalStatus() {
+		return terminalStatus;
 	}
 
-	public void setLastMonthBusiness(BigDecimal lastMonthBusiness) {
-		this.lastMonthBusiness = lastMonthBusiness;
+	public void setTerminalStatus(String terminalStatus) {
+		this.terminalStatus = terminalStatus;
 	}
 
-	public BigDecimal getOneBillAvgVaule() {
-		return oneBillAvgVaule;
-	}
-
-	public void setOneBillAvgVaule(BigDecimal oneBillAvgVaule) {
-		this.oneBillAvgVaule = oneBillAvgVaule;
-	}
-
-	public Integer getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 
-	public void setGrade(Integer grade) {
+	public void setGrade(String grade) {
 		this.grade = grade;
 	}
 
@@ -321,36 +327,52 @@ public class CooperatorTerminal extends BaseCooperator {
 		this.belongType = belongType;
 	}
 
-	public String getDealNumber() {
-		return dealNumber;
+	public String getRebateType() {
+		return rebateType;
 	}
 
-	public void setDealNumber(String dealNumber) {
-		this.dealNumber = dealNumber;
+	public void setRebateType(String rebateType) {
+		this.rebateType = rebateType;
 	}
 
-	public String getLogicDelelte() {
-		return logicDelelte;
+	public String getReturnRate() {
+		return returnRate;
 	}
 
-	public void setLogicDelelte(String logicDelelte) {
-		this.logicDelelte = logicDelelte;
+	public void setReturnRate(String returnRate) {
+		this.returnRate = returnRate;
 	}
 
-	public String getIsAllowPhoneMsg() {
-		return isAllowPhoneMsg;
+	public String getAddProvince() {
+		return addProvince;
 	}
 
-	public void setIsAllowPhoneMsg(String isAllowPhoneMsg) {
-		this.isAllowPhoneMsg = isAllowPhoneMsg;
+	public void setAddProvince(String addProvince) {
+		this.addProvince = addProvince;
 	}
 
-	public String getAcceptRebateType() {
-		return acceptRebateType;
+	public String getAddCity() {
+		return addCity;
 	}
 
-	public void setAcceptRebateType(String acceptRebateType) {
-		this.acceptRebateType = acceptRebateType;
+	public void setAddCity(String addCity) {
+		this.addCity = addCity;
+	}
+
+	public String getAddCounty() {
+		return addCounty;
+	}
+
+	public void setAddCounty(String addCounty) {
+		this.addCounty = addCounty;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getBusinessScope() {
@@ -385,52 +407,12 @@ public class CooperatorTerminal extends BaseCooperator {
 		this.specialInstruction = specialInstruction;
 	}
 
-	public String getIsBelongOrg() {
-		return isBelongOrg;
+	public Long getFoundDate() {
+		return foundDate;
 	}
 
-	public void setIsBelongOrg(String isBelongOrg) {
-		this.isBelongOrg = isBelongOrg;
-	}
-
-	public Long getLastinDate() {
-		return lastinDate;
-	}
-
-	public void setLastinDate(Long lastinDate) {
-		this.lastinDate = lastinDate;
-	}
-
-	public List<ReceiveAccount> getReceiveAccount() {
-		return receiveAccount;
-	}
-
-	public void setReceiveAccount(List<ReceiveAccount> receiveAccount) {
-		this.receiveAccount = receiveAccount;
-	}
-
-	public List<TerminalHistory> getTerminalHistory() {
-		return terminalHistory;
-	}
-
-	public void setTerminalHistory(List<TerminalHistory> terminalHistory) {
-		this.terminalHistory = terminalHistory;
-	}
-
-	public List<ContactsInfo> getContactsInfo() {
-		return contactsInfo;
-	}
-
-	public void setContactsInfo(List<ContactsInfo> contactsInfo) {
-		this.contactsInfo = contactsInfo;
-	}
-
-	public List<CooperatorBank> getCooperatorBank() {
-		return cooperatorBank;
-	}
-
-	public void setCooperatorBank(List<CooperatorBank> cooperatorBank) {
-		this.cooperatorBank = cooperatorBank;
+	public void setFoundDate(Long foundDate) {
+		this.foundDate = foundDate;
 	}
 
 	public String getMainShareholder() {
@@ -457,19 +439,11 @@ public class CooperatorTerminal extends BaseCooperator {
 		this.staffTurnover = staffTurnover;
 	}
 
-	public String getIsGiveDeductMoney() {
-		return isGiveDeductMoney;
-	}
-
-	public void setIsGiveDeductMoney(String isGiveDeductMoney) {
-		this.isGiveDeductMoney = isGiveDeductMoney;
-	}
-
-	public Long getWageday() {
+	public Integer getWageday() {
 		return wageday;
 	}
 
-	public void setWageday(Long wageday) {
+	public void setWageday(Integer wageday) {
 		this.wageday = wageday;
 	}
 
@@ -497,36 +471,92 @@ public class CooperatorTerminal extends BaseCooperator {
 		this.workArea = workArea;
 	}
 
-	public String getTerminalStatus() {
-		return terminalStatus;
+	public String getParentOrg() {
+		return parentOrg;
 	}
 
-	public void setTerminalStatus(String terminalStatus) {
-		this.terminalStatus = terminalStatus;
+	public void setParentOrg(String parentOrg) {
+		this.parentOrg = parentOrg;
 	}
 
-	public String getRebateType() {
-		return rebateType;
+	public Integer getMaintenanceTimes() {
+		return maintenanceTimes;
 	}
 
-	public void setRebateType(String rebateType) {
-		this.rebateType = rebateType;
+	public void setMaintenanceTimes(Integer maintenanceTimes) {
+		this.maintenanceTimes = maintenanceTimes;
 	}
 
-	public String getReturnRate() {
-		return returnRate;
+	public String getIsBelongOrg() {
+		return isBelongOrg;
 	}
 
-	public void setReturnRate(String returnRate) {
-		this.returnRate = returnRate;
+	public void setIsBelongOrg(String isBelongOrg) {
+		this.isBelongOrg = isBelongOrg;
 	}
 
-	public String getReturnAmount() {
-		return returnAmount;
+	public String getIsAllowPhoneMsg() {
+		return isAllowPhoneMsg;
 	}
 
-	public void setReturnAmount(String returnAmount) {
-		this.returnAmount = returnAmount;
+	public void setIsAllowPhoneMsg(String isAllowPhoneMsg) {
+		this.isAllowPhoneMsg = isAllowPhoneMsg;
+	}
+
+	public String getAcceptRebateType() {
+		return acceptRebateType;
+	}
+
+	public void setAcceptRebateType(String acceptRebateType) {
+		this.acceptRebateType = acceptRebateType;
+	}
+
+	public String getIsGiveDeductMoney() {
+		return isGiveDeductMoney;
+	}
+
+	public void setIsGiveDeductMoney(String isGiveDeductMoney) {
+		this.isGiveDeductMoney = isGiveDeductMoney;
+	}
+
+	public Long getCreateDateLong() {
+		return createDateLong;
+	}
+
+	public void setCreateDateLong(Long createDateLong) {
+		this.createDateLong = createDateLong;
+	}
+
+	public String getLinkman() {
+		return linkman;
+	}
+
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
+	}
+
+	public String getBelongRelevanceCode() {
+		return belongRelevanceCode;
+	}
+
+	public void setBelongRelevanceCode(String belongRelevanceCode) {
+		this.belongRelevanceCode = belongRelevanceCode;
+	}
+
+	public String getBelongRelevanceName() {
+		return belongRelevanceName;
+	}
+
+	public void setBelongRelevanceName(String belongRelevanceName) {
+		this.belongRelevanceName = belongRelevanceName;
+	}
+
+	public String getShareOrgCode() {
+		return shareOrgCode;
+	}
+
+	public void setShareOrgCode(String shareOrgCode) {
+		this.shareOrgCode = shareOrgCode;
 	}
 
 }

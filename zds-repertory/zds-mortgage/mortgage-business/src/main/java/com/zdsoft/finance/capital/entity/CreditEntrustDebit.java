@@ -16,14 +16,17 @@ import org.hibernate.annotations.CascadeType;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 信托计划借方资金
  * 
- * @createTime:2017年1月10日
- * @author liuwei
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustDebit.java 
+ * @ClassName: CreditEntrustDebit 
+ * @Description: 信托计划借方资金
+ * @author liuwei 
+ * @date 2017年2月8日 上午10:23:16 
+ * @version V1.0
  */
 @Entity
-@Table(name = "caal_credit_entrust_debit")
+@Table(name = "cptl_credit_entrust_debit")
 public class CreditEntrustDebit extends BaseEntity {
 
 	/**
@@ -70,8 +73,8 @@ public class CreditEntrustDebit extends BaseEntity {
 	/**
 	 * 发生总金额
 	 */
-	@Column(precision = 30, scale = 12)
-	private BigDecimal totalAmount;
+	@Column(precision = 18, scale = 6)
+	private BigDecimal totalAmount = BigDecimal.ZERO;
 
 	/**
 	 * 资金状态
@@ -82,7 +85,7 @@ public class CreditEntrustDebit extends BaseEntity {
 	/**
 	 * 备注
 	 */
-	@Column(length = 256)
+	@Column(length = 500)
 	private String remark;
 
 	/**
@@ -90,12 +93,18 @@ public class CreditEntrustDebit extends BaseEntity {
 	 */
 	@Column
 	private Integer status;
-
+	
+	/**
+	 * 提交人
+	 */
 	@Column(length = 32)
 	private String completeEmpCd;
 	@Column(length = 64)
 	private String completeEmpName;
-
+	
+	/**
+	 * 所属信托计划
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	@JoinColumn(name = "creditEntrustId")

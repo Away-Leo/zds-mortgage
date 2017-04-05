@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file='../common/common_js.jsp'%>
 	<div  id="contactsDiv"  style="height:500px;">
-				<div id="contacts_datagrid_view" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.cooperator.capitalist.getCapitalistContact" context="admin"/>&capitalist.id|E|S=${capitalistId}&jsoncallback=?","singleSelect":false,"pagination":true,"idField":"id","toolbar":"#contacts_datagrid_applylist","tableCls":"table-index"}'>
+				<div id="contacts_datagrid_view" class="zui-datagrid" zdata-options='{"url":"<z:ukey key="com.zdsoft.finance.cooperator.capitalist.getCapitalistContact" context="admin"/>&partnerId|E|S=${capitalistId}&jsoncallback=?","singleSelect":false,"pagination":true,"idField":"id","toolbar":"#contacts_datagrid_applylist","tableCls":"table-index"}'>
 					<table>
 						<thead>
 		        			<tr>
-		            			<th data-options="field:contactName">联系人</th>
+		            			<th data-options="field:linkman">联系人</th>
 		            			<th data-options="field:contactTypeName">联系类型</th>
-		            			<th data-options="field:contactTelNumber">电话号码</th>
+		            			<th data-options="field:contactNumber">电话号码</th>
 		            			<th data-options="field:id" formatter="contactFormat">操作</th>
 					        </tr>
 						</thead>
 					</table>
 				</div>
 				<div id="contacts_datagrid_applylist">
-				    <a class="zui-toolbar"  id="btn-add" text="增加" iconCls="icon-add" buttonCls="btn-blue" handler="contactsAdd"></a>
+				    <a class="zui-toolbar"  id="btn-add" text="新增" iconCls="icon-add" buttonCls="btn-blue" handler="contactsAdd"></a>
 				</div>
 	</div>
 	<div id="contactsDialog" style="display: none" >

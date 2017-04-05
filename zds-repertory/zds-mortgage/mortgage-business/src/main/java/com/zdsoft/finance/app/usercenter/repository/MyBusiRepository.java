@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 
 import com.zdsoft.finance.app.usercenter.MyBusiInfoDto;
 import com.zdsoft.finance.common.base.impl.CustomCommon;
+import com.zdsoft.finance.marketing.entity.CaseApplyBeforeCustomer;
 import com.zdsoft.framework.core.common.annotation.Log;
 import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
@@ -87,75 +88,47 @@ public class MyBusiRepository {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<MyBusiInfoDto> findMyBusiPageInfo(Map<String,Object> params, Pageable pageInfo) {
 		// 使用了mysql的查询 limit 关键字
-		StringBuffer sb = new StringBuffer(" SELECT DISTINCT ");
-		sb.append("	apply.id as caseApplyId ,");
-		sb.append("	apply.caseApplyCode as caseCode,");
-		sb.append("	apply.applyAmount as applyAmount,");
-		sb.append("	prod.productName as productName,");
-		sb.append("	house.synthesizePrice as estimate,");
-		sb.append("	clientInfo.customerName as clientName,");
-		sb.append("	clientInfo.contactway as contact,");
-		sb.append("	apply.caseApplyStatus as caseApplyStatus,");
-		sb.append("	apply.assessedPriceMortgage as assessedPriceMortgage,");
-		sb.append("	apply.stage as stage ");
-		sb.append(" FROM");
-		sb.append("	mark_case_apply apply");
-		sb.append(" INNER JOIN prct_product prod ON apply.productTypeId = prod.id");
-		sb.append(" INNER JOIN mark_collateral coll on coll.caseApplyId=apply.id");
-		sb.append(" INNER JOIN mark_house_property house ON house.id = coll.id");
-		sb.append(" INNER JOIN case_before_customer rlaclient ON apply.id = rlaclient.caseApplyId");
-		sb.append(" INNER JOIN (");
-		sb.append("	SELECT");
-		sb.append("		client.id,");
-		sb.append("		client.customerName,");
-		sb.append("		(");
-		sb.append("			SELECT");
-		sb.append("				contact.phoneNumber");
-		sb.append("			FROM");
-		sb.append("				cus_before_contact contact");
-		sb.append("			WHERE");
-		sb.append("				contact.customerId = client.id");
-		if (isMysql()) {
-			sb.append("			LIMIT 1");
-		}
-		if (isOracle()) {
-			sb.append("			AND ROWNUM=1");
-		}
-		sb.append("		) AS contactway");
-		sb.append("	FROM");
-		sb.append("		cus_before_customer client ");
-		sb.append(" ) clientInfo ON rlaclient.customerId = clientInfo.id ");
+		StringBuffer sb = new StringBuffer("SELECT ");
+		
+		sb.append("			   bf.componentsentityid AS caseApplyId,");
+		sb.append("		       bf.businessentityid   AS businessKey,");
+		sb.append("		       bf.processinstancekey AS processInstanceId,");
+		sb.append("		       bf.applytitle         AS applyTitle,");
+		sb.append("		       bf.formstatus         AS formStatus,");
+		sb.append("		       cbcc.customername     AS mainCustomerName,");
+		sb.append("		       bf.applydate          AS applyDate,");
+		sb.append("		       bf.modeltype          AS modelType");
+		sb.append("		  FROM busi_form bf");
+		sb.append("		 INNER JOIN mkt_case_apply mca");
+		sb.append("		    ON bf.componentsentityid = mca.id");
+		sb.append("		  LEFT JOIN case_before_customer cbc");
+		sb.append("		    ON cbc.caseapplyid = mca.id");
+		sb.append("		  LEFT JOIN cust_before_customer cbcc");
+		sb.append("		    ON cbcc.id = cbc.customerid");
+		sb.append("		 AND cbc.jointype = '" + CaseApplyBeforeCustomer.MAIN_BORROW + "'"); //主借人
 		sb.append(" WHERE 1=1 ");
 		// 封装参数
 		Map<String, Object> condition = new HashMap<String, Object>();
 		if (ObjectHelper.isNotEmpty(params)) {
-			// 封装sql
-			// 关键字
+			// 标题
 			if (ObjectHelper.isNotEmpty(params.get("keyWord"))) {
-				sb.append(" AND clientInfo.customerName LIKE '%'||:keyWord||'%'");
-				sb.append(" AND apply.caseApplyCode LIKE '%'||:keyWord||'%'");
-				// 产品名称
-				sb.append(" AND prod.productName LIKE '%'||:keyWord||'%'");
+				sb.append(" AND bf.applytitle LIKE '%'||:keyWord||'%'");
 				condition.put("keyWord", params.get("keyWord"));
 			}
-			// 类型
-			if (ObjectHelper.isNotEmpty(params.get("stage"))) {
-				sb.append(" AND apply.examinationStatus = :stage");
-				condition.put("stage", params.get("stage"));
-			}
-			// 状态值
-			if (ObjectHelper.isNotEmpty(params.get("status"))) {
-				sb.append(" AND apply.caseApplyStatus = :status");
-				condition.put("status", params.get("status"));
+			// 状态
+			if (ObjectHelper.isNotEmpty(params.get("formStatus"))) {
+				sb.append(" AND bf.formstatus = :formStatus");
+				condition.put("formStatus", params.get("formStatus"));
 			}
 			// 当前登录者
 			if (ObjectHelper.isNotEmpty(params.get("currentEmpCd"))) {
-				sb.append(" AND apply.developmentManagerCode = :currentEmpCd");
+				sb.append(" AND bf.launchEmpCode = :currentEmpCd");
 				condition.put("currentEmpCd", params.get("currentEmpCd"));
 			}
 		}
 		// 创建query
 		//得到Session
+		em = em.getEntityManagerFactory().createEntityManager();
 		Session session = em.unwrap(Session.class);
 		//创建查询对象
 		SQLQuery q = session.createSQLQuery(sb.toString());

@@ -12,9 +12,10 @@ package com.zdsoft.finance.casemanage.loanauditsheet.entity;
  */
 public enum PledgeTypeEnum {
 
-    FIRST_MORTGAGE("1", "一抵"),
-    SECOND_MORTGAGE("2", "二抵");
-
+    FIRST_MORTGAGE("YWDM0051011", "一抵"),
+    SECOND_MORTGAGE("YWDM0051012", "二抵"),
+	THERE_MORTGAGE("YWDM0051013", "三抵"),
+	OTHER_MORTGAGE("YWDM0051013", "其他");
     private String name;
     private String key;
 

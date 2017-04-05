@@ -24,10 +24,13 @@ import com.zdsoft.framework.core.common.page.Pageable;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
 /**
- * 产品审批意见操作接口实现
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: ApprovalOpinionServiceImpl.java 
+ * @ClassName: ApprovalOpinionServiceImpl 
+ * @Description: 产品审批意见
+ * @author gufeng 
+ * @date 2017年3月6日 下午7:27:37 
+ * @version V1.0
  */
 @Service("approvalOpinionService")
 public class ApprovalOpinionServiceImpl extends BaseServiceImpl<ApprovalOpinion, CustomRepository<ApprovalOpinion,String>> implements ApprovalOpinionService {
@@ -110,5 +113,14 @@ public class ApprovalOpinionServiceImpl extends BaseServiceImpl<ApprovalOpinion,
 		}
 		
 		return approvalOpinionRepository.findByProductId(productId);
+	}
+
+	@Override
+	public List<ApprovalOpinion> findByProductIdAndApprovalTypeCode(String productId, String approvalType)
+			throws BusinessException {
+		if(ObjectHelper.isEmpty(productId) || ObjectHelper.isEmpty(approvalType)){
+			throw new BusinessException("100000001","传入参数错误");
+		}
+		return approvalOpinionRepository.findByProductIdAndApprovalType(productId,approvalType);
 	}
 }

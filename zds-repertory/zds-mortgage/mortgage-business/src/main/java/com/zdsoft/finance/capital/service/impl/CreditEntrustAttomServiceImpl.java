@@ -10,17 +10,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zdsoft.essential.client.service.CED;
 import com.zdsoft.finance.base.service.impl.BaseServiceImpl;
+import com.zdsoft.finance.capital.entity.CreditEntrust;
 import com.zdsoft.finance.capital.entity.CreditEntrustAttom;
 import com.zdsoft.finance.capital.entity.CreditEntrustOperationLog;
 import com.zdsoft.finance.capital.repository.CreditEntrustAttomRepository;
 import com.zdsoft.finance.capital.service.CreditEntrustAttomService;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
+import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.spi.common.dto.OperationTypeNm;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustAttomServiceImpl.java
+ * @ClassName: CreditEntrustAttomServiceImpl
+ * @Description: 信托计划转让ServiceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:38:30
+ * @version V1.0
+ */
 @Service("creditEntrustAttomService")
 public class CreditEntrustAttomServiceImpl
 		extends BaseServiceImpl<CreditEntrustAttom, CustomRepository<CreditEntrustAttom, String>>
@@ -31,6 +45,12 @@ public class CreditEntrustAttomServiceImpl
 
 	@Autowired
 	CreditEntrustOperationLogService creditEntrustOperationLogService;
+
+	@Autowired
+	CreditEntrustService creditEntrustService;
+
+	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
 
 	@Autowired
 	CED CED;
@@ -88,7 +108,7 @@ public class CreditEntrustAttomServiceImpl
 			creditEntrustAttom.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			creditEntrustAttom.setCompleteEmpName(CED.getLoginUser().getEmpNm());
 			creditEntrustAttom
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 保存贷方资金跟踪信息
 			creditEntrustAttom = creditEntrustAttomRepository.saveEntity(creditEntrustAttom);
@@ -99,14 +119,20 @@ public class CreditEntrustAttomServiceImpl
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
 			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(creditEntrustAttom.getId());
 
 			creditEntrustOperationLogService.saveEntity(operationLog);
 
+		}
+
+		// 重新填充列表信息
+		if (ObjectHelper.isNotEmpty(creditEntrustAttom.getCreditEntrust())) {
+			CreditEntrust creditEntrust = creditEntrustToolService.listFill(creditEntrustAttom.getCreditEntrust());
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
 		}
 
 		return creditEntrustAttom;

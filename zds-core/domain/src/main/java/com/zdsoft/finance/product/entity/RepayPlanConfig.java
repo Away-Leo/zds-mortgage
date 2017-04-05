@@ -11,46 +11,48 @@ import org.hibernate.annotations.Type;
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 还款计划配置实体
- * @author longwei
- * @date 2016/12/28
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: RepayPlanConfig.java 
+ * @ClassName: RepayPlanConfig 
+ * @Description: 还款计划配置实体
+ * @author gufeng 
+ * @date 2017年3月6日 下午4:55:43 
+ * @version V1.0
  */
 @Entity
-@Table(name="prct_repay_plan_config")
+@Table(name="prd_repay_plan_config")
 public class RepayPlanConfig extends BaseEntity{
+
+	private static final long serialVersionUID = 6406019357082125654L;
 
 	/**
 	 * 费用项目
 	 */
-	@Column(length=255)
-	private String feeNm;
+	@Column(length=64)
+	private String feeName;
 	
 	/**
 	 * 费用项目
 	 */
 	@Column(length=32)
-	private String feeCd;
-	
-	/**
-	 * 收款方
-	 */
-	@Column(length=255)
-	private String receiverCd;
+	private String feeCode;
 	
 	/**
 	 * 收款方
 	 */
 	@Column(length=32)
-	private String receiverNm;
-	
+	private String receiverId;
+	/**
+	 * 收款方
+	 */
+	@Column(length=64)
+	private String receiverName;
 	/**
 	 * 是否启用
 	 */
 	@Column
 	@Type(type="true_false")
 	private Boolean isEnable;
-	
 	/**
 	 * 所属产品
 	 */
@@ -58,36 +60,28 @@ public class RepayPlanConfig extends BaseEntity{
 	@JoinColumn(name="product_id")
 	private Product product;
 
-	public String getFeeNm() {
-		return feeNm;
+	public String getFeeName() {
+		return feeName;
 	}
 
-	public void setFeeNm(String feeNm) {
-		this.feeNm = feeNm;
+	public void setFeeName(String feeName) {
+		this.feeName = feeName;
 	}
 
-	public String getFeeCd() {
-		return feeCd;
+	public String getFeeCode() {
+		return feeCode;
 	}
 
-	public void setFeeCd(String feeCd) {
-		this.feeCd = feeCd;
+	public void setFeeCode(String feeCode) {
+		this.feeCode = feeCode;
 	}
 
-	public String getReceiverCd() {
-		return receiverCd;
+	public String getReceiverId() {
+		return receiverId;
 	}
 
-	public void setReceiverCd(String receiverCd) {
-		this.receiverCd = receiverCd;
-	}
-
-	public String getReceiverNm() {
-		return receiverNm;
-	}
-
-	public void setReceiverNm(String receiverNm) {
-		this.receiverNm = receiverNm;
+	public void setReceiverId(String receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public Boolean getIsEnable() {
@@ -104,6 +98,14 @@ public class RepayPlanConfig extends BaseEntity{
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getReceiverName() {
+		return receiverName;
+	}
+
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
 	}
 	
 }

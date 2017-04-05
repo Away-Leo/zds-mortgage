@@ -10,44 +10,6 @@
 </head>
 <body>
 <div id="creditEntrustPlanConfigForm">
-	<!-- 查询区域 -->
-	<!-- 
-	<div class="page-box">
-		<div class="page-title">查询</div>
-		<div class="p10">
-			<form id="queryCreditEntrustPlanConfig" class="zui-form form-search" method="post" zdata-options="{}">
-				<dl class="form-item">
-					<dt class="title">费用项目:</dt>
-					<dd class="detail">
-						<label> 
-							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="feeNm" name="feeNm">
-						</label>
-					</dd>
-				</dl>
-				<dl class="form-item">
-					<dt class="title">收款方:</dt>
-					<dd class="detail">
-						<label> 
-							<input class="zui-input zui-validatebox" validate-type="Length[0-60]" id="receiverNm" name="receiverNm">
-						</label>
-					</dd>
-				</dl>
-				<dl class="form-item">
-					<dt class="title">是否启用:</dt>
-					<dd class="detail">
-						<input class="zui-combobox zui-validatebox" type="hidden" validate-type="" id="repayPlanConfigIsEnable"
-	                        data-data="[{'id':'true','text':'是'},{'id':'false','text':'否'}]" value="true"
-	                        data-valuefield="id" data-textfield="text" name="isEnable">
-					</dd>
-				</dl>
-				<dl class="form-btn">
-					<input type="button" class="btn-blue" id="searchCreditEntrustPlanConfig" value="查询" />
-					<input type="button" class="btn-gray" id="resetCreditEntrustPlanConfig" value="重置" />
-				</dl>
-			</form>
-		</div>
-	</div>
-	 -->
 	<!-- 列表区域 -->
 	<div class="page-box">
 		<div class="page-title">资金计划规则</div>
@@ -56,11 +18,11 @@
 				<table>
         			<tr>
             			<th data-options="field:capitalistName,width:20%">资方</th>
-            			<th data-options="field:creditEntrustName,width:20%">资金计划</th>
-            			<th data-options="field:minEvaluateNum,width:15%">最低评估成数(包含)</th>
-            			<th data-options="field:maxEvaluateNum,width:15%">最高评估成数(不包含)</th>
+            			<th data-options="field:capitalPlanName,width:20%">资金计划</th>
+            			<th data-options="field:minPercentage,width:15%">最低评估成数(包含)</th>
+            			<th data-options="field:maxPercentage,width:15%">最高评估成数(不包含)</th>
             			<th data-options="field:isEnable,width:10%" formatter="formatIsEnable">是否启用</th>
-            			<th data-options="field:id,width:20%" formatter="formatId">操作</th>
+            			<th data-options="field:id,width:20%" formatter="creditFunction">操作</th>
 			        </tr>
 				</table>
 			</div>
@@ -84,23 +46,6 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 			
 		});
 	}
-	/* 
-	$('#searchCreditEntrustPlanConfig').on('click',function(){
-		var flag=$.ZUI.validateForm($('#queryRepayPlanConfig'));
-    	if(flag){
-        	var formArray=$("#queryRepayPlanConfig").serialize();
-        	formArray=decodeURIComponent(formArray, true);
-        	$('#tb-repayPlanConfig').ZTable("reload", formArray);
-    	}
-	});
-	
-	$('#resetCreditEntrustPlanConfig').on('click',function(){
-    	$('#feeNm').val('');
-    	$('#receiverNm').val('');
-    	$('#repayPlanConfigIsEnable').ZCombobox('setValue',true);
-		$('#tb-repayPlanConfig').ZTable("reload", {isEnable:true});
-    });
-	 */
 	CALLBACK.formatIsEnable=function(rowData,index){
 		if(rowData.isEnable){
 			return '是';
@@ -109,7 +54,7 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
 		}
 	}
 	
-	CALLBACK.formatId=function(rowData,index){
+	CALLBACK.creditFunction=function(rowData,index){
 		var id=rowData.id;
 		if(!id){
 			$.ZMessage.error("错误", "未获取到主键", function () {
@@ -117,10 +62,9 @@ seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.form','zd/jquer
             });
 			return ;
 		}
-		
-		return '<a href="javaScript:void(0)" onclick="editCreditEntrustPlanConfig"><button class="btn-blue">编辑</button></a>'
-    	+
-    	'&nbsp;&nbsp;'+'<a href="javaScript:void(0)" onclick="deleteCreditEntrustPlanConfig"><button class="btn-blue">删除</button></a>';
+		var str = "<a title='修改' class='btn-blue' onclick='editCreditEntrustPlanConfig'>修改</a>" +
+    	"&nbsp;&nbsp;<a title='删除' class='btn-blue' onclick='deleteCreditEntrustPlanConfig'>删除</a>";
+		return str;
 	}
 	
 	CALLBACK.editCreditEntrustPlanConfig=function(index,rowData){

@@ -6,11 +6,15 @@ import javax.persistence.Table;
 
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
+
 /**
- * 业务监控
- * @createTime 2017-01-11
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @version 1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: BusinessMonitoring.java 
+ * @ClassName: BusinessMonitoring 
+ * @Description: 业务监控
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:49:10 
+ * @version V1.0
  */
 @Entity
 @Table(name = "business_monitoring")

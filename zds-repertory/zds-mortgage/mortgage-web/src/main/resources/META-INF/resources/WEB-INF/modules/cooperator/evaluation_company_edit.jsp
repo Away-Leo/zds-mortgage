@@ -27,7 +27,7 @@
 							<dt class="title"><b class="c-red mr5">*</b>简称：</dt>
 							<dd class="detail">
 								<label>
-		                            <input class="zui-input zui-validatebox" validate-type="Require,Length[0-15]" id="shortName" name="shortName" value="${infoVo.shortName }" />
+		                            <input class="zui-input zui-validatebox" validate-type="Require,Length[1-32]" id="shortName" name="shortName" value="${infoVo.shortName }" />
 		                        </label>
 							</dd>
 						</dl>
@@ -129,7 +129,7 @@
 							<dt class="title"><b class="c-red mr5">*</b>行业：</dt>
 							<dd class="detail">
 								<label>
-		                            <input class="zui-input zui-validatebox" validate-type="Require,Length[0-15]" id="industry" name="industry" value="${infoVo.industry }" />
+		                            <input class="zui-input zui-validatebox" validate-type="Require,Length[1-20]" id="industry" name="industry" value="${infoVo.industry }" />
 		                        </label>
 							</dd>
 						</dl>

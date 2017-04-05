@@ -1,21 +1,20 @@
 package com.zdsoft.finance.prcostitem.entity;
 
+import com.zdsoft.framework.core.common.domain.BaseEntity;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 机构产品费用
- * @author <a href="mailto:gufeng@zdsoft.cn">gufeng</a>
- * @date 2016-12-30
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: PrCostItem.java 
+ * @ClassName: PrCostItem 
+ * @Description: PrCostItem
+ * @author gufeng 
+ * @date 2017年3月13日 下午4:49:20 
+ * @version V1.0
  */
 @Entity
 @Table(name = "pr_cost_item")
@@ -63,13 +62,13 @@ public class PrCostItem extends BaseEntity {
 	 * 贷款金额 开始
 	 */
 	@Column(precision = 30, scale = 12)
-	private BigDecimal amountStart;
+	private BigDecimal amountStart = BigDecimal.ZERO;
 	
 	/**
 	 * 贷款金额 结束
 	 */
 	@Column(precision = 30, scale = 12)
-	private BigDecimal amountEnd;
+	private BigDecimal amountEnd = BigDecimal.ZERO;
 	
 	/**
 	 * 抵押顺位 开始
@@ -88,7 +87,12 @@ public class PrCostItem extends BaseEntity {
 	 */
 	@Column(precision = 30, scale = 12)
 	private Double overdueFee;
-	
+	/**
+	 * 逾期收费单位
+	 */
+	@Column(length = 32)
+	private String overdueFeeUnit;
+
 	/**
 	 * 展期收费
 	 */
@@ -119,6 +123,15 @@ public class PrCostItem extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name="pr_costitem_apply_id")
 	private PrCostitemApply prCostitemApply;
+
+
+	public String getOverdueFeeUnit() {
+		return overdueFeeUnit;
+	}
+
+	public void setOverdueFeeUnit(String overdueFeeUnit) {
+		this.overdueFeeUnit = overdueFeeUnit;
+	}
 
 	private transient String[] prCostItemDetail_ids;
 	

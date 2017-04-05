@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zdsoft.finance.app.customer.vo.AppCustomerVo;
+import com.zdsoft.finance.common.exception.AppExistMainCustomerException;
+import com.zdsoft.finance.common.exception.AppOntExistMainCustomerException;
 import com.zdsoft.finance.common.utils.AppStatus;
 import com.zdsoft.finance.common.utils.app.AppServerUtil;
 import com.zdsoft.finance.customer.entity.BeforeAddress;
@@ -42,18 +45,20 @@ public class AppCustomerController extends BaseController {
 	private BeforePersonalCustomerService beforePersonalCustomerService;
 	@Autowired
 	private BeforehandApplyService beforehandApplyService;
+	
 	/**
 	 * 
-	 * 贷款申请-添加/修改客户
-	 *
-	 * @author xj
+	 * @Title: addCustomer 
+	 * @Description: 贷款申请-添加/修改客户
+	 * @author xj 
+	 * @param appCustomerVo 客户信息
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/addCustomer",produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addCustomer(AppCustomerVo appCustomerVo) throws Exception{
-		String result = null;
+		Map<String, Object> customerMap = new HashMap<String, Object>();
 		try {
 			//参与人
 			BeforePersonalCustomer customer = this.transformCustomer(appCustomerVo);
@@ -65,20 +70,40 @@ public class AppCustomerController extends BaseController {
 			List<BeforeContact> contacts = this.transformContact(appCustomerVo);
 			//获取案件Id
 			BeforehandApply beforehandApply = beforehandApplyService.findOne(appCustomerVo.getApplyId());
-			result = beforePersonalCustomerService.saveOrUpdateAppCustomer(beforehandApply.getCaseApplyId(), customer,
+			String customerId = beforePersonalCustomerService.saveOrUpdateAppCustomer(beforehandApply.getCaseApplyId(), customer,
 					allAddress, beforeWorkUnits, contacts, false,appCustomerVo.getToken());
-		} catch (Exception e) {
+			if(ObjectHelper.isNotEmpty(appCustomerVo.getCustomerId())){
+				customerMap.put("message", "修改客户成功！");
+			}else {
+				customerMap.put("message", "保存客户成功！");
+			}
+			customerMap.put("customerId", customerId);
+			customerMap.put("status", AppStatus.Succeed.value());
+		} catch (AppExistMainCustomerException e) {
+			customerMap.put("customerId", "");
+			customerMap.put("message", "添加主借人失败，该案件已经存在主借人！");
+			customerMap.put("status", AppStatus.ExistMainCustomer.value());
 			logger.error("贷款申请-添加/修改客户", e);
-			result = AppServerUtil.buildJsonMessage(AppStatus.SystemError,"系统异常！");
+		} catch (AppOntExistMainCustomerException e) {
+			customerMap.put("customerId", "");
+			customerMap.put("message", "添加主借人失败，该案件不存在主借人！");
+			customerMap.put("status", AppStatus.OntExistMainCustomer.value());
+			logger.error("贷款申请-添加/修改客户", e);
+		} catch (Exception e) {
+			customerMap.put("customerId", "");
+			customerMap.put("message", "保存客户失败！");
+			customerMap.put("status", AppStatus.SystemError.value());
+			logger.error("贷款申请-添加/修改客户", e);
 		}
-		return result;
+		return ObjectHelper.objectToJson(customerMap);
 	}
+	
 	/**
 	 * 
-	 * 新增配偶信息
-	 *
-	 * @author xj
-	 * @param appCustomerVo
+	 * @Title: addCustomerSpouse 
+	 * @Description: 新增修改配偶信息
+	 * @author xj 
+	 * @param appCustomerVo 客户信息
 	 * @return
 	 * @throws Exception
 	 */
@@ -89,6 +114,8 @@ public class AppCustomerController extends BaseController {
 		try {
 			//参与人
 			BeforePersonalCustomer customer = this.transformCustomer(appCustomerVo);
+			//设置已婚
+			customer.setMaritalStatus("YWDM0011302");
 			//地址
 			List<BeforeAddress> allAddress = this.transformAddress(appCustomerVo);
 			//工作单位
@@ -99,7 +126,16 @@ public class AppCustomerController extends BaseController {
 			BeforehandApply beforehandApply = beforehandApplyService.findOne(appCustomerVo.getApplyId());
 			result = beforePersonalCustomerService.saveOrUpdateAppCustomer(beforehandApply.getCaseApplyId(), customer,
 					allAddress, beforeWorkUnits, contacts, true,appCustomerVo.getToken());
+			Map<String, Object> customerMap = new HashMap<String, Object>();
+			customerMap.put("spouseId", result);
+			customerMap.put("status", AppStatus.Succeed.value());
+			customerMap.put("message", "保存客户成功！");
+			result = ObjectHelper.objectToJson(customerMap);
 			logger.info("新增配偶信息成功");
+		} catch (AppExistMainCustomerException e) {
+			result = AppServerUtil.buildJsonMessage(AppStatus.ExistMainCustomer,"添加主借人失败，该案件已经存在主借人！");
+		} catch (AppOntExistMainCustomerException e) {
+			result = AppServerUtil.buildJsonMessage(AppStatus.OntExistMainCustomer,"添加主借人失败，该案件不存在主借人！");
 		} catch (Exception e) {
 			logger.error("新增配偶信息", e);
 			result = AppServerUtil.buildJsonMessage(AppStatus.SystemError,"系统异常！");
@@ -107,7 +143,14 @@ public class AppCustomerController extends BaseController {
 		return result;
 	}
 	
-	//联系方式
+	/**
+	 * 
+	 * @Title: transformContact 
+	 * @Description: 转换联系方式
+	 * @author xj 
+	 * @param appCustomerVo 客户信息
+	 * @return
+	 */
 	private List<BeforeContact> transformContact(AppCustomerVo appCustomerVo) {
 		//联系方式json字符串
 		String contactsJson = appCustomerVo.getContacts();
@@ -130,7 +173,15 @@ public class AppCustomerController extends BaseController {
 		}
 		return result;
 	}
-	//工作单位
+	
+	/**
+	 * 
+	 * @Title: transformWorkUnit 
+	 * @Description: 转换工作单位
+	 * @author xj 
+	 * @param appCustomerVo 客户信息
+	 * @return
+	 */
 	private List<BeforeWorkUnit> transformWorkUnit(AppCustomerVo appCustomerVo) {
 		List<BeforeWorkUnit> result = new ArrayList<BeforeWorkUnit>();
 		//工作单位json字符串
@@ -170,7 +221,15 @@ public class AppCustomerController extends BaseController {
 		}
 		return result;
 	}
-	//地址
+	
+	/**
+	 * 
+	 * @Title: transformAddress 
+	 * @Description: 转换地址
+	 * @author xj 
+	 * @param appCustomerVo 客户信息
+	 * @return
+	 */
 	private List<BeforeAddress> transformAddress(AppCustomerVo appCustomerVo) {
 		List<BeforeAddress> list = new ArrayList<BeforeAddress>();
 		//户籍地址
@@ -191,9 +250,22 @@ public class AppCustomerController extends BaseController {
 			residenceAddress.setAddressType(BeforeAddress.HOUSEHOLD_REGISTRATION_ADDRESS);
 			list.add(residenceAddress);
 		}
+		if(ObjectHelper.isNotEmpty(appCustomerVo.getHomeAddr())){
+			BeforeAddress de = JSONObject.parseObject(appCustomerVo.getHomeAddr(),BeforeAddress.class);
+			de.setAddressType(BeforeAddress.HOME_ADDRESS);
+			list.add(de);
+		}
 		return list;
 	}
-	//参与人
+	
+	/**
+	 * 
+	 * @Title: transformCustomer 
+	 * @Description: 转换客户基本信息
+	 * @author xj 
+	 * @param appCustomerVo 客户信息
+	 * @return
+	 */
 	private BeforePersonalCustomer transformCustomer(AppCustomerVo appCustomerVo) {
 		BeforePersonalCustomer  customer = new BeforePersonalCustomer();
 		//id

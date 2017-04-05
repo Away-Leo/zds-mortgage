@@ -6,20 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.zdsoft.framework.core.common.domain.BaseEntity;
 
 /**
- * 版权所有：重庆正大华日软件有限公司
  * 
- * @Title:Search.java
- * @Package:com.zdsoft.finance.marketing.entity
- * @Description:产权状态实体
- * @author: zhoushichao
- * @date:2017年1月13日 下午9:32:35
- * @version:v1.0
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: Search.java 
+ * @ClassName: Search 
+ * @Description: 产权状态实体
+ * @author zhoushichao 
+ * @date 2017年3月14日 下午5:49:07 
+ * @version V1.0
  */
 @Entity
-@Table(name = "mark_search")
+@Table(name = "mkt_search")
 public class Search extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -39,14 +41,16 @@ public class Search extends BaseEntity {
     /**
      * 是否查封
      */
-    @Column(length = 10)
-    private Boolean isSearched = false;
+    @Column
+    @Type(type = "true_false")
+    Boolean isSearched = Boolean.valueOf(false);
 
     /**
      * 是否有查封历史
      */
-    @Column(length = 10)
-    private Boolean isSearchHistory = false;
+    @Column
+    @Type(type = "true_false")
+    Boolean isSearchHistory = Boolean.valueOf(false);
 
     /**
      * 查封时间
@@ -64,7 +68,7 @@ public class Search extends BaseEntity {
      * 查封金额
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal searchAmount;
+    private BigDecimal searchAmount = BigDecimal.ZERO;
 
     /**
      * 查封者
@@ -87,9 +91,9 @@ public class Search extends BaseEntity {
     /**
      * 是否有抵押历史
      */
-    @Column(length = 10)
-    private Boolean isMortgageHistory = false;
-
+    @Column
+    @Type(type = "true_false")
+    Boolean isMortgageHistory = Boolean.valueOf(false);
     /**
      * 抵押时间
      */
@@ -100,7 +104,7 @@ public class Search extends BaseEntity {
      * 抵押金额
      */
     @Column(precision = 18, scale = 2)
-    private BigDecimal mortgageAmount;
+    private BigDecimal mortgageAmount = BigDecimal.ZERO;
 
     /**
      * 抵押权人

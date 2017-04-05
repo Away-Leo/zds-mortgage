@@ -18,12 +18,24 @@ import com.zdsoft.finance.capital.repository.CreditEntrustPrincipalRepository;
 import com.zdsoft.finance.capital.service.CreditEntrustOperationLogService;
 import com.zdsoft.finance.capital.service.CreditEntrustPrincipalService;
 import com.zdsoft.finance.capital.service.CreditEntrustService;
+import com.zdsoft.finance.capital.service.CreditEntrustToolService;
 import com.zdsoft.finance.common.base.CustomRepository;
 import com.zdsoft.finance.spi.common.dto.OperationTypeNm;
 import com.zdsoft.finance.spi.common.dto.StatusNm;
 import com.zdsoft.framework.core.common.util.DateHelper;
 import com.zdsoft.framework.core.common.util.ObjectHelper;
 
+/**
+ * 
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: CreditEntrustPrincipalServiceImpl.java
+ * @ClassName: CreditEntrustPrincipalServiceImpl
+ * @Description: 信托计划本金投入serviceImpl
+ * @author liuwei
+ * @date 2017年2月8日 上午10:39:41
+ * @version V1.0
+ */
 @Service("creditEntrustPrincipalService")
 public class CreditEntrustPrincipalServiceImpl
 		extends BaseServiceImpl<CreditEntrustPrincipal, CustomRepository<CreditEntrustPrincipal, String>>
@@ -40,6 +52,9 @@ public class CreditEntrustPrincipalServiceImpl
 
 	@Autowired
 	CreditEntrustService creditEntrustService;
+
+	@Autowired
+	CreditEntrustToolService creditEntrustToolService;
 
 	@Override
 	@Transactional
@@ -80,10 +95,8 @@ public class CreditEntrustPrincipalServiceImpl
 				operationLog.setOperationContent("信托计划本金赎回");
 				operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 				operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-				operationLog.setOperationDate(
-						DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-				operationLog.setActualDate(
-						DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+				operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+				operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 				// operationLog.setStatus();
 				operationLog.setBusinessId(oldPrincipal.getId());
 				creditEntrustOperationLogService.saveEntity(operationLog);
@@ -103,7 +116,7 @@ public class CreditEntrustPrincipalServiceImpl
 			creditEntrsutPrincipal.setCompleteEmpCd(CED.getLoginUser().getEmpCd());
 			creditEntrsutPrincipal.setCompleteEmpName(CED.getLoginUser().getEmpNm());
 			creditEntrsutPrincipal
-					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+					.setCompleteDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 
 			// 保存贷方资金跟踪信息
 			creditEntrsutPrincipal = creditEntrustPrincipalRepository.saveEntity(creditEntrsutPrincipal);
@@ -113,17 +126,15 @@ public class CreditEntrustPrincipalServiceImpl
 			operationLog.setOperationContent("信托计划本金投入");
 			operationLog.setOperationEmpCd(CED.getLoginUser().getEmpCd());
 			operationLog.setOperationEmpName(CED.getLoginUser().getEmpNm());
-			operationLog.setOperationDate(
-					DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
-			operationLog
-					.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_SHORT_SIMPLE_FORMAT_WITHMINUTE));
+			operationLog.setOperationDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
+			operationLog.setActualDate(DateHelper.dateToLong(new Date(), DateHelper.DATE_LONG_SIMPLE_FORMAT));
 			// operationLog.setStatus();
 			operationLog.setBusinessId(creditEntrsutPrincipal.getId());
 			creditEntrustOperationLogService.saveEntity(operationLog);
-
-			totalAmount = creditEntrsutPrincipal.getPrincipalAmount();
+			totalAmount = BigDecimal.ZERO;
 		}
 
+		// 修改收入信息 并 重新填充列表统计信息
 		if (ObjectHelper.isNotEmpty(creditEntrsutPrincipal.getCreditEntrust())) {
 			CreditEntrust creditEntrust = creditEntrsutPrincipal.getCreditEntrust();
 			BigDecimal incomeBalance = creditEntrust.getIncomeBalance();
@@ -133,6 +144,9 @@ public class CreditEntrustPrincipalServiceImpl
 							: creditEntrsutPrincipal.getPrincipalAmount());
 
 			creditEntrust.setIncomeBalance(incomeBalance);
+			creditEntrust = creditEntrustService.updateEntity(creditEntrust);
+
+			creditEntrust = creditEntrustToolService.listFill(creditEntrust);
 			creditEntrustService.updateEntity(creditEntrust);
 		}
 

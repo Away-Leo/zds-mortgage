@@ -2,6 +2,7 @@ package com.zdsoft.finance.casemanage.datasurvey.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -70,7 +71,8 @@ public class FeeInfomationController extends BaseController {
 	
 	@Autowired
 	private CED CED;
-
+	
+	
 	/**
 	 * 
 	 * 费用信息编辑
@@ -84,11 +86,10 @@ public class FeeInfomationController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit")
 	@UriKey(key = "com.zdsoft.finance.casemanage.datasurvey.feeinfomation.edit")
-	public ModelAndView edit(HttpServletRequest req, String caseApplyId) {
+	public ModelAndView edit(String caseApplyId) {
 		log.info("进入费用编辑页面");
 		log.debug("caseApplyId:{}", caseApplyId);
 		ModelMap model = new ModelMap();
-		model.put("caseApplyId", caseApplyId);
 		// 主借人类型值
 		model.put("mainBorrowType", CaseApplyBeforeCustomer.MAIN_BORROW);
 		// 其他类型值
@@ -105,8 +106,7 @@ public class FeeInfomationController extends BaseController {
 			// 获取参与类型
 			model.put("joinTypeInfos", this.getFeeCustomerTypes());
 			
-		} catch (BusinessException e) {
-			model.put("errorMsg", e.getMessage());
+		} catch (Exception e) {
 			log.error("查询数据错误", e);
 			e.printStackTrace();
 		}
@@ -127,19 +127,52 @@ public class FeeInfomationController extends BaseController {
 	 */
 	@RequestMapping(value = "/view")
 	@UriKey(key = "com.zdsoft.finance.casemanage.datasurvey.feeinfomation.view")
-	public ModelAndView view(HttpServletRequest req, String caseApplyId) throws BusinessException {
+	public ModelAndView view(HttpServletRequest req, String caseApplyId)  {
 		ModelMap model = new ModelMap();
 		log.info("进入费用查看页面");
 		try {
-			List<FeeInfomation> feeList = feeInfomationService.findFeeInfomationByCaseApplyId(caseApplyId);
+			List<FeeInfomation> feeList = feeInfomationService.findByCaseApplyId(caseApplyId);
+			if (ObjectHelper.isEmpty(feeList)) {
+				model.put("hasResultMap", false);
+			}
 			model.put("feeInfoMap",  this.switchFeeInfoToVoMap(feeList));
-		} catch (BusinessException e) {
+		} catch (Exception e) {
+			model.put("errorMsg", e.getMessage());
 			log.error("进入费用查看页面出错！", e);
 			e.printStackTrace();
 		}
 		model.put("caseApplyId", caseApplyId);
 		return new ModelAndView("casemanage/financialreview/feeinfomation_view", model);
 
+	}
+	
+	/**
+	 * @Title: findFeeInfomationByCaseApplyId 
+	 * @Description: 根据案件id获取收款明细
+	 * @author jincheng 
+	 * @param caseApplyId
+	 * @return
+	 */
+	@RequestMapping(value="/findFeeInfomationByCaseApplyId")
+	@UriKey(key = "com.zdsoft.finance.casemanage.findFeeInfomationByCaseApplyId")
+	@ResponseBody
+	public ResponseMsg  findFeeInfomationByCaseApplyId(String caseApplyId){
+			ResponseMsg msg = new ResponseMsg();
+			try {
+				List<FeeInfomation> feeList = feeInfomationService.findFeeInfomationByCaseApplyId(caseApplyId);
+				List<FeeInfomationVo> feeVoList=new ArrayList<FeeInfomationVo>();
+				for(FeeInfomation fee:feeList){
+					FeeInfomationVo feeVo=new FeeInfomationVo(fee);
+					feeVoList.add(feeVo);
+				}
+				msg.setResultStatus(ResponseMsg.SUCCESS);
+		        msg.setRows(feeVoList);
+		        msg.setTotal(Long.parseLong(""+feeVoList.size()));
+			} catch (Exception e) {
+				log.error("进入费用查看页面出错！", e);
+				e.printStackTrace();
+			}
+        return msg;
 	}
 
 	/**
@@ -149,6 +182,7 @@ public class FeeInfomationController extends BaseController {
 	 * @author jingyh
 	 * @param req
 	 * @param voInfos
+	 * 			费用集合Vo
 	 * @return
 	 */
 	@RequestMapping("/save")
@@ -165,6 +199,7 @@ public class FeeInfomationController extends BaseController {
 			// 保存数据
 			feeInfomationService.saveOrUpdateFeeInfos(voInfos.getCaseApplyId(), switchFeeInfoToPoList(voInfos.getFeeInfos()));
 			msg.setId(voInfos.getCaseApplyId());
+			msg.setMsg("保存费用信息成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("保存出错", e);
@@ -266,6 +301,100 @@ public class FeeInfomationController extends BaseController {
 			msg.setRows(result);
 		} catch (Exception e) {
 			log.error("查询评估机构出错！", e);
+			e.printStackTrace();
+			msg.setMsg(e.getMessage());
+			msg.setResultStatus(ResponseMsg.APP_ERROR);
+		}
+		return msg;
+	}
+	
+	/**
+	 * 
+	 * @Title: findReviceObjTypeInfos 
+	 * @Description: 查询案件相关的收费对象类型信息
+	 * @author jingyh 
+	 * @param req
+	 * @param caseApplyId
+	 * @return
+	 */
+	@RequestMapping("/findReviceObjTypeInfos")
+	@UriKey(key = "com.zdsoft.finance.casemanage.datasurvey.feeinfomation.findReviceObjTypeInfos")
+	@ResponseBody
+	public String findReviceObjTypeInfos(HttpServletRequest req, String caseApplyId,String jsoncallback) {
+		log.info("查询收费对象类型下拉信息");
+		log.debug("caseApplyId:{}", caseApplyId);
+		try {
+			List<Map<String,Object>> list = this.feeInfomationService.findReviceObjTypeInfosByCaseApplyId(caseApplyId);
+			List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+			// key值转换
+			for (Map<String,Object> temp : list) {
+				Map<String, Object> tempRes = new HashMap<String, Object>();
+				Set<String> keySet = temp.keySet();
+				for (String key : keySet) {
+					if (key.equalsIgnoreCase("feeObjectType")) {
+						// 类型值
+						tempRes.put("feeObjectType", temp.get(key));
+						if (FeeInfomationService.JOIN_TYPE_OTHER_FULLCODE.equals(temp.get(key))) {
+							tempRes.put("feeObjectTypeName", FeeInfomationService.JOIN_TYPE_OTHER_NAME);
+						} else {
+							tempRes.put("feeObjectTypeName", CED.loadSimpleCodeNameByFullCode((String)temp.get(key)));
+						}
+					} else if (key.equalsIgnoreCase("feeObjectIds")) {
+						// 收费对象Id
+						tempRes.put("feeObjectIds", temp.get(key));
+					} else if (key.equalsIgnoreCase("feeObjectNames")) {
+						// 收费对象名称
+						tempRes.put("feeObjectNames", temp.get(key));
+					} else if (key.equalsIgnoreCase("expectedAmountTotal")) {
+						// 预收合计金额
+						tempRes.put("expectedAmountTotal", temp.get(key));
+					}
+				}
+				result.add(tempRes);
+			}
+			return ObjectHelper.objectToJson(result,jsoncallback);
+		} catch (Exception e) {
+			logger.error("查询出错！",e);
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	/**
+	 * 
+	 * @Title: findFeeDeatailInfosByReceiveObjTypes 
+	 * @Description: 根据收费对象类型查询收费明细
+	 * @author jingyh 
+	 * @param req
+	 * @param caseApplyId
+	 * @param receiveObjTypes
+	 * @return
+	 */
+	@RequestMapping("/findFeeDeatailInfosByReceiveObjTypes")
+	@UriKey(key = "com.zdsoft.finance.casemanage.datasurvey.feeinfomation.findFeeDeatailInfosByReceiveObjTypes")
+	@ResponseBody
+	public ResponseMsg findFeeDeatailInfosByReceiveObjTypes(HttpServletRequest req, String caseApplyId, String receiveObjTypes) {
+		ResponseMsg msg = new ResponseMsg();
+		log.info("收费明细信息");
+		log.debug("caseApplyId:{}", caseApplyId);
+		log.debug("receiveObjTypes:{}", receiveObjTypes);
+		if(ObjectHelper.isEmpty(receiveObjTypes)){
+			return msg;
+		}
+		try {
+			if (ObjectHelper.isEmpty(receiveObjTypes)) {
+				throw new BusinessException("10010004","传入案件Id或收费对象类型为空！");
+			}
+			List<String> receiveObjTypesList = Arrays.asList(receiveObjTypes.split(","));
+			List<FeeInfomation> resultList = this.feeInfomationService.findByCaseApplyIdAndReceiveObjTypes(caseApplyId, receiveObjTypesList);
+			List<FeeInfomationVo> resultListVo = new ArrayList<FeeInfomationVo>();
+			for (FeeInfomation entity : resultList) {
+				resultListVo.add(new FeeInfomationVo(entity));
+			}
+			msg.setRows(resultListVo);
+			msg.setTotal(Long.valueOf(resultListVo.size()));
+		} catch (Exception e) {
+			logger.error("查询出错！",e);
 			e.printStackTrace();
 			msg.setMsg(e.getMessage());
 			msg.setResultStatus(ResponseMsg.APP_ERROR);
@@ -430,37 +559,34 @@ public class FeeInfomationController extends BaseController {
 			if (ObjectHelper.isEmpty(vo.getFeeItem())) {
 				throw new BusinessException("10010003", "费用项目为空！");
 			}
-			if (ObjectHelper.isEmpty(vo.getFeeObjectType())) {
-				throw new BusinessException("10010003", "收费对象类型为空！");
+			if (ObjectHelper.isNotEmpty(vo.getExpectedAmount()) && vo.getExpectedAmount().compareTo(BigDecimal.ZERO) > 0) {
+				// 预计应收不为空时，收费对象信息不为空！大于0
+				if (ObjectHelper.isEmpty(vo.getFeeObjectType())) {
+					throw new BusinessException("10010003", "收费对象类型为空！");
+				}
+				if (ObjectHelper.isEmpty(vo.getFeeeObjectName())) {
+					throw new BusinessException("10010003", "收费对象名称为空！");
+				}
+				if (ObjectHelper.isEmpty(vo.getFeeObjectId())) {
+					throw new BusinessException("10010003", "收费对象Id为空！");
+				}
 			}
-			if (ObjectHelper.isEmpty(vo.getFeeeObjectName())) {
-				throw new BusinessException("10010003", "收费对象名称为空！");
+			if (ObjectHelper.isNotEmpty(vo.getExpectedPayableAmount()) && vo.getExpectedPayableAmount().compareTo(BigDecimal.ZERO) > 0) {
+				// 预计应付不为空时，付费对象不能为空，大于0
+				if (ObjectHelper.isEmpty(vo.getPayObjectType())) {
+					throw new BusinessException("10010003", "付费对象类型为空！");
+				}
+				if (ObjectHelper.isEmpty(vo.getPayObjectId())) {
+					throw new BusinessException("10010003", "付费对象Id为空！");
+				}
+				if (ObjectHelper.isEmpty(vo.getPayObjectName())) {
+					throw new BusinessException("10010003", "付费对象名称为空！");
+				}
 			}
-			if (ObjectHelper.isEmpty(vo.getFeeObjectId())) {
-				throw new BusinessException("10010003", "收费对象Id为空！");
-			}
-			if (ObjectHelper.isEmpty(vo.getFeeeObjectName())) {
-				throw new BusinessException("10010003", "收费对象名称为空！");
-			}
-			if (ObjectHelper.isEmpty(vo.getPayObjectType())) {
-				throw new BusinessException("10010003", "付费对象类型为空！");
-			}
-			if (ObjectHelper.isEmpty(vo.getPayObjectId())) {
-				throw new BusinessException("10010003", "付费对象Id为空！");
-			}
-			if (ObjectHelper.isEmpty(vo.getPayObjectName())) {
-				throw new BusinessException("10010003", "付费对象名称为空！");
-			}
-			if (ObjectHelper.isEmpty(vo.getExpectedAmount())) {
-				throw new BusinessException("10010003", "预计应收为空！");
-			}
-			if (ObjectHelper.isEmpty(vo.getExpectedPayableAmount())) {
-				throw new BusinessException("10010003", "预计应付为空！");
-			}
-			if (BigDecimal.ZERO.compareTo(vo.getExpectedAmount()) >= 0) {
+			if (BigDecimal.ZERO.compareTo(vo.getExpectedAmount()) > 0) {
 				throw new BusinessException("10010003", "预计应收金额错误！");
 			}
-			if (BigDecimal.ZERO.compareTo(vo.getExpectedPayableAmount()) >= 0) {
+			if (BigDecimal.ZERO.compareTo(vo.getExpectedPayableAmount()) > 0) {
 				throw new BusinessException("10010003", "预计应付金额错误！");
 			}
 		}

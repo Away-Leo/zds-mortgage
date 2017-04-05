@@ -14,5 +14,16 @@ import com.zdsoft.finance.common.base.CustomRepository;
  * @version:v1.0
  */
 public interface RiskInfomationRepository extends CustomRepository<RiskInfomation, String>{
+	
+	/**
+	 * 根据案件ID查询风险信息
+	 * @Title: findByCaseApplyId 
+	 * @Description: TODO
+	 * @author jingjy 
+	 * @param caseApplyId
+	 * 			案件ID
+	 * @return
+	 */
+	public RiskInfomation findByCaseApplyId(String caseApplyId);
 
 }

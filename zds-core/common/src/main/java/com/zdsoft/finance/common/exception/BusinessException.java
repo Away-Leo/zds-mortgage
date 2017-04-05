@@ -73,7 +73,7 @@ public class BusinessException extends AppException {
 	}
 
 	public String getMessage() {
-		return "exceptionCode=" + exceptionCode + "\t exceptionMessage="
+		return "错误代码:" + exceptionCode + "\t 错误信息:"
 				+ (ObjectHelper.isNotEmpty(exceptionMessage) ? exceptionMessage : super.getMessage());
 	}
 }

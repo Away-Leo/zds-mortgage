@@ -13,7 +13,7 @@
                 <dt class="title"><b class="c-red mr5">*</b>产品类别:</dt>
                 <dd class="detail">
                     <label>
-                        <input type="text" class="zui-input zui-validatebox" validate-type="Require,Length[0-60]" id="categoryName" name="name" value=""/>
+                        <input type="text" class="zui-input zui-validatebox" validate-type="Require,Length[0-64]" id="categoryName" name="name" value=""/>
                     </label>
                 </dd>
             </dl>

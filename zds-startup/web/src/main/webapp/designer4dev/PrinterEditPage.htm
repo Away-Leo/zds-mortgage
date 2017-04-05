@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>杰表.套打设计器(jatoolsPrinter UI)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="js/jquery/jquery-ui-1.9.2.min.css">
+    <link rel="stylesheet" type="text/css" href="js/spectrum/spectrum.min.css">
+    <link rel="stylesheet" type="text/css" href="js/sh/sh.min.css" />
+
+    <script type="text/javascript" src="js/jquery/jquery-1.8.3.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery/jquery-ui-1.9.2.min.js"></script>
+
+    <script type="text/javascript" src="js/spectrum/spectrum.min.js"></script>
+
+    <script type="text/javascript" src="js/sh/sh.min.js"></script>
+
+    <script type="text/javascript" src='js/jatoolsPrinter-ui-min.js'></script>
+
+    <link href="js/css/commonCss.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .ui-selected1
+        {
+            background: #E6E6F7;
+        }
+       .temptable,d
+       {
+       	
+       	}
+    </style>
+</head>
+<body>
+    <!-- 条形码对话框 -->
+    <div id='jp-bar-1d-dialog' title='一维码设置' class='jp-dialog'>
+        <p>
+            <span class='jp-field-label'>旋转角度:</span><span><input name="rotate" type="radio"
+                id="jp-rotate-0" value="0" class='jp-code-ui'><label for='jp-rotate-0'>
+                    不旋转</label>
+                <input name="rotate" type="radio" id="jp-rotate-90" value="90" class='jp-code-ui'><label
+                    for='jp-rotate-90'>90度
+                </label>
+                <input name="rotate" type="radio" id="jp-rotate-180" value="180" class='jp-code-ui'><label
+                    for='jp-rotate-180'>
+                    180度</label>
+                <input name="rotate" type="radio" id="jp-rotate-270" value="270" class='jp-code-ui'><label
+                    for='jp-rotate-270'>
+                    270度</label>
+        </p>
+        <p>
+            <span class='jp-field-label'>背景色:</span><span><input type="text" id="jp-bar-background"
+                name="background" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent" /></span></p>
+        <p>
+            <span class='jp-field-label'>码条颜色:</span><span><input type="text" id="jp-bar-color"
+                name="bar-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser"></span></p>
+        <p>
+            <span class='jp-field-label'>空码条颜色:</span><span><input type="text" id="jp-space-color"
+                name="space-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent"></span></p>
+        <p>
+            <span class='jp-field-label'>显示文字码:</span><span><input type="checkbox" id="jp-show-text"
+                value="true" name="show-text" class='jp-code-ui'></span></p>
+        <p>
+            <span class='jp-field-label'>字体:</span> <span>
+                <select size="1" name="font-name" id="jp-font-name" class='jp-code-ui'>
+                    <option value="" selected></option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>字体大小(像素):</span> <span>
+                <select size="1" name="font-size" class='jp-code-ui'>
+                    <option value="" selected></option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>文本颜色:</span><span><input type="text" id="jp-text-color"
+                name="text-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser"></span></p>
+    </div>
+    <div id='jp-pdf417-dialog' title='PDF 417 设置' class='jp-dialog'>
+        <p>
+            <span class='jp-field-label'>数据列数(1-30):</span> <span>
+                <select size="1" name="data-cols" class='jp-code-ui'>
+                    <option value="" selected></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>数据行数(3-90):</span> <span>
+                <select size="1" name="data-rows" class='jp-code-ui'>
+                    <option value="" selected></option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>纠错等级(0-7):</span> <span>
+                <select size="1" name="err-level" class='jp-code-ui'>
+                    <option value="" selected></option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>背景色:</span><span><input type="text" id="jp-bar-background"
+                name="background" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent" /></span></p>
+        <p>
+            <span class='jp-field-label'>码条颜色:</span><span><input type="text" id="jp-bar-color"
+                name="bar-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser"></span></p>
+        <p>
+            <span class='jp-field-label'>空码条颜色:</span><span><input type="text" id="jp-space-color"
+                name="space-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent"></span></p>
+    </div>
+    <div id='jp-qr-dialog' title='QRCode 设置' class='jp-dialog'>
+        <p>
+            <span class='jp-field-label'>版本号(1-40)-(l/m/q/h):</span> <span>
+                <select size="1" id='jp-qr-version' name="ver" class='jp-code-ui qr-version'>
+                    <option value="" selected></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="21">31</option>
+                    <option value="22">32</option>
+                    <option value="23">33</option>
+                    <option value="24">34</option>
+                    <option value="25">35</option>
+                    <option value="26">36</option>
+                    <option value="27">37</option>
+                    <option value="28">38</option>
+                    <option value="29">39</option>
+                    <option value="30">40</option>
+                </select>
+            </span><span>
+                <select size="1" id='jp-qr-version-2' name="err-level" class='jp-code-ui'>
+                    <option value="" selected></option>
+                    <option value="l">L</option>
+                    <option value="m">M</option>
+                    <option value="q">Q</option>
+                    <option value="h">H</option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>背景色:</span><span><input type="text" id="jp-bar-background"
+                name="background" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent" /></span></p>
+        <p>
+            <span class='jp-field-label'>码条颜色:</span><span><input type="text" id="jp-bar-color"
+                name="bar-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser"></span></p>
+        <p>
+            <span class='jp-field-label'>空码条颜色:</span><span><input type="text" id="jp-space-color"
+                name="space-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent"></span></p>
+    </div>
+    <div id='jp-datamatrix-dialog' title='Data Matrix 设置' class='jp-dialog'>
+        <p>
+            <span class='jp-field-label'>版本号(1-40)-(l/m/q/h):</span> <span>
+                <select size="1" name="moudles" class='jp-code-ui'>
+                    <option value="" selected></option>
+                    <option value="8x18">8x18</option>
+                    <option value="8x32">8x32</option>
+                    <option value="10x10">10x10</option>
+                    <option value="12x12">12x12</option>
+                    <option value="12x26">12x26</option>
+                    <option value="12x36">12x36</option>
+                    <option value="14x14">14x14</option>
+                    <option value="16x16">16x16</option>
+                    <option value="16x36">16x36</option>
+                    <option value="16x48">16x48</option>
+                    <option value="18x18">18x18</option>
+                    <option value="20x20">20x20</option>
+                    <option value="22x22">22x22</option>
+                    <option value="24x24">24x24</option>
+                    <option value="26x26">26x26</option>
+                    <option value="32x32">32x32</option>
+                    <option value="36x36">36x36</option>
+                    <option value="40x40">40x40</option>
+                    <option value="44x44">44x44</option>
+                    <option value="48x48">48x48</option>
+                    <option value="52x52">52x52</option>
+                    <option value="64x64">64x64</option>
+                    <option value="72x72">72x72</option>
+                    <option value="80x80">80x80</option>
+                    <option value="88x88">88x88</option>
+                    <option value="96x96">96x96</option>
+                    <option value="104x104">104x104</option>
+                    <option value="120x120">120x120</option>
+                    <option value="132x132">132x132</option>
+                </select>
+            </span>
+        </p>
+        <p>
+            <span class='jp-field-label'>背景色:</span><span><input type="text" id="jp-bar-background"
+                name="background" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent" /></span></p>
+        <p>
+            <span class='jp-field-label'>码条颜色:</span><span><input type="text" id="jp-bar-color"
+                name="bar-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser"></span></p>
+        <p>
+            <span class='jp-field-label'>空码条颜色:</span><span><input type="text" id="jp-space-color"
+                name="space-color" size="20" style='vertical-align: middle;' class="jp-code-ui jp-color-chooser jp-with-transparent"></span></p>
+    </div>
+    <!-- 下拉框 -->
+    <!-- 边框设置对话框 -->
+    <div id="jp-border-dialog" title='边框属性' style="width: 805px; height: 513px" class='jp-dialog'>
+        <div id='jp-temp' style='display: none'>
+        </div>
+        <div style='height: 50px;'>
+            <div style='line-height: 30px; padding-right: 22px; float: left'>
+                线型设置:
+            </div>
+            <div style='height: 30px; width: 100px; margin: 0 3px 10px; background: white; float: left'>
+                <div id='jp-line-viewer' style='position: relative; height: 2px; width: 80%; margin: auto auto;
+                    top: 15px; border-top: solid 1px black;'>
+                </div>
+            </div>
+            <div class="jp-button-set jp-toolbar-transparent">
+                <a href="#" class='jp-border-style' id='jp-border-style' title='线型' data-dropdown='#jp-border-style-actions'>
+                </a><a href="#" class='jp-border-width' id='jp-border-width' title='线宽' data-dropdown='#jp-border-width-actions'>
+                </a><a href="#" class='jp-border-color' id='jp-border-color' title='颜色'></a>
+            </div>
+        </div>
+        <div class='jp-border-previewer' style='position: relative; height: 150px; width: 150px;
+            margin: 20px auto 10px; background: white;'>
+            <div style='left: 0; top: 0; border-bottom: solid 1px #ddd; border-right: solid 1px #ddd;'>
+            </div>
+            <div style='left: 0; bottom: 0; border-top: solid 1px #ddd; border-right: solid 1px #ddd;'>
+            </div>
+            <div style='right: 0; top: 0; border-left: solid 1px #ddd; border-bottom: solid 1px #ddd;'>
+            </div>
+            <div style='right: 0; bottom: 0; border-top: solid 1px #ddd; border-left: solid 1px #ddd;'>
+            </div>
+            <p id='jp-border-viewer' style='position: absolute; left: 10px; top: 10px; right: 10px;
+                bottom: 10px; border: solid 1px gray; padding: 0; margin: 0'>
+            </p>
+            <div class='jp-border-line border-top' style='left: 15px; top: 0; width: 120px; height: 20px;'>
+            </div>
+            <div class='jp-border-line border-bottom' style='left: 15px; bottom: 0; width: 120px;
+                height: 20px;'>
+            </div>
+            <div class='jp-border-line border-left' style='left: 0; top: 15px; height: 120px;
+                width: 20px;'>
+            </div>
+            <div class='jp-border-line border-right' style='right: 0; top: 15px; height: 120px;
+                width: 20px;'>
+            </div>
+        </div>
+        <div class="jp-border-command jp-button-set jp-toolbar-transparent" style='float: none;
+            position: relative; width: 186px; margin: 0 auto'>
+            <a href="#" class='jp-border-none' id='jp-border-none'></a><a href="#" class='jp-border-all'
+                id='jp-border-all'></a><a href="#" class='jp-border-left' id='jp-border-left'>
+            </a><a href="#" class='jp-border-top' id='jp-border-top'></a><a href="#" class='jp-border-right'
+                id='jp-border-right'></a><a href="#" class='jp-border-bottom' id='jp-border-bottom'>
+                </a>
+        </div>
+    </div>
+    <!-- 插入图片对话框 -->
+    <div id="jp-image-dialog" title='图片属性' class='jp-dialog'>
+        <p>
+            <span class='jp-field-label'>图片来源：</span><input type='text' id='jp-image-src' style='width: 260px;'></input>
+            <button id='jp-file-chooser' style='height: 23px; vertical-align: bottom;'>
+                选择文件...</button></p>
+        <p>
+            <span class='jp-field-label'>原始大小：</span><input id='jp-original-size' type='checkbox'></input></p>
+    </div>
+    <!-- 出错提示对话框 -->
+    <div id="jp-error-dialog" title='出错了!' class='jp-dialog'>
+        <p class='jp-error-text'>
+        </p>
+    </div>
+    <!-- 新建报表模板 local -->
+    <div id="jp-new-dialog" class='jp-dialog' title='纸张设置'>
+        <p>
+            <span class='jp-field-label'>纸张：</span>
+            <select id='jp-paper-name' size="1" style='width: 150px'>
+                <option value="420,594" selected>A2</option>
+                <option value="297,420">A3</option>
+                <option value="210,297">A4</option>
+                <option value="148,210">A5</option>
+                <option value="105,148">A6</option>
+                <option value="500,707">B2</option>
+                <option value="353,500">B3</option>
+                <option value="250,353">B4</option>
+                <option value="176,250">B5</option>
+                <option value="125,176">B6</option>
+                <option value="">自定义纸张</option>
+            </select>
+        </p>
+        <p>
+            <span class='jp-field-label'></span>
+            <input id='jp-paper-width' style='width: 60px;'></input>mm(宽) X
+            <input id='jp-paper-height' style='width: 60px;'></input>mm(高)</p>
+        <p class='jp-orientation' style='line-height: 50px; height: 50px;'>
+            <span class='jp-field-label'></span><span class='jp-orientation-icon'></span>
+            <input type='radio' name='jp-paper-orientation' id='jp-paper-portrait' value='|'></input><label
+                for='jp-paper-portrait'>纵向</label>
+            <input type='radio' name='jp-paper-orientation' id='jp-paper-landscape' style='margin-left: 15px;'
+                value='-'></input><label for='jp-paper-landscape'>横向</label>
+        </p>
+        <br>
+        <p style='position: relative;'>
+            <span class='jp-field-label'>底图：</span><span class='jp-local' style='display: inline;'><input
+                type='text' id='jp-image-src' style='width: 260px;'></input>
+                <button id='jp-file-chooser' style='height: 23px; vertical-align: bottom; width: 60px;'>
+                    浏览...</button></span>
+            <input class='jp-remote' type='file' id='jp-file-input' name='jp-file-input' style='position: absolute;
+                top: 0px; border: solid 1px black; height: 23px; width: 65px; vertical-align: bottom;
+                display: block; right: 40px; display: none;' value='选择文件...'></input>
+        </p>
+        <p>
+            <span class='jp-field-label'>背景透明度：</span><span id="jp-alpha" style='padding-left: 200px;
+                display: inline-block;'></span></p>
+    </div>
+    <!-- 保存模板对话框 -->
+    <div id="jp-template-save-dialog" title='保存模板' class='jp-dialog'>
+        <p>
+            <span class='jp-field-label' style='width: auto;'>模板名称：</span><input type='text'
+                id='jp-settings-id' style='width: 260px;'></input></p>
+    </div>
+    <!-- 上下偏移调整 -->
+    <div id="jp-v-offset-dialog" class='jp-dialog' title='上下偏移调整' style='height: 400px;
+        background-color2: gray; background-position: 10px 50%; background-repeat: no-repeat;'>
+        <div class='jp-orientation' style='float: right; margin-top: 220px; line-height: 32px;
+            height: 150px;'>
+            <p style='padding: 0; margin: 0;'>
+                <input type='radio' name='jp-paper-orientation' id='jp-paper-down' checked="checked"></input><label
+                    for='jp-paper-down'>往下偏</label>
+                <input type='radio' name='jp-paper-orientation' id='jp-paper-up' style='margin-left: 15px;'
+                    value='-'></input><label for='jp-paper-up'>往上偏</label>
+            </p>
+            <label for='jp-paper-landscape'>
+                偏多少(mm):</label><input id='jp-paper-offset' style='width: 50px; margin-left: 5px;'
+                    value='0.0'></input>
+        </div>
+    </div>
+    <!-- 左右偏移调整 -->
+    <div id="jp-h-offset-dialog" class='jp-dialog' title='左右偏移调整' style='height: 100%;
+        background-position: 10px 10px; background-repeat: no-repeat;'>
+        <div style='position: absolute; bottom: 0; right: 50px; line-height: 32px;'>
+            <p style='padding: 0; margin: 0;'>
+                <input type='radio' name='jp-paper-orientation' id='jp-paper-left' checked="checked"></input><label
+                    for='jp-paper-left'>往左偏</label>
+                <input type='radio' name='jp-paper-orientation' id='jp-paper-right' style='margin-left: 15px;'
+                    value='-'></input><label for='jp-paper-right'>往右偏</label>
+                <label for='jp-paper-landscape' style='width: 50px; margin-left: 100px;'>
+                    偏多少(mm):</label><input id='jp-paper-offset' style='width: 50px;' value='0.0'></input>
+            </p>
+        </div>
+    </div>
+    <!-- 模板创建代码查看 -->
+    <div id="jp-source-code-dialog" title='代码查看' style='overflow: hidden;' class='jp-dialog'>
+        <div class='jp-toolbar-transparent' style='margin-bottom: 3px;'>
+            <div class="jp-button-set" style='float: right; margin-bottom: 5px;'>
+                <a href="#" class='jp-copy-code' id='jp-copy-code' title='复制代码'></a><a href="#" class='jp-save-code'
+                    id='jp-save-code' title='保存'></a>
+            </div>
+            <div style='float: right; padding-top: 3px; margin-right: 25px;'>
+                <input type='checkbox' checked id='jp-debug-code' title='生成的代码包含打印预览、提示打印、直接打印按钮代码'><label
+                    for='jp-debug-code' title='生成的代码包含打印预览、提示打印、直接打印按钮代码'>包含测试按钮</label>
+                <input type='checkbox' checked id='jp-cross-browser' title='生成的代码支持除 IE 外的浏览器，如firefox,chrome,safari'><label
+                    for='jp-cross-browser' title='生成的代码支持除 IE 外的浏览器，如firefox,chrome,safari'>跨浏览器支持</label>
+            </div>
+        </div>
+        <div id='jp-code' style='padding: 0; margin: 0; height: 400px; overflow: hidden;
+            position: relative; width: 100%;'>
+        </div>
+        <textarea id='jp-plain-code' style='display: none'></textarea>
+    </div>
+    <!-- 组件面板,在新建套打模板时使用 -->
+    <div id="jp-comp-list-dialog" title='可用组件' class='jp-dialog'>
+        <ul id='jp-comp-list'>
+        </ul>
+    </div>
+    <!-- 工具栏 -->
+    <div class='jp-main-tools jp-toolbar jp-common-command'>
+        <div class="jp-button-set">
+            <a href="#" class='jp-new-text jp-view100' id='jp-new-text' title='新建文本字段'></a>
+        </div>
+        <div class="jp-button-set">
+            <a href="#" class='jp-save jp-view100' id='jp-saveextend' title='保存'></a><a href="#"
+                class='jp-print' id='jp-print' title='打印'></a><a href="#" class='jp-delete' id='jp-delete'
+                    title='删除(Delete)'></a>
+        </div>
+        <div class="jp-button-set">
+            <a href="#" class='jp-undo' id='jp-undo' title='撤销(ctrl+z) '></a><a href="#" class='jp-redo'
+                id='jp-redo' title='重做(ctrl+y)'></a>
+        </div>
+        <select id="Select1" style="width: 100px; height: 24px; margin-top: 2px; margin-right: 5px;
+            margin-bottom: 2px; margin-left: 2px; float: left;" onchange="select(this)">
+            <option value="${日期}">日期</option>
+            <option value="${用户名}">用户名</option>
+        </select>
+    </div>
+    <div class='jp-content'>
+           <div class='jp-page jp-portrait jp-hidden' style='margin: 5px; position: relative;
+            width: 210mm; height: 297mm; box-shadow: 0 0 13px rgba(0,0,0,0.31); border: solid 1px gray;'>
+            <img class='jp-paper-background screen-only' src='images/blank.png'></img>
+            <p class='jp-h-ruler jp-ruler-element'>
+            </p>
+            <p class='jp-v-ruler jp-ruler-element'>
+            </p>
+            <div class="jp-text jp-component drag" style="top: 100px; left: 200px; width: 50px;
+                height: 30px; z-index: 101;">
+                <span class="jp-text-content" id="ee">
+              <!--      <p>
+                        借款人1：李英妹</p>
+                    <p>
+                        证件号码：321324198610011049</p>
+                    <p>
+                        联系电话：13771550198</p>
+                    <p>
+                        地址：江苏省无锡市新区香梅人家33-404</p>-->
+                        
+                        
+fefefe
+                </span>
+            </div>
+        </div>
+        <p>
+        </p>
+    </div>
+    <iframe id='jp-ax' style='width: 0; height: 0'></iframe>
+
+    <script src="js/JqueryDrag.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function select(o) {
+            // debugger;
+            var ff = $(o).find(":selected").val();
+            //  alert(ff);
+
+            $(".ui-selected").find(".jp-text-content").text(ff);
+        }
+
+        $(document).ready(function() {
+            //            $("#jp-saveextend").click(function() {
+
+            //                var Avr = new Array();
+
+            //                $(".jp-page > .jp-component").each(function() {
+
+            //                    var $width = $(this).width();
+            //                    var $height = $(this).height();
+            //                    var $left = $(this).position().left;
+            //                    var $top = $(this).position().top;
+            //                    var $LableName = $(this).text();
+
+            //                    Avr.push(new { width: $width, height: $height, left: $left, top: $top, lablename: $LableName });
+
+            //                    // alert();
+
+            //                });
+            var drag = "drag";
+
+            //            var element = '<div class="jp-text jp-component ui-selected-first ui-selected jp-ininted ui-draggable ui-resizable ' + drag + '"' +
+            //        ' style="top:100px; left:200px; width: 50px; height:30px; z-index: 101;">' +
+            //        '<span class="jp-text-content" id="ee">黄</span>' +
+            //        '<div class="ui-resizable-handle ui-resizable-e" style="z-index: 1000;"></div>' +
+            //        '<div class="ui-resizable-handle ui-resizable-s" style="z-index: 1000;"></div>' +
+            //        '<div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 1000;"></div></div>';
+
+            //            $(".jp-page").append(element);
+            //            $(".ui-draggable").data("draggable", { options: { disabled: false} });
+
+            //post to .cs
+
+            jQuery(".drag").resizable().draggable();
+            $(".drag").click(function() {
+                $(this).toggleClass("ui-selected");
+                if ($(this).is(".ui-selected")) {
+                    $(this).toggleClass("ui-selected1");
+                }
+            });
+
+
+        });
+        
+    </script>
+
+</body>
+</html>

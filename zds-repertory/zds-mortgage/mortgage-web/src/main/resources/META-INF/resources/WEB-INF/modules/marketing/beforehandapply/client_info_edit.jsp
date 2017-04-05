@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.zdsoft.cn/tags" prefix="z"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-------------客户信息------------------------------------>
+<div id="clientInfoDiv">
 <form id="client_form" class="zui-form" method="post" enctype="multipart/form-data">
-<input type="hidden" id="mainCustomerId" name="persCustomerVo.id" value="${persCustomerVo.id }"> 
-<input type="hidden"  name="persCustomerVo.attachmentId" value="${persCustomerVo.attachmentId }"> 
+	<input type="hidden" id="mainCustomerId" name="persCustomerVo.id" value="${persCustomerVo.id }"> 
+	<input type="hidden"  name="persCustomerVo.attachmentId" value="${persCustomerVo.attachmentId }"> 
    <div class="page-title">客户信息</div>
    <div class="p5">
        <table class="table-detail">
@@ -14,7 +16,7 @@
                    <dl class="form-item form-auto">
                           <dd class="detail">
                               <label>
-                                  <input class="zui-input zui-validatebox" type="text" value="${persCustomerVo.customerName }" validate-type="Require" name="persCustomerVo.customerName" id="client_customerName">
+                                  <input class="zui-input zui-validatebox" type="text" value="${persCustomerVo.customerName }" validate-type="Require,Length[0-64]" name="persCustomerVo.customerName" id="client_customerName">
                               </label>
                           </dd>
                    </dl>
@@ -24,14 +26,14 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                               <input class="zui-input" type="text" value="${persCustomerVo.formerName }" name="persCustomerVo.formerName">
+                               <input class="zui-input zui-validatebox" type="text" value="${persCustomerVo.formerName }" validate-type="Length[0-64]" name="persCustomerVo.formerName">
                            </label>
                        </dd>
                    </dl>
                </td>
                <td class="td-title pct10"></td> 
                <td class="pct30" rowspan="4"> 
-              	 <img id="mian-headPortraitPath" style="width:360px;height:123px; ${empty persCustomerVo.headPortraitPath?'display:none;':''}"  src="${persCustomerVo.headPortraitPath }">   
+              	 <img id="mian-headPortraitPath" style="width:360px;height:123px; ${empty persCustomerVo.attachmentId?'display:none;':''}"  src="../upload/download?attachmentId=${persCustomerVo.attachmentId }">   
                </td>
            </tr>
            <tr>
@@ -40,7 +42,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                               <input class="zui-combobox zui-validatebox" type="hidden"
-                              data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=60600"
+                              data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0025"
                                      id="client_credentialType" name="persCustomerVo.credentialType" data-valuefield="fullcode" data-defaultvalue="${persCustomerVo.credentialType}"
                                      data-textfield="name"
                                      validate-type="Require" data-callback="setClientGender">
@@ -52,7 +54,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                               <input class="zui-input zui-validatebox" type="text" value="${persCustomerVo.credentialNo }" validate-type="Require" id="clientCredentialNo"  name="persCustomerVo.credentialNo">
+                               <input class="zui-input zui-validatebox" type="text" value="${persCustomerVo.credentialNo }" validate-type="Require" id="clientCredentialNo"  name="persCustomerVo.credentialNo" onblur="getBirthDate()">
                            </label>
                        </dd>
                    </dl>  
@@ -77,7 +79,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                                <input class="zui-date toStrDate zui-validatebox" type="text" id="birthdayDate" value="" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'realBirthdayDate',dateFmt:'yyyy-MM-dd',onpicked:function(){WdateValidate(this);birthdayChange()}})"
+                                <input class="zui-date toStrDate zui-validatebox" type="text" id="birthdayDate" value="" onclick="WdatePicker({realDateFmt:'yyyyMMdd',vel:'realBirthdayDate',dateFmt:'yyyy-MM-dd',maxDate: '%y-%M-%d',onpicked:function(){WdateValidate(this);birthdayChange()}})"
                                       validate-type="Require" readonly />
                                 <input   type="hidden" id="realBirthdayDate" name="persCustomerVo.birthdayDate" value="${persCustomerVo.birthdayDate }">
                                    
@@ -93,7 +95,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                               <input class="zui-input zui-disabled" type="text"  readonly name="age" id="clientAge"/>
+                               <input class="zui-input zui-disabled" type="text"  readonly name="persCustomerVo.age" id="clientAge"/>
                            </label>
                        </dd>
                    </dl>
@@ -103,7 +105,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                             <input class="zui-combobox zui-validatebox" type="hidden"
-                                  data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=x030300"
+                                  data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00113"
                                    id="client_maritalStatus" name="persCustomerVo.maritalStatus" data-valuefield="fullcode" data-callback="maritalStatusChange"
                                    data-textfield="name" data-defaultvalue="${persCustomerVo.maritalStatus }"
                                    validate-type="Require">
@@ -118,30 +120,29 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                              <input class="zui-combobox zui-validatebox" type="hidden" id="client_careerType" name="persCustomerVo.careerType"
-                                    data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=g050500"
+                                    data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00114"
                                 	data-defaultvalue="${persCustomerVo.careerType }" data-valuefield="fullcode" data-textfield="name" validate-type="Require">
                        </dd>
                    </dl>
                </td>
-               <td class="td-title pct10"><b class="c-red mr5">*</b>教育程度</td>
+               <td class="td-title pct10">教育程度</td>
                <td class="pct20">
                    <dl class="form-item form-auto">
                        <dd class="detail">
-                              <input class="zui-combobox zui-validatebox" type="hidden" id="client_degree" name="persCustomerVo.degree" 
-                                     data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=e030300"
-                                	data-defaultvalue="${persCustomerVo.degree }" data-valuefield="fullcode" data-textfield="name" validate-type="Require">
+                              <input class="zui-combobox" type="hidden" id="client_degree" name="persCustomerVo.degree" 
+                                     data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00115"
+                                	data-defaultvalue="${persCustomerVo.degree }" data-valuefield="fullcode" data-textfield="name">
                        </dd>
                    </dl>
                </td>
 
-               <td class="td-title pct10"><b class="c-red mr5">*</b>居住年限</td>
+               <td class="td-title pct10">居住年限</td>
                <td class="pct30">
                    <dl class="form-item form-auto">
                        <dd class="detail">
-                             <input class="zui-combobox zui-validatebox" type="hidden"
-                            	 data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=y00100"
-                                 data-defaultvalue="${persCustomerVo.liveAge }" id="client_liveAge" name="persCustomerVo.liveAge" data-valuefield="fullcode" data-textfield="name"
-                                 validate-type="Require">
+                             <input class="zui-combobox" type="hidden"
+                            	 data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00116"
+                                 data-defaultvalue="${persCustomerVo.liveAge }" id="client_liveAge" name="persCustomerVo.liveAge" data-valuefield="fullcode" data-textfield="name">
                        </dd>
                    </dl>
                </td>
@@ -152,7 +153,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                               <input class="zui-input zui-validatebox" type="text" name="persCustomerVo.email" value="${persCustomerVo.email }" validate-type="Require,Email">
+                               <input class="zui-input zui-validatebox" id='clientEmail' type="text" name="persCustomerVo.email" value="${persCustomerVo.email }" validate-type="Require,Email">
                            </label>
                        </dd>
                    </dl>
@@ -164,7 +165,7 @@
                                <input class="zui-combobox zui-validatebox" type="hidden"
                                       data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0049"
                                       id="client_actualUsePerson" name="persCustomerVo.actualUsePerson" data-valuefield="fullcode"
-                                      data-textfield="name" data-defaultvalue="${persCustomerVo.actualUsePerson }"
+                                      data-textfield="name" data-defaultvalue="${persCustomerVo.actualUsePerson==null?'YWDM0049002':persCustomerVo.actualUsePerson }"
                                       validate-type="Require">
                        </dd>
                    </dl>
@@ -174,18 +175,28 @@
                <td class="pct30">
                    <dl class="form-item form-auto">
                        <dd class="detail">
-                               <input class="zui-combobox zui-validatebox" type="hidden"
+	                       	<c:choose>  
+							   <c:when test="${joinTypeFlag == true}"> 
+                      		   		<input class="zui-combobox zui-validatebox" type="hidden"
                                       data-url="<z:res resource='public.simplecode.selector'  isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0056"
                                       id="client_joinType" name="persCustomerVo.joinType" data-valuefield="fullcode"
-                                      data-choose='disable' 
-                                      data-textfield="name" data-defaultvalue="YWDM0051036"
+                                      data-textfield="name" data-choose="disable" data-defaultvalue='YWDM0051036'
                                       validate-type="Require">
+							   </c:when>  
+							   <c:otherwise> 
+							   		<input class="zui-combobox zui-validatebox" type="hidden"
+                                      data-url="<z:res resource='public.simplecode.selector'  isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0056"
+                                      id="client_joinType" name="persCustomerVo.joinType" data-valuefield="fullcode"
+                                      data-textfield="name" data-defaultvalue='${persCustomerVo.joinType}'
+                                      validate-type="Require">
+							   </c:otherwise>  
+							</c:choose> 
                        </dd>
                    </dl>  
                </td>
            </tr>
            <tr>
-               <td class="td-title pct10"><b class="c-red mr5">*</b>户籍地址</td>
+               <td class="td-title pct10">户籍地址</td>
                <td class="pct20" colspan="5">
                    <dl class="form-item form-auto">
                        <dd class="detail">
@@ -193,12 +204,11 @@
                            <input type="hidden" id="liveCity" name="beforeAddressVo.city" value="${beforeAddressVo.city }"/>
                            <input type="hidden" id="liveCounty" name="beforeAddressVo.district"  value="${beforeAddressVo.district }"/>
                            <div id="selectAddress_live" data-code="${beforeAddressVo.district }">
-                               <input id="address_live_text" class="zui-input zui-validatebox" type="text" readonly="true" style="width: 260px;" validate-type="Require"/>
-                              <!--  <input id="address_live_code" type="hidden" value=""/> -->
+                               <input id="address_live_text" class="zui-input" type="text" readonly="true" style="width: 260px;"/>
                            </div>
                        </dd>
                        <dd class="detail">
-                           <input class="zui-input zui-validatebox" validate-type="Require,Length[0-128]" value="${beforeAddressVo.address }" id="liveAddr" name="beforeAddressVo.address" style="width: 645px;" validate-type="Require">
+                           <input class="zui-input" validate-type="Length[0-128]" value="${beforeAddressVo.address }" id="liveAddr" name="beforeAddressVo.address" style="width: 645px;">
                        </dd>
                    </dl>
                </td>
@@ -231,11 +241,11 @@
 
        </table>
    </div>
-    </form>
+</form>
 <!-------------配偶信息---------------------------------------->
 <form id="client_spouse_form" class="zui-form" method="post" enctype="multipart/form-data" style="display: none;">
-<input type="hidden" id="spouseId" name="persCustomerVo.spouseVo.id" value="${persCustomerVo.spouseVo.id }"> 
-<input type="hidden"  name="persCustomerVo.spouseVo.attachmentId" value="${persCustomerVo.spouseVo.attachmentId }"> 
+	<input type="hidden" id="spouseId" name="persCustomerVo.spouseVo.id" value="${persCustomerVo.spouseVo.id }"> 
+	<input type="hidden"  name="persCustomerVo.spouseVo.attachmentId" value="${persCustomerVo.spouseVo.attachmentId }"> 
    <div class="page-title _span">配偶信息</div>
    <div class="p5">
        <table class="table-detail">
@@ -262,7 +272,7 @@
                </td>   
                <td class="td-title pct10"></td>
                <td class="pct30" rowspan="4">
-               	 <img id="spouseVo-headPortraitPath" style="width:360px;height:123px; ${empty persCustomerVo.spouseVo.headPortraitPath?'display:none;':''}"  src="${persCustomerVo.spouseVo.headPortraitPath }">   
+               	 <img id="spouseVo-headPortraitPath" style="width:360px;height:123px; ${empty persCustomerVo.spouseVo.attachmentId?'display:none;':''}"  src="../upload/download?attachmentId=${persCustomerVo.spouseVo.attachmentId }">   
                </td>
            </tr>
            <tr>
@@ -271,7 +281,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                              <input class="zui-combobox zui-validatebox" type="hidden"
-                                    data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=60600"
+                                    data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0025"
                                     id="spouse_credentialType" name="persCustomerVo.spouseVo.credentialType" data-valuefield="fullcode"
                                     data-textfield="name" data-defaultvalue="${persCustomerVo.spouseVo.credentialType }"  data-callback="spouseVoCredentialChange"
                                     validate-type="Require">
@@ -283,7 +293,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                               <input class="zui-input zui-validatebox" type="text" id="spouseVoCredentialNo" value="${persCustomerVo.spouseVo.credentialNo }" name="persCustomerVo.spouseVo.credentialNo" validate-type="Require">
+                               <input class="zui-input zui-validatebox" type="text" id="spouseVoCredentialNo" value="${persCustomerVo.spouseVo.credentialNo }" name="persCustomerVo.spouseVo.credentialNo" validate-type="Require" >
                            </label>
                        </dd>
                    </dl>
@@ -296,7 +306,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                            <label>
-                               <input class="zui-input zui-validatebox" type="text" value="${persCustomerVo.spouseVo.email }" name="persCustomerVo.spouseVo.email" validate-type="Require,Email">
+                               <input class="zui-input zui-validatebox" id='spouseEmail' type="text" value="${persCustomerVo.spouseVo.email }" name="persCustomerVo.spouseVo.email" validate-type="Require,Email">
                            </label>
                        </dd>
                    </dl>
@@ -306,7 +316,7 @@
                    <dl class="form-item form-auto">
                        <dd class="detail">
                                <input class="zui-combobox zui-validatebox" type="hidden"
-                                      data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=g050500"
+                                      data-url="<z:res resource='public.simplecode.selector' isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM00114"
                                       id="spouse_careerType" name="persCustomerVo.spouseVo.careerType" data-valuefield="fullcode"
                                       data-textfield="name"  data-defaultvalue="${persCustomerVo.spouseVo.careerType }"
                                       validate-type="Require">
@@ -316,14 +326,13 @@
                <td class="td-title pct10"></td>
            </tr>
            <tr>
-               <td class="td-title pct10"><b class="c-red mr5">*</b>参与类型</td>
+               <td class="td-title pct10">参与类型</td>
                <td class="pct20">
                    <dl class="form-item form-auto">
                        <dd class="detail">
-                               <input class="zui-combobox zui-validatebox" type="hidden"
-                                      id="spouse_joinType" name="persCustomerVo.spouseVo.joinType" data-valuefield="fullcode"
-                                      data-textfield="name" data-defaultvalue="${persCustomerVo.spouseVo.joinType }"
-                                      validate-type="Require">
+                               <input class="zd-combobox zui-validatebox" type="hidden"
+                                      id="spouse_joinType" name="persCustomerVo.spouseVo.joinType" data-defaultvalue='${empty persCustomerVo.spouseVo.joinType ? "" : persCustomerVo.spouseVo.joinType }'
+                                      >
                        </dd>
                    </dl>
                </td>
@@ -334,67 +343,68 @@
            </tr>
        </table>
    </div>
-  
-  </form>
-		
-    
+</form>
+</div>    
 <script type="text/javascript">
-			
-			function birthdayChange(){
-				var _birthday = $("#realBirthdayDate").val().replace(/-/g, "");
-				//获取年龄
-				var myDate = new Date();
-       	        var month = myDate.getMonth() + 1;
-       	        var day = myDate.getDate();
-       	        var age = myDate.getFullYear() - _birthday.substring(0, 4) - 1;
-       	        if (_birthday.substring(4, 6) < month || _birthday.substring(4, 6) == month && _birthday.substring(6, 8) <= day) {
-       	            age++;
-       	        }
-       	        $("#clientAge").val(age);
-			}
-	seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter','zd/jquery.zds.address'], 
+	seajs.use(['jquery','zd/jquery.zds.page.callback','zd/jquery.zds.message','zd/jquery.zds.dialog','zd/jquery.zds.combobox','zd/jquery.zds.table','zd/jquery.zds.seleter','zd/jquery.zds.address','zd/jquery.zds.form'], 
 		function($, CALLBACK) {
-		//配偶的参与类型 过滤主借人
+		window.birthdayChange=function(){
+			var _birthday = $("#realBirthdayDate").val().replace(/-/g, "");
+			//获取年龄
+			var myDate = new Date();
+	     	        var month = myDate.getMonth() + 1;
+	     	        var day = myDate.getDate();
+	     	        var age = myDate.getFullYear() - _birthday.substring(0, 4) - 1;
+	     	        if (_birthday.substring(4, 6) < month || _birthday.substring(4, 6) == month && _birthday.substring(6, 8) <= day) {
+	     	            age++;
+	     	        }
+	     	        $("#clientAge").val(age);
+		}
+		//去除身份证空白字符串 
+		function trim(s) { 
+			return s.replace(/^\s+|\s+$/g, ""); 
+			}
+		//获取出生日期,性别,年龄
+		window.getBirthDate =function(){
+			setTimeout(function () {
+				var credentialType = $("#client_credentialType").ZCombobox("getValue");
+				calculateAge(credentialType);
+				credentialChange(credentialType);
+            }, 100);
+		}
+		
+		//配偶信息
 		var spouseJoinTypes=[];
-		 $.ajax({
-                     async: false,
-                     url: "<z:res resource='public.simplecode.selector'  isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0056",
-                     dataType: "json",
-                     success: function (data) {     
-                    	 if(data){
-                    		for(var i=0;i<data.length;i++){  
-                    			if(data[i].fullcode!='YWDM0051036'){    
-                    				spouseJoinTypes.push({'fullcode':data[i].fullcode,'name':data[i].name});
-                    			}
-                    		}   
-                    		setTimeout(function(){
-                    		$("#spouse_joinType").ZCombobox({
-                 	            valueField: "fullcode",
-                 	            textField: "name",
-                 	            data:spouseJoinTypes   
-                 	        });
-                    		},200);  
-                    	 }
-                     },   
-                     error: function () {
-                     }
-                 });
-// 		 $("#client_careerType").ZCombobox({
-// 	            valueField: "fullcode",
-// 	            textField: "name",
-// 	            url:'<z:res resource="ess.batch.simplecode.categoryCds" isDefault="true"/>&jsoncallback=?',//是否是批量下拉
-// 	            queryParams:{"categoryCds":"g050500,e030300"},//批量下拉的参数
-// 	            batchDrop:true,//批量下拉的url
-// 	            batchDropCode:"g050500,e030300",//批量下拉的参数
-// 	            batchDropField:'client_careerType,client_degree'//批量下拉的字段
-// 	        });
-		//显示隐藏配偶
-		var maritalStatus = "${persCustomerVo.maritalStatus }";
-			if('x0303002'==maritalStatus || 'x0303003'==maritalStatus || 'x0303004'==maritalStatus || 'x0303005'==maritalStatus ){
-        		$("#client_spouse_form").show();
-        	}else{
-        		$("#client_spouse_form").hide();
-        	}
+		$.ajax({
+             async: false,
+             url: "<z:res resource='public.simplecode.selector'  isDefault='true'/>&jsoncallback=?&target=true&categoryCd=YWDM0056",
+             dataType: "json",
+             success: function (data) {     
+            	 if(data){
+            		for(var i=0;i<data.length;i++){  
+            			if(data[i].fullcode!='YWDM0051036'){    
+            				spouseJoinTypes.push({'fullcode':data[i].fullcode,'name':data[i].name});
+            			}
+            		} 
+            		//显示隐藏配偶
+					var maritalStatus = "${persCustomerVo.maritalStatus }";
+					if('YWDM0011302'==maritalStatus || 'YWDM0011303'==maritalStatus || 'YWDM0011304'==maritalStatus || 'YWDM0011305'==maritalStatus ){
+						$("#spouse_joinType").ZCombobox({
+		     	            valueField: "fullcode",
+		     	            textField: "name",
+		     	            data: spouseJoinTypes,
+		     	            value:'${empty persCustomerVo.spouseVo.joinType ? "" : persCustomerVo.spouseVo.joinType }'
+		     	        });
+						$("#client_spouse_form").show();
+		        	}else{
+		        		$("#client_spouse_form").hide();
+		        	}
+            	 }
+             },   
+             error: function () {
+             }
+         });
+		
 		//回显生日，年龄
 		var realBirthdayDate = $("#realBirthdayDate").val();
 		if(realBirthdayDate){
@@ -455,6 +465,7 @@
         	var objValue=$('#'+v).val();
             if(null!=objValue&&objValue!=""){
             	//赋值街道详细地址
+            	
             	if(v=="liveCounty"){
             		$("#homePlace").val($('#liveAddr').val());
             	}else if(v=="homeDistrict"){
@@ -480,14 +491,21 @@
                         $('#homeProvince').val(selected_ids[0]);
                         $('#homeCity').val(selected_ids[1]);
                         $('#homeDistrict').val(selected_ids[2]);
-                        
+                        $('#address_home_text').ZDSValidatebox('validate', $('#address_home_text'));//校验 
                     }
                 });
             }
+            $('#homePlace').ZDSValidatebox('validate', $('#homePlace'));//校验
         }
         //婚况
         CALLBACK.maritalStatusChange = function(v,t){
-        	if('x0303002'==v || 'x0303003'==v || 'x0303004'==v || 'x0303005'==v ){
+        	if('YWDM0011302'==v || 'YWDM0011303'==v || 'YWDM0011304'==v || 'YWDM0011305'==v ){
+				$("#spouse_joinType").ZCombobox({
+     	            valueField: "fullcode",
+     	            textField: "name",
+     	            data: spouseJoinTypes,
+     	            value:'${empty persCustomerVo.spouseVo.joinType ? "" : persCustomerVo.spouseVo.joinType }'
+     	        });
         		$("#client_spouse_form").show();
         	}else{
         		$("#client_spouse_form").hide();
@@ -495,12 +513,14 @@
         }
         function  calculateAge(credentialType){
         	// 证件类型为身份证
-        	if(credentialType == '6060001'){
+        	if(credentialType == 'YWDM002501'){
         		var credentialNo=$("#clientCredentialNo").val();
         		// 根据身份证自动填充出生日期 和性别
         		if(credentialNo!=null && credentialNo!=""  && credentialNo.length==18){
         			// 根据身份证自动填充出生日期
         			$('#birthdayDate').val(credentialNo.substr(6, 4)+'-'+credentialNo.substr(10, 2)+'-'+credentialNo.substr(12, 2));
+        			$('#realBirthdayDate').val(credentialNo.substr(6, 4)+credentialNo.substr(10, 2)+credentialNo.substr(12, 2));
+        			$('#birthdayDate').ZDSValidatebox('validate', $('#birthdayDate'));//校验
         			// 根据身份证获取性别
         			var sex = "";
         			if (parseInt(credentialNo.charAt(16) / 2) * 2 != credentialNo.charAt(16)){
@@ -546,6 +566,7 @@
                     		if(mainCustomerVo){  
                     			//姓名
                     			$("#client_customerName").val(mainCustomerVo.customerName);
+                    			$('#client_customerName').ZDSValidatebox('validate', $('#client_customerName'));
                     			//曾用名	
                     			$("input[name='persCustomerVo.formerName']").val(mainCustomerVo.formerName);
                     			
@@ -559,6 +580,7 @@
                     			$('#client_liveAge').ZCombobox('setValue',mainCustomerVo.liveAge);
                     			//邮箱地址
                     			$("input[name='persCustomerVo.email']").val(mainCustomerVo.email);
+                    			$("input[name='persCustomerVo.email']").ZDSValidatebox('validate', $("input[name='persCustomerVo.email']"));
                     			//是否实际用款人
                     			$("#client_actualUsePerson").ZCombobox('setValue',mainCustomerVo.actualUsePerson);  
                     			//头像id
@@ -574,9 +596,9 @@
 	                    			birthdayChange(); 
                     			}    
                     			
-                    			if(mainCustomerVo.headPortraitPath){
+                    			if(mainCustomerVo.attachmentId){
                     				$("#mian-headPortraitPath").show();
-                    				$("#mian-headPortraitPath").attr("src",mainCustomerVo.headPortraitPath);  
+                    				$("#mian-headPortraitPath").attr("src","../upload/download?attachmentId="+mainCustomerVo.attachmentId);  
                     			}else{
                     				$("#mian-headPortraitPath").hide();
                     			}
@@ -585,9 +607,10 @@
                     				//户籍地址
                     				$('#liveProvince').val(residenceAddress.province);
                     				$('#liveCity').val(residenceAddress.city);
-                    				$('#liveCity').val(residenceAddress.district);
+                    				$('#liveCounty').val(residenceAddress.district);
                     				$('#liveAddr').val(residenceAddress.address);
-                        			$("#selectAddress_home").setAddress({
+                    				$("#liveAddr").ZDSValidatebox('validate', $("#liveAddr"));
+                        			$("#selectAddress_live").setAddress({
     				                    showStreet:false,//不显示街道   
     				                    cityUrl:cityUrl,//真实数据源
     				                    getDataCityUrl:getDataCityUrl,//根据子节点取同级及上级的数据
@@ -607,7 +630,6 @@
     				                        $('#liveProvince').val(selected_ids[0]);
     				                        $('#liveCity').val(selected_ids[1]);
     				                        $('#liveCounty').val(selected_ids[2]);
-    				                        
     				                    }
     				                });
                     			}
@@ -618,6 +640,7 @@
                     				$('#homeCity').val(homeAddress.city);
                     				$('#homeDistrict').val(homeAddress.district);
                     				$('#homePlace').val(homeAddress.address);
+                    				$("#homePlace").ZDSValidatebox('validate', $("#homePlace"));
                     				//户籍地址
                         			$("#selectAddress_home").setAddress({
     				                    showStreet:false,//不显示街道
@@ -639,13 +662,10 @@
     				                        $('#homeProvince').val(selected_ids[0]);
     				                        $('#homeCity').val(selected_ids[1]);
     				                        $('#homeDistrict').val(selected_ids[2]);
-    				                        
+    				                        $("#address_home_text").ZDSValidatebox('validate', $("#address_home_text"));
     				                    }
     				                });
                     			} 
-                    			
-                    			
-                    			
                     		}else{
                     			calculateAge(credentialNo);   
                     		}
@@ -664,13 +684,11 @@
                     			$("input[name='persCustomerVo.spouseVo.email']").val(spouseVo.email);
                     			//职业类型
                     			$("#spouse_careerType").ZCombobox('setValue',spouseVo.careerType);  
-                    			//参与类型
-                    			$("#spouse_joinType").ZCombobox('setValue',spouseVo.joinType);  
                     			//头像id
                     			$("input[name='persCustomerVo.spouseVo.attachmentId']").val(spouseVo.attachmentId);
-                    			if(spouseVo.headPortraitPath){
+                    			if(spouseVo.attachmentId){
                     				$("#spouseVo-headPortraitPath").show();
-                    				$("#spouseVo-headPortraitPath").attr("src",spouseVo.headPortraitPath);  
+                    				$("#spouseVo-headPortraitPath").attr("src","../upload/download?attachmentId="+spouseVo.attachmentId);  
                     			}else{
                     				$("#spouseVo-headPortraitPath").hide();
                     			}
@@ -685,9 +703,8 @@
                  });
         	}
         	
-        	
         	// 证件类型为身份证
-        	if(credentialType == '6060001'){
+        	if(credentialType == 'YWDM002501'){
         		$("#clientCredentialNo").attr("validate-type","Require,IDCard");
         	} else {
         		$("#clientCredentialNo").attr("validate-type","Require,Length[1-32]");
@@ -695,15 +712,8 @@
         }  
         //根据证件类型取身份证
         CALLBACK.setClientGender=function(v,t){
-        	credentialChange(v);
-        	credentialChange($("#client_credentialType").val());  
+        	getBirthDate();
         }
-        
-        
-      /*   $("#clientCredentialNo").change(function(){    
-        	credentialChange($("#client_credentialType").val());   
-        });
-         */
         //回调函数证件号码改变的时候
         CALLBACK.clientCredentialNoCallBack=function(){
         	 credentialChange($("#client_credentialType").val());  
@@ -735,13 +745,11 @@
                     			$("input[name='persCustomerVo.spouseVo.email']").val(mainCustomerVo.email);
                     			//职业类型
                     			$("#spouse_careerType").ZCombobox('setValue',mainCustomerVo.careerType);  
-                    			//参与类型
-                    			$("#spouse_joinType").ZCombobox('setValue',mainCustomerVo.joinType);  
                     			//头像id
                     			$("input[name='persCustomerVo.spouseVo.attachmentId']").val(mainCustomerVo.attachmentId);
-                    			if(mainCustomerVo.headPortraitPath){
+                    			if(mainCustomerVo.attachmentId){
                     				$("#spouseVo-headPortraitPath").show();
-                    				$("#spouseVo-headPortraitPath").attr("src",mainCustomerVo.headPortraitPath);  
+                    				$("#spouseVo-headPortraitPath").attr("src","../upload/download?attachmentId="+mainCustomerVo.attachmentId);  
                     			}else{
                     				$("#spouseVo-headPortraitPath").hide();
                     			}
@@ -755,8 +763,8 @@
         }
         //配偶事件
         CALLBACK.spouseVoCredentialChange =function(v,t){
-        	spouseVoCredentialChange(v)
-        
+        	spouseVoCredentialChange(v);
         } 
+        $.ZUI.init("#clientInfoDiv");
 	});
 </script>

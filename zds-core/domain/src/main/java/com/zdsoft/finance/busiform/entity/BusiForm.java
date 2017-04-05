@@ -6,317 +6,327 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * 版权所有：重庆正大华日软件有限公司
+ * 
+ * @Title: BusiForm.java
+ * @ClassName: BusiForm
+ * @Description: 业务信息基础表
+ * @author dengyy
+ * @date 2017年2月13日 下午5:41:23
+ * @version V1.0
+ */
 @Entity
-@Table(name = "zf_busiform")
+@Table(name = "busi_form")
 public class BusiForm extends BaseEntity {
 
-       /**
-        *
-        */
-       private static final long serialVersionUID = -7926164958600739409L;
+    private static final long serialVersionUID = -7926164958600739409L;
+    
+    /**
+	 * 流程中存储别名
+	 */
+	public transient static final String PROCESS_STORE_KEY = "busiFormId";
+    
+    /**
+     * 业务品种编号
+     */
+    @Column(length = 32)
+    private String productCode;
 
+    /**
+     * 业务品种名称
+     */
+    @Column(length = 64)
+    private String productName;
 
-       /**
-        * 业务品种编号
-        */
-       @Column(length = 32)
-       private String productCd;
+    /**
+     * 发起人编号
+     */
+    @Column(length = 32)
+    private String launchEmpCode;
 
-       /**
-        * 业务品种名称
-        */
-       @Column(length = 255)
-       private String productNm;
+    /**
+     * 发起人姓名
+     */
+    @Column(length = 64)
+    private String launchEmpName;
 
-       /**
-        * 状态
-        */
-       @Column
-       private Integer status;
+    /**
+     * 关联业务表单数据id
+     */
+    @Column(length = 32)
+    private String businessEntityId;
 
-       /**
-        * 申请人编号
-        */
-       @Column(length = 32)
-       private String applyEmpCd;
+    /**
+     * 关联表单域对象类名
+     */
+    @Column(length = 64)
+    private String businessEntityName;
 
-       /**
-        * 申请人姓名
-        */
-       @Column(length = 255)
-       private String applyEmpNm;
+    /**
+     * 关联组件数据ID
+     */
+    @Column(length = 32)
+    private String componentsEntityId;
 
-       /**
-        * 申请时间
-        */
-       @Column
-       private Long applyTime;
+    /**
+     * 关联组件域对象类名
+     */
+    @Column(length = 64)
+    private String componentsEntityName;
 
-       /**
-        * 完成时间
-        */
-       @Column
-       private Long completeTime;
+    /**
+     * 流程实例key
+     */
+    @Column(length = 32)
+    private String processInstanceKey;
 
-       /**
-        * 废弃时间
-        */
-       @Column
-       private Long terminateTime;
+    /**
+     * 流程开始时间
+     */
+    @Column(length = 16)
+    private Long processStartDate;
 
-       /**
-        * 关联业务表单数据id
-        */
-       @Column(length = 32)
-       private String businessEntityId;
+    /**
+     * 流程结束时间
+     */
+    @Column(length = 16)
+    private Long processEndDate;
 
-       /**
-        * 关联表单域对象类名 例如表单为Project时 此字段存入的值为Project
-        */
-       @Column(length = 255)
-       private String businessEntityNm;
+    /**
+     * 申请时间
+     */
+    @Column(length = 16)
+    private Long applyDate;
 
-       /**
-        * 关联组件数据ID 例如 项目表ID 合同ID
-        */
-       @Column(length = 32)
-       private String componentsEntityId;
+    /**
+     * 申请表状态(非业务)
+     */
+    @Column(length = 2)
+    private Integer formStatus;
 
-       /**
-        * 关联组件域对象类名 例如表单为Project时 此字段存入的值为Project
-        */
-       @Column(length = 255)
-       private String componentsEntityNm;
+    /**
+     * 标题(各申请表单自行生成)
+     */
+    @Column(length = 236)
+    private String applyTitle;
 
-       /**
-        * 流程实例key
-        */
-       @Column(length = 32)
-       private String processInstanceKey;
+    /**
+     * 模块类型(枚举类：ApplyModelTypeEnum中value)
+     */
+    @Column(length = 32)
+    private String modelType;
 
-       /**
-        * 流程开始时间
-        */
-       @Column(length = 16)
-       private Long processStartTime;
+    /**
+     * 业务编号(各业务表单的编号)
+     */
+    @Column(length = 32)
+    private String businessCode;
+    
+    /**
+     * 是否被规则拒绝过
+     */
+    @Column
+    @org.hibernate.annotations.Type(type="true_false")
+    private Boolean hadRulesRefuse = false;
+    
+    /**
+     * 当前处理人Cd
+     */
+    private transient String currentDealEmpCd;
+    /**
+     * 当前处理人Nm
+     */
+    private transient String currentDealEmpNm;
+    /**
+     * 流程名字
+     */
+    private transient String processKey;
+    
+    /**
+     * 产品Id
+     */
+    private transient String productId;
+    
+    /**
+	 * 流程功能代码
+	 */
+	private transient String functionCode;
 
-       /**
-        * 流程结束时间
-        */
-       @Column(length = 16)
-       private Long processEndTime;
+    public String getLaunchEmpCode() {
+        return launchEmpCode;
+    }
 
-       /**
-        * 流程发起人编号
-        */
-       @Column(length = 36)
-       private String processApplayEmpCd;
+    public void setLaunchEmpCode(String launchEmpCode) {
+        this.launchEmpCode = launchEmpCode;
+    }
 
-       /**
-        * 流程发起人姓名
-        */
-       @Column(length = 255)
-       private String processApplayEmpNm;
-       
-       /**
-        * 申请单code
-        */
-       @Column(length = 255)
-       private String applayFormCode;
-       
-       /**
-        * 申请单Name
-        */
-       @Column(length = 255)
-       private String applayFormName;
+    public String getLaunchEmpName() {
+        return launchEmpName;
+    }
 
-       /**
-        * 当前处理人Cd
-        */
-       private transient String currentDealEmpCd;
-       /**
-        * 当前处理人Nm
-        */
-       private transient String currentDealEmpNm;
-       /**
-        * 流程名字
-        */
-       private transient String processKey;
+    public void setLaunchEmpName(String launchEmpName) {
+        this.launchEmpName = launchEmpName;
+    }
 
-       public String getCurrentDealEmpCd() {
-              return currentDealEmpCd;
-       }
+    public String getBusinessEntityId() {
+        return businessEntityId;
+    }
 
-       public void setCurrentDealEmpCd(String currentDealEmpCd) {
-              this.currentDealEmpCd = currentDealEmpCd;
-       }
+    public void setBusinessEntityId(String businessEntityId) {
+        this.businessEntityId = businessEntityId;
+    }
 
-       public String getCurrentDealEmpNm() {
-              return currentDealEmpNm;
-       }
+    public String getBusinessEntityName() {
+        return businessEntityName;
+    }
 
-       public void setCurrentDealEmpNm(String currentDealEmpNm) {
-              this.currentDealEmpNm = currentDealEmpNm;
-       }
+    public void setBusinessEntityName(String businessEntityName) {
+        this.businessEntityName = businessEntityName;
+    }
 
-       public String getProcessKey() {
-              return processKey;
-       }
+    public String getComponentsEntityId() {
+        return componentsEntityId;
+    }
 
-       public void setProcessKey(String processKey) {
-              this.processKey = processKey;
-       }
+    public void setComponentsEntityId(String componentsEntityId) {
+        this.componentsEntityId = componentsEntityId;
+    }
 
-       public String getProductCd() {
-              return productCd;
-       }
+    public String getComponentsEntityName() {
+        return componentsEntityName;
+    }
 
-       public void setProductCd(String productCd) {
-              this.productCd = productCd;
-       }
+    public void setComponentsEntityName(String componentsEntityName) {
+        this.componentsEntityName = componentsEntityName;
+    }
 
-       public String getProductNm() {
-              return productNm;
-       }
+    public String getProcessInstanceKey() {
+        return processInstanceKey;
+    }
 
-       public void setProductNm(String productNm) {
-              this.productNm = productNm;
-       }
+    public void setProcessInstanceKey(String processInstanceKey) {
+        this.processInstanceKey = processInstanceKey;
+    }
 
-       public String getBusinessEntityId() {
-              return businessEntityId;
-       }
+    public Long getProcessStartDate() {
+        return processStartDate;
+    }
 
-       public void setBusinessEntityId(String businessEntityId) {
-              this.businessEntityId = businessEntityId;
-       }
+    public void setProcessStartDate(Long processStartDate) {
+        this.processStartDate = processStartDate;
+    }
 
-       public String getBusinessEntityNm() {
-              return businessEntityNm;
-       }
+    public Long getProcessEndDate() {
+        return processEndDate;
+    }
 
-       public void setBusinessEntityNm(String businessEntityNm) {
-              this.businessEntityNm = businessEntityNm;
-       }
+    public void setProcessEndDate(Long processEndDate) {
+        this.processEndDate = processEndDate;
+    }
 
-       public String getComponentsEntityId() {
-              return componentsEntityId;
-       }
+    public Long getApplyDate() {
+        return applyDate;
+    }
 
-       public void setComponentsEntityId(String componentsEntityId) {
-              this.componentsEntityId = componentsEntityId;
-       }
+    public void setApplyDate(Long applyDate) {
+        this.applyDate = applyDate;
+    }
 
-       public String getComponentsEntityNm() {
-              return componentsEntityNm;
-       }
+    public Integer getFormStatus() {
+        return formStatus;
+    }
 
-       public void setComponentsEntityNm(String componentsEntityNm) {
-              this.componentsEntityNm = componentsEntityNm;
-       }
+    public void setFormStatus(Integer formStatus) {
+        this.formStatus = formStatus;
+    }
 
-       public Long getProcessStartTime() {
-              return processStartTime;
-       }
+    public String getApplyTitle() {
+        return applyTitle;
+    }
 
-       public void setProcessStartTime(Long processStartTime) {
-              this.processStartTime = processStartTime;
-       }
+    public void setApplyTitle(String applyTitle) {
+        this.applyTitle = applyTitle;
+    }
 
-       public Long getProcessEndTime() {
-              return processEndTime;
-       }
+    public String getModelType() {
+        return modelType;
+    }
 
-       public void setProcessEndTime(Long processEndTime) {
-              this.processEndTime = processEndTime;
-       }
+    public void setModelType(String modelType) {
+        this.modelType = modelType;
+    }
 
-       public String getProcessApplayEmpCd() {
-              return processApplayEmpCd;
-       }
+    public String getBusinessCode() {
+        return businessCode;
+    }
 
-       public void setProcessApplayEmpCd(String processApplayEmpCd) {
-              this.processApplayEmpCd = processApplayEmpCd;
-       }
+    public void setBusinessCode(String businessCode) {
+        this.businessCode = businessCode;
+    }
 
-       public String getProcessApplayEmpNm() {
-              return processApplayEmpNm;
-       }
+    public String getCurrentDealEmpCd() {
+        return currentDealEmpCd;
+    }
 
-       public void setProcessApplayEmpNm(String processApplayEmpNm) {
-              this.processApplayEmpNm = processApplayEmpNm;
-       }
+    public void setCurrentDealEmpCd(String currentDealEmpCd) {
+        this.currentDealEmpCd = currentDealEmpCd;
+    }
 
-       public Integer getStatus() {
-              return status;
-       }
+    public String getCurrentDealEmpNm() {
+        return currentDealEmpNm;
+    }
 
-       public void setStatus(Integer status) {
-              this.status = status;
-       }
+    public void setCurrentDealEmpNm(String currentDealEmpNm) {
+        this.currentDealEmpNm = currentDealEmpNm;
+    }
 
-       public String getApplyEmpCd() {
-              return applyEmpCd;
-       }
+    public String getProcessKey() {
+        return processKey;
+    }
 
-       public void setApplyEmpCd(String applyEmpCd) {
-              this.applyEmpCd = applyEmpCd;
-       }
+    public void setProcessKey(String processKey) {
+        this.processKey = processKey;
+    }
 
-       public String getApplyEmpNm() {
-              return applyEmpNm;
-       }
+    public String getProductCode() {
+        return productCode;
+    }
 
-       public void setApplyEmpNm(String applyEmpNm) {
-              this.applyEmpNm = applyEmpNm;
-       }
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
-       public Long getApplyTime() {
-              return applyTime;
-       }
+    public String getProductName() {
+        return productName;
+    }
 
-       public void setApplyTime(Long applyTime) {
-              this.applyTime = applyTime;
-       }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-       public Long getCompleteTime() {
-              return completeTime;
-       }
-
-       public void setCompleteTime(Long completeTime) {
-              this.completeTime = completeTime;
-       }
-
-       public Long getTerminateTime() {
-              return terminateTime;
-       }
-
-       public void setTerminateTime(Long terminateTime) {
-              this.terminateTime = terminateTime;
-       }
-
-       public String getProcessInstanceKey() {
-              return processInstanceKey;
-       }
-
-       public void setProcessInstanceKey(String processInstanceKey) {
-              this.processInstanceKey = processInstanceKey;
-       }
-
-	public String getApplayFormCode() {
-		return applayFormCode;
+	public Boolean getHadRulesRefuse() {
+		return hadRulesRefuse;
 	}
 
-	public void setApplayFormCode(String applayFormCode) {
-		this.applayFormCode = applayFormCode;
+	public void setHadRulesRefuse(Boolean hadRulesRefuse) {
+		this.hadRulesRefuse = hadRulesRefuse;
 	}
 
-	public String getApplayFormName() {
-		return applayFormName;
+	public String getProductId() {
+		return productId;
 	}
 
-	public void setApplayFormName(String applayFormName) {
-		this.applayFormName = applayFormName;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
+	public String getFunctionCode() {
+		return functionCode;
+	}
+
+	public void setFunctionCode(String functionCode) {
+		this.functionCode = functionCode;
+	}
+	
 }

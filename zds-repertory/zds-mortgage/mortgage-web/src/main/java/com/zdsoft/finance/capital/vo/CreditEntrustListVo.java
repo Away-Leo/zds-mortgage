@@ -3,11 +3,14 @@ package com.zdsoft.finance.capital.vo;
 import java.math.BigDecimal;
 
 /**
- * 资金信托列表临时Vo
  * 
- * @createTime:2017年1月10日
+ * 版权所有：重庆正大华日软件有限公司
+ * @Title: CreditEntrustListVo.java 
+ * @ClassName: CreditEntrustListVo 
+ * @Description: 资金信托列表临时Vo
  * @author liuwei
- * @version 1.0
+ * @date 2017年3月6日 下午4:19:39 
+ * @version V1.0
  */
 public class CreditEntrustListVo {
 

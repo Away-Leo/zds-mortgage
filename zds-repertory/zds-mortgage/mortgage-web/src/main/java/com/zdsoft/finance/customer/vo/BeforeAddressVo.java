@@ -13,44 +13,62 @@ import com.zdsoft.finance.customer.entity.BeforeAddress;
  * @version:v1.0
  */
 public class BeforeAddressVo extends BaseVo<BeforeAddress> {
+	
 	/**
-	 * 用一句话描述这个变量表示什么
+	 * 序列化
 	 */
 	private static final long serialVersionUID = -8085352434074730451L;
+	
 	/**
-	 * 省
+	 * 省code
 	 */
 	private String province;
-	private String provinceName;//modify by liuhuan 2017-1-21
+	
 	/**
-	 * 市
+	 * 省name
+	 */
+	private String provinceName;//modify by liuhuan 2017-1-21
+	
+	/**
+	 * 市code
 	 */
 	private String city;
+	
+	/**
+	 * 市name
+	 */
 	private String cityName;//modify by liuhuan 2017-1-21
 	/**
-	 * 区
+	 * 区code
 	 */
 	private String district;
+	
+	/**
+	 * 区name
+	 */
 	private String districtName;//modify by liuhuan 2017-1-21
+	
 	/**
 	 * 详细地址
 	 */
 	private String address;
+	
 	/**
 	 * 地址类型
 	 */
 	private String addressType;
+	
 	/**
 	 * 所属客户id
 	 */
 	private String customerId;
+	
 	/**
 	 * 完整地址(省市区+地址)
 	 */
 	private String fullAddress;
 	
 	public String getFullAddress() {
-		fullAddress = provinceName+" "+cityName+" "+districtName+" "+address;
 		return  fullAddress;
 	}
 
@@ -63,6 +81,7 @@ public class BeforeAddressVo extends BaseVo<BeforeAddress> {
 	
 	public BeforeAddressVo(BeforeAddress po){
 		super(po,null,new String[]{"province","city","district"});
+		this.fullAddress = this.provinceName+"/"+this.cityName+"/"+this.districtName+"/"+this.address;
 	}
 	
 	public BeforeAddress toPO(){
